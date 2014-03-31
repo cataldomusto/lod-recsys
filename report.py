@@ -64,7 +64,7 @@ class DatasetAnalyzer:
     def item_ratings(self, item):
         return [int(pair[1]) for pair in self._prop_dict[item]]
     
-    # prints same statistics
+    # prints some statistics
     def gen_report(self):
         print('Dataset: ', self._filename)
         print('Number of entries: ', self.tot_entries())
