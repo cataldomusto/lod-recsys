@@ -3,9 +3,10 @@ package di.uniba.it.lodrecsys.utils;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
 import weka.core.converters.CSVSaver;
+import weka.filters.Filter;
+import weka.filters.supervised.instance.StratifiedRemoveFolds;
 
 import java.io.File;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,33 +18,45 @@ public class ResampleDataset {
 
     public static void main(String[] args) throws Exception {
         if(args.length == 3) {
-            CSVLoader loader = new CSVLoader();
-            loader.setFile(new File(args[0]));
-            Instances dataset = loader.getDataSet();
-            CSVSaver saver = new CSVSaver();
-            //11.evaluate
-            //resample if needed
-            dataset = dataset.resample(new Random(100));
-            //split to 70:30 learn and test set
-            double percent = 70.0;
-            int trainSize = (int) Math.round(dataset.numInstances() * percent / 100);
-            int testSize = dataset.numInstances() - trainSize;
-            Instances train = new Instances(dataset, 0, trainSize);
-            Instances test = new Instances(dataset, trainSize, testSize);
-            train.setClassIndex(2);
-            test.setClassIndex(2);
-
-            saver.setFile(new File(args[1]));
-            saver.setInstances(train);
-            saver.writeBatch();
-
-            saver.setFile(new File(args[2]));
-            saver.setInstances(test);
-            saver.writeBatch();
-
-
+            stratifiedSplitting(new File(args[0]), new File(args[1]), new File(args[2]));
         } else {
             currLogger.log(Level.SEVERE, "Missing command line arguments.\n usage: $program_name ORIG_DATASET_FILE TRAINSET_NAME TESTSET_NAME");
         }
     }
+
+    public static void stratifiedSplitting(File origDataset, File trainSplit, File testSplit) throws Exception {
+        // Reads the original dataset from a csv/tsv file
+        CSVLoader loader = new CSVLoader();
+        loader.setFile(origDataset);
+        Instances dataset = loader.getDataSet();
+        CSVSaver saver = new CSVSaver();
+        dataset.setClassIndex(2);
+
+        // Applies a stratification on the current dataset
+        StratifiedRemoveFolds strat = new StratifiedRemoveFolds();
+        strat.setNumFolds(2);
+        strat.setInputFormat(dataset);
+
+        Instances stratified = Filter.useFilter(dataset, strat);
+
+        // Splits the stratified dataset into two different folds
+        double percent = 70.0;
+        int trainSize = (int) Math.round(stratified.numInstances() * percent / 100);
+        int testSize = stratified.numInstances() - trainSize;
+        Instances train = new Instances(stratified, 0, trainSize);
+        Instances test = new Instances(stratified, trainSize, testSize);
+
+        train.setClassIndex(2);
+        test.setClassIndex(2);
+
+        // Saves the two folds in two different files
+        saver.setFile(trainSplit);
+        saver.setInstances(train);
+        saver.writeBatch();
+
+        saver.setFile(testSplit);
+        saver.setInstances(test);
+        saver.writeBatch();
+    }
+
 }
