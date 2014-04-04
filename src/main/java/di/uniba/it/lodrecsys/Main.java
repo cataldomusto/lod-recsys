@@ -27,6 +27,7 @@ public class Main {
         DataModel dataModel = new FileDataModel(new File(args[0]));
         Recommender currRecommender = ExperimentFactory.generateExperiment(IIRecSys.class, dataModel);
         EvaluateRecommendation evaluator = new EvaluateRecommendation(currRecommender, new File(args[1]), NumRec.FIVE_REC);
+        evaluator.generateTrecEvalFile("/home/asuglia/thesis_data/dataset/movielens_100k/trec/u1.res");
 
     }
 

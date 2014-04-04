@@ -74,12 +74,12 @@ public class EvaluateRecommendation {
 
     public EvaluateRecommendation(Recommender recommender, File testSetFile, NumRec numRec) throws TasteException, IOException {
         this.recommender = recommender;
-        this.numberRecommendation = numRec.ordinal();
+        this.numberRecommendation = numRec.getValue();
         readTestSet(testSetFile);
     }
 
     private void readTestSet(File testSetFile) throws IOException {
-        CSVParser parser = new CSVParser(new FileReader(testSetFile), CSVFormat.TDF);
+        CSVParser parser = new CSVParser(new FileReader(testSetFile), CSVFormat.newFormat(' '));
         this.testSet = new HashMap<>();
 
         for (CSVRecord record : parser.getRecords()) {
@@ -96,18 +96,18 @@ public class EvaluateRecommendation {
         try {
             writer = new BufferedWriter(new FileWriter(trecFilename));
 
-            LongPrimitiveIterator userIdIter = recommender.getDataModel().getUserIDs();
+
             UserItem currPair = new UserItem("", "");
 
-            while (userIdIter.hasNext()) {
-                long userID = userIdIter.nextLong();
+            for (UserItem u : testSet.keySet()) {
+                Long userID = Long.parseLong(u.getIdUser());
                 List<RecommendedItem> recommendedItemList = recommender.recommend(userID, numberRecommendation);
                 for (int i = 0; i < recommendedItemList.size(); i++) {
                     long itemID = recommendedItemList.get(i).getItemID();
                     currPair.setIdUser(userID + "");
                     currPair.setIdItem(itemID + "");
 
-                    String line = userID + " Q0" + itemID + " " + (i + 1) + " " + testSet.get(currPair) + " " +
+                    String line = userID + " Q0 " + itemID + " " + (i + 1) + " " + "1" + " " +
                             recommender.getClass().getSimpleName() + "-" + numberRecommendation;
                     writer.write(line);
                     writer.newLine();
