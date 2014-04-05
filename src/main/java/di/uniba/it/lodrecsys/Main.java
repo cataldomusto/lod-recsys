@@ -1,6 +1,7 @@
 package di.uniba.it.lodrecsys;
 
 import di.uniba.it.lodrecsys.baseline.IIRecSys;
+import di.uniba.it.lodrecsys.baseline.UURecSys;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.eval.ExperimentFactory;
 import di.uniba.it.lodrecsys.eval.NumRec;
@@ -25,8 +26,8 @@ public class Main {
          *
          * */
         DataModel dataModel = new FileDataModel(new File(args[0]));
-        Recommender currRecommender = ExperimentFactory.generateExperiment(IIRecSys.class, dataModel);
-        EvaluateRecommendation evaluator = new EvaluateRecommendation(currRecommender, new File(args[1]), NumRec.FIVE_REC);
+        Recommender currRecommender = ExperimentFactory.generateExperiment(UURecSys.class, dataModel);
+        EvaluateRecommendation evaluator = new EvaluateRecommendation(currRecommender, new File(args[1]), NumRec.TEN_REC);
         evaluator.generateTrecEvalFile("/home/asuglia/thesis_data/dataset/movielens_100k/trec/u1.res");
 
     }

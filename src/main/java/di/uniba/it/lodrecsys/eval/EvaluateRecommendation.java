@@ -11,64 +11,17 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
  * Created by asuglia on 4/4/14.
  */
 public class EvaluateRecommendation {
-    private static class UserItem {
-        private String idUser;
-        private String idItem;
 
-        private UserItem(String idUser, String idItem) {
-            this.idUser = idUser;
-            this.idItem = idItem;
-        }
-
-        public String getIdUser() {
-            return idUser;
-        }
-
-        public void setIdUser(String idUser) {
-            this.idUser = idUser;
-        }
-
-        public String getIdItem() {
-            return idItem;
-        }
-
-        public void setIdItem(String idItem) {
-            this.idItem = idItem;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            UserItem userItem = (UserItem) o;
-
-            if (idItem != null ? !idItem.equals(userItem.idItem) : userItem.idItem != null) return false;
-            if (idUser != null ? !idUser.equals(userItem.idUser) : userItem.idUser != null) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = idUser != null ? idUser.hashCode() : 0;
-            result = 31 * result + (idItem != null ? idItem.hashCode() : 0);
-            return result;
-        }
-    }
 
     private Recommender recommender;
-    private Map<UserItem, String> testSet;
+    private Set<Long> testSet;
     private int numberRecommendation;
     private Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
@@ -80,10 +33,10 @@ public class EvaluateRecommendation {
 
     private void readTestSet(File testSetFile) throws IOException {
         CSVParser parser = new CSVParser(new FileReader(testSetFile), CSVFormat.newFormat(' '));
-        this.testSet = new HashMap<>();
+        this.testSet = new TreeSet<>();
 
         for (CSVRecord record : parser.getRecords()) {
-            testSet.put(new UserItem(record.get(0), record.get(1)), record.get(2));
+            this.testSet.add(Long.valueOf(record.get(0)));
         }
     }
 
@@ -96,18 +49,12 @@ public class EvaluateRecommendation {
         try {
             writer = new BufferedWriter(new FileWriter(trecFilename));
 
-
-            UserItem currPair = new UserItem("", "");
-
-            for (UserItem u : testSet.keySet()) {
-                Long userID = Long.parseLong(u.getIdUser());
+            logger.info("Number of user in testset: " + this.testSet.size());
+            for (Long userID : this.testSet) {
                 List<RecommendedItem> recommendedItemList = recommender.recommend(userID, numberRecommendation);
                 for (int i = 0; i < recommendedItemList.size(); i++) {
                     long itemID = recommendedItemList.get(i).getItemID();
-                    currPair.setIdUser(userID + "");
-                    currPair.setIdItem(itemID + "");
-
-                    String line = userID + " Q0 " + itemID + " " + (i + 1) + " " + "1" + " " +
+                    String line = userID + " Q0 " + itemID + " " + (i + 1) + " " + recommender.estimatePreference(userID, itemID) + " " +
                             recommender.getClass().getSimpleName() + "-" + numberRecommendation;
                     writer.write(line);
                     writer.newLine();
