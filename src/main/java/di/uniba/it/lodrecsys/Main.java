@@ -25,11 +25,16 @@ public class Main {
          * THE STARTING POINT OF EACH OPERATION
          *
          * */
-        DataModel dataModel = new FileDataModel(new File(args[0]));
-        Recommender currRecommender = ExperimentFactory.generateExperiment(UURecSys.class, dataModel);
-        EvaluateRecommendation evaluator = new EvaluateRecommendation(currRecommender, new File(args[1]), NumRec.TEN_REC);
-        evaluator.generateTrecEvalFile("/home/asuglia/thesis_data/dataset/movielens_100k/trec/u1.res");
 
+        for (int i = 1; i <= 5; i++) {
+            String trainSet = "/home/asuglia/thesis_data/dataset/movielens_100k/binarized/u" + i + ".base",
+                    testSet = "/home/asuglia/thesis_data/dataset/movielens_100k/trec/u" + i + ".test",
+                    resultSet = "/home/asuglia/thesis_data/dataset/movielens_100k/trec/u" + i + ".res";
+            DataModel dataModel = new FileDataModel(new File(trainSet));
+            Recommender currRecommender = ExperimentFactory.generateExperiment(UURecSys.class, dataModel);
+            EvaluateRecommendation evaluator = new EvaluateRecommendation(currRecommender, new File(testSet), NumRec.TEN_REC);
+            evaluator.generateTrecEvalFile(resultSet);
+        }
     }
 
 }
