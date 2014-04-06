@@ -11,8 +11,10 @@ import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.recommender.Recommender;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by asuglia on 4/4/14.
@@ -20,11 +22,36 @@ import java.io.IOException;
 public class Main {
 
 
-    public static void main(String[] args) throws IOException, IllegalAccessException, TasteException, InstantiationException {
+    private static String executeCommand(String command) {
+
+        StringBuffer output = new StringBuffer();
+
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
+            p.waitFor();
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return output.toString();
+
+    }
+
+    public static void main(String[] args) throws IOException, IllegalAccessException, TasteException, InstantiationException, InterruptedException {
         /**
          * THE STARTING POINT OF EACH OPERATION
          *
-         * */
+         */
+
 
         for (int i = 1; i <= 5; i++) {
             String trainSet = "/home/asuglia/thesis_data/dataset/movielens_100k/binarized/u" + i + ".base",
@@ -34,6 +61,10 @@ public class Main {
             Recommender currRecommender = ExperimentFactory.generateExperiment(UURecSys.class, dataModel);
             EvaluateRecommendation evaluator = new EvaluateRecommendation(currRecommender, new File(testSet), NumRec.TEN_REC);
             evaluator.generateTrecEvalFile(resultSet);
+
+            String commandTest = "trec_eval u" + i + ".test u" + i + ".res";
+            executeCommand(commandTest);
+
         }
     }
 
