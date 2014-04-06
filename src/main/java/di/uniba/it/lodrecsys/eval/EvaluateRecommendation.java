@@ -32,11 +32,19 @@ public class EvaluateRecommendation {
     }
 
     private void readTestSet(File testSetFile) throws IOException {
-        CSVParser parser = new CSVParser(new FileReader(testSetFile), CSVFormat.newFormat(' '));
-        this.testSet = new TreeSet<>();
+        CSVParser parser = null;
 
-        for (CSVRecord record : parser.getRecords()) {
-            this.testSet.add(Long.valueOf(record.get(0)));
+        try {
+            parser = new CSVParser(new FileReader(testSetFile), CSVFormat.newFormat(' '));
+
+            this.testSet = new TreeSet<>();
+
+            for (CSVRecord record : parser.getRecords()) {
+                this.testSet.add(Long.valueOf(record.get(0)));
+            }
+        } finally {
+            assert parser != null;
+            parser.close();
         }
     }
 
@@ -54,7 +62,7 @@ public class EvaluateRecommendation {
                 List<RecommendedItem> recommendedItemList = recommender.recommend(userID, numberRecommendation);
                 for (int i = 0; i < recommendedItemList.size(); i++) {
                     long itemID = recommendedItemList.get(i).getItemID();
-                    String line = userID + " Q0 " + itemID + " " + (i + 1) + " " + recommender.estimatePreference(userID, itemID) + " " +
+                    String line = userID + " Q" + userID + " " + itemID + " " + i + " 1 " +
                             recommender.getClass().getSimpleName() + "-" + numberRecommendation;
                     writer.write(line);
                     writer.newLine();
