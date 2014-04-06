@@ -7,14 +7,14 @@ import di.uniba.it.lodrecsys.eval.ExperimentFactory;
 import di.uniba.it.lodrecsys.eval.NumRec;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
+import org.apache.mahout.cf.taste.impl.model.GenericBooleanPrefDataModel;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Created by asuglia on 4/4/14.
@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 public class Main {
 
 
-    private static String executeCommand(String command) {
+    private static void executeCommand(String command, String resultFilename) {
 
         StringBuffer output = new StringBuffer();
 
@@ -42,8 +42,16 @@ public class Main {
             e.printStackTrace();
         }
 
-        return output.toString();
-
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new FileWriter(resultFilename));
+            writer.write(output.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assert writer != null;
+            writer.close();
+        }
     }
 
     public static void main(String[] args) throws IOException, IllegalAccessException, TasteException, InstantiationException, InterruptedException {
@@ -58,14 +66,15 @@ public class Main {
                     testSet = "/home/asuglia/thesis_data/dataset/movielens_100k/trec/u" + i + ".test",
                     resultSet = "/home/asuglia/thesis_data/dataset/movielens_100k/trec/u" + i + ".res";
             DataModel dataModel = new FileDataModel(new File(trainSet));
-            Recommender currRecommender = ExperimentFactory.generateExperiment(UURecSys.class, dataModel);
+            Recommender currRecommender = ExperimentFactory.generateExperiment(IIRecSys.class, dataModel);
             EvaluateRecommendation evaluator = new EvaluateRecommendation(currRecommender, new File(testSet), NumRec.TEN_REC);
             evaluator.generateTrecEvalFile(resultSet);
 
             String commandTest = "trec_eval u" + i + ".test u" + i + ".res";
-            executeCommand(commandTest);
+            executeCommand(commandTest, "u" + i + ".final");
 
         }
+
     }
 
 }
