@@ -33,6 +33,7 @@ public class EvaluateRecommendation {
     }
 
     /**
+     *
      * Trec eval results format
      * <id_user> Q0 <id_item> <posizione nel rank> <score> <nome esperimento>
      */
@@ -62,6 +63,57 @@ public class EvaluateRecommendation {
             assert (writer != null);
             writer.close();
         }
+    }
+
+
+    /**
+     * Executes a specific command to the BASH and save the results printed on the
+     * stdout into a file whose name is the one specified in input.
+     *
+     * @param command        the command that will be executed
+     * @param resultFilename the file that will contain the output of the command
+     */
+    private static void executeCommand(String command, String resultFilename) {
+
+        StringBuffer output = new StringBuffer();
+
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
+            p.waitFor();
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new FileWriter(resultFilename));
+            writer.write(output.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assert writer != null;
+            writer.close();
+        }
+    }
+
+    public void saveTrecEvalResult(String goldStandardFile, String resultFile, int numExperiment) {
+        String trecEvalCommand = "trec_eval " + goldStandardFile + " " + resultFile,
+                trecResultFile = goldStandardFile.substring(0, goldStandardFile.lastIndexOf(File.separator))
+                        + File.separator + "u" + numExperiment + ".final";
+
+        System.out.println(trecResultFile);
+
+        executeCommand(trecEvalCommand, trecResultFile);
+
     }
 
 }

@@ -32,37 +32,6 @@ public class Main {
 
     private static Logger currLogger = Logger.getLogger(Main.class.getName());
 
-    private static void executeCommand(String command, String resultFilename) {
-
-        StringBuffer output = new StringBuffer();
-
-        Process p;
-        try {
-            p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
-            p.waitFor();
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(new FileWriter(resultFilename));
-            writer.write(output.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            assert writer != null;
-            writer.close();
-        }
-    }
 
     public static void main(String[] args) throws IOException, IllegalAccessException, TasteException, InstantiationException, InterruptedException {
         /**
@@ -77,6 +46,11 @@ public class Main {
         EvaluateRecommendation eval = new EvaluateRecommendation(recommender, model, NumRec.TEN_REC);
 
         eval.generateTrecEvalFile("/home/asuglia/thesis_data/dataset/movielens_100k/trec/u1.res");
+
+        eval.saveTrecEvalResult("/home/asuglia/thesis_data/dataset/movielens_100k/trec/u1.test",
+                "/home/asuglia/thesis_data/dataset/movielens_100k/trec/u1.res", 1);
+
+
 
     }
 
