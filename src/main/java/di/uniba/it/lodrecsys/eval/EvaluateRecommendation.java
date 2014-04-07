@@ -21,31 +21,15 @@ public class EvaluateRecommendation {
 
 
     private Recommender recommender;
-    private Set<Long> testSet;
+    private DataModel testSet;
     private int numberRecommendation;
     private Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
-    public EvaluateRecommendation(Recommender recommender, File testSetFile, NumRec numRec) throws TasteException, IOException {
+    public EvaluateRecommendation(Recommender recommender, DataModel testSet, NumRec numRec) throws TasteException, IOException {
         this.recommender = recommender;
         this.numberRecommendation = numRec.getValue();
-        readTestSet(testSetFile);
-    }
+        this.testSet = testSet;
 
-    private void readTestSet(File testSetFile) throws IOException {
-        CSVParser parser = null;
-
-        try {
-            parser = new CSVParser(new FileReader(testSetFile), CSVFormat.newFormat(' '));
-
-            this.testSet = new TreeSet<>();
-
-            for (CSVRecord record : parser.getRecords()) {
-                this.testSet.add(Long.valueOf(record.get(0)));
-            }
-        } finally {
-            assert parser != null;
-            parser.close();
-        }
     }
 
     /**
@@ -57,19 +41,21 @@ public class EvaluateRecommendation {
         try {
             writer = new BufferedWriter(new FileWriter(trecFilename));
 
-            logger.info("Number of user in testset: " + this.testSet.size());
-            for (Long userID : this.testSet) {
-                List<RecommendedItem> recommendedItemList = recommender.recommend(userID, numberRecommendation);
-                for (int i = 0; i < recommendedItemList.size(); i++) {
-                    long itemID = recommendedItemList.get(i).getItemID();
-                    String line = userID + " Q" + userID + " " + itemID + " " + i + " 1 " +
-                            recommender.getClass().getSimpleName() + "-" + numberRecommendation;
-                    writer.write(line);
+            for (LongPrimitiveIterator iterUser = testSet.getUserIDs(); iterUser.hasNext(); ) {
+                int contRec = 0;
+                long userID = iterUser.nextLong();
+                for (LongPrimitiveIterator iterItem = testSet.getItemIDsFromUser(userID).iterator(); iterItem.hasNext(); ) {
+                    long itemID = iterItem.nextLong();
+                    String formattedLine = userID + " Q0 " + itemID + " " + contRec++ + " " +
+                            recommender.estimatePreference(userID, itemID) + " " + recommender.getClass().getSimpleName() + "-" + this.numberRecommendation;
+                    writer.write(formattedLine);
                     writer.newLine();
 
                 }
 
+
             }
+
         } catch (IOException | TasteException ex) {
             logger.severe(ex.getMessage());
         } finally {
