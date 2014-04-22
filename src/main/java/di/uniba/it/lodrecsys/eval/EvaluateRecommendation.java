@@ -1,14 +1,10 @@
 package di.uniba.it.lodrecsys.eval;
 
+import di.uniba.it.lodrecsys.entity.Rating;
+import di.uniba.it.lodrecsys.utils.CmdExecutor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.common.LongPrimitiveArrayIterator;
-import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
-import org.apache.mahout.cf.taste.model.DataModel;
-import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-import org.apache.mahout.cf.taste.recommender.Recommender;
 
 import java.io.*;
 import java.util.*;
@@ -18,101 +14,74 @@ import java.util.logging.Logger;
  * Created by asuglia on 4/4/14.
  */
 public class EvaluateRecommendation {
+    private static Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
-
-    private Recommender recommender;
-    private DataModel testSet;
-    private int numberRecommendation;
-    private Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
-
-    public EvaluateRecommendation(Recommender recommender, DataModel testSet, NumRec numRec) throws TasteException, IOException {
-        this.recommender = recommender;
-        this.numberRecommendation = numRec.getValue();
-        this.testSet = testSet;
-
-    }
 
     /**
      *
      * Trec eval results format
      * <id_user> Q0 <id_item> <posizione nel rank> <score> <nome esperimento>
      */
-    public void generateTrecEvalFile(String trecFilename) throws IOException, TasteException {
-        BufferedWriter writer = null;
+    public static void generateTrecEvalFile(String resultFile, String outTrecFile) throws IOException {
+        PrintWriter writer = null;
+        BufferedReader reader = null;
         try {
-            writer = new BufferedWriter(new FileWriter(trecFilename));
+            reader = new BufferedReader(new FileReader(resultFile));
+            writer = new PrintWriter(new FileWriter(outTrecFile));
 
-            for (LongPrimitiveIterator iterUser = testSet.getUserIDs(); iterUser.hasNext(); ) {
-                int contRec = 0;
-                long userID = iterUser.nextLong();
-                for (LongPrimitiveIterator iterItem = testSet.getItemIDsFromUser(userID).iterator(); iterItem.hasNext(); ) {
-                    long itemID = iterItem.nextLong();
-                    String formattedLine = userID + " Q0 " + itemID + " " + contRec++ + " " +
-                            recommender.estimatePreference(userID, itemID) + " " + recommender.getClass().getSimpleName() + "-" + this.numberRecommendation;
-                    writer.write(formattedLine);
-                    writer.newLine();
-
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] lineSplitted = line.split("\t");
+                String userID = lineSplitted[0];
+                Set<Rating> ratings = getRatingsSet(lineSplitted[1].split(","));
+                int i = 0;
+                for (Rating rate : ratings) {
+                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP\n";
+                    writer.write(trecLine);
                 }
 
-
             }
 
-        } catch (IOException | TasteException ex) {
-            logger.severe(ex.getMessage());
+
+        } catch (IOException ex) {
+            throw new IOException(ex);
         } finally {
-            assert (writer != null);
-            writer.close();
-        }
-    }
-
-
-    /**
-     * Executes a specific command to the BASH and save the results printed on the
-     * stdout into a file whose name is the one specified in input.
-     *
-     * @param command        the command that will be executed
-     * @param resultFilename the file that will contain the output of the command
-     */
-    private static void executeCommand(String command, String resultFilename) {
-
-        StringBuffer output = new StringBuffer();
-
-        Process p;
-        try {
-            p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
-            p.waitFor();
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(new FileWriter(resultFilename));
-            writer.write(output.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+            assert reader != null;
+            reader.close();
             assert writer != null;
             writer.close();
         }
+
+
     }
 
-    public void saveTrecEvalResult(String goldStandardFile, String resultFile, int numExperiment) {
+    private static Set<Rating> getRatingsSet(String[] ratings) {
+        Set<Rating> ratingSet = new TreeSet<>();
+
+        for (String rating : ratings) {
+            String splitted[] = rating.split(":");
+            if (splitted[0].startsWith("[")) {
+                splitted[0] = splitted[0].substring(1, splitted[0].length());
+            }
+
+            if (splitted[1].endsWith("]")) {
+                splitted[1] = splitted[1].substring(0, splitted[1].length() - 1);
+            }
+            ratingSet.add(new Rating(splitted[0], splitted[1]));
+        }
+
+        return ratingSet;
+
+    }
+
+    public static void saveTrecEvalResult(String goldStandardFile, String resultFile, int numExperiment) {
         String trecEvalCommand = "trec_eval " + goldStandardFile + " " + resultFile,
-                trecResultFile = goldStandardFile.substring(0, goldStandardFile.lastIndexOf(File.separator))
+                trecResultFile = resultFile.substring(0, resultFile.lastIndexOf(File.separator))
                         + File.separator + "u" + numExperiment + ".final";
 
         System.out.println(trecResultFile);
 
-        executeCommand(trecEvalCommand, trecResultFile);
+        CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
 
     }
 
