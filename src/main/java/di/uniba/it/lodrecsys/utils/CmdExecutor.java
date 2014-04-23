@@ -55,7 +55,7 @@ public class CmdExecutor {
             p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
             p.waitFor();
 
-            StringBuilder builder = new StringBuilder("");
+            /*StringBuilder builder = new StringBuilder("");
 
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -65,7 +65,7 @@ public class CmdExecutor {
                 builder.append(line).append("\n");
             }
 
-            System.out.println(builder.toString());
+            System.out.println(builder.toString()); */
 
         } catch (Exception e) {
             e.printStackTrace();

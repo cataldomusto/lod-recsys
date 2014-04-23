@@ -79,10 +79,8 @@ public class EvaluateRecommendation {
                 trecResultFile = resultFile.substring(0, resultFile.lastIndexOf(File.separator))
                         + File.separator + "u" + numExperiment + ".final";
 
-        System.out.println(trecResultFile);
-
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
-
+        logger.info(trecEvalCommand);
     }
 
 }

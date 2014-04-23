@@ -22,31 +22,30 @@ public class Main {
                 resPath = "/home/asuglia/thesis/dataset/ml-100k/results";
 
         // for each sparsity level
-        //for(SparsityLevel level : SparsityLevel.values()) {
-        // for each split (from 1 to 5)
-        SparsityLevel level = SparsityLevel.FIFTY;
-        for (int i = 1; i <= 5; i++) {
-            String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
-                    "u" + i + "_" + level.toString() + ".base",
-                    testFile = testPath + File.separator + "u" + i + ".test",
-                    trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                    resFile = resPath + File.separator + "given_" + level.toString() + File.separator +
-                            "u" + i + "_" + level.toString() + ".mml_res",
-                    trecResFile = resPath + File.separator + "given_" + level.toString() + File.separator +
-                            "u" + i + "_" + level.toString() + ".results";
+        for (SparsityLevel level : SparsityLevel.values()) {
+            // for each split (from 1 to 5)
+            for (int i = 1; i <= 5; i++) {
+                String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                        "u" + i + ".base",
+                        testFile = testPath + File.separator + "u" + i + ".test",
+                        trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
+                        resFile = resPath + File.separator + "given_" + level.toString() + File.separator +
+                                "u" + i + "_" + level.toString() + ".mml_res",
+                        trecResFile = resPath + File.separator + "given_" + level.toString() + File.separator +
+                                "u" + i + "_" + level.toString() + ".results";
 
-            // Executes MyMediaLite tool
-            String mmlString = "item_recommendation --training-file=" + trainFile + " --test-file=" +
-                    testFile + " --prediction-file=" + resFile + " --recommender=UserKNN";
-            CmdExecutor.executeCommand(mmlString);
+                // Executes MyMediaLite tool
+                String mmlString = "item_recommendation --training-file=" + trainFile + " --test-file=" +
+                        testFile + " --prediction-file=" + resFile + " --recommender=UserKNN";
+                currLogger.info(mmlString);
+                CmdExecutor.executeCommand(mmlString);
 
-            // Now transform the results file in the TrecEval format for evaluation
-            EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile);
-            EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, i);
+                // Now transform the results file in the TrecEval format for evaluation
+                EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile);
+                EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, i);
+            }
+
         }
-
-        //}
-
 
 
     }
