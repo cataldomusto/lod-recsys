@@ -74,13 +74,53 @@ public class EvaluateRecommendation {
 
     }
 
-    public static void saveTrecEvalResult(String goldStandardFile, String resultFile, int numExperiment) {
-        String trecEvalCommand = "trec_eval " + goldStandardFile + " " + resultFile,
-                trecResultFile = resultFile.substring(0, resultFile.lastIndexOf(File.separator))
-                        + File.separator + "u" + numExperiment + ".final";
+    public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
+        String trecEvalCommand = "trec_eval " + goldStandardFile + " " + resultFile;           
 
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);
+    }
+
+    public static Map<String, String> getTrecEvalResults(String trecEvalFile) throws IOException {
+        CSVParser parser = null;
+        Map<String, String> trecMetrics = new HashMap<>();
+
+        try {
+            parser = new CSVParser(new FileReader(trecEvalFile), CSVFormat.TDF);
+            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+            for (CSVRecord rec : parser.getRecords()) {
+                trecMetrics.put(rec.get(0), rec.get(2));
+            }
+
+            return trecMetrics;
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            assert parser != null;
+            parser.close();
+        }
+
+    }
+
+    public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
+        StringBuilder results = new StringBuilder("");
+        String[] usefulMetrics = {"map", "P_5", "P_10", "P_15", "P_20"};
+        Map<String, Float> averageRes = new HashMap<>();
+
+        for (String measure : usefulMetrics) {
+            float currMetricsTot = 0f;
+            for (Map<String, String> map : metricsValuesForSplit) {
+                currMetricsTot += Float.parseFloat(map.get(measure));
+            }
+            averageRes.put(measure, currMetricsTot / numberOfSplit);
+        }
+
+        for (String measure : usefulMetrics) {
+            results.append(measure).append("=").append(averageRes.get(measure)).append("\n");
+        }
+
+        return results.toString();
+
     }
 
 }

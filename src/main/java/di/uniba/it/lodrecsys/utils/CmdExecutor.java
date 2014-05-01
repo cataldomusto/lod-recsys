@@ -49,24 +49,25 @@ public class CmdExecutor {
      *
      * @param command the command that will be executed
      */
-    public static void executeCommand(String command) {
+    public static void executeCommand(String command, boolean printOnShell) {
         Process p;
         try {
             p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
             p.waitFor();
 
-            /*StringBuilder builder = new StringBuilder("");
+            if (printOnShell) {
+                StringBuilder builder = new StringBuilder("");
 
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(p.getInputStream()));
+                BufferedReader reader =
+                        new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                builder.append(line).append("\n");
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line).append("\n");
+                }
+
+                System.out.println(builder.toString());
             }
-
-            System.out.println(builder.toString()); */
-
         } catch (Exception e) {
             e.printStackTrace();
         }
