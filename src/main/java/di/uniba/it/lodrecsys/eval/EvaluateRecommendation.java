@@ -36,7 +36,7 @@ public class EvaluateRecommendation {
                 Set<Rating> ratings = getRatingsSet(lineSplitted[1].split(","));
                 int i = 0;
                 for (Rating rate : ratings) {
-                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP\n";
+                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + "1" + " EXP\n";
                     writer.write(trecLine);
                 }
 
