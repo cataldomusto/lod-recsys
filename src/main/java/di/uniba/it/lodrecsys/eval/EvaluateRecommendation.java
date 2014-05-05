@@ -132,4 +132,23 @@ public class EvaluateRecommendation {
 
     }
 
+    public static void generateMetricsFile(String metricsResult, String completeReportFile) throws IOException {
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(completeReportFile));
+            writer.write(metricsResult);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            assert writer != null;
+            writer.close();
+
+        }
+
+
+    }
+
 }

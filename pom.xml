@@ -10,10 +10,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.mahout</groupId>
-            <artifactId>mahout-core</artifactId>
-            <version>0.9</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.10-FINAL</version>
         </dependency>
+
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
