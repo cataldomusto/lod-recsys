@@ -22,22 +22,31 @@ public class EvaluateRecommendation {
      * Trec eval results format
      * <id_user> Q0 <id_item> <posizione nel rank> <score> <nome esperimento>
      */
-    public static void generateTrecEvalFile(String resultFile, String outTrecFile) throws IOException {
+    public static void generateTrecEvalFile(String resultFile, String outTrecFile, int listRecSize) throws IOException {
         PrintWriter writer = null;
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(resultFile));
             writer = new PrintWriter(new FileWriter(outTrecFile));
 
+
             while (reader.ready()) {
                 String line = reader.readLine();
                 String[] lineSplitted = line.split("\t");
                 String userID = lineSplitted[0];
-                Set<Rating> ratings = getRatingsSet(lineSplitted[1].split(","));
-                int i = 0;
-                for (Rating rate : ratings) {
-                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + "1" + " EXP\n";
-                    writer.write(trecLine);
+                int numRec = 0;
+                if (lineSplitted.length == 2) {
+                    Set<Rating> ratings = getRatingsSet(lineSplitted[1].split(","));
+                    int i = 0;
+                    for (Rating rate : ratings) {
+                        if (numRec != listRecSize) {
+                            String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
+                            writer.println(trecLine);
+                            numRec++;
+                        } else {
+                            break;
+                        }
+                    }
                 }
 
             }
@@ -75,7 +84,7 @@ public class EvaluateRecommendation {
     }
 
     public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
-        String trecEvalCommand = "trec_eval " + goldStandardFile + " " + resultFile;           
+        String trecEvalCommand = "trec_eval -J " + goldStandardFile + " " + resultFile;
 
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);
