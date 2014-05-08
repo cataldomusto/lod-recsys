@@ -84,7 +84,7 @@ public class EvaluateRecommendation {
     }
 
     public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
-        String trecEvalCommand = "trec_eval -J " + goldStandardFile + " " + resultFile;
+        String trecEvalCommand = "trec_eval " + goldStandardFile + " " + resultFile;
 
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);

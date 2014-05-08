@@ -2,10 +2,6 @@ package di.uniba.it.lodrecsys.utils;
 
 import di.uniba.it.lodrecsys.entity.RITriple;
 import di.uniba.it.lodrecsys.entity.Rating;
-import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.common.FastIDSet;
-import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
-import org.apache.mahout.cf.taste.model.DataModel;
 
 import java.io.*;
 import java.util.*;
@@ -75,7 +71,7 @@ public class PredictionFileConverter {
     /**
      * test_file MyMediaLite_prediction out_file
      */
-    public static void fixPredictionFile(String testSetFile, String predictionFile, String newPredictionFile) throws TasteException, IOException {
+    public static void fixPredictionFile(String testSetFile, String predictionFile, String newPredictionFile) throws IOException {
         BufferedReader reader = null;
         BufferedWriter writer = null;
         try {
