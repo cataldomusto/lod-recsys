@@ -68,6 +68,7 @@ public class PredictionFileConverter {
         return ratingString.toString();
     }
 
+
     /**
      * test_file MyMediaLite_prediction out_file
      */
@@ -85,23 +86,9 @@ public class PredictionFileConverter {
                 String[] lineSplitted = line.split("\t");
                 String userID = lineSplitted[0];
                 Set<Rating> predRatings = getRatingsSet(lineSplitted[1].split(","));
-                int i = 0;
 
-                List<Rating> testSetRatingsForUser = testSet.get(userID);
-                if (testSetRatingsForUser != null) {
-                    Set<Rating> newPredRatings = new TreeSet<>();
+                writer.write(ratingSetFormatter(predRatings) + "\n");
 
-                    for (Rating rate : predRatings) {
-                        if (isPresentItem(testSetRatingsForUser, rate.getItemID())) {
-                            newPredRatings.add(rate);
-                        }
-                    }
-                    if (newPredRatings.size() != 0) {
-                        String resString = userID + "\t" + ratingSetFormatter(newPredRatings);
-                        writer.write(resString);
-                        writer.newLine();
-                    }
-                }
 
             }
 

@@ -7,6 +7,7 @@ import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.utils.CmdExecutor;
 import di.uniba.it.lodrecsys.utils.PredictionFileConverter;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,40 +44,6 @@ public class Main {
         String methodOptions = "--recommender-options=";
         int numberOfSplit = 5;
 
-        String method = "UserKNN";
-        int num_neigh = 80, num_rec = 15;
-
-        for (int i = 1; i <= 1; i++) {
-            String trainFile = trainPath + File.separator + "given_all" + File.separator +
-                    "u" + i + ".base",
-                    testFile = testPath + File.separator + "u" + i + ".test",
-                    trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                    resFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_all" + File.separator +
-                            "u" + i + ".mml_res",
-                    tempResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_all" + File.separator +
-                            "u" + i + ".temp_pred",
-                    trecResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_all" + File.separator +
-                            "u" + i + ".results";
-
-
-            // Executes MyMediaLite tool
-            String mmlString = "item_recommendation --training-file=" + trainFile + " --test-file=" +
-                    testFile + " --prediction-file=" + tempResFile +
-                    " --recommender=" + method + " --in-test-items --predict-items-number="
-                    + num_rec;
-            currLogger.info(mmlString);
-            CmdExecutor.executeCommand(mmlString, false);
-            PredictionFileConverter.fixPredictionFile(testFile, tempResFile, resFile);
-            // Now transform the results file in the TrecEval format for evaluation
-            EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile, num_rec);
-            String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
-                    + File.separator + "u" + i + ".final";
-            EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, trecResultFinal);
-            currLogger.info(EvaluateRecommendation.getTrecEvalResults(trecResultFinal).toString());
-            //metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-            //currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-        }
-/*
         for (String method : rec_methods) {
             for (int num_rec : list_rec_size) {
                 //String method = "ItemKNN";
@@ -92,28 +59,24 @@ public class Main {
                         for (SparsityLevel level : SparsityLevel.values()) {
                             //for each split (from 1 to 5)
                             String completeResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                    "metrics.complete";
+                                    num_rec + File.separator + "metrics.complete";
                             for (int i = 1; i <= 5; i++) {
                                 String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
                                         "u" + i + ".base",
                                         testFile = testPath + File.separator + "u" + i + ".test",
                                         trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
                                         resFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                                "u" + i + ".mml_res",
-                                        tempResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                                "u" + i + ".temp_pred",
+                                                num_rec + File.separator + "u" + i + ".mml_res",
                                         trecResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                                "u" + i + ".results";
+                                                num_rec + File.separator + "u" + i + ".results";
 
 
                                 // Executes MyMediaLite tool
-                                String mmlString = "item_recommendation --training-file=" + trainFile + " --test-file=" +
-                                        testFile + " --prediction-file=" + tempResFile +
-                                        " --recommender=" + method + " --overlap-items --predict-items-number="
-                                        + num_rec + " " + methodOptions + neigh_options;
+                                String mmlString = "rating_prediction --training-file=" + trainFile + " --test-file=" +
+                                        testFile + " --prediction-file=" + resFile +
+                                        " --recommender=" + method + " --recommender-options=" + neigh_options;
                                 currLogger.info(mmlString);
                                 CmdExecutor.executeCommand(mmlString, false);
-                                PredictionFileConverter.fixPredictionFile(testFile, tempResFile, resFile);
                                 // Now transform the results file in the TrecEval format for evaluation
                                 EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile, num_rec);
                                 String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
@@ -136,27 +99,24 @@ public class Main {
                         for (SparsityLevel level : SparsityLevel.values()) {
                             //for each split (from 1 to 5)
                             String completeResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                    "metrics.complete";
+                                    num_rec + File.separator + "metrics.complete";
                             for (int i = 1; i <= 5; i++) {
                                 String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
                                         "u" + i + ".base",
                                         testFile = testPath + File.separator + "u" + i + ".test",
                                         trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
                                         resFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                                "u" + i + ".mml_res",
-                                        tempResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                                "u" + i + ".temp_pred",
+                                                num_rec + File.separator + "u" + i + ".mml_res",
                                         trecResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                                "u" + i + ".results";
+                                                num_rec + File.separator + "u" + i + ".results";
 
 
                                 // Executes MyMediaLite tool
-                                String mmlString = "item_recommendation --training-file=" + trainFile + " --test-file=" +
-                                        testFile + " --prediction-file=" + tempResFile + " --recommender=" + method + " --overlap-items --predict-items-number=" + num_rec + " " + methodOptions + fact_options;
+                                String mmlString = "rating_prediction --training-file=" + trainFile + " --test-file=" +
+                                        testFile + " --prediction-file=" + resFile + " --recommender=" + method + " " + " --recommender-options=" + fact_options;
 
                                 currLogger.info(mmlString);
                                 CmdExecutor.executeCommand(mmlString, false);
-                                PredictionFileConverter.fixPredictionFile(testFile, tempResFile, resFile);
                                 // Now transform the results file in the TrecEval format for evaluation
                                 EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile, num_rec);
                                 String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
@@ -175,7 +135,7 @@ public class Main {
                 }
 
             }
-        }*/
+        }
 
     }
 

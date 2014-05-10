@@ -18,11 +18,63 @@ public class EvaluateRecommendation {
 
 
     /**
-     *
      * Trec eval results format
      * <id_user> Q0 <id_item> <posizione nel rank> <score> <nome esperimento>
      */
     public static void generateTrecEvalFile(String resultFile, String outTrecFile, int listRecSize) throws IOException {
+        PrintWriter writer = null;
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(resultFile));
+            writer = new PrintWriter(new FileWriter(outTrecFile));
+
+            String currUser = "";
+            Set<Rating> currUserRatings = new TreeSet<>();
+
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] lineSplitted = line.split("\t");
+                String userID = lineSplitted[0];
+
+                if (currUser.equals(""))
+                    currUser = userID;
+
+                if (!currUser.equals(userID)) {
+
+                    Iterator<Rating> ratingIter = currUserRatings.iterator();
+
+                    for (int i = 0; i < listRecSize; i++) {
+                        if (ratingIter.hasNext()) {
+                            Rating currRate = ratingIter.next();
+                            writer.write(currUser + " Q0 " + currRate.getItemID() + " " + i + " " + currRate.getRating() + " EXP\n");
+                        } else
+                            break;
+                    }
+
+                    currUserRatings.clear();
+                    currUserRatings.add(new Rating(lineSplitted[1], lineSplitted[2]));
+                    currUser = userID;
+                } else {
+                    currUserRatings.add(new Rating(lineSplitted[1], lineSplitted[2]));
+                }
+
+
+            }
+
+
+        } catch (IOException ex) {
+            throw new IOException(ex);
+        } finally {
+            assert reader != null;
+            reader.close();
+            assert writer != null;
+            writer.close();
+        }
+
+
+    }
+
+/*    public static void generateTrecEvalFile(String resultFile, String outTrecFile, int listRecSize) throws IOException {
         PrintWriter writer = null;
         BufferedReader reader = null;
         try {
@@ -62,7 +114,7 @@ public class EvaluateRecommendation {
         }
 
 
-    }
+    }*/
 
     private static Set<Rating> getRatingsSet(String[] ratings) {
         Set<Rating> ratingSet = new TreeSet<>();
