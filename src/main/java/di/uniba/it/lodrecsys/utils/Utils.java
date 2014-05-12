@@ -220,8 +220,8 @@ public class Utils {
         return list;
     }
 
-    public static Map<String, List<Rating>> loadRatingForEachUser(String ratingFile) throws IOException {
-        Map<String, List<Rating>> ratingsMap = new HashMap<>();
+    public static Map<String, Set<Rating>> loadRatingForEachUser(String ratingFile) throws IOException {
+        Map<String, Set<Rating>> ratingsMap = new HashMap<>();
 
         BufferedReader reader = null;
 
@@ -231,10 +231,10 @@ public class Utils {
             while (reader.ready()) {
                 String currLine = reader.readLine();
                 String[] splittedLine = currLine.split("\t"); //USER_ID\tITEM_ID\tBIN_RATE
-                List<Rating> ratings = ratingsMap.get(splittedLine[0]);
+                Set<Rating> ratings = ratingsMap.get(splittedLine[0]);
                 if (ratings == null) {
                     // start to fill ratings for the current user
-                    ratings = new ArrayList<>();
+                    ratings = new TreeSet<>();
 
                 }
 

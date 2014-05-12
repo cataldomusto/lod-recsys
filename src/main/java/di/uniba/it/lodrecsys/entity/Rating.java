@@ -53,10 +53,10 @@ public class Rating implements Comparable<Rating> {
     @Override
     public int compareTo(Rating rating) {
         assert rating != null;
-        Float firstRate = Float.parseFloat(this.rating),
-                secRate = Float.parseFloat(rating.getRating());
-
-        return -1 * firstRate.compareTo(secRate); // reverts the result of the compareTo
+        Double firstRate = Double.parseDouble(this.rating),
+                secRate = Double.parseDouble(rating.getRating());
+        int sortVal = -1 * firstRate.compareTo(secRate);
+        return (sortVal == 0) ? this.itemID.compareTo(rating.getItemID()) : sortVal; // reverts the result of the compareTo
     }
 }
 

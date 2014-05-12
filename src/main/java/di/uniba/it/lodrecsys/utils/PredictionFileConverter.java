@@ -76,7 +76,7 @@ public class PredictionFileConverter {
         BufferedReader reader = null;
         BufferedWriter writer = null;
         try {
-            Map<String, List<Rating>> testSet = Utils.loadRatingForEachUser(testSetFile);
+            Map<String, Set<Rating>> testSet = Utils.loadRatingForEachUser(testSetFile);
             System.out.println("Users to evaluate: " + testSet.size());
             reader = new BufferedReader(new FileReader(predictionFile));
             writer = new BufferedWriter(new FileWriter(newPredictionFile));
@@ -87,7 +87,7 @@ public class PredictionFileConverter {
                 String userID = lineSplitted[0];
                 Set<Rating> predRatings = getRatingsSet(lineSplitted[1].split(","));
 
-                writer.write(ratingSetFormatter(predRatings) + "\n");
+                writer.write(userID + "\t" + ratingSetFormatter(predRatings) + "\n");
 
 
             }

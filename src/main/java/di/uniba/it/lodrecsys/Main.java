@@ -44,6 +44,8 @@ public class Main {
         String methodOptions = "--recommender-options=";
         int numberOfSplit = 5;
 
+
+       /*
         for (String method : rec_methods) {
             for (int num_rec : list_rec_size) {
                 //String method = "ItemKNN";
@@ -136,6 +138,8 @@ public class Main {
 
             }
         }
+
+        */
 
     }
 
