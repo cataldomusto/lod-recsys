@@ -38,10 +38,6 @@ public class EvaluateRecommendation {
 
                 String ratingString = lineSplitted[1].substring(lineSplitted[1].indexOf("[") + 1, lineSplitted[1].indexOf("]"));
 
-                if (userID.equals("107")) {
-                    System.out.println("User bugged"
-                    );
-                }
                 Set<Rating> ratings = getRatingsSet(ratingString.split(","));
                 int i = 0;
 
@@ -49,7 +45,7 @@ public class EvaluateRecommendation {
 
                     String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
                     writer.println(trecLine);
-                    }
+                }
 
 
             }
