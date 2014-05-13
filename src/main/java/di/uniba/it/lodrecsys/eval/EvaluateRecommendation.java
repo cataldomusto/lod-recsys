@@ -21,7 +21,7 @@ public class EvaluateRecommendation {
      * Trec eval results format
      * <id_user> Q0 <id_item> <posizione nel rank> <score> <nome esperimento>
      */
-    public static void generateTrecEvalFile(String resultFile, String outTrecFile, int listRecSize) throws IOException {
+    public static void generateTrecEvalFile(String resultFile, String outTrecFile) throws IOException {
         PrintWriter writer = null;
         BufferedReader reader = null;
         try {
@@ -36,27 +36,20 @@ public class EvaluateRecommendation {
                 String[] lineSplitted = line.split("\t");
                 String userID = lineSplitted[0];
 
-                if (currUser.equals(""))
-                    currUser = userID;
+                String ratingString = lineSplitted[1].substring(lineSplitted[1].indexOf("[") + 1, lineSplitted[1].indexOf("]"));
 
-                if (!currUser.equals(userID)) {
-
-                    Iterator<Rating> ratingIter = currUserRatings.iterator();
-
-                    for (int i = 0; i < listRecSize; i++) {
-                        if (ratingIter.hasNext()) {
-                            Rating currRate = ratingIter.next();
-                            writer.write(currUser + " Q0 " + currRate.getItemID() + " " + i + " " + currRate.getRating() + " EXP\n");
-                        } else
-                            break;
-                    }
-
-                    currUserRatings.clear();
-                    currUserRatings.add(new Rating(lineSplitted[1], lineSplitted[2]));
-                    currUser = userID;
-                } else {
-                    currUserRatings.add(new Rating(lineSplitted[1], lineSplitted[2]));
+                if (userID.equals("107")) {
+                    System.out.println("User bugged"
+                    );
                 }
+                Set<Rating> ratings = getRatingsSet(ratingString.split(","));
+                int i = 0;
+
+                for (Rating rate : ratings) {
+
+                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
+                    writer.println(trecLine);
+                    }
 
 
             }
@@ -121,13 +114,6 @@ public class EvaluateRecommendation {
 
         for (String rating : ratings) {
             String splitted[] = rating.split(":");
-            if (splitted[0].startsWith("[")) {
-                splitted[0] = splitted[0].substring(1, splitted[0].length());
-            }
-
-            if (splitted[1].endsWith("]")) {
-                splitted[1] = splitted[1].substring(0, splitted[1].length() - 1);
-            }
             ratingSet.add(new Rating(splitted[0], splitted[1]));
         }
 

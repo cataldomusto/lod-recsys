@@ -72,7 +72,7 @@ public class PredictionFileConverter {
     /**
      * test_file MyMediaLite_prediction out_file
      */
-    public static void fixPredictionFile(String testSetFile, String predictionFile, String newPredictionFile) throws IOException {
+    public static void fixPredictionFile(String testSetFile, String predictionFile, String newPredictionFile, int numRec) throws IOException {
         BufferedReader reader = null;
         BufferedWriter writer = null;
         try {
@@ -85,11 +85,28 @@ public class PredictionFileConverter {
                 String line = reader.readLine();
                 String[] lineSplitted = line.split("\t");
                 String userID = lineSplitted[0];
-                Set<Rating> predRatings = getRatingsSet(lineSplitted[1].split(","));
 
-                writer.write(userID + "\t" + ratingSetFormatter(predRatings) + "\n");
+                if (testSet.containsKey(userID)) {
+                    Set<Rating> predRatings = getRatingsSet(lineSplitted[1].split(","));
+                    Set<Rating> newRatings = new TreeSet<>();
 
+                    int addedRatings = 0;
 
+                    Set<Rating> testRatings = testSet.get(userID);
+                    for (Rating rate : predRatings) {
+                        if (isPresentItem(testRatings, rate.getItemID())) {
+                            newRatings.add(rate);
+                            addedRatings++;
+                        }
+
+                        if (addedRatings == numRec)
+                            break;
+                    }
+
+                    if (newRatings.size() > 1)
+                        writer.write(userID + "\t" + ratingSetFormatter(newRatings) + "\n");
+
+                }
             }
 
         } catch (IOException ex) {
@@ -104,7 +121,7 @@ public class PredictionFileConverter {
         }
     }
 
-    private static boolean isPresentItem(List<Rating> ratingList, String itemID) {
+    private static boolean isPresentItem(Set<Rating> ratingList, String itemID) {
         for (Rating rate : ratingList)
             if (rate.getItemID().equals(itemID))
                 return true;
