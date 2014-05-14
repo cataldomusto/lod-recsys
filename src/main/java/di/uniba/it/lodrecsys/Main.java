@@ -40,7 +40,7 @@ public class Main {
          * */
 
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        String[] rec_methods = {"UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"};
+        String[] rec_methods = {/*"UserKNN", "ItemKNN", */"Random", "MostPopular", "BPRMF"};
         int[] list_rec_size = new int[]{5, 10, 15, 20};
         String methodOptions = "--recommender-options=";
         int numberOfSplit = 5;
@@ -56,18 +56,18 @@ public class Main {
                         for (SparsityLevel level : SparsityLevel.values()) {
                             //for each split (from 1 to 5)
                             String completeResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                    numRec + File.separator + "metrics.complete";
+                                    "top_" + numRec + File.separator + "metrics.complete";
                             for (int i = 1; i <= 5; i++) {
                                 String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
                                         "u" + i + ".base",
                                         testFile = testPath + File.separator + "u" + i + ".test",
                                         trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
                                         tempResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                                numRec + File.separator + "u" + i + ".temp_res",
+                                                "top_" + numRec + File.separator + "u" + i + ".temp_res",
                                         resFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                                numRec + File.separator + "u" + i + ".mml_res",
+                                                "top_" + numRec + File.separator + "u" + i + ".mml_res",
                                         trecResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-                                                numRec + File.separator + "u" + i + ".results";
+                                                "top_" + numRec + File.separator + "u" + i + ".results";
 
 
                                 // Executes MyMediaLite tool
@@ -99,18 +99,18 @@ public class Main {
                         for (SparsityLevel level : SparsityLevel.values()) {
                             //for each split (from 1 to 5)
                             String completeResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                    numRec + File.separator + "metrics.complete";
+                                    "top_" + numRec + File.separator + "metrics.complete";
                             for (int i = 1; i <= 5; i++) {
                                 String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
                                         "u" + i + ".base",
                                         testFile = testPath + File.separator + "u" + i + ".test",
                                         trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
                                         resFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                                numRec + File.separator + "u" + i + ".mml_res",
+                                                "top_" + numRec + File.separator + "u" + i + ".mml_res",
                                         tempResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                                numRec + File.separator + "u" + i + ".temp_res",
+                                                "top_" + numRec + File.separator + "u" + i + ".temp_res",
                                         trecResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
-                                                numRec + File.separator + "u" + i + ".results";
+                                                "top_" + numRec + File.separator + "u" + i + ".results";
 
 
                                 // Executes MyMediaLite tool
@@ -139,18 +139,19 @@ public class Main {
                     for (SparsityLevel level : SparsityLevel.values()) {
                         //for each split (from 1 to 5)
                         String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-                                numRec + File.separator + "metrics.complete";
+                                "top_" + numRec
+                                + File.separator + "metrics.complete";
                         for (int i = 1; i <= 5; i++) {
                             String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
                                     "u" + i + ".base",
                                     testFile = testPath + File.separator + "u" + i + ".test",
                                     trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
                                     resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-                                            numRec + File.separator + "u" + i + ".mml_res",
+                                            "top_" + numRec + File.separator + "u" + i + ".mml_res",
                                     tempResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-                                            numRec + File.separator + "u" + i + ".temp_res",
+                                            "top_" + numRec + File.separator + "u" + i + ".temp_res",
                                     trecResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-                                            numRec + File.separator + "u" + i + ".results";
+                                            "top_" + numRec + File.separator + "u" + i + ".results";
 
 
                             // Executes MyMediaLite tool
