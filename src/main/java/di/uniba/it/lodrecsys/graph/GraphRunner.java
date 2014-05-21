@@ -1,17 +1,24 @@
 package di.uniba.it.lodrecsys.graph;
 
+import di.uniba.it.lodrecsys.entity.Rating;
+import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.utils.CmdExecutor;
 import di.uniba.it.lodrecsys.utils.PredictionFileConverter;
+import di.uniba.it.lodrecsys.utils.Utils;
 import edu.uci.ics.jung.algorithms.scoring.PageRank;
 import edu.uci.ics.jung.graph.util.Graphs;
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.model.DataModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -20,27 +27,28 @@ import java.util.logging.Logger;
 public class GraphRunner {
     private static Logger currLogger = Logger.getLogger(GraphRunner.class.getName());
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, TasteException {
         String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
                 testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
                 resPath = "/home/asuglia/thesis/dataset/ml-100k/results";
 
         String trainSet = testPath + File.separator + "u1.base", // given all
-               testSet = testPath + File.separator + "u1.test";
+                testSet = testPath + File.separator + "u1.test";
+        String resFile = resPath + File.separator + "UserItemGraph" + File.separator + "given_all" + File.separator + "test.results";
+
         UserItemGraph userItemGraph = new UserItemGraph(trainSet);
 
-        PageRank<String, String> pageRank = new PageRank<>(userItemGraph.recGraph, 0.15);
+        DataModel testModel = new FileDataModel(new File(testSet)),
+                trainModel = new FileDataModel(new File(trainSet));
 
-        System.out.println(userItemGraph.recGraph.getVertexCount());
-        System.out.println(userItemGraph.recGraph.getEdgeCount());
+        userItemGraph.runPageRank(resFile, new RequestStruct(testModel, 10));
+        String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                + File.separator + "u1.final";
+        EvaluateRecommendation.saveTrecEvalResult(testTrecPath + File.separator + "u1.test", resFile, trecResultFinal);
+        Map<String, String> metrics = EvaluateRecommendation.getTrecEvalResults(trecResultFinal);
 
-        pageRank.setMaxIterations(20);
-
-        pageRank.evaluate();
-
-
-
+        System.out.println(metrics);
 
         //userItemGraph.generateGraph(trainSet);
 
