@@ -1,8 +1,5 @@
-package di.uniba.it.lodrecsys;
+package di.uniba.it.lodrecsys.baseline;
 
-import di.uniba.it.lodrecsys.baseline.IIRecSys;
-import di.uniba.it.lodrecsys.baseline.MatrixFact;
-import di.uniba.it.lodrecsys.baseline.UURecSys;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.utils.CmdExecutor;
@@ -17,9 +14,9 @@ import java.util.logging.Logger;
 /**
  * Created by asuglia on 4/4/14.
  */
-public class Main {
+public class BaselineRunner {
 
-    private static Logger currLogger = Logger.getLogger(Main.class.getName());
+    private static Logger currLogger = Logger.getLogger(BaselineRunner.class.getName());
 
 
     public static void main(String[] args) throws IOException {
