@@ -37,7 +37,7 @@ public class BaselineRunner {
          * */
 
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        String[] rec_methods = {/*"UserKNN", "ItemKNN", */"Random", "MostPopular", "BPRMF"};
+        String[] rec_methods = {"UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"};
         int[] list_rec_size = new int[]{5, 10, 15, 20};
         String methodOptions = "--recommender-options=";
         int numberOfSplit = 5;

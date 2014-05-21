@@ -63,47 +63,7 @@ public class EvaluateRecommendation {
 
     }
 
-/*    public static void generateTrecEvalFile(String resultFile, String outTrecFile, int listRecSize) throws IOException {
-        PrintWriter writer = null;
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(resultFile));
-            writer = new PrintWriter(new FileWriter(outTrecFile));
 
-
-            while (reader.ready()) {
-                String line = reader.readLine();
-                String[] lineSplitted = line.split("\t");
-                String userID = lineSplitted[0];
-                int numRec = 0;
-                if (lineSplitted.length == 2) {
-                    Set<Rating> ratings = getRatingsSet(lineSplitted[1].split(","));
-                    int i = 0;
-                    for (Rating rate : ratings) {
-                        if (numRec != listRecSize) {
-                            String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
-                            writer.println(trecLine);
-                            numRec++;
-                        } else {
-                            break;
-                        }
-                    }
-                }
-
-            }
-
-
-        } catch (IOException ex) {
-            throw new IOException(ex);
-        } finally {
-            assert reader != null;
-            reader.close();
-            assert writer != null;
-            writer.close();
-        }
-
-
-    }*/
 
     private static Set<Rating> getRatingsSet(String[] ratings) {
         Set<Rating> ratingSet = new TreeSet<>();
@@ -118,7 +78,7 @@ public class EvaluateRecommendation {
     }
 
     public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
-        String trecEvalCommand = "trec_eval " + goldStandardFile + " " + resultFile;
+        String trecEvalCommand = "trec_eval -m all_trec " + goldStandardFile + " " + resultFile;
 
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);
@@ -145,9 +105,33 @@ public class EvaluateRecommendation {
 
     }
 
+
+    private static float getF1(float precision, float recall) {
+        return (2 * precision * recall) / (precision + recall);
+
+    }
+
+    private static void evalF1Measure(Map<String, Float> measures) {
+        int[] cutoffLevels = new int[]{5, 10, 15, 20};
+        String precisionString = "P", recallString = "recall", fMeasureString = "F1";
+
+        for (int cutoff : cutoffLevels) {
+            String currPrecision = precisionString + "_" + cutoff,
+                    currRecall = recallString + "_" + cutoff;
+
+            measures.put(fMeasureString + "_" + cutoff, getF1(measures.get(currPrecision), measures.get(currRecall)));
+        }
+
+
+    }
+
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
-        String[] usefulMetrics = {"map", "P_5", "P_10", "P_15", "P_20"};
+        String[] usefulMetrics = {"map", "P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
+                "recall_15", "recall_20"},
+                completeMetrics = {"map", "P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
+                        "recall_15", "recall_20", "F1_5", "F1_10", "F1_15", "F1_20"};
+
         Map<String, Float> averageRes = new HashMap<>();
 
         for (String measure : usefulMetrics) {
@@ -158,7 +142,9 @@ public class EvaluateRecommendation {
             averageRes.put(measure, currMetricsTot / numberOfSplit);
         }
 
-        for (String measure : usefulMetrics) {
+        evalF1Measure(averageRes);
+
+        for (String measure : completeMetrics) {
             results.append(measure).append("=").append(averageRes.get(measure)).append("\n");
         }
 
