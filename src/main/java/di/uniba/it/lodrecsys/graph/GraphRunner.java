@@ -33,7 +33,7 @@ public class GraphRunner {
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
                 resPath = "/home/asuglia/thesis/dataset/ml-100k/results";
 
-        String trainSet = testPath + File.separator + "u1.base", // given all
+/*        String trainSet = testPath + File.separator + "u1.base", // given all
                 testSet = testPath + File.separator + "u1.test";
         String resFile = resPath + File.separator + "UserItemGraph" + File.separator + "given_all" + File.separator + "test.results";
 
@@ -48,50 +48,51 @@ public class GraphRunner {
         EvaluateRecommendation.saveTrecEvalResult(testTrecPath + File.separator + "u1.test", resFile, trecResultFinal);
         Map<String, String> metrics = EvaluateRecommendation.getTrecEvalResults(trecResultFinal);
 
-        System.out.println(metrics);
+        System.out.println(metrics);*/
 
         //userItemGraph.generateGraph(trainSet);
 
 
-//        String[] graphMethods = new String []{"UserItem", "UserItemTAGME", "UserItemLOD", "UserItemTL"};
-//        List<Map<String, String>> metricsForSplit = new ArrayList<>();
-//        String method = graphMethods[0];
-//        int numRec = 5;
-//        int[] list_rec_size = new int[]{5, 10, 15, 20};
-//        int numberOfSplit = 5;
-//
-//        for (SparsityLevel level : SparsityLevel.values()) {
-//            //for each split (from 1 to 5)
-//            String completeResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
-//                    "top_" + numRec + File.separator + "metrics.complete";
-//
-//            for (int i = 1; i <= numberOfSplit; i++) {
-//                String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
-//                        "u" + i + ".base",
-//                        testFile = testPath + File.separator + "u" + i + ".test",
-//                        trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-//                        tempResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-//                                "top_" + numRec + File.separator + "u" + i + ".temp_res",
-//                        resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-//                                "top_" + numRec + File.separator + "u" + i + ".mml_res",
-//                        trecResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-//                                "top_" + numRec + File.separator + "u" + i + ".results";
-//
-//
-//                // Now transform the results file in the TrecEval format for evaluation
-//                PredictionFileConverter.fixPredictionFile(testFile, tempResFile, resFile, numRec);
-//                EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile);
-//                String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
-//                        + File.separator + "u" + i + ".final";
-//                EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, trecResultFinal);
-//                metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-//                currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-//            }
-//
-//            currLogger.info(("Metrics results for sparsity level " + level + "\n"));
-//            EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
-//            metricsForSplit.clear(); // evaluate for the next sparsity level
-//        }
+        String[] graphMethods = new String[]{"UserItemGraph", "UserItemTAGME", "UserItemLOD", "UserItemTL"};
+        List<Map<String, String>> metricsForSplit = new ArrayList<>();
+        String method = graphMethods[0];
+        //int numRec = 5;
+        int[] listRecSizes = new int[]{5, 10, 15, 20};
+        int numberOfSplit = 5;
+
+        for (SparsityLevel level : SparsityLevel.values()) {
+            for (int numRec : listRecSizes) {
+                //for each split (from 1 to 5)
+                String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                        "top_" + numRec + File.separator + "metrics.complete";
+
+                for (int i = 1; i <= numberOfSplit; i++) {
+                    String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                            "u" + i + ".base",
+                            testFile = testPath + File.separator + "u" + i + ".test",
+                            trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
+                            resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                                    "top_" + numRec + File.separator + "u" + i + ".results";
+
+
+                    // Now transform the results file in the TrecEval format for evaluation
+                    UserItemGraph userItemGraph = new UserItemGraph(trainFile);
+
+                    DataModel testModel = new FileDataModel(new File(testFile));
+
+                    userItemGraph.runPageRank(resFile, new RequestStruct(testModel, numRec));
+                    String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                            + File.separator + "u" + i + ".final";
+                    EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+                    currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                }
+
+                currLogger.info(("Metrics results for sparsity level " + level + "\n"));
+                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
+                metricsForSplit.clear(); // evaluate for the next sparsity level
+            }
+        }
 
 
     }
