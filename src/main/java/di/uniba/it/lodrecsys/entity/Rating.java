@@ -58,5 +58,13 @@ public class Rating implements Comparable<Rating> {
         int sortVal = -1 * firstRate.compareTo(secRate);
         return (sortVal == 0) ? this.itemID.compareTo(rating.getItemID()) : sortVal; // reverts the result of the compareTo
     }
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "itemID='" + itemID + '\'' +
+                ", rating='" + rating + '\'' +
+                '}';
+    }
 }
 

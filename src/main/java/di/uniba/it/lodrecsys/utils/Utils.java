@@ -1,5 +1,7 @@
 package di.uniba.it.lodrecsys.utils;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import di.uniba.it.lodrecsys.entity.ItemScore;
 import di.uniba.it.lodrecsys.entity.RITriple;
 import di.uniba.it.lodrecsys.entity.Rating;
@@ -219,6 +221,61 @@ public class Utils {
         reader.close();
         return list;
     }
+
+    public static ArrayListMultimap<String, Set<String>> loadPosNegRatingForEachUser(String ratingFile) throws IOException {
+        ArrayListMultimap<String, Set<String>> ratingsMap = ArrayListMultimap.create();
+        Set<String> posRatingSet, negRatingSet;
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(ratingFile));
+
+            while (reader.ready()) {
+                String currLine = reader.readLine();
+                String[] splittedLine = currLine.split("\t"); //USER_ID\tITEM_ID\tBIN_RATE
+                List<Set<String>> posNegRatings = ratingsMap.get(splittedLine[0]);
+
+                // Retrieve for the current user the old lists
+                if (posNegRatings.size() != 0) {
+                    posRatingSet = posNegRatings.get(0);
+                    negRatingSet = posNegRatings.get(1);
+                } else {
+                    // if hasn't been associated to the current user pos-neg ratings
+                    // the ArrayListMultimap already generates an entry in the multimap
+                    // Create the new set for the rated items
+                    posRatingSet = new TreeSet<>();
+                    negRatingSet = new TreeSet<>();
+                    // now add the set to the current user rating list
+                    posNegRatings.add(posRatingSet);
+                    posNegRatings.add(negRatingSet);
+                }
+
+
+                // add a positive item id to the positive items
+                if (splittedLine[2].equals("1")) {
+                    posRatingSet.add(splittedLine[1]);
+                } else { // add a positive item id to the negative items
+                    negRatingSet.add(splittedLine[1]);
+                }
+
+
+            }
+
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            assert reader != null;
+            reader.close();
+
+        }
+
+
+        return ratingsMap;
+    }
+
+
+
 
     public static Map<String, Set<Rating>> loadRatingForEachUser(String ratingFile) throws IOException {
         Map<String, Set<Rating>> ratingsMap = new HashMap<>();
