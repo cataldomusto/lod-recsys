@@ -8,6 +8,7 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Hypergraph;
 import org.apache.mahout.cf.taste.common.TasteException;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
@@ -36,4 +37,14 @@ public abstract class RecGraph {
     public abstract void generateGraph(String trainingFileName) throws IOException;
 
     public abstract void runPageRank(String resultFile, RequestStruct requestParam) throws IOException, TasteException;
+
+    public void serializeRatings(String userID, Set<Rating> recommendationList, BufferedWriter writer) throws IOException {
+        int i = 0;
+        for (Rating rate : recommendationList) {
+            String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
+            writer.write(trecLine);
+            writer.newLine();
+        }
+
+    }
 }

@@ -61,14 +61,13 @@ public class UserItemGraph extends RecGraph {
             pageRank.evaluate();
 
             Set<Rating> pageRankValues = new TreeSet<>();
-            int totElement = 0;
 
             // print recommendation for all users
 
             for (LongPrimitiveIterator userIter = testModel.getUserIDs(); userIter.hasNext(); ) {
                 long userIDLong = userIter.nextLong();
                 String userID = userIDLong + "";
-                int i = 0;
+                int totElement = 0;
                 for (LongPrimitiveIterator itemIter = testModel.getItemIDsFromUser(userIDLong).iterator(); itemIter.hasNext(); ) {
                     String itemID = itemIter.nextLong() + "";
                     Rating rate;
@@ -78,13 +77,12 @@ public class UserItemGraph extends RecGraph {
                     } catch (IllegalArgumentException exp) {
                         rate = new Rating(itemID, "0");
                     }
-                    i++;
-                    if (totElement == numRec)
-                        break; // the method has got all the recommendation
-
-                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
+                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + totElement++ + " " + rate.getRating() + " EXP";
                     writer.write(trecLine);
                     writer.newLine();
+
+                    if (totElement == numRec)
+                        break; // the method has got all the recommendation
                 }
 
             }
