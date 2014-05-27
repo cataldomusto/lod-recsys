@@ -1,4 +1,4 @@
-package di.uniba.it.lodrecsys.graph;
+package di.uniba.it.lodrecsys.graph.scorer;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import org.apache.commons.collections15.Transformer;
 /**
  * @author pierpaolo
  */
-public class VertexTransformer implements Transformer<String, Double> {
+public class SimpleVertexTransformer implements Transformer<String, Double> {
 
     private Set<String> trainingPos;
 
@@ -22,21 +22,21 @@ public class VertexTransformer implements Transformer<String, Double> {
 
     private final Map<String, Set<String>> uriIdMap;
 
-    public VertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap) {
+    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
         this.graphSize = graphSize;
         this.uriIdMap = uriIdMap;
     }
 
-    public VertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize) {
+    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
         this.graphSize = graphSize;
         this.uriIdMap = new HashMap<>();
     }
 
-    public VertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap, double massProb) {
+    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap, double massProb) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
         this.graphSize = graphSize;
