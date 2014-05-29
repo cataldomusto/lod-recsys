@@ -12,11 +12,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Created by asuglia on 5/21/14.
  */
 public abstract class RecGraph {
+    protected static Logger currLogger = Logger.getLogger(RecGraph.class.getName());
+
     protected Graph<String, String> recGraph;
 
     public RecGraph() {
@@ -24,17 +27,17 @@ public abstract class RecGraph {
 
     }
 
-    public RecGraph(String trainingFile) throws IOException {
+    public RecGraph(String trainingFile, String testFile) throws IOException {
         recGraph = new DirectedSparseGraph<>();
         try {
-            generateGraph(trainingFile);
+            generateGraph(trainingFile, testFile);
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
         }
     }
 
-    public abstract void generateGraph(String trainingFileName) throws IOException;
+    public abstract void generateGraph(String trainingFileName, String testFile) throws IOException;
 
     public abstract void runPageRank(String resultFile, RequestStruct requestParam) throws IOException, TasteException;
 

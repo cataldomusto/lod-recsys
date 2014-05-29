@@ -19,23 +19,34 @@ import java.util.TreeSet;
  * Created by asuglia on 5/21/14.
  */
 public class UserItemGraph extends RecGraph {
+    private Map<String, Set<Rating>> trainingSet;
+    private Map<String, Set<String>> testSet;
 
-    public UserItemGraph(String trainingFileName) throws IOException {
-        super(trainingFileName);
+    public UserItemGraph(String trainingFileName, String testFile) throws IOException {
+        super(trainingFileName, testFile);
     }
 
     @Override
-    public void generateGraph(String trainingFileName) throws IOException {
-        Map<String, Set<Rating>> userRatings = Utils.loadRatingForEachUser(trainingFileName);
+    public void generateGraph(String trainingFileName, String testFile) throws IOException {
+        trainingSet = Utils.loadRatingForEachUser(trainingFileName);
+        testSet = Utils.loadRatedItems(new File(testFile), false);
 
-        for(String userID : userRatings.keySet()) {
+        // Loads all the items rated in the test set
+        for (Set<String> ratings : testSet.values()) {
+            for (String rate : ratings)
+                recGraph.addVertex(rate);
+        }
+
+        for (String userID : trainingSet.keySet()) {
             // for each rating in the user's rating set
             // selects only the positive training ratings (1)
             int edgeCounter = 0; // counts the number of edges from the current UserNode
 
-            for(Rating rate :userRatings.get(userID)) {
-                if(rate.getRating().equals("1")) {
-                    recGraph.addEdge(userID + "-" + edgeCounter, userID, rate.getItemID());
+            // creates connections between the current user and the item
+            // that he has rated positively
+            for (Rating rate : trainingSet.get(userID)) {
+                if (rate.getRating().equals("1")) {
+                    recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, rate.getItemID());
                     edgeCounter++;
                 }
 
@@ -51,8 +62,7 @@ public class UserItemGraph extends RecGraph {
 
         try {
             writer = new BufferedWriter(new FileWriter(resultFile));
-            DataModel testModel = (DataModel) requestParam.params.get(0);
-            int numRec = (int) requestParam.params.get(1); // number of recommendation
+            int numRec = (int) requestParam.params.get(0); // number of recommendation
 
             PageRank<String, String> pageRank = new PageRank<>(this.recGraph, 0.15);
 
@@ -64,27 +74,16 @@ public class UserItemGraph extends RecGraph {
 
             // print recommendation for all users
 
-            for (LongPrimitiveIterator userIter = testModel.getUserIDs(); userIter.hasNext(); ) {
-                long userIDLong = userIter.nextLong();
-                String userID = userIDLong + "";
+            for (String userID : testSet.keySet()) {
                 int totElement = 0;
-                for (LongPrimitiveIterator itemIter = testModel.getItemIDsFromUser(userIDLong).iterator(); itemIter.hasNext(); ) {
-                    String itemID = itemIter.nextLong() + "";
-                    Rating rate;
-
-                    try {
-                        rate = new Rating(itemID, pageRank.getVertexScore(itemID) + "");
-                    } catch (IllegalArgumentException exp) {
-                        rate = new Rating(itemID, "0");
-                    }
-                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + totElement++ + " " + rate.getRating() + " EXP";
-                    writer.write(trecLine);
-                    writer.newLine();
-
-                    if (totElement == numRec)
+                for (String itemID : testSet.get(userID)) {
+                    pageRankValues.add(new Rating(itemID, pageRank.getVertexScore(itemID) + ""));
+                    if (++totElement == numRec)
                         break; // the method has got all the recommendation
                 }
 
+                serializeRatings(userID, pageRankValues, writer);
+                pageRankValues.clear();
             }
 
 
