@@ -37,7 +37,7 @@ public class MovieMapping extends MappingEntity {
         MovieMapping map = (MovieMapping) o;
         double distance = distanceMetric.getDistance(this.name, map.getName());
 
-        return distance >= 0.75 && map.getYear().contains(this.year);
+        return distance >= 0.75 && this.year.contains(map.getYear());
     }
 
     @Override

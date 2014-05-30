@@ -5,6 +5,9 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 import org.apache.lucene.search.spell.JaroWinklerDistance;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,9 +35,11 @@ public class MovieMappingGenerator {
         SPARQLClient client = new SPARQLClient();
         List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile);
 
-        client.movieQuery(dbpediaItemsFile);
+        //client.movieQuery(dbpediaItemsFile);
 
+        generateCompleteMapping(dbpediaItemsFile, movieListFromML);
 
+        System.out.println(movieListFromML);
 
         /*for(MovieMapping movieML : movieListFromML) {
             if(movieListFromDB.contains(movieML)) {
@@ -48,6 +53,38 @@ public class MovieMappingGenerator {
         Utils.serializeMappingList(movieListFromML, mappingFile);
 
         */
+
+    }
+
+
+    private static void generateCompleteMapping(String dbpediaItemsFile, List<MovieMapping> listML) throws IOException {
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(dbpediaItemsFile));
+
+            while(reader.ready()) {
+                String[] splitted = reader.readLine().split("\t");
+
+                MovieMapping dbMovie = new MovieMapping(splitted[0], splitted[1], splitted[2], splitted[3]);
+                if(listML.contains(dbMovie)) {
+                    MovieMapping currMovie = listML.get(listML.indexOf(dbMovie));
+                    currMovie.setItemID(dbMovie.getDbpediaURI());
+
+                }
+
+
+
+            }
+
+
+        } catch (FileNotFoundException e) {
+            throw e;
+        } finally {
+            if(reader != null)
+                reader.close();
+        }
+
 
     }
 

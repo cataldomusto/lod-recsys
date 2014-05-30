@@ -239,8 +239,13 @@ public class Utils {
                 // splitted[0] movieID
                 // splitted[1] movieTitle
                 // splitted[2] movieDate
+
+                // gets only the Year
+
+
                 if (splitted.length == 3) {
-                    mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], splitted[2]));
+                    String movieYear = splitted[1].substring(splitted[1].indexOf("(")+1, splitted[1].indexOf(")"));
+                    mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], movieYear));
                 }
             }
 
