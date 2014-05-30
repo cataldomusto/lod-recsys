@@ -76,7 +76,7 @@ public class DownloadEntityData {
         writer.close();
     }
 
-    private void download(String startFile, String outputDir, String dbpSparqlEndpoint) throws IOException {
+    /*private void download(String startFile, String outputDir, String dbpSparqlEndpoint) throws IOException {
         Analyzer standardAnalyzer = new StandardAnalyzer(Version.LUCENE_47, StandardAnalyzer.STOP_WORDS_SET);
         Analyzer englishAnalyzer = new EnglishAnalyzer(Version.LUCENE_47, EnglishAnalyzer.getDefaultStopSet());
         BufferedReader reader = new BufferedReader(new FileReader(startFile));
@@ -201,5 +201,5 @@ public class DownloadEntityData {
 
         }
         logger.info("Wake-up!");
-    }
+    } */
 }

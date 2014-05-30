@@ -2,14 +2,9 @@ package di.uniba.it.lodrecsys.utils;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import di.uniba.it.lodrecsys.entity.ItemScore;
-import di.uniba.it.lodrecsys.entity.RITriple;
-import di.uniba.it.lodrecsys.entity.Rating;
+import di.uniba.it.lodrecsys.entity.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -202,6 +197,68 @@ public class Utils {
         return list;
     }
 
+
+    public static void serializeMappingList(List<MovieMapping> movieList, String movieMappingFile) throws IOException {
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(movieMappingFile, true));
+            for (MovieMapping movie : movieList) {
+                String movieLine = movie.getItemID() + "\t" + movie.getName() + "\t" +
+                        movie.getDbpediaURI() + "\t" + movie.getYear();
+
+                writer.write(movieLine);
+                writer.newLine();
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(writer != null) {
+                writer.close();
+            }
+
+        }
+
+
+    }
+
+    public static List<MovieMapping> getMovieTitles(String movieTitleFile) throws IOException {
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(movieTitleFile));
+            List<MovieMapping> mappingEntities = new ArrayList<>();
+
+            String currLine;
+            while ((currLine = reader.readLine()) != null) {
+                String[] splittedParts = currLine.split("\\|\\|");
+                String[] splitted = splittedParts[0].split("\\|");
+                // First three field are the relevant one
+                // splitted[0] movieID
+                // splitted[1] movieTitle
+                // splitted[2] movieDate
+                if (splitted.length == 3) {
+                    mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], splitted[2]));
+                }
+            }
+
+            return mappingEntities;
+
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            if (reader != null)
+                reader.close();
+
+        }
+
+
+    }
+
+
     public static List<RITriple> loadRatingByItem(File file, String itemId, boolean skipHeader) throws IOException {
         List<RITriple> list = new ArrayList<RITriple>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -273,8 +330,6 @@ public class Utils {
 
         return ratingsMap;
     }
-
-
 
 
     public static Map<String, Set<Rating>> loadRatingForEachUser(String ratingFile) throws IOException {
