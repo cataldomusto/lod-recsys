@@ -27,19 +27,14 @@ public class MovieMappingGenerator {
                 dbpediaItemsFile = "mapping/item.dbpedia",
                 dbpediaMapping = "mapping/item.mapping";
 
-        System.setProperty("http.proxyHost", "wproxy.ict.uniba.it");
-        System.setProperty("http.proxyPort", "80");
-        System.setProperty("proxyHost", "wproxy.ict.uniba.it");
-        System.setProperty("proxyPort", "80");
-
         SPARQLClient client = new SPARQLClient();
-        List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile);
+        //List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile);
 
-        //client.movieQuery(dbpediaItemsFile);
+        client.movieQuery(dbpediaItemsFile);
 
-        generateCompleteMapping(dbpediaItemsFile, movieListFromML);
+        //generateCompleteMapping(dbpediaItemsFile, movieListFromML);
 
-        System.out.println(movieListFromML);
+        //System.out.println(movieListFromML);
 
         /*for(MovieMapping movieML : movieListFromML) {
             if(movieListFromDB.contains(movieML)) {

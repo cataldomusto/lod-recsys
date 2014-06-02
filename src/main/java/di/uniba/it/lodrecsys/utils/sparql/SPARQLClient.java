@@ -1,6 +1,7 @@
 package di.uniba.it.lodrecsys.utils.sparql;
 
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
@@ -74,9 +75,10 @@ public class SPARQLClient {
         String includeNamespaces = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "PREFIX dcterms: <http://purl.org/dc/terms/>\n" +
-                "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n";
+                "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n" +
+                "PREFIX dbpprop: <http://dbpedia.org/property/>";
 
-        String currQuery = includeNamespaces + "SELECT DISTINCT ?movie (str(?movie_title) as ?title) (str(?movie_year) as ?year) WHERE {\n" +
+        /*String currQuery = includeNamespaces + "SELECT DISTINCT ?movie (str(?movie_title) as ?title) (str(?movie_year) as ?year) WHERE {\n" +
                 " ?movie rdf:type dbpedia-owl:Film.\n" +
                 " ?movie rdfs:label ?movie_title.\n" +
                 " ?movie dcterms:subject ?cat .\n" +
@@ -84,28 +86,47 @@ public class SPARQLClient {
                 " FILTER langMatches(lang(?movie_title), \"EN\") .\n" +
                 " FILTER regex(?movie_year, \"^[0-9]{4} \", \"i\")\n" +
                 " } limit 2000 offset ";
-        int totalNumberOfFilms = 77794;
-        int totNumQuery = 38;
-        int offset = 2000;
+        */
 
-        for(int i = 1; i <= totNumQuery+1; i++) {
+        String currQuery = includeNamespaces + "SELECT DISTINCT ?movie (str(?movie_year) as ?year) (str(?movie_title) as ?title)  WHERE {\n" +
+                "\n" +
+                "  ?movie rdf:type dbpedia-owl:Film.\n" +
+                "  ?movie rdfs:label ?movie_title.\n" +
+                "  FILTER langMatches(lang(?movie_title), \"EN\") .\n" +
+                "  \n" +
+                "  optional { ?movie dbpprop:released   ?rel_year }\n" +
+                "  optional{?movie dbpedia-owl:releaseDate ?owl_year}\n" +
+                "   optional {\n" +
+                "     ?movie dcterms:subject ?sub.\n" +
+                "     ?sub rdfs:label ?movie_year_sub\n" +
+                "     filter regex(?movie_year_sub, \".*[0-9]{4}.*\", \"i\")\n" +
+                "   }\n" +
+                "    BIND(COALESCE(?owl_year, ?rel_year, ?movie_year_sub) AS ?movie_year)\n" +
+                "  } group by ?movie ?movie_title ?movie_year limit 2000 offset ";
+
+        int totalNumberOfFilms = 77794;
+        int totNumQuery = 39;
+        int offset = 0;
+        int currNum = 0;
+
+        for (int i = 1; i <= totNumQuery; i++) {
             try {
+
                 Query query = QueryFactory.create(currQuery + offset);
-                Utils.serializeMappingList(getMovieMappingList(query), dbpediaFilms);
+                currNum += Utils.serializeMappingList(getMovieMappingList(query), dbpediaFilms);
 
             } catch (Exception ex) {
                 ex.printStackTrace();
                 throw ex;
             }
 
-            if(i == totNumQuery)
-                offset = totalNumberOfFilms - offset;
-            else
-                offset += 2000;
+            offset += 2000;
 
             myWait(30);
 
         }
+
+        System.out.println(currNum);
 
 
     }
@@ -140,19 +161,16 @@ public class SPARQLClient {
 
             while(resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
-//                MovieMapping mapped = new MovieMapping(null, currSolution.getResource(dbpediaResVar).getURI(),
-//                        currSolution.getLiteral(movieTitleVar).toString(),
-//                        currSolution.getLiteral(movieDateVar).toString());
-//
-//                currLogger.info(mapped.toString());
-                moviesList.add(new MovieMapping(null, currSolution.getResource(dbpediaResVar).getURI(),
-                     currSolution.getLiteral(movieTitleVar).toString(),
-                       currSolution.getLiteral(movieDateVar).toString()));
+                Literal year = currSolution.getLiteral(movieDateVar);
+                MovieMapping map = new MovieMapping(null, currSolution.getResource(dbpediaResVar).getURI(),
+                        currSolution.getLiteral(movieTitleVar).toString(),
+                        year != null ? year.toString() : null);
+
+                moviesList.add(map);
 
             }
 
             return moviesList;
-
 
         } finally {
             if (qexec != null)

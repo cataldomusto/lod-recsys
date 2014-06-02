@@ -198,19 +198,22 @@ public class Utils {
     }
 
 
-    public static void serializeMappingList(List<MovieMapping> movieList, String movieMappingFile) throws IOException {
+    public static int serializeMappingList(List<MovieMapping> movieList, String movieMappingFile) throws IOException {
         BufferedWriter writer = null;
 
         try {
+            int numPrinted = 0;
             writer = new BufferedWriter(new FileWriter(movieMappingFile, true));
             for (MovieMapping movie : movieList) {
                 String movieLine = movie.getItemID() + "\t" + movie.getName() + "\t" +
                         movie.getDbpediaURI() + "\t" + movie.getYear();
-
+                numPrinted++;
                 writer.write(movieLine);
                 writer.newLine();
 
             }
+
+            return numPrinted;
         } catch (IOException e) {
             e.printStackTrace();
             throw e;

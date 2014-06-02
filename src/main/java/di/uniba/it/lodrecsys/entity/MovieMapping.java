@@ -35,6 +35,10 @@ public class MovieMapping extends MappingEntity {
         if(!(o instanceof MovieMapping))
             return false;
         MovieMapping map = (MovieMapping) o;
+
+        if (this.dbpediaURI != null && map.getDbpediaURI() != null)
+            return this.dbpediaURI.equals(map.getDbpediaURI());
+
         double distance = distanceMetric.getDistance(this.name, map.getName());
 
         return distance >= 0.75 && this.year.contains(map.getYear());

@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
+import di.uniba.it.lodrecsys.graph.scorer.UserVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
 import org.apache.mahout.cf.taste.common.TasteException;
@@ -71,7 +72,7 @@ public class UserItemPriorGraph extends RecGraph {
                 currLogger.info("Page rank for user: " + userID);
                 List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
                 Set<String> testItems = testSet.get(userID);
-                Set<Rating> recommendations = profileUser(posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, numRec, massProb);
+                Set<Rating> recommendations = profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, numRec, massProb);
                 serializeRatings(userID, recommendations, writer);
             }
 
@@ -88,10 +89,11 @@ public class UserItemPriorGraph extends RecGraph {
     }
 
 
-    private Set<Rating> profileUser(Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, int numRec, double massProb) {
+    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, int numRec, double massProb) {
         Set<Rating> recommendation = new TreeSet<>();
 
-        SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), null, massProb);
+        // SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb);
+        UserVertexTransformer transformer = new UserVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, userID);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);

@@ -41,7 +41,7 @@ public class GraphRunner {
         UserItemPriorGraph userItemGraph = new UserItemPriorGraph(trainSet, testSet);
 
         int numRec = 10;
-        double massProb = 0.5;
+        double massProb = 0.8;
 
         userItemGraph.runPageRank(resFile, new RequestStruct(numRec, massProb));
         String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))

@@ -22,6 +22,7 @@ public class SimpleVertexTransformer implements Transformer<String, Double> {
 
     private final Map<String, Set<String>> uriIdMap;
 
+
     public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
@@ -29,10 +30,11 @@ public class SimpleVertexTransformer implements Transformer<String, Double> {
         this.uriIdMap = uriIdMap;
     }
 
-    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize) {
+    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, double massProb) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
         this.graphSize = graphSize;
+        this.massProb = massProb;
         this.uriIdMap = new HashMap<>();
     }
 
