@@ -107,21 +107,22 @@ public class SPARQLClient {
         *
         * */
 
-        String currQuery = includeNamespaces + "SELECT DISTINCT ?movie (str(?movie_year) as ?year) (str(?movie_title) as ?title)  WHERE {\n" +
-                "\n" +
-                "  ?movie rdf:type dbpedia-owl:Film.\n" +
-                "  ?movie rdfs:label ?movie_title.\n" +
-                "  FILTER langMatches(lang(?movie_title), \"EN\") .\n" +
-                "  \n" +
-                "  optional { ?movie dbpprop:released   ?rel_year }\n" +
-                "  optional{?movie dbpedia-owl:releaseDate ?owl_year}\n" +
-                "   optional {\n" +
-                "     ?movie dcterms:subject ?sub.\n" +
-                "     ?sub rdfs:label ?movie_year_sub\n" +
-                "     filter regex(?movie_year_sub, \".*[0-9]{4}.*\", \"i\")\n" +
-                "   }\n" +
-                "    BIND(COALESCE(?owl_year, ?rel_year, ?movie_year_sub) AS ?movie_year)\n" +
-                "  } group by ?movie ?movie_title ?movie_year limit 2000 offset ";
+        String currQuery = includeNamespaces + "SELECT DISTINCT ?movie " +
+                "(str(sample(?year)) as ?movie_year) (str(?title) as ?movie_title) (str(?genre) as ?movie_genre)\n" +
+                "WHERE {\n" +
+                "?movie rdf:type dbpedia-owl:Film.\n" +
+                "?movie rdfs:label ?title.\n" +
+                "FILTER langMatches(lang(?title), 'en')\n" +
+                "?movie dcterms:subject ?cat.\n" +
+                "?cat rdfs:label ?genre.\n" +
+                "optional { ?movie dbpprop:released   ?rel_year }\n" +
+                "optional { ?movie dbpedia-owl:releaseDate ?owl_year}\n" +
+                "optional { ?movie dcterms:subject ?sub.\n" +
+                "?sub rdfs:label ?movie_year_sub\n" +
+                "filter regex(?movie_year_sub, \".*[0-9]{4}.*\", \"i\")\n" +
+                "}\n" +
+                "BIND(COALESCE(?owl_year, ?rel_year, ?movie_year_sub) AS ?year)\n" +
+                "}group by ?movie ?title ?genre limit 2000 offset ";
 
         int totalNumberOfFilms = 77794;
         int totNumQuery = 39;
@@ -160,7 +161,8 @@ public class SPARQLClient {
 
 
     private List<MovieMapping> getMovieMappingList(Query query) {
-        String dbpediaResVar = "?movie", movieTitleVar = "?title", movieDateVar = "?year";
+        String dbpediaResVar = "?movie", movieTitleVar = "?movie_title",
+                movieDateVar = "?movie_year", movieGenre = "?movie_genre";
 
         System.out.println("executing query : " + query.toString());
 
@@ -183,7 +185,7 @@ public class SPARQLClient {
                 Literal year = currSolution.getLiteral(movieDateVar);
                 MovieMapping map = new MovieMapping(null, currSolution.getResource(dbpediaResVar).getURI(),
                         currSolution.getLiteral(movieTitleVar).toString(),
-                        year != null ? year.toString() : null);
+                        year != null ? year.toString() : null, currSolution.getLiteral(movieGenre).toString());
 
                 moviesList.add(map);
 

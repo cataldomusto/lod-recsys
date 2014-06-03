@@ -30,6 +30,7 @@ public class MovieMappingGenerator {
         SPARQLClient client = new SPARQLClient();
         //List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile);
 
+        //System.out.println(movieListFromML);
         client.movieQuery(dbpediaItemsFile);
 
         //generateCompleteMapping(dbpediaItemsFile, movieListFromML);
@@ -61,7 +62,7 @@ public class MovieMappingGenerator {
             while(reader.ready()) {
                 String[] splitted = reader.readLine().split("\t");
 
-                MovieMapping dbMovie = new MovieMapping(splitted[0], splitted[1], splitted[2], splitted[3]);
+                MovieMapping dbMovie = new MovieMapping(splitted[0], splitted[1], splitted[2], splitted[3], splitted[4]);
                 if(listML.contains(dbMovie)) {
                     MovieMapping currMovie = listML.get(listML.indexOf(dbMovie));
                     currMovie.setItemID(dbMovie.getDbpediaURI());

@@ -3,8 +3,10 @@ package di.uniba.it.lodrecsys.utils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import di.uniba.it.lodrecsys.entity.*;
+import org.apache.commons.lang.time.DateFormatUtils;
 
 import java.io.*;
+import java.text.DateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -206,7 +208,7 @@ public class Utils {
             writer = new BufferedWriter(new FileWriter(movieMappingFile, true));
             for (MovieMapping movie : movieList) {
                 String movieLine = movie.getItemID() + "\t" + movie.getName() + "\t" +
-                        movie.getDbpediaURI() + "\t" + movie.getYear();
+                        movie.getDbpediaURI() + "\t" + movie.getYear() + "\t" + movie.getGenre();
                 numPrinted++;
                 writer.write(movieLine);
                 writer.newLine();
@@ -227,6 +229,34 @@ public class Utils {
 
     }
 
+    protected static Map<Integer, String> generateGenreMap() {
+        Map<Integer, String> genreMap = new HashMap<>();
+
+        genreMap.put(0, "unknown");
+        genreMap.put(1, "Action");
+        genreMap.put(2, "Adventure");
+        genreMap.put(3, "Animation");
+        genreMap.put(4, "Children\'s");
+        genreMap.put(5, "Comedy");
+        genreMap.put(6, "Crime");
+        genreMap.put(7, "Documentary");
+        genreMap.put(8, "Drama");
+        genreMap.put(9, "Fantasy");
+        genreMap.put(10, "Film-Noir");
+        genreMap.put(11, "Horror");
+        genreMap.put(12, "Musical");
+        genreMap.put(13, "Mystery");
+        genreMap.put(14, "Romance");
+        genreMap.put(15, "Sci-Fi");
+        genreMap.put(16, "Thriller");
+        genreMap.put(17, "War");
+        genreMap.put(18, "Western");
+
+
+        return genreMap;
+
+    }
+
     public static List<MovieMapping> getMovieTitles(String movieTitleFile) throws IOException {
         BufferedReader reader = null;
 
@@ -244,11 +274,20 @@ public class Utils {
                 // splitted[2] movieDate
 
                 // gets only the Year
+                String[] movieGenreList = splittedParts[1].split("\\|");
+                String concatGenre = "";
+                Map<Integer, String> genreMap = Utils.generateGenreMap();
 
+                for(int i = 1; i < movieGenreList.length; i++) {
+                    if(movieGenreList[i].equals("1"))
+                        concatGenre += genreMap.get(i-1) + " ";
+
+                }
 
                 if (splitted.length == 3) {
-                    String movieYear = splitted[1].substring(splitted[1].indexOf("(")+1, splitted[1].indexOf(")"));
-                    mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], movieYear));
+                    String movieYear = splitted[2].substring(splitted[2].lastIndexOf("-")+1, splitted[2].length());
+
+                    mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], movieYear, concatGenre));
                 }
             }
 
