@@ -61,11 +61,13 @@ public class MovieMappingGenerator {
 
             while(reader.ready()) {
                 String[] splitted = reader.readLine().split("\t");
+                if (splitted.length != 5)
+                    System.out.println("splitted " + splitted[1]);
 
-                MovieMapping dbMovie = new MovieMapping(splitted[0], splitted[1], splitted[2], splitted[3], splitted[4]);
+                MovieMapping dbMovie = new MovieMapping(splitted[0], splitted[2], splitted[1], splitted[3], splitted[4]);
                 if(listML.contains(dbMovie)) {
                     MovieMapping currMovie = listML.get(listML.indexOf(dbMovie));
-                    currMovie.setItemID(dbMovie.getDbpediaURI());
+                    currMovie.setDbpediaURI(dbMovie.getDbpediaURI());
 
                 }
 

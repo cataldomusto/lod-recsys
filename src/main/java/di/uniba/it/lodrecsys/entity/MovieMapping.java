@@ -45,7 +45,7 @@ public class MovieMapping extends MappingEntity {
 
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof MovieMapping))
+        if (!(o instanceof MovieMapping))
             return false;
 
         LevensteinDistance distanceMetric = new LevensteinDistance();
@@ -58,12 +58,12 @@ public class MovieMapping extends MappingEntity {
             return this.dbpediaURI.equals(map.getDbpediaURI());
 
         boolean findGenre = false;
-        for(String genre : otherSplittedGenre)
+        for (String genre : otherSplittedGenre)
             findGenre = this.genre.contains(genre);
 
         double distanceTitle = distanceMetric.getDistance(this.name, map.getName());
 
-        return distanceTitle >= 0.85 && this.year.contains(map.getYear()) && findGenre;
+        return distanceTitle >= 0.85;
     }
 
     @Override

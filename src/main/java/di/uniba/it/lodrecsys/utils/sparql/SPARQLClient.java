@@ -78,51 +78,27 @@ public class SPARQLClient {
                 "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dbpprop: <http://dbpedia.org/property/>";
 
-        /*String currQuery = includeNamespaces + "SELECT DISTINCT ?movie (str(?movie_title) as ?title) (str(?movie_year) as ?year) WHERE {\n" +
-                " ?movie rdf:type dbpedia-owl:Film.\n" +
-                " ?movie rdfs:label ?movie_title.\n" +
-                " ?movie dcterms:subject ?cat .\n" +
-                " ?cat rdfs:label ?movie_year .\n" +
-                " FILTER langMatches(lang(?movie_title), \"EN\") .\n" +
-                " FILTER regex(?movie_year, \"^[0-9]{4} \", \"i\")\n" +
-                " } limit 2000 offset ";
-        */
-
-        /*
-        * SELECT DISTINCT ?movie (str(sample(?movie_year)) as ?year) ?movie_title
-            WHERE {
-              ?movie rdf:type dbpedia-owl:Film.
-              ?movie rdfs:label ?movie_title.
-              FILTER langMatches(lang(?movie_title), 'en')
-              optional { ?movie dbpprop:released   ?rel_year }
-              optional { ?movie dbpedia-owl:releaseDate ?owl_year}
-              optional { ?movie dcterms:subject ?sub.
-                         ?sub rdfs:label ?movie_year_sub
-                         filter regex(?movie_year_sub, ".*[0-9]{4}.*", "i")
-                       }
-              BIND(COALESCE(?owl_year, ?rel_year, ?movie_year_sub) AS ?movie_year)
-            }
-            group by ?movie ?movie_title
-            limit 2000
-        *
-        * */
-
-        String currQuery = includeNamespaces + "SELECT DISTINCT ?movie " +
-                "(str(sample(?year)) as ?movie_year) (str(?title) as ?movie_title) (str(?genre) as ?movie_genre)\n" +
-                "WHERE {\n" +
-                "?movie rdf:type dbpedia-owl:Film.\n" +
-                "?movie rdfs:label ?title.\n" +
-                "FILTER langMatches(lang(?title), 'en')\n" +
-                "?movie dcterms:subject ?cat.\n" +
-                "?cat rdfs:label ?genre.\n" +
-                "optional { ?movie dbpprop:released   ?rel_year }\n" +
-                "optional { ?movie dbpedia-owl:releaseDate ?owl_year}\n" +
-                "optional { ?movie dcterms:subject ?sub.\n" +
-                "?sub rdfs:label ?movie_year_sub\n" +
-                "filter regex(?movie_year_sub, \".*[0-9]{4}.*\", \"i\")\n" +
-                "}\n" +
-                "BIND(COALESCE(?owl_year, ?rel_year, ?movie_year_sub) AS ?year)\n" +
-                "}group by ?movie ?title ?genre limit 2000 offset ";
+        String currQuery = includeNamespaces + "SELECT DISTINCT  ?movie (str(sample(?year)) AS ?movie_year) (str(?title) AS ?movie_title) (str(?genre) AS ?movie_genre)\n" +
+                "WHERE\n" +
+                "  { ?movie rdf:type dbpedia-owl:Film .\n" +
+                "    ?movie rdfs:label ?title\n" +
+                "    FILTER langMatches(lang(?title), \"en\")\n" +
+                "    ?movie dcterms:subject ?cat .\n" +
+                "    ?cat rdfs:label ?genre\n" +
+                "    OPTIONAL\n" +
+                "      { ?movie dbpprop:released ?rel_year }\n" +
+                "    OPTIONAL\n" +
+                "      { ?movie dbpedia-owl:releaseDate ?owl_year }\n" +
+                "    OPTIONAL\n" +
+                "      { ?movie dcterms:subject ?sub .\n" +
+                "        ?sub rdfs:label ?movie_year_sub\n" +
+                "        FILTER regex(?movie_year_sub, \".*[0-9]{4}.*\", \"i\")\n" +
+                "      }\n" +
+                "    BIND(coalesce(?owl_year, ?rel_year, ?movie_year_sub) AS ?year)\n" +
+                "  }\n" +
+                "GROUP BY ?movie ?year ?title ?genre\n" +
+                "HAVING ( count(?movie) = 1 )\n" +
+                "LIMIT   2000\n" + "OFFSET ";
 
         int totalNumberOfFilms = 77794;
         int totNumQuery = 39;
