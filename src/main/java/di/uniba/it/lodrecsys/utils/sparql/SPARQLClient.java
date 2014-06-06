@@ -11,6 +11,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 /**
@@ -78,7 +80,7 @@ public class SPARQLClient {
                 "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dbpprop: <http://dbpedia.org/property/>";
 
-        String currQuery = includeNamespaces + "SELECT DISTINCT  ?movie (str(sample(?year)) AS ?movie_year) (str(?title) AS ?movie_title) (str(?genre) AS ?movie_genre)\n" +
+        String templateQuery = includeNamespaces + "SELECT DISTINCT  ?movie (str(sample(?year)) AS ?movie_year) (str(?title) AS ?movie_title) (str(sample(?genre)) AS ?movie_genre)\n" +
                 "WHERE\n" +
                 "  { ?movie rdf:type dbpedia-owl:Film .\n" +
                 "    ?movie rdfs:label ?title\n" +
@@ -95,22 +97,21 @@ public class SPARQLClient {
                 "        FILTER regex(?movie_year_sub, \".*[0-9]{4}.*\", \"i\")\n" +
                 "      }\n" +
                 "    BIND(coalesce(?owl_year, ?rel_year, ?movie_year_sub) AS ?year)\n" +
-                "  }\n" +
-                "GROUP BY ?movie ?year ?title ?genre\n" +
-                "HAVING ( count(?movie) = 1 )\n" +
-                "LIMIT   2000\n" + "OFFSET ";
+                "  } GROUP BY ?movie ?year ?title ?genre LIMIT 2000 OFFSET %s";
 
         int totalNumberOfFilms = 77794;
         int totNumQuery = 39;
         int offset = 0;
         int currNum = 0;
 
+        Set<MovieMapping> mappings = new TreeSet<>();
+
         for (int i = 1; i <= totNumQuery; i++) {
             try {
 
-                Query query = QueryFactory.create(currQuery + offset);
-                currNum += Utils.serializeMappingList(getMovieMappingList(query), dbpediaFilms);
-
+                Query query = QueryFactory.create(String.format(templateQuery, "" + offset));
+                //currNum += Utils.serializeMappingList(getMovieMappingList(query), dbpediaFilms);
+                mappings.addAll(getMovieMappingList(query));
             } catch (Exception ex) {
                 ex.printStackTrace();
                 throw ex;
@@ -121,6 +122,9 @@ public class SPARQLClient {
             myWait(30);
 
         }
+
+        Utils.serializeMappingList(mappings, dbpediaFilms);
+
 
         System.out.println(currNum);
 
@@ -136,7 +140,7 @@ public class SPARQLClient {
     }
 
 
-    private List<MovieMapping> getMovieMappingList(Query query) {
+    private Set<MovieMapping> getMovieMappingList(Query query) {
         String dbpediaResVar = "?movie", movieTitleVar = "?movie_title",
                 movieDateVar = "?movie_year", movieGenre = "?movie_genre";
 
@@ -152,7 +156,7 @@ public class SPARQLClient {
                         graphURI);
 
             ResultSet resultSet = qexec.execSelect();
-            List<MovieMapping> moviesList = new ArrayList<>();
+            Set<MovieMapping> moviesList = new TreeSet<>();
 
             QuerySolution currSolution;
 

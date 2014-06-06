@@ -28,27 +28,18 @@ public class MovieMappingGenerator {
                 dbpediaMapping = "mapping/item.mapping";
 
         SPARQLClient client = new SPARQLClient();
-        //List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile);
+        List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile);
 
         //System.out.println(movieListFromML);
-        client.movieQuery(dbpediaItemsFile);
+        //client.movieQuery(dbpediaItemsFile);
 
-        //generateCompleteMapping(dbpediaItemsFile, movieListFromML);
+        generateCompleteMapping(dbpediaItemsFile, movieListFromML);
 
-        //System.out.println(movieListFromML);
+        System.out.println(movieListFromML);
 
-        /*for(MovieMapping movieML : movieListFromML) {
-            if(movieListFromDB.contains(movieML)) {
-                MovieMapping dbMovie = movieListFromDB.get(movieListFromDB.indexOf(movieML));
-                movieML.setDbpediaURI(dbMovie.getDbpediaURI());
-            }
+        Utils.serializeMappingList(movieListFromML, dbpediaMapping);
 
 
-        }
-
-        Utils.serializeMappingList(movieListFromML, mappingFile);
-
-        */
 
     }
 
@@ -65,8 +56,9 @@ public class MovieMappingGenerator {
                     System.out.println("splitted " + splitted[1]);
 
                 MovieMapping dbMovie = new MovieMapping(splitted[0], splitted[2], splitted[1], splitted[3], splitted[4]);
-                if(listML.contains(dbMovie)) {
-                    MovieMapping currMovie = listML.get(listML.indexOf(dbMovie));
+                int filmIndex = listML.indexOf(dbMovie);
+                if (filmIndex != -1) {
+                    MovieMapping currMovie = listML.get(filmIndex);
                     currMovie.setDbpediaURI(dbMovie.getDbpediaURI());
 
                 }

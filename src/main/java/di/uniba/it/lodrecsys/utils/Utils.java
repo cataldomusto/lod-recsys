@@ -200,7 +200,7 @@ public class Utils {
     }
 
 
-    public static int serializeMappingList(List<MovieMapping> movieList, String movieMappingFile) throws IOException {
+    public static int serializeMappingList(Collection<MovieMapping> movieList, String movieMappingFile) throws IOException {
         BufferedWriter writer = null;
 
         try {
