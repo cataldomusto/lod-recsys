@@ -80,7 +80,7 @@ public class SPARQLClient {
                 "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dbpprop: <http://dbpedia.org/property/>";
 
-        String templateQuery = includeNamespaces + "SELECT DISTINCT  ?movie (str(sample(?year)) AS ?movie_year) (str(?title) AS ?movie_title) (str(sample(?genre)) AS ?movie_genre)\n" +
+        /*String templateQuery = includeNamespaces + "SELECT DISTINCT  ?movie (str(sample(?year)) AS ?movie_year) (str(?title) AS ?movie_title) (str(sample(?genre)) AS ?movie_genre)\n" +
                 "WHERE\n" +
                 "  { ?movie rdf:type dbpedia-owl:Film .\n" +
                 "    ?movie rdfs:label ?title\n" +
@@ -98,20 +98,40 @@ public class SPARQLClient {
                 "      }\n" +
                 "    BIND(coalesce(?owl_year, ?rel_year, ?movie_year_sub) AS ?year)\n" +
                 "  } GROUP BY ?movie ?year ?title ?genre LIMIT 2000 OFFSET %s";
-
+            */
+        String templateQuery = includeNamespaces + "\n" +
+                "SELECT DISTINCT  ?movie (str(?title) AS ?movie_title) " +
+                "(str(?date_onto) AS ?movie_year) (str(sample(?rel_date)) AS ?date_sub)\n" +
+                "WHERE\n" +
+                "  { ?movie rdf:type dbpedia-owl:Film .\n" +
+                "    ?movie rdfs:label ?title\n" +
+                "    FILTER langMatches(lang(?title), \"EN\")\n" +
+                "    OPTIONAL\n" +
+                "      { ?movie dbpedia-owl:releaseDate ?date_onto }\n" +
+                "    OPTIONAL\n" +
+                "      { ?movie dcterms:subject ?subject .\n" +
+                "        ?subject rdfs:label ?rel_date\n" +
+                "        FILTER regex(?rel_date, \".*[0-9]{4}.*\", \"i\")\n" +
+                "      }\n" +
+                "  }\n" +
+                "GROUP BY ?movie ?title ?date_onto ?rel_date limit 2000 offset %s";
+        
         int totalNumberOfFilms = 77794;
         int totNumQuery = 39;
         int offset = 0;
         int currNum = 0;
 
         Set<MovieMapping> mappings = new TreeSet<>();
+        boolean isFull = true;
 
-        for (int i = 1; i <= totNumQuery; i++) {
+        while (isFull) {
             try {
 
                 Query query = QueryFactory.create(String.format(templateQuery, "" + offset));
-                //currNum += Utils.serializeMappingList(getMovieMappingList(query), dbpediaFilms);
-                mappings.addAll(getMovieMappingList(query));
+                Set<MovieMapping> currResultSet = getMovieMappingList(query);
+
+                isFull = !currResultSet.isEmpty();
+                mappings.addAll(currResultSet);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 throw ex;
@@ -142,7 +162,8 @@ public class SPARQLClient {
 
     private Set<MovieMapping> getMovieMappingList(Query query) {
         String dbpediaResVar = "?movie", movieTitleVar = "?movie_title",
-                movieDateVar = "?movie_year", movieGenre = "?movie_genre";
+                movieDateOnto = "?movie_year",
+                movieDateTerms = "?date_sub";
 
         System.out.println("executing query : " + query.toString());
 
@@ -162,10 +183,20 @@ public class SPARQLClient {
 
             while(resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
-                Literal year = currSolution.getLiteral(movieDateVar);
+                Literal yearOnto = currSolution.getLiteral(movieDateOnto), yearSub = currSolution.getLiteral(movieDateTerms);
+                String year;
+
+                if (yearOnto == null && yearSub == null)
+                    continue; // skip the current fact
+
+                if (yearOnto != null)
+                    year = yearOnto.toString();
+                else
+                    year = yearSub.toString();
+
                 MovieMapping map = new MovieMapping(null, currSolution.getResource(dbpediaResVar).getURI(),
                         currSolution.getLiteral(movieTitleVar).toString(),
-                        year != null ? year.toString() : null, currSolution.getLiteral(movieGenre).toString());
+                        year);
 
                 moviesList.add(map);
 

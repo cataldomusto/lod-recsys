@@ -1,10 +1,14 @@
 package di.uniba.it.lodrecsys.entity;
 
+import di.uniba.it.lodrecsys.utils.Utils;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.search.spell.JaroWinklerDistance;
 import org.apache.lucene.search.spell.LevensteinDistance;
+import org.apache.lucene.util.Version;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,13 +20,11 @@ import java.util.regex.Pattern;
  */
 public class MovieMapping extends MappingEntity implements Comparable<MovieMapping> {
     private String year;
-    private String genre;
 
 
-    public MovieMapping(String itemID, String dbpediaURI, String name, String year, String genre) {
+    public MovieMapping(String itemID, String dbpediaURI, String name, String year) {
         super(itemID, dbpediaURI, name);
         this.year = year;
-        this.genre = genre;
     }
 
     public String getYear() {
@@ -34,19 +36,11 @@ public class MovieMapping extends MappingEntity implements Comparable<MovieMappi
 
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 
     @Override
     public String toString() {
         return super.toString() +
-                " year='" + year + '\'' + " genre='" + genre + "\'" +
-                '}';
+                " year='" + year + '\'' + '}';
     }
 
     @Override
@@ -61,8 +55,9 @@ public class MovieMapping extends MappingEntity implements Comparable<MovieMappi
             return true; // same dbpedia uri - same resource
 
         LevensteinDistance distanceMetric = new LevensteinDistance();
-
-        Pattern titlePattern = Pattern.compile("(.*)\\(.*(film)??.*\\)");
+        Pattern numberOnly = Pattern.compile("[0-9]{4}");
+        Pattern titlePattern = Pattern.compile("(.*)\\(.*\\)");
+        Pattern numbers = Pattern.compile(".*([0-9]{4}).*");
 
         Matcher matchTitle = titlePattern.matcher(this.getName());
         String realThisTitle = this.getName(), realMapTitle = map.getName();
@@ -78,68 +73,48 @@ public class MovieMapping extends MappingEntity implements Comparable<MovieMappi
             realMapTitle = matchTitle.group(1);
         }
 
+        realThisTitle = realThisTitle.trim();
+        realMapTitle = realMapTitle.trim();
+
+        Set<String> first = Utils.tokenizeString(realThisTitle), second = Utils.tokenizeString(realMapTitle);
+        Set<String> union = new TreeSet<>(), inter = new TreeSet<>();
+
+        union.addAll(first);
+
+        union.addAll(second);
+        for (String elem : second)
+            if (first.contains(elem))
+                inter.add(elem);
+        double jaccard = ((double) inter.size() / (double) union.size());
+
         double distanceTitle = distanceMetric.getDistance(realThisTitle, realMapTitle);
 
-        // The two films are equals
-        if (distanceTitle > 0.80) {
-            return true;
-        }
 
-        // Not perfect match in the title
-        // Check the other properties
-        if (distanceTitle > 0.65 && distanceTitle <= 0.80) {
-            String[] thisSplitGenre = this.genre.split(" "),
-                    otherSplitGenre = map.genre.split(" ");
+        // Mask, The and The Mask
+        // Lion King, The and The Lion King
 
-            Set<String> first = new TreeSet<>(),
-                    second = new TreeSet<>(), intersect = new TreeSet<>();
+        if (jaccard > 0.9) {
 
-            first.addAll(Arrays.asList(thisSplitGenre));
-            second.addAll(Arrays.asList(otherSplitGenre));
-
-            intersect.addAll(first);
-            intersect.retainAll(second);
-
-            double jaccardIndexGenre = intersect.size() / (first.size() + second.size());
-
-            Pattern numberOnly = Pattern.compile("[0-9]{4}");
-            if (numberOnly.matcher(this.year).find()) {
-                return this.year.contains(map.getYear());
+            if (numberOnly.matcher(map.getYear()).matches()) {
+                return this.year.equals(map.getYear());
             } else {
-                Pattern numbers = Pattern.compile(".*([0-9]{4}).*");
-                Matcher match = numbers.matcher(this.year);
+                Matcher matcher = numbers.matcher(map.getYear());
+                if (matcher.find()) {
+                    String currYear = matcher.group(1);
+                    double distanceYear = distanceMetric.getDistance(currYear, this.year);
 
-                // got a match
-                if (match.find()) {
-                    String realYear = match.group(1);
+                    if (distanceTitle > 0.8)
+                        return distanceYear > 0.5;
 
-                    return distanceMetric.getDistance(realYear, map.getYear()) > 0.75;
-
+                    return distanceYear > 0.7;
                 }
-            }
 
+            }
         }
 
         return false;
-
     }
 
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof MovieMapping)) return false;
-//        if (!super.equals(o)) return false;
-//
-//        MovieMapping that = (MovieMapping) o;
-//
-//        if(that.getDbpediaURI() != null && this.getDbpediaURI() != null)
-//            return that.getDbpediaURI().equals(this.getDbpediaURI());
-//
-//        return this.getName().equals(that.getName());
-//
-//
-//    }
 
     @Override
     public int hashCode() {

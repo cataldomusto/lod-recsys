@@ -4,6 +4,13 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import di.uniba.it.lodrecsys.entity.*;
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.util.Version;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -208,7 +215,7 @@ public class Utils {
             writer = new BufferedWriter(new FileWriter(movieMappingFile, true));
             for (MovieMapping movie : movieList) {
                 String movieLine = movie.getItemID() + "\t" + movie.getName() + "\t" +
-                        movie.getDbpediaURI() + "\t" + movie.getYear() + "\t" + movie.getGenre();
+                        movie.getDbpediaURI() + "\t" + movie.getYear();
                 numPrinted++;
                 writer.write(movieLine);
                 writer.newLine();
@@ -229,33 +236,60 @@ public class Utils {
 
     }
 
-    protected static Map<Integer, String> generateGenreMap() {
-        Map<Integer, String> genreMap = new HashMap<>();
+//    protected static Map<Integer, String> generateGenreMap() {
+//        Map<Integer, String> genreMap = new HashMap<>();
+//
+//        genreMap.put(0, "unknown");
+//        genreMap.put(1, "Action");
+//        genreMap.put(2, "Adventure");
+//        genreMap.put(3, "Animation");
+//        genreMap.put(4, "Children\'s");
+//        genreMap.put(5, "Comedy");
+//        genreMap.put(6, "Crime");
+//        genreMap.put(7, "Documentary");
+//        genreMap.put(8, "Drama");
+//        genreMap.put(9, "Fantasy");
+//        genreMap.put(10, "Film-Noir");
+//        genreMap.put(11, "Horror");
+//        genreMap.put(12, "Musical");
+//        genreMap.put(13, "Mystery");
+//        genreMap.put(14, "Romance");
+//        genreMap.put(15, "Sci-Fi");
+//        genreMap.put(16, "Thriller");
+//        genreMap.put(17, "War");
+//        genreMap.put(18, "Western");
+//
+//
+//        return genreMap;
+//
+//    }
 
-        genreMap.put(0, "unknown");
-        genreMap.put(1, "Action");
-        genreMap.put(2, "Adventure");
-        genreMap.put(3, "Animation");
-        genreMap.put(4, "Children\'s");
-        genreMap.put(5, "Comedy");
-        genreMap.put(6, "Crime");
-        genreMap.put(7, "Documentary");
-        genreMap.put(8, "Drama");
-        genreMap.put(9, "Fantasy");
-        genreMap.put(10, "Film-Noir");
-        genreMap.put(11, "Horror");
-        genreMap.put(12, "Musical");
-        genreMap.put(13, "Mystery");
-        genreMap.put(14, "Romance");
-        genreMap.put(15, "Sci-Fi");
-        genreMap.put(16, "Thriller");
-        genreMap.put(17, "War");
-        genreMap.put(18, "Western");
+    public static Set<String> tokenizeString(String longString) {
+        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_47, CharArraySet.EMPTY_SET);
+        Set<String> stringTokens = new TreeSet<>();
 
+        try {
+            TokenStream stream = analyzer.tokenStream("first", longString);
+            stream.reset();
+            CharTermAttribute charTermAttribute = stream.addAttribute(CharTermAttribute.class);
 
-        return genreMap;
+            while (stream.incrementToken()) {
+                stringTokens.add(charTermAttribute.toString());
+            }
+
+            stream.end();
+            stream.close();
+
+            return stringTokens;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return stringTokens;
 
     }
+
 
     public static List<MovieMapping> getMovieTitles(String movieTitleFile) throws IOException {
         BufferedReader reader = null;
@@ -273,21 +307,11 @@ public class Utils {
                 // splitted[1] movieTitle
                 // splitted[2] movieDate
 
-                // gets only the Year
-                String[] movieGenreList = splittedParts[1].split("\\|");
-                String concatGenre = "";
-                Map<Integer, String> genreMap = Utils.generateGenreMap();
-
-                for(int i = 1; i < movieGenreList.length; i++) {
-                    if(movieGenreList[i].equals("1"))
-                        concatGenre += genreMap.get(i-1) + " ";
-
-                }
 
                 if (splitted.length == 3) {
                     String movieYear = splitted[2].substring(splitted[2].lastIndexOf("-")+1, splitted[2].length());
 
-                    mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], movieYear, concatGenre));
+                    mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], movieYear));
                 }
             }
 
@@ -305,6 +329,30 @@ public class Utils {
 
     }
 
+
+    public static List<MovieMapping> loadDBpediaMappingItems(String dbpediaItemsFile) throws IOException {
+        BufferedReader reader = null;
+        List<MovieMapping> mappings = new ArrayList<>();
+
+        try {
+            reader = new BufferedReader(new FileReader(dbpediaItemsFile));
+            while (reader.ready()) {
+                String[] currLineSplitted = reader.readLine().split("\t");
+
+                mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1], currLineSplitted[3]));
+            }
+
+            return mappings;
+
+        } catch (FileNotFoundException e) {
+            throw e;
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+
+
+    }
 
     public static List<RITriple> loadRatingByItem(File file, String itemId, boolean skipHeader) throws IOException {
         List<RITriple> list = new ArrayList<RITriple>();
