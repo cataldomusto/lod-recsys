@@ -1,16 +1,12 @@
-package di.uniba.it.lodrecsys.utils.sparql;
+package di.uniba.it.lodrecsys.utils.mapping;
 
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
-import jena.query;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -34,7 +30,7 @@ public class SPARQLClient {
 
         String resourceQuery = "<" + resource + ">";
         String propQuery = "<" + prop + ">";
-        // creation of a sparql query for getting all the resources connected to resource
+        // creation of a mapping query for getting all the resources connected to resource
         //the FILTER isIRI is used to get only resources, so this query descards any literal or data-type
 
         q = " SELECT * WHERE {{" + " ?s " + propQuery + " " + resourceQuery
@@ -56,7 +52,7 @@ public class SPARQLClient {
         String q;
 
         String resourceQuery = "<" + resource + ">";
-        // creation of a sparql query for getting all the resources connected to resource
+        // creation of a mapping query for getting all the resources connected to resource
         //the FILTER isIRI is used to get only resources, so this query descards any literal or data-type
 
         q = " SELECT * WHERE {{" + " ?s ?p " + resourceQuery

@@ -1,10 +1,8 @@
-package di.uniba.it.lodrecsys.utils.sparql;
+package di.uniba.it.lodrecsys.utils.mapping;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

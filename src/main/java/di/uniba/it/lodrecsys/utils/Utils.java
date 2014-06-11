@@ -236,33 +236,6 @@ public class Utils {
 
     }
 
-//    protected static Map<Integer, String> generateGenreMap() {
-//        Map<Integer, String> genreMap = new HashMap<>();
-//
-//        genreMap.put(0, "unknown");
-//        genreMap.put(1, "Action");
-//        genreMap.put(2, "Adventure");
-//        genreMap.put(3, "Animation");
-//        genreMap.put(4, "Children\'s");
-//        genreMap.put(5, "Comedy");
-//        genreMap.put(6, "Crime");
-//        genreMap.put(7, "Documentary");
-//        genreMap.put(8, "Drama");
-//        genreMap.put(9, "Fantasy");
-//        genreMap.put(10, "Film-Noir");
-//        genreMap.put(11, "Horror");
-//        genreMap.put(12, "Musical");
-//        genreMap.put(13, "Mystery");
-//        genreMap.put(14, "Romance");
-//        genreMap.put(15, "Sci-Fi");
-//        genreMap.put(16, "Thriller");
-//        genreMap.put(17, "War");
-//        genreMap.put(18, "Western");
-//
-//
-//        return genreMap;
-//
-//    }
 
     public static Set<String> tokenizeString(String longString) {
         Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_47, CharArraySet.EMPTY_SET);
@@ -351,6 +324,41 @@ public class Utils {
                 reader.close();
         }
 
+
+    }
+
+
+    public static Map<String, List<String>> loadRatingForEachItem(String ratingFileName) throws IOException {
+        BufferedReader reader = null;
+        Map<String, List<String>> ratingByItem = new HashMap<>();
+
+        try {
+            reader = new BufferedReader(new FileReader(ratingFileName));
+            while (reader.ready()) {
+                String[] currLineSplitted = reader.readLine().split("\t");
+                // currLineSplitted[0] user id
+                // currLineSplitted[1] item id
+                // currLineSplitted[2] rating
+                List<String> currUserList = null;
+                if (ratingByItem.containsKey(currLineSplitted[1])) {
+                    currUserList = ratingByItem.get(currLineSplitted[1]);
+                } else {
+                    currUserList = new ArrayList<>();
+                    ratingByItem.put(currLineSplitted[1], currUserList);
+                }
+
+                currUserList.add(currLineSplitted[0]);
+
+            }
+
+            return ratingByItem;
+
+        } catch (FileNotFoundException e) {
+            throw e;
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
 
     }
 
