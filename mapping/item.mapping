@@ -8,7 +8,7 @@
 8	Babe (1995)	http://dbpedia.org/resource/Babe_(film)	1995
 9	Dead Man Walking (1995)	http://dbpedia.org/resource/Dead_Man_Walking_(film)	1995
 10	Richard III (1995)	http://dbpedia.org/resource/Richard_III_(1995_film)	1996
-11	Seven (Se7en) (1995)	null	1995
+11	Seven (Se7en) (1995)	http://dbpedia.org/resource/Seven_%28film%29	1995
 12	Usual Suspects, The (1995)	http://dbpedia.org/resource/The_Usual_Suspects	1995
 13	Mighty Aphrodite (1995)	http://dbpedia.org/resource/Mighty_Aphrodite	1995
 14	Postino, Il (1994)	http://dbpedia.org/resource/Il_Postino:_The_Postman	1994
@@ -451,7 +451,7 @@
 452	Jaws 2 (1978)	http://dbpedia.org/resource/Jaws_2	1978
 453	Jaws 3-D (1983)	http://dbpedia.org/resource/Jaws_3-D	1983
 454	Bastard Out of Carolina (1996)	http://dbpedia.org/resource/Bastard_Out_of_Carolina_(film)	1996
-455	Jackie Chan's First Strike (1996)	null	1997
+455	Jackie Chan's First Strike (1996)	http://dbpedia.org/resource/Police_Story_4:_First_Strike	1997
 456	Beverly Hills Ninja (1997)	http://dbpedia.org/resource/Beverly_Hills_Ninja	1997
 457	Free Willy 3: The Rescue (1997)	http://dbpedia.org/resource/Free_Willy_3:_The_Rescue	1997
 458	Nixon (1995)	http://dbpedia.org/resource/Nixon_(film)	1995
@@ -1226,10 +1226,10 @@
 1227	Awfully Big Adventure, An (1995)	http://dbpedia.org/resource/An_Awfully_Big_Adventure	1995
 1228	Under Siege 2: Dark Territory (1995)	http://dbpedia.org/resource/Under_Siege_2:_Dark_Territory	1995
 1229	Poison Ivy II (1995)	http://dbpedia.org/resource/Poison_Ivy_II:_Lily	1995
-1230	Ready to Wear (Pret-A-Porter) (1994)	http://dbpedia.org/page/Pr%C3%AAt-%C3%A0-Porter_%28film%29	1994
+1230	Ready to Wear (Pret-A-Porter) (1994)	http://dbpedia.org/resource/Pr%C3%AAt-%C3%A0-Porter_%28film%29	1994
 1231	Marked for Death (1990)	http://dbpedia.org/resource/Marked_for_Death	1990
 1232	Madonna: Truth or Dare (1991)	http://dbpedia.org/resource/Madonna:_Truth_or_Dare	1991
-1233	N�nette et Boni (1996)	http://dbpedia.org/page/N%C3%A9nette_et_Boni	1996
+1233	N�nette et Boni (1996)	http://dbpedia.org/resource/N%C3%A9nette_et_Boni	1996
 1234	Chairman of the Board (1998)	http://dbpedia.org/resource/Chairman_of_the_Board_(film)	1998
 1235	Big Bang Theory, The (1994)	null	1994
 1236	Other Voices, Other Rooms (1997)	null	1997
@@ -1238,7 +1238,7 @@
 1239	Cutthroat Island (1995)	http://dbpedia.org/resource/Cutthroat_Island	1995
 1240	Ghost in the Shell (Kokaku kidotai) (1995)	http://dbpedia.org/resource/Ghost_in_the_Shell_(film)	1996
 1241	Van, The (1996)	http://dbpedia.org/resource/The_Van_(1977_film)	1997
-1242	Old Lady Who Walked in the Sea, The (Vieille qui marchait dans la mer, La) (1991)	http://dbpedia.org/page/The_Old_Lady_Who_Walked_in_the_Sea	1991
+1242	Old Lady Who Walked in the Sea, The (Vieille qui marchait dans la mer, La) (1991)	http://dbpedia.org/resource/The_Old_Lady_Who_Walked_in_the_Sea	1991
 1243	Night Flier (1997)	http://dbpedia.org/resource/The_Night_Flier_(film)	1998
 1244	Metro (1997)	http://dbpedia.org/resource/Metro_(1997_film)	1997
 1245	Gridlock'd (1997)	http://dbpedia.org/resource/Gridlock'd	1997
@@ -1314,7 +1314,7 @@
 1315	Inventing the Abbotts (1997)	http://dbpedia.org/resource/Inventing_the_Abbotts	1997
 1316	Horse Whisperer, The (1998)	http://dbpedia.org/resource/The_Horse_Whisperer_(film)	1997
 1317	Journey of August King, The (1995)	http://dbpedia.org/resource/The_Journey_of_August_King	1996
-1318	Catwalk (1995)	http://dbpedia.org/page/Catwalk_%281995_film%29	1996
+1318	Catwalk (1995)	http://dbpedia.org/resource/Catwalk_%281995_film%29	1996
 1319	Neon Bible, The (1995)	http://dbpedia.org/resource/The_Neon_Bible_(film)	1996
 1320	Homage (1995)	null	1996
 1321	Open Season (1996)	null	1996
@@ -1328,7 +1328,7 @@
 1329	Low Life, The (1994)	http://dbpedia.org/resource/The_Low_Life	1996
 1330	An Unforgettable Summer (1994)	http://dbpedia.org/resource/An_Unforgettable_Summer	1994
 1331	Last Klezmer: Leopold Kozlowski, His Life and Music, The (1995)	null	1995
-1332	My Life and Times With Antonin Artaud (En compagnie d'Antonin Artaud) (1993)	http://dbpedia.org/page/My_Life_and_Times_with_Antonin_Artaud	1993
+1332	My Life and Times With Antonin Artaud (En compagnie d'Antonin Artaud) (1993)	http://dbpedia.org/resource/My_Life_and_Times_with_Antonin_Artaud	1993
 1333	Midnight Dancers (Sibak) (1994)	http://dbpedia.org/resource/Sibak:_Midnight_Dancers	1994
 1334	Somebody to Love (1994)	null	1996
 1335	American Buffalo (1996)	http://dbpedia.org/resource/American_Buffalo_(film)	1996
@@ -1357,12 +1357,12 @@
 1358	The Deadly Cure (1996)	null	1996
 1359	Boys in Venice (1996)	null	1996
 1360	Sexual Life of the Belgians, The (1994)	null	1994
-1361	Search for One-eye Jimmy, The (1996)	http://dbpedia.org/page/The_Search_for_One-eye_Jimmy	1996
+1361	Search for One-eye Jimmy, The (1996)	http://dbpedia.org/resource/The_Search_for_One-eye_Jimmy	1996
 1362	American Strays (1996)	http://dbpedia.org/resource/American_Strays	1996
 1363	Leopard Son, The (1996)	http://dbpedia.org/resource/I_figli_del_leopardo	1996
-1364	Bird of Prey (1996)	http://dbpedia.org/page/Birds_of_Prey_%28film%29	1996
-1365	Johnny 100 Pesos (1993)	http://dbpedia.org/page/The_Search_for_One-eye_Jimmy	1993
-1366	JLG/JLG - autoportrait de d�cembre (1994)	http://dbpedia.org/page/JLG/JLG_%E2%80%93_Self-Portrait_in_December	1994
+1364	Bird of Prey (1996)	http://dbpedia.org/resource/Birds_of_Prey_%28film%29	1996
+1365	Johnny 100 Pesos (1993)	http://dbpedia.org/resource/The_Search_for_One-eye_Jimmy	1993
+1366	JLG/JLG - autoportrait de d�cembre (1994)	http://dbpedia.org/resource/JLG/JLG_%E2%80%93_Self-Portrait_in_December	1994
 1367	Faust (1994)	http://dbpedia.org/resource/Faust_(1994_film)	1994
 1368	Mina Tannenbaum (1994)	http://dbpedia.org/resource/Mina_Tannenbaum	1994
 1369	Forbidden Christ, The (Cristo proibito, Il) (1950)	http://dbpedia.org/resource/The_Forbidden_Christ	1950
@@ -1378,7 +1378,7 @@
 1379	Love and Other Catastrophes (1996)	http://dbpedia.org/resource/Love_and_Other_Catastrophes	1997
 1380	Hollow Reed (1996)	http://dbpedia.org/resource/Hollow_Reed	1997
 1381	Losing Chase (1996)	http://dbpedia.org/resource/Losing_Chase	1996
-1382	Bonheur, Le (1965)	http://dbpedia.org/page/Le_Bonheur_%281934_film%29	1997
+1382	Bonheur, Le (1965)	http://dbpedia.org/resource/Le_Bonheur_%281934_film%29	1997
 1383	Second Jungle Book: Mowgli & Baloo, The (1997)	http://dbpedia.org/resource/The_Second_Jungle_Book:_Mowgli_&_Baloo	1997
 1384	Squeeze (1996)	http://dbpedia.org/resource/The_Squeeze_%281977_film%29	1997
 1385	Roseanna's Grave (For Roseanna) (1997)	http://dbpedia.org/resource/Roseanna's_Grave	1997
@@ -1489,7 +1489,7 @@
 1490	Fausto (1993)	null	1993
 1491	Tough and Deadly (1995)	null	1995
 1492	Window to Paris (1994)	null	1994
-1493	Modern Affair, A (1995)	http://dbpedia.org/page/A_Modern_Affair	1996
+1493	Modern Affair, A (1995)	http://dbpedia.org/resource/A_Modern_Affair	1996
 1494	Mostro, Il (1994)	The_Monster_(1994_film)	1996
 1495	Flirt (1995)	http://dbpedia.org/resource/Flirt_(1995_film)	1996
 1496	Carpool (1996)	http://dbpedia.org/resource/Carpool_(film)	1996
@@ -1502,7 +1502,7 @@
 1503	Gold Diggers: The Secret of Bear Mountain (1995)	http://dbpedia.org/resource/Gold_Diggers:_The_Secret_of_Bear_Mountain	1995
 1504	Bewegte Mann, Der (1994)	http://dbpedia.org/resource/Der_bewegte_Mann	1996
 1505	Killer: A Journal of Murder (1995)	http://dbpedia.org/resource/Killer:_A_Journal_of_Murder	1996
-1506	Nelly & Monsieur Arnaud (1995)	http://dbpedia.org/page/Nelly_and_Mr._Arnaud	1996
+1506	Nelly & Monsieur Arnaud (1995)	http://dbpedia.org/resource/Nelly_and_Mr._Arnaud	1996
 1507	Three Lives and Only One Death (1996)	http://dbpedia.org/resource/Three_Lives_and_Only_One_Death	1996
 1508	Babysitter, The (1995)	http://dbpedia.org/resource/The_Babysitter	1995
 1509	Getting Even with Dad (1994)	http://dbpedia.org/resource/Getting_Even_with_Dad	1994

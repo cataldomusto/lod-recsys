@@ -76,25 +76,6 @@ public class SPARQLClient {
                 "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>\n" +
                 "PREFIX dbpprop: <http://dbpedia.org/property/>";
 
-        /*String templateQuery = includeNamespaces + "SELECT DISTINCT  ?movie (str(sample(?year)) AS ?movie_year) (str(?title) AS ?movie_title) (str(sample(?genre)) AS ?movie_genre)\n" +
-                "WHERE\n" +
-                "  { ?movie rdf:type dbpedia-owl:Film .\n" +
-                "    ?movie rdfs:label ?title\n" +
-                "    FILTER langMatches(lang(?title), \"en\")\n" +
-                "    ?movie dcterms:subject ?cat .\n" +
-                "    ?cat rdfs:label ?genre\n" +
-                "    OPTIONAL\n" +
-                "      { ?movie dbpprop:released ?rel_year }\n" +
-                "    OPTIONAL\n" +
-                "      { ?movie dbpedia-owl:releaseDate ?owl_year }\n" +
-                "    OPTIONAL\n" +
-                "      { ?movie dcterms:subject ?sub .\n" +
-                "        ?sub rdfs:label ?movie_year_sub\n" +
-                "        FILTER regex(?movie_year_sub, \".*[0-9]{4}.*\", \"i\")\n" +
-                "      }\n" +
-                "    BIND(coalesce(?owl_year, ?rel_year, ?movie_year_sub) AS ?year)\n" +
-                "  } GROUP BY ?movie ?year ?title ?genre LIMIT 2000 OFFSET %s";
-            */
         String templateQuery = includeNamespaces + "\n" +
                 "SELECT DISTINCT  ?movie (str(?title) AS ?movie_title) " +
                 "(str(?date_onto) AS ?movie_year) (str(sample(?rel_date)) AS ?date_sub)\n" +
@@ -139,7 +120,7 @@ public class SPARQLClient {
 
         }
 
-        Utils.serializeMappingList(mappings, dbpediaFilms);
+        //Utils.serializeMappingList(mappings, dbpediaFilms);
 
 
         System.out.println(currNum);
@@ -152,6 +133,47 @@ public class SPARQLClient {
 
         long cm = System.currentTimeMillis();
         while ((System.currentTimeMillis() - cm) < sec * 1000);
+
+    }
+
+    public Set<String> getURIProperties(String uri) {
+        Set<String> propertiesURI = new TreeSet<>();
+        String fixedURI = "<" + uri + ">", queryProp = "select distinct ?prop where {\n" +
+                fixedURI + " ?prop ?value\n" +
+                "}", proprVariable = "?prop";
+
+        currLogger.info(queryProp);
+        Query query = QueryFactory.create(queryProp);
+
+        QueryExecution qexec = null;
+        try {
+            if (graphURI == null)
+                qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+                //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
+            else
+                qexec = QueryExecutionFactory.sparqlService(endpoint, query,
+                        graphURI);
+
+            ResultSet resultSet = qexec.execSelect();
+            Set<MovieMapping> moviesList = new TreeSet<>();
+
+            QuerySolution currSolution;
+
+            while(resultSet.hasNext()) {
+                currSolution = resultSet.nextSolution();
+
+                propertiesURI.add(currSolution.getResource(proprVariable).toString());
+
+            }
+
+            myWait(30);
+
+            return propertiesURI;
+
+        } finally {
+            if (qexec != null)
+                qexec.close();
+        }
 
     }
 
@@ -190,11 +212,11 @@ public class SPARQLClient {
                 else
                     year = yearSub.toString();
 
-                MovieMapping map = new MovieMapping(null, currSolution.getResource(dbpediaResVar).getURI(),
-                        currSolution.getLiteral(movieTitleVar).toString(),
-                        year);
+//                MovieMapping map = new MovieMapping(null, currSolution.getResource(dbpediaResVar).getURI(),
+//                        currSolution.getLiteral(movieTitleVar).toString(),
+//                        year);
 
-                moviesList.add(map);
+                //moviesList.add(map);
 
             }
 

@@ -3,6 +3,8 @@ package di.uniba.it.lodrecsys.utils.mapping;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +20,15 @@ public class MovieMappingGenerator {
         String itemFile = "mapping/u.item",
                 dbpediaItemsFile = "mapping/item.dbpedia",
                 dbpediaMapping = "mapping/item.mapping";
-
-        //SPARQLClient client = new SPARQLClient();
-        List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile),
-                dbpediaList = Utils.loadDBpediaMappingItems(dbpediaItemsFile);
 //
-        List<MovieMapping> mapped = generateCompleteMapping(dbpediaList, movieListFromML);
-        Utils.serializeMappingList(mapped, dbpediaMapping);
+//        //SPARQLClient client = new SPARQLClient();
+//        List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile),
+//                dbpediaList = Utils.loadDBpediaMappingItems(dbpediaItemsFile);
+////
+//        List<MovieMapping> mapped = generateCompleteMapping(dbpediaList, movieListFromML);
+//        Utils.serializeMappingList(mapped, dbpediaMapping);
+
+
 
     }
 
