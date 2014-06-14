@@ -111,7 +111,6 @@ public class SPARQLClient {
     }
 
 
-
     public void movieQuery(String dbpediaFilms) throws IOException {
         String includeNamespaces = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -135,7 +134,7 @@ public class SPARQLClient {
                 "      }\n" +
                 "  }\n" +
                 "GROUP BY ?movie ?title ?date_onto ?rel_date limit 2000 offset %s";
-        
+
         int totalNumberOfFilms = 77794;
         int totNumQuery = 39;
         int offset = 0;
@@ -175,51 +174,9 @@ public class SPARQLClient {
         //wait
 
         long cm = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - cm) < sec * 1000);
+        while ((System.currentTimeMillis() - cm) < sec * 1000) ;
 
     }
-
-    public Set<String> getURIProperties(String uri) {
-        Set<String> propertiesURI = new TreeSet<>();
-        String fixedURI = "<" + uri + ">", queryProp = "select distinct ?prop where {\n" +
-                fixedURI + " ?prop ?value\n" +
-                "}", proprVariable = "?prop";
-
-        currLogger.info(queryProp);
-        Query query = QueryFactory.create(queryProp);
-
-        QueryExecution qexec = null;
-        try {
-            if (graphURI == null)
-                qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-                //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
-            else
-                qexec = QueryExecutionFactory.sparqlService(endpoint, query,
-                        graphURI);
-
-            ResultSet resultSet = qexec.execSelect();
-            Set<MovieMapping> moviesList = new TreeSet<>();
-
-            QuerySolution currSolution;
-
-            while(resultSet.hasNext()) {
-                currSolution = resultSet.nextSolution();
-
-                propertiesURI.add(currSolution.getResource(proprVariable).toString());
-
-            }
-
-            myWait(30);
-
-            return propertiesURI;
-
-        } finally {
-            if (qexec != null)
-                qexec.close();
-        }
-
-    }
-
 
     private Set<MovieMapping> getMovieMappingList(Query query) {
         String dbpediaResVar = "?movie", movieTitleVar = "?movie_title",
@@ -242,7 +199,7 @@ public class SPARQLClient {
 
             QuerySolution currSolution;
 
-            while(resultSet.hasNext()) {
+            while (resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
                 Literal yearOnto = currSolution.getLiteral(movieDateOnto), yearSub = currSolution.getLiteral(movieDateTerms);
                 String year;
@@ -272,6 +229,7 @@ public class SPARQLClient {
 
 
     }
+
     private void execQuery(Query query) {
 
         System.out.println("executing query : " + query.toString());
