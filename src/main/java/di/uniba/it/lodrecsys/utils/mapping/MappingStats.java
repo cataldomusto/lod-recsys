@@ -18,22 +18,6 @@ public class MappingStats {
         String ratingFile = "/home/asuglia/thesis/dataset/ml-100k/binarized/u%s.base",
                 mappingFile = "mapping/item.mapping";
         int totalNumberOfUser = 943;
-//        List<MovieMapping> mappedItems = Utils.loadDBpediaMappingItems(mappingFile);
-//        List<String> unmappedItemID = getUnmappedItems(mappedItems);
-//
-//        System.out.println("Unmapped items: " + unmappedItemID.size());
-//
-//        for (int i = 1; i <= 5; i++) {
-//            String ratingFileName = String.format(ratingFile, i + "");
-//            Map<String, List<String>> ratingByItem = Utils.loadRatingForEachItem(ratingFileName);
-//
-//            System.out.println("File: " + ratingFileName);
-//            System.out.println("Total number of ratings: " + getTotalNumberOfRatings(ratingByItem, unmappedItemID));
-//
-//            //calculateStatsForItem(ratingByItem, unmappedItemID, totalNumberOfUser);
-//            System.out.println();
-//        }
-
         List<String> mappedItems = Utils.getDBpediaEntities(mappingFile);
 
         Multiset<String> occurrences = countResourceFreq(mappedItems);
