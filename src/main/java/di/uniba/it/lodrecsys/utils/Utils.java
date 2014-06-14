@@ -264,7 +264,37 @@ public class Utils {
     }
 
 
-    public static List<MovieMapping> getMovieTitles(String movieTitleFile) throws IOException {
+    public static List<String> getDBpediaEntities(String dbpediaMappingFile) throws IOException {
+        BufferedReader reader = null;
+        List<String> mappedItemsList = new ArrayList<>();
+        try {
+            reader = new BufferedReader(new FileReader(dbpediaMappingFile));
+
+
+            while (reader.ready()) {
+                String[] splittedLine = reader.readLine().split("\t");
+
+                if (!splittedLine[2].equals("null"))
+                    mappedItemsList.add(splittedLine[2]);
+
+            }
+
+            return mappedItemsList;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (reader != null)
+                reader.close();
+
+        }
+
+
+    }
+
+
+    public static List<MovieMapping> getMovieList(String movieTitleFile) throws IOException {
         BufferedReader reader = null;
 
         try {

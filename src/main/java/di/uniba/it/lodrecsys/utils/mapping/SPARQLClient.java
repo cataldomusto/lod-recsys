@@ -69,6 +69,49 @@ public class SPARQLClient {
     }
 
 
+    public Set<String> getURIProperties(String uri) {
+        Set<String> propertiesURI = new TreeSet<>();
+        String fixedURI = "<" + uri + ">", queryProp = "select ?prop where {\n" +
+                fixedURI + " ?prop ?value\n" +
+                "}", proprVariable = "?prop";
+
+        currLogger.info(queryProp);
+        Query query = QueryFactory.create(queryProp);
+
+        QueryExecution qexec = null;
+        try {
+            if (graphURI == null)
+                qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+                //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
+            else
+                qexec = QueryExecutionFactory.sparqlService(endpoint, query,
+                        graphURI);
+
+            ResultSet resultSet = qexec.execSelect();
+            Set<MovieMapping> moviesList = new TreeSet<>();
+
+            QuerySolution currSolution;
+
+            while (resultSet.hasNext()) {
+                currSolution = resultSet.nextSolution();
+
+                propertiesURI.add(currSolution.getResource(proprVariable).toString());
+
+            }
+
+            myWait(30);
+
+            return propertiesURI;
+
+        } finally {
+            if (qexec != null)
+                qexec.close();
+        }
+
+    }
+
+
+
     public void movieQuery(String dbpediaFilms) throws IOException {
         String includeNamespaces = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +

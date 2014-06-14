@@ -1,5 +1,7 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Multiset;
 import com.sun.org.apache.xpath.internal.SourceTree;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.RITriple;
@@ -16,19 +18,47 @@ public class MappingStats {
         String ratingFile = "/home/asuglia/thesis/dataset/ml-100k/binarized/u%s.base",
                 mappingFile = "mapping/item.mapping";
         int totalNumberOfUser = 943;
-        List<MovieMapping> mappedItems = Utils.loadDBpediaMappingItems(mappingFile);
-        List<String> unmappedItemID = getUnmappedItems(mappedItems);
+//        List<MovieMapping> mappedItems = Utils.loadDBpediaMappingItems(mappingFile);
+//        List<String> unmappedItemID = getUnmappedItems(mappedItems);
+//
+//        System.out.println("Unmapped items: " + unmappedItemID.size());
+//
+//        for (int i = 1; i <= 5; i++) {
+//            String ratingFileName = String.format(ratingFile, i + "");
+//            Map<String, List<String>> ratingByItem = Utils.loadRatingForEachItem(ratingFileName);
+//
+//            System.out.println("File: " + ratingFileName);
+//            System.out.println("Total number of ratings: " + getTotalNumberOfRatings(ratingByItem, unmappedItemID));
+//
+//            //calculateStatsForItem(ratingByItem, unmappedItemID, totalNumberOfUser);
+//            System.out.println();
+//        }
 
-        System.out.println("Unmapped items: " + unmappedItemID.size());
+        List<String> mappedItems = Utils.getDBpediaEntities(mappingFile);
 
-        for (int i = 1; i <= 5; i++) {
-            String ratingFileName = String.format(ratingFile, i + "");
-            Map<String, List<String>> ratingByItem = Utils.loadRatingForEachItem(ratingFileName);
+        Multiset<String> occurrences = countResourceFreq(mappedItems);
 
-            System.out.println("File: " + ratingFileName);
-            calculateStatsForItem(ratingByItem, unmappedItemID, totalNumberOfUser);
-            System.out.println();
+        for (String uri : occurrences.elementSet()) {
+            System.out.println("DBPEDIA PROP: " + uri + " FREQ: " + occurrences.count(uri));
+
         }
+
+    }
+
+
+    private static Multiset<String> countResourceFreq(List<String> mappedURI) {
+        Multiset<String> resourceCounter = HashMultiset.create();
+
+        SPARQLClient sparqlClient = new SPARQLClient();
+
+        for (String uri : mappedURI) {
+            Set<String> distinctProp = sparqlClient.getURIProperties(uri);
+            for (String prop : distinctProp)
+                resourceCounter.add(prop);
+
+        }
+
+        return resourceCounter;
     }
 
     private static List<String> getUnmappedItems(List<MovieMapping> mappings) {
@@ -41,6 +71,17 @@ public class MappingStats {
         }
 
         return unmapped;
+
+    }
+
+    private static int getTotalNumberOfRatings(Map<String, List<String>> ratingsByItem, List<String> unmappedItems) {
+        int total = 0;
+        for (String item : unmappedItems) {
+            List<String> userList = ratingsByItem.get(item);
+            total += userList != null ? userList.size() : 0;
+        }
+
+        return total;
 
     }
 

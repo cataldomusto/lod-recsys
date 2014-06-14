@@ -3,9 +3,12 @@ package di.uniba.it.lodrecsys.utils.mapping;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -20,11 +23,14 @@ public class MovieMappingGenerator {
                 dbpediaMapping = "mapping/item.mapping";
 
         //SPARQLClient client = new SPARQLClient();
-        List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile),
-                dbpediaList = Utils.loadDBpediaMappingItems(dbpediaItemsFile);
+        // List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile),
+        //       dbpediaList = Utils.loadDBpediaMappingItems(dbpediaItemsFile);
 //
-        List<MovieMapping> mapped = generateCompleteMapping(dbpediaList, movieListFromML);
-        Utils.serializeMappingList(mapped, dbpediaMapping);
+        //List<MovieMapping> mapped = generateCompleteMapping(dbpediaList, movieListFromML);
+        //Utils.serializeMappingList(mapped, dbpediaMapping);
+
+        List<MovieMapping> unmappedItems = loadUnmappedItems(dbpediaMapping);
+        Utils.serializeMappingList(unmappedItems, "mapping/unmapped_items.txt");
 
     }
 
@@ -48,6 +54,36 @@ public class MovieMappingGenerator {
         }
 
         return mapped;
+    }
+
+
+    private static List<MovieMapping> loadUnmappedItems(String dbpediaMapping) throws IOException {
+        BufferedReader reader = null;
+        List<MovieMapping> unmapped = new ArrayList<>();
+
+
+        try {
+
+            reader = new BufferedReader(new FileReader(dbpediaMapping));
+
+            while (reader.ready()) {
+                String[] currLineSplitted = reader.readLine().split("\t");
+                if (currLineSplitted[2].equals("null"))
+                    unmapped.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1], currLineSplitted[3]));
+
+            }
+
+            return unmapped;
+
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+
+
+
     }
 
 }
