@@ -5,6 +5,7 @@ import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
+import org.apache.jena.atlas.web.HttpException;
 
 import java.io.IOException;
 import java.util.Set;
@@ -87,20 +88,31 @@ public class SPARQLClient {
                 qexec = QueryExecutionFactory.sparqlService(endpoint, query,
                         graphURI);
 
-            ResultSet resultSet = qexec.execSelect();
-            Set<MovieMapping> moviesList = new TreeSet<>();
+            boolean doneIt = false;
 
-            QuerySolution currSolution;
+            while (!doneIt) {
+                try {
 
-            while (resultSet.hasNext()) {
-                currSolution = resultSet.nextSolution();
+                    ResultSet resultSet = qexec.execSelect();
 
-                propertiesURI.add(currSolution.getResource(proprVariable).toString());
+                    QuerySolution currSolution;
 
+                    while (resultSet.hasNext()) {
+                        currSolution = resultSet.nextSolution();
+
+                        propertiesURI.add(currSolution.getResource(proprVariable).toString());
+
+                    }
+
+                    myWait(30);
+                    doneIt = true;
+                } catch (Exception ex) {
+
+                    myWait(30);
+                    doneIt = false;
+
+                }
             }
-
-            myWait(30);
-
             return propertiesURI;
 
         } finally {
