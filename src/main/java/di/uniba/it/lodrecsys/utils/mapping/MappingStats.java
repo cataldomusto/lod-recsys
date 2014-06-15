@@ -18,6 +18,7 @@ public class MappingStats {
         String ratingFile = "/home/asuglia/thesis/dataset/ml-100k/binarized/u%s.base",
                 mappingFile = "mapping/item.mapping";
         int totalNumberOfUser = 943;
+
         List<String> mappedItems = Utils.getDBpediaEntities(mappingFile);
 
         Multiset<String> occurrences = countResourceFreq(mappedItems);
@@ -26,7 +27,6 @@ public class MappingStats {
             System.out.println("DBPEDIA PROP: " + uri + " FREQ: " + occurrences.count(uri));
 
         }
-
     }
 
 

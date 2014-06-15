@@ -110,6 +110,7 @@ public class SPARQLClient {
 
                     myWait(30);
                     doneIt = false;
+                    propertiesURI.clear();
 
                 }
             }
