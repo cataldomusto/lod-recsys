@@ -81,19 +81,23 @@ public class SPARQLClient {
 
         QueryExecution qexec = null;
         try {
-            if (graphURI == null)
-                qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-                //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
-            else
-                qexec = QueryExecutionFactory.sparqlService(endpoint, query,
-                        graphURI);
+
 
             boolean doneIt = false;
 
             while (!doneIt) {
+
                 try {
+                    if (graphURI == null)
+                        qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+                        //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
+                    else
+                        qexec = QueryExecutionFactory.sparqlService(endpoint, query,
+                                graphURI);
 
                     ResultSet resultSet = qexec.execSelect();
+
+                    currLogger.info("Executed query!");
 
                     QuerySolution currSolution;
 
@@ -108,9 +112,11 @@ public class SPARQLClient {
                     doneIt = true;
                 } catch (Exception ex) {
 
-                    myWait(30);
                     doneIt = false;
+                    currLogger.fine("Try again...");
                     propertiesURI.clear();
+                    myWait(30);
+
 
                 }
             }
