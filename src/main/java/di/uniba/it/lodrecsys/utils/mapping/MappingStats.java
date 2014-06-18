@@ -19,6 +19,15 @@ public class MappingStats {
                 mappingFile = "mapping/item.mapping";
         int totalNumberOfUser = 943;
 
+        List<MovieMapping> allItems = Utils.loadDBpediaMappingItems(mappingFile);
+        List<MovieMapping> unmappedItems = getUnmappedItems(allItems);
+
+        for (MovieMapping movie : unmappedItems)
+            System.out.println(movie);
+    }
+
+    private static void printResourceFreq(String mappingFile) throws IOException {
+
         List<String> mappedItems = Utils.getDBpediaEntities(mappingFile);
 
         Multiset<String> occurrences = countResourceFreq(mappedItems);
@@ -45,11 +54,11 @@ public class MappingStats {
         return resourceCounter;
     }
 
-    private static List<String> getUnmappedItems(List<MovieMapping> mappings) {
-        List<String> unmapped = new ArrayList<>();
+    private static List<MovieMapping> getUnmappedItems(List<MovieMapping> mappings) {
+        List<MovieMapping> unmapped = new ArrayList<>();
         for (MovieMapping item : mappings) {
             if (item.getDbpediaURI().equals("null")) {
-                unmapped.add(item.getItemID());
+                unmapped.add(item);
             }
 
         }
