@@ -34,7 +34,8 @@ public class GraphRunner {
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
                 resPath = "/home/asuglia/thesis/dataset/ml-100k/results";
 
-        String[] graphMethods = new String[]{"UserItemGraph", "UserItemPriorGraph"};//new String[]{"UserItemGraph", "UserItemTAGME", "UserItemLOD", "UserItemTL"};
+        String[] graphMethods = new String[]{"UserItemGraph", "UserItemPriorGraph"};
+        //new String[]{"UserItemGraph", "UserItemTAGME", "UserItemLOD", "UserItemTL"};
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
         //String method = graphMethods[0];
         //int numRec = 5;
@@ -42,7 +43,9 @@ public class GraphRunner {
         int numberOfSplit = 5;
         double massProb = 0.8;
 
-        for (String method : graphMethods) {
+        //for (String method : graphMethods) {
+        String method = "UserItemPriorGraph";
+
             for (SparsityLevel level : SparsityLevel.values()) {
                 for (int numRec : listRecSizes) {
                     //for each split (from 1 to 5)
@@ -62,11 +65,12 @@ public class GraphRunner {
                         RecGraph userItemGraph = null;
                         RequestStruct requestStruct = null;
 
-                        userItemGraph = new UserItemGraph(trainFile, testFile);
 
                         if (method.equals("UserItemGraph")) {
+                            userItemGraph = new UserItemGraph(trainFile, testFile);
                             requestStruct = RequestStructFactory.create(method, numRec);
                         } else {
+                            userItemGraph = new UserItemPriorGraph(trainFile, testFile);
                             requestStruct = RequestStructFactory.create(method, numRec, massProb);
                         }
 
@@ -86,7 +90,7 @@ public class GraphRunner {
             }
 
 
-        }
+        //}
     }
 
 
