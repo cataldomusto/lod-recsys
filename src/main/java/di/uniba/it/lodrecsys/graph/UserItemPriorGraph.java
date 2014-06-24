@@ -89,7 +89,7 @@ public class UserItemPriorGraph extends RecGraph {
         Set<Rating> recommendation = new TreeSet<>();
 
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb);
-        //UserVertexTransformer transformer = new UserVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, userID);
+
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
