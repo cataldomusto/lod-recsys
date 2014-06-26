@@ -332,6 +332,31 @@ public class Utils {
 
     }
 
+    public static List<MovieMapping> loadDBpediaMappedItems(String dbpediaItemsFile) throws IOException {
+        BufferedReader reader = null;
+        List<MovieMapping> mappings = new ArrayList<>();
+
+        try {
+            reader = new BufferedReader(new FileReader(dbpediaItemsFile));
+            while (reader.ready()) {
+                String[] currLineSplitted = reader.readLine().split("\t");
+
+                if (!currLineSplitted[2].equals("null"))
+                    mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1], currLineSplitted[3]));
+            }
+
+            return mappings;
+
+        } catch (FileNotFoundException e) {
+            throw e;
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+
+
+    }
+
 
     public static List<MovieMapping> loadDBpediaMappingItems(String dbpediaItemsFile) throws IOException {
         BufferedReader reader = null;

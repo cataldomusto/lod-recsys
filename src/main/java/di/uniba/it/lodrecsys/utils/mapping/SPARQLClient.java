@@ -15,10 +15,8 @@ import java.util.logging.Logger;
  * Created by asuglia on 5/27/14.
  */
 public class SPARQLClient {
-    private String resource;
-    String property;
-    private String endpoint = "http://dbpedia.org/sparql";
-    private String newEndpoint = "http://live.dbpedia.org/sparql";
+    private String endpoint = "http://193.204.187.35:8890/sparql";
+    private String dbpediaEndpoint = "http://live.dbpedia.org/sparql";
     private String graphURI = "http://dbpedia.org";
     private static Logger currLogger = Logger.getLogger(SPARQLClient.class.getName());
 
@@ -26,22 +24,21 @@ public class SPARQLClient {
         String formattedProperties = "";
 
         for (String prop : specificProp)
-            formattedProperties += prop + " ";
+            formattedProperties += "<" + prop + ">\n";
 
         return formattedProperties;
 
     }
 
 
-    public Map<String, String> getURIProperties(String uri, Collection<String> specificProp) {
-        Map<String, String> propertiesURI = new HashMap<>();
+    public void saveResourceProperties(String resourceURI, Collection<String> specificProp, PropertiesManager propManager) {
+
         String proprVariable = "?prop",
                 valueVariable = "?value",
-                fixedURI = "<" + uri + ">",
-                queryProp = "select " + proprVariable + " where {\n" +
+                fixedURI = "<" + resourceURI + ">",
+                queryProp = "select " + proprVariable + " " + valueVariable + " where {\n" +
                         fixedURI + " " + proprVariable + " " + valueVariable +
-                        "values " + proprVariable + "{" +
-                        formatPropertiesList(specificProp) + "} \n" +
+                        " values " + proprVariable + "{" + formatPropertiesList(specificProp) + "} \n" +
                         "}";
 
         currLogger.info(queryProp);
@@ -49,46 +46,22 @@ public class SPARQLClient {
 
         QueryExecution qexec = null;
         try {
+            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
 
+            ResultSet resultSet = qexec.execSelect();
 
-            boolean doneIt = false;
+            currLogger.info("Executed query!");
 
-            while (!doneIt) {
+            QuerySolution currSolution;
 
-                try {
-                    if (graphURI == null)
-                        qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-                        //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
-                    else
-                        qexec = QueryExecutionFactory.sparqlService(endpoint, query,
-                                graphURI);
+            while (resultSet.hasNext()) {
+                currSolution = resultSet.nextSolution();
 
-                    ResultSet resultSet = qexec.execSelect();
-
-                    currLogger.info("Executed query!");
-
-                    QuerySolution currSolution;
-
-                    while (resultSet.hasNext()) {
-                        currSolution = resultSet.nextSolution();
-
-                        propertiesURI.put(currSolution.getResource(proprVariable).toString(), currSolution.getLiteral(valueVariable).toString());
-
-                    }
-
-                    myWait(30);
-                    doneIt = true;
-                } catch (Exception ex) {
-
-                    doneIt = false;
-                    currLogger.fine("Try again...");
-                    propertiesURI.clear();
-                    myWait(30);
+                propManager.addSolution(currSolution, resourceURI);
 
 
                 }
-            }
-            return propertiesURI;
+
 
         } finally {
             if (qexec != null)

@@ -22,15 +22,12 @@ public class MovieMappingGenerator {
                 dbpediaItemsFile = "mapping/item.dbpedia",
                 dbpediaMapping = "mapping/item.mapping";
 
-        //SPARQLClient client = new SPARQLClient();
-        // List<MovieMapping> movieListFromML = Utils.getMovieTitles(itemFile),
-        //       dbpediaList = Utils.loadDBpediaMappingItems(dbpediaItemsFile);
-//
-        //List<MovieMapping> mapped = generateCompleteMapping(dbpediaList, movieListFromML);
-        //Utils.serializeMappingList(mapped, dbpediaMapping);
+        SPARQLClient client = new SPARQLClient();
+        List<MovieMapping> movieListFromML = Utils.getMovieList(itemFile),
+                dbpediaList = Utils.loadDBpediaMappingItems(dbpediaItemsFile);
 
-        List<MovieMapping> unmappedItems = loadUnmappedItems(dbpediaMapping);
-        Utils.serializeMappingList(unmappedItems, "mapping/unmapped_items.txt");
+        List<MovieMapping> mapped = generateCompleteMapping(dbpediaList, movieListFromML);
+
 
     }
 
