@@ -16,11 +16,16 @@ public class PropertiesManager {
     private boolean isWriteMode;
 
 
-    public PropertiesManager(String dirName, boolean isWriter) {
+    public PropertiesManager(String dirName) {
         tupleDataset = TDBFactory.createDataset();
         datasetModel = tupleDataset.getDefaultModel();
-        isWriteMode = isWriter;
-        tupleDataset.begin(isWriter ? ReadWrite.WRITE : ReadWrite.READ);
+
+    }
+
+    public void start(boolean isWriteMode) {
+        isWriteMode = isWriteMode;
+        tupleDataset.begin(isWriteMode ? ReadWrite.WRITE : ReadWrite.READ);
+
     }
 
     public void addSolution(QuerySolution currSolution, String subjectURI) {

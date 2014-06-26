@@ -54,13 +54,18 @@ public class SPARQLClient {
 
             QuerySolution currSolution;
 
+            propManager.start(true);
+
             while (resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
 
                 propManager.addSolution(currSolution, resourceURI);
 
 
-                }
+            }
+
+            propManager.commitChanges();
+            propManager.closeManager();
 
 
         } finally {

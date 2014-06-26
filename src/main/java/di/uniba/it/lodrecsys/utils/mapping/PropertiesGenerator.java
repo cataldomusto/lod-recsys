@@ -20,7 +20,7 @@ public class PropertiesGenerator {
                 propertiesDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
                 dbpediaMapping = "mapping/item.mapping";
 
-        PropertiesManager manager = new PropertiesManager(propertiesDir, true);
+        PropertiesManager manager = new PropertiesManager(propertiesDir);
 
         Collection<String> choosenPropList = loadPropertiesURI(choosenProp);
 
@@ -31,9 +31,6 @@ public class PropertiesGenerator {
 
         for (MovieMapping mappedItem : mappedItems) {
             sparql.saveResourceProperties(mappedItem.getDbpediaURI(), choosenPropList, manager);
-            manager.commitChanges();
-            manager.closeManager();
-            manager.restart();
 
             i++;
 
@@ -44,7 +41,6 @@ public class PropertiesGenerator {
         }
 
 
-        manager.closeManager();
 
 
     }
