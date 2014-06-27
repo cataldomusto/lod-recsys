@@ -119,7 +119,7 @@ public class SPARQLClient {
                         fixedURI + " " + proprVariable + " " + valueVariable +
                         " values " + proprVariable + "{" + formatPropertiesList(specificProp) + "} \n" +
                         "}";
-        FileWriter writer = new FileWriter(new File("/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop/prop.txt"), true);
+        //FileWriter writer = new FileWriter(new File("/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop/prop.txt"), true);
         currLogger.info(queryProp);
         Query query = QueryFactory.create(queryProp);
 
@@ -133,19 +133,16 @@ public class SPARQLClient {
 
             QuerySolution currSolution;
 
-            //propManager.start(true);
 
             while (resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
-                writer.write(resourceURI + "\t" + currSolution.getResource(proprVariable).toString() +
-                        "\t" + currSolution.get(valueVariable).toString() + "\n");
+//                writer.write(resourceURI + "\t" + currSolution.getResource(proprVariable).toString() +
+//                        "\t" + currSolution.get(valueVariable).toString() + "\n");
 
-                // propManager.addSolution(currSolution, resourceURI);
+                propManager.addSolution(currSolution, resourceURI);
 
 
             }
-
-            //propManager.commitChanges();
 
 
         } finally {
@@ -153,8 +150,8 @@ public class SPARQLClient {
             if (qexec != null)
                 qexec.close();
 
-            writer.close();
-            //propManager.closeManager();
+            // writer.close();
+
         }
 
 

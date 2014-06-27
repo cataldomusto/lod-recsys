@@ -17,7 +17,7 @@ public class PropertiesManager {
 
 
     public PropertiesManager(String dirName) {
-        tupleDataset = TDBFactory.createDataset();
+        tupleDataset = TDBFactory.createDataset(dirName);
         datasetModel = tupleDataset.getDefaultModel();
 
     }
@@ -25,6 +25,7 @@ public class PropertiesManager {
     public void start(boolean isWriteMode) {
         this.isWriteMode = isWriteMode;
         tupleDataset.begin(isWriteMode ? ReadWrite.WRITE : ReadWrite.READ);
+        datasetModel = tupleDataset.getDefaultModel();
 
     }
 
@@ -35,6 +36,7 @@ public class PropertiesManager {
             Property prop = datasetModel.createProperty(currSolution.getResource("?prop").toString());
             Statement stat = datasetModel.createStatement(currResource, prop, currSolution.get("?value").toString());
             datasetModel.add(stat);
+
         }
     }
 

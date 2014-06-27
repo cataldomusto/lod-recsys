@@ -28,20 +28,27 @@ public class PropertiesGenerator {
 
         List<MovieMapping> mappedItems = Utils.loadDBpediaMappedItems(dbpediaMapping);
 
+
         int i = 0;
 
         for (MovieMapping mappedItem : mappedItems) {
-            sparql.saveResourceProperties(mappedItem.getDbpediaURI(), choosenPropList, manager);
+            try {
+                manager.start(true);
+                sparql.saveResourceProperties(mappedItem.getDbpediaURI(), choosenPropList, manager);
 
-            i++;
+                i++;
 
-            if (i % 50 == 0) {
-                myWait(30);
+                manager.commitChanges();
+                if (i % 50 == 0) {
+                    myWait(30);
+                }
+            } finally {
+
+                manager.closeManager();
             }
 
+
         }
-
-
 
 
     }
