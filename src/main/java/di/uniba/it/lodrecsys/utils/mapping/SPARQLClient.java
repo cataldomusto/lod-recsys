@@ -7,6 +7,8 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 import org.apache.jena.atlas.web.HttpException;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -20,6 +22,11 @@ public class SPARQLClient {
     private String graphURI = "http://dbpedia.org";
     private static Logger currLogger = Logger.getLogger(SPARQLClient.class.getName());
 
+    private static final String PREDICATE_WIKIPAGE = "<http://xmlns.com/foaf/0.1/isPrimaryTopicOf>";
+
+    private static final String PREDICATE_ABSTRACT = "<http://dbpedia.org/ontology/abstract>";
+
+
     private String formatPropertiesList(Collection<String> specificProp) {
         String formattedProperties = "";
 
@@ -30,8 +37,80 @@ public class SPARQLClient {
 
     }
 
+    public String getWikipediaURI(String resourceURI) {
 
-    public void saveResourceProperties(String resourceURI, Collection<String> specificProp, PropertiesManager propManager) {
+        String uriVar = "?uri", wikiURIQuery = "select * where {" +
+                "<" + resourceURI + "> " + PREDICATE_WIKIPAGE + " " + uriVar + "}";
+
+        currLogger.info(wikiURIQuery);
+        Query query = QueryFactory.create(wikiURIQuery);
+
+        QueryExecution qexec = null;
+
+        String wikiURI = null;
+
+        try {
+            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+
+            ResultSet resultSet = qexec.execSelect();
+
+            currLogger.info("Executed query!");
+
+            QuerySolution currSolution;
+
+            while (resultSet.hasNext()) {
+                currSolution = resultSet.nextSolution();
+                wikiURI = currSolution.getResource(uriVar).toString();
+            }
+
+        } finally {
+
+            if (qexec != null)
+                qexec.close();
+        }
+
+
+        return wikiURI;
+    }
+
+    public String getResourceAbstract(String resourceURI) {
+
+        String uriVar = "?uri", abstractQuery = "select * where {" +
+                "<" + resourceURI + "> " + PREDICATE_ABSTRACT + " " + uriVar + "}";
+
+        currLogger.info(abstractQuery);
+        Query query = QueryFactory.create(abstractQuery);
+
+        QueryExecution qexec = null;
+
+        String wikiURI = null;
+
+        try {
+            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+
+            ResultSet resultSet = qexec.execSelect();
+
+            currLogger.info("Executed query!");
+
+            QuerySolution currSolution;
+
+            while (resultSet.hasNext()) {
+                currSolution = resultSet.nextSolution();
+                wikiURI = currSolution.getResource(uriVar).toString();
+            }
+
+        } finally {
+
+            if (qexec != null)
+                qexec.close();
+        }
+
+
+        return wikiURI;
+
+    }
+
+    public void saveResourceProperties(String resourceURI, Collection<String> specificProp, PropertiesManager propManager) throws Exception {
 
         String proprVariable = "?prop",
                 valueVariable = "?value",
@@ -40,7 +119,7 @@ public class SPARQLClient {
                         fixedURI + " " + proprVariable + " " + valueVariable +
                         " values " + proprVariable + "{" + formatPropertiesList(specificProp) + "} \n" +
                         "}";
-
+        FileWriter writer = new FileWriter(new File("/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop/prop.txt"), true);
         currLogger.info(queryProp);
         Query query = QueryFactory.create(queryProp);
 
@@ -54,23 +133,28 @@ public class SPARQLClient {
 
             QuerySolution currSolution;
 
-            propManager.start(true);
+            //propManager.start(true);
 
             while (resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
+                writer.write(resourceURI + "\t" + currSolution.getResource(proprVariable).toString() +
+                        "\t" + currSolution.get(valueVariable).toString() + "\n");
 
-                propManager.addSolution(currSolution, resourceURI);
+                // propManager.addSolution(currSolution, resourceURI);
 
 
             }
 
-            propManager.commitChanges();
-            propManager.closeManager();
+            //propManager.commitChanges();
 
 
         } finally {
+
             if (qexec != null)
                 qexec.close();
+
+            writer.close();
+            //propManager.closeManager();
         }
 
 

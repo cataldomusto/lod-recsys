@@ -27,6 +27,7 @@ public class PropertiesGenerator {
         SPARQLClient sparql = new SPARQLClient();
 
         List<MovieMapping> mappedItems = Utils.loadDBpediaMappedItems(dbpediaMapping);
+
         int i = 0;
 
         for (MovieMapping mappedItem : mappedItems) {
@@ -35,7 +36,7 @@ public class PropertiesGenerator {
             i++;
 
             if (i % 50 == 0) {
-                myWait(20);
+                myWait(30);
             }
 
         }

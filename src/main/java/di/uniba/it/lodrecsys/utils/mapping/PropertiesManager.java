@@ -23,7 +23,7 @@ public class PropertiesManager {
     }
 
     public void start(boolean isWriteMode) {
-        isWriteMode = isWriteMode;
+        this.isWriteMode = isWriteMode;
         tupleDataset.begin(isWriteMode ? ReadWrite.WRITE : ReadWrite.READ);
 
     }
