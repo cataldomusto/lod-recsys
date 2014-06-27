@@ -110,7 +110,7 @@ public class SPARQLClient {
 
     }
 
-    public void saveResourceProperties(String resourceURI, Collection<String> specificProp, PropertiesManager propManager) throws Exception {
+    public void saveResourceProperties(String resourceURI, Collection<String> specificProp, PropertiesManager propManager) {
 
         String proprVariable = "?prop",
                 valueVariable = "?value",
@@ -119,7 +119,6 @@ public class SPARQLClient {
                         fixedURI + " " + proprVariable + " " + valueVariable +
                         " values " + proprVariable + "{" + formatPropertiesList(specificProp) + "} \n" +
                         "}";
-        //FileWriter writer = new FileWriter(new File("/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop/prop.txt"), true);
         currLogger.info(queryProp);
         Query query = QueryFactory.create(queryProp);
 
@@ -136,9 +135,6 @@ public class SPARQLClient {
 
             while (resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
-//                writer.write(resourceURI + "\t" + currSolution.getResource(proprVariable).toString() +
-//                        "\t" + currSolution.get(valueVariable).toString() + "\n");
-
                 propManager.addSolution(currSolution, resourceURI);
 
 
