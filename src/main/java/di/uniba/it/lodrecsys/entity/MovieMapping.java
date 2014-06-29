@@ -96,7 +96,10 @@ public class MovieMapping extends MappingEntity implements Comparable<MovieMappi
         if (jaccard > 0.9) {
 
             if (numberOnly.matcher(map.getYear()).matches()) {
-                return this.year.equals(map.getYear());
+                double distanceYear =
+                        distanceMetric.getDistance(this.year, map.getYear());
+
+                return distanceYear > 0.9;
             } else {
                 Matcher matcher = numbers.matcher(map.getYear());
                 if (matcher.find()) {
