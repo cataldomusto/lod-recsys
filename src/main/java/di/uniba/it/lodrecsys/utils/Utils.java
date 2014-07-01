@@ -332,6 +332,14 @@ public class Utils {
 
     }
 
+
+    /**
+     * Loads only really mapped DBpedia resources
+     *
+     * @param dbpediaItemsFile
+     * @return
+     * @throws IOException
+     */
     public static List<MovieMapping> loadDBpediaMappedItems(String dbpediaItemsFile) throws IOException {
         BufferedReader reader = null;
         List<MovieMapping> mappings = new ArrayList<>();
@@ -358,6 +366,12 @@ public class Utils {
     }
 
 
+    /**
+     * Loads all the item to be mapped
+     * @param dbpediaItemsFile
+     * @return
+     * @throws IOException
+     */
     public static List<MovieMapping> loadDBpediaMappingItems(String dbpediaItemsFile) throws IOException {
         BufferedReader reader = null;
         List<MovieMapping> mappings = new ArrayList<>();

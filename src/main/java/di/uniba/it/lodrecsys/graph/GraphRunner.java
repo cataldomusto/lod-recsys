@@ -1,6 +1,8 @@
 package di.uniba.it.lodrecsys.graph;
 
 import com.google.common.collect.ArrayListMultimap;
+import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
@@ -32,9 +34,12 @@ public class GraphRunner {
         String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
                 testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
-                resPath = "/home/asuglia/thesis/dataset/ml-100k/results";
+                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                mappedItemFile = "mapping/item.mapping";
 
         String[] graphMethods = new String[]{"UserItemGraph", "UserItemPriorGraph"};
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
         //new String[]{"UserItemGraph", "UserItemTAGME", "UserItemLOD", "UserItemTL"};
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
         //String method = graphMethods[0];
@@ -43,8 +48,9 @@ public class GraphRunner {
         int numberOfSplit = 5;
         double massProb = 0.8;
 
+
         //for (String method : graphMethods) {
-        String method = "UserItemPriorGraph";
+        String method = "UserItemProperty"; //"UserItemPriorGraph";
 
             for (SparsityLevel level : SparsityLevel.values()) {
                 for (int numRec : listRecSizes) {
@@ -60,19 +66,9 @@ public class GraphRunner {
                                 resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
                                         "top_" + numRec + File.separator + "u" + i + ".results";
 
-
-                        // Now transform the results file in the TrecEval format for evaluation
-                        RecGraph userItemGraph = null;
-                        RequestStruct requestStruct = null;
-
-
-                        if (method.equals("UserItemGraph")) {
-                            userItemGraph = new UserItemGraph(trainFile, testFile);
-                            requestStruct = RequestStructFactory.create(method, numRec);
-                        } else {
-                            userItemGraph = new UserItemPriorGraph(trainFile, testFile);
-                            requestStruct = RequestStructFactory.create(method, numRec, massProb);
-                        }
+                        Pair<RecGraph, RequestStruct> pair = GraphFactory.create(method, trainFile, testFile, numRec, massProb, propertyIndexDir, mappingList);
+                        RecGraph userItemGraph = pair.key;
+                        RequestStruct requestStruct = pair.value;
 
                         userItemGraph.runPageRank(resFile, requestStruct);
 
