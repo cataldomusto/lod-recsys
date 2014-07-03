@@ -37,6 +37,52 @@ public class SPARQLClient {
 
     }
 
+    public void downloadFirstLevelRelation(String resource, Collection<String> expProperties, PropertiesManager propManager) {
+        String expPropVar = "?exp_prop", expPropValueVar = "?exp_prop_value",
+                itemVar = "?item", formattedResource = "<" + resource + ">",
+                currQuery =
+                        "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                                "PREFIX  dbpedia-owl: <http://dbpedia.org/ontology>\n" +
+                                "PREFIX  dbpedia: <http://dbpedia.org/resource>\n" +
+                                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                                "\n" +
+                                "SELECT DISTINCT *\n" +
+                                "WHERE\n" +
+                                "  { " + formattedResource + " " + expPropVar + " " + expPropValueVar + " .\n" +
+                                itemVar + " <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Film> .\n" +
+                                itemVar + " " + expPropVar + " " + expPropValueVar + ".\n" +
+                                "VALUES " + expPropVar + " { " + formatPropertiesList(expProperties) + " }\n" +
+                                "  }";
+
+        currLogger.info(currQuery);
+        Query query = QueryFactory.create(currQuery);
+
+        QueryExecution qexec = null;
+
+
+        try {
+            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+
+            ResultSet resultSet = qexec.execSelect();
+
+            currLogger.info("Executed query!");
+
+            QuerySolution currSolution;
+
+            while (resultSet.hasNext()) {
+                currSolution = resultSet.nextSolution();
+                propManager.addSolution(currSolution);
+            }
+
+        } finally {
+
+            if (qexec != null)
+                qexec.close();
+        }
+
+
+    }
+
     public String getWikipediaURI(String resourceURI) {
 
         String uriVar = "?uri", wikiURIQuery = "select * where {" +

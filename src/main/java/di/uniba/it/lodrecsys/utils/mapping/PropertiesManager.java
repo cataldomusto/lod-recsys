@@ -40,6 +40,17 @@ public class PropertiesManager {
         }
     }
 
+    public void addSolution(QuerySolution currSolution) {
+        if (isWriteMode) {
+            Resource currResource = datasetModel.createResource(currSolution.getResource("?exp_prop_value").toString());
+            Property prop = datasetModel.createProperty(currSolution.getResource("?exp_prop").toString());
+            Statement stat = datasetModel.createStatement(currResource, prop, currSolution.get("?item"));
+            datasetModel.add(stat);
+
+        }
+
+    }
+
     public List<Statement> getResourceProperties(String resourceURI) {
         List<Statement> listStat = null;
 

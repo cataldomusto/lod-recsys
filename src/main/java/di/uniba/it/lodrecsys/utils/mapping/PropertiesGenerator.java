@@ -18,11 +18,12 @@ public class PropertiesGenerator {
     public static void main(String[] args) throws Exception {
         String choosenProp = "mapping/choosen_prop.txt",
                 propertiesDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                dbpediaMapping = "mapping/item.mapping";
+                dbpediaMapping = "mapping/item.mapping",
+                firstLevelExpProp = "mapping/exp_prop.txt";
 
         PropertiesManager manager = new PropertiesManager(propertiesDir);
 
-        Collection<String> choosenPropList = loadPropertiesURI(choosenProp);
+        Collection<String> expPropList = loadPropertiesURI(firstLevelExpProp);
 
         SPARQLClient sparql = new SPARQLClient();
 
@@ -34,7 +35,8 @@ public class PropertiesGenerator {
         for (MovieMapping mappedItem : mappedItems) {
             try {
                 manager.start(true);
-                sparql.saveResourceProperties(mappedItem.getDbpediaURI(), choosenPropList, manager);
+                //sparql.saveResourceProperties(mappedItem.getDbpediaURI(), choosenPropList, manager);
+                sparql.downloadFirstLevelRelation(mappedItem.getDbpediaURI(), expPropList, manager);
 
                 i++;
 
