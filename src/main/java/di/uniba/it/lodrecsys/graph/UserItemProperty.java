@@ -16,10 +16,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by asuglia on 7/1/14.
@@ -28,12 +25,12 @@ public class UserItemProperty extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
     private PropertiesManager propManager;
-    private List<MovieMapping> mappedItems;
+    private Map<String, String> mappedItems;
 
     public UserItemProperty(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
 
         try {
-            this.mappedItems = mappedItems;
+            getMapForMappedItems(mappedItems);
             propManager = new PropertiesManager(proprIndexDir);
             generateGraph(trainingFileName, testFile);
         } catch (IOException e) {
@@ -42,17 +39,33 @@ public class UserItemProperty extends RecGraph {
 
     }
 
+    private void getMapForMappedItems(List<MovieMapping> movieList) {
+        // key: item-id - value: dbpedia uri
+        this.mappedItems = new HashMap<>();
+
+        for (MovieMapping movie : movieList)
+            mappedItems.put(movie.getItemID(), movie.getDbpediaURI());
+
+    }
+
     @Override
     public void generateGraph(String trainingFileName, String testFile) throws IOException {
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
+        Set<String> allItemsID = new TreeSet<>();
 
+        for (Set<String> items : testSet.values()) {
+            allItemsID.addAll(items);
+        }
 
-        for (Set<String> ratings : testSet.values()) {
-            for (String itemID : ratings) {
-                recGraph.addVertex(itemID);
-                addItemProperties(itemID);
-            }
+        for (String userID : trainingPosNeg.keySet()) {
+            allItemsID.addAll(trainingPosNeg.get(userID).get(0));
+
+        }
+
+        for (String itemID : allItemsID) {
+            recGraph.addVertex(itemID);
+            addItemProperties(itemID);
         }
 
 
@@ -62,22 +75,17 @@ public class UserItemProperty extends RecGraph {
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
                 recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
                 edgeCounter++;
-                addItemProperties(posItemID);
 
             }
 
         }
 
+        currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
+
     }
 
     private void addItemProperties(String itemID) {
-        String resourceURI = null;
-
-        for (MovieMapping movie : mappedItems) {
-            if (movie.getItemID().equals(itemID))
-                resourceURI = movie.getDbpediaURI();
-        }
-
+        String resourceURI = this.mappedItems.get(itemID);
 
         List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
         long i = 1;

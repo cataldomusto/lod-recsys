@@ -52,8 +52,11 @@ public class GraphRunner {
         //for (String method : graphMethods) {
         String method = "UserItemProperty"; //"UserItemPriorGraph";
 
-            for (SparsityLevel level : SparsityLevel.values()) {
-                for (int numRec : listRecSizes) {
+        //for (SparsityLevel level : SparsityLevel.values()) {
+
+        //    for (int numRec : listRecSizes) {
+        SparsityLevel level = SparsityLevel.FIVE;
+        int numRec = 5;
                     //for each split (from 1 to 5)
                     String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
                             "top_" + numRec + File.separator + "metrics.complete";
@@ -82,8 +85,8 @@ public class GraphRunner {
                     currLogger.info(("Metrics results for sparsity level " + level + "\n"));
                     EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
                     metricsForSplit.clear(); // evaluate for the next sparsity level
-                }
-            }
+        // }
+        //}
 
 
         //}
