@@ -157,9 +157,9 @@ public class EvaluateRecommendation {
 
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
-        String[] usefulMetrics = {"map", "P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
+        String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
                 "recall_15", "recall_20"},
-                completeMetrics = {"map", "P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
+                completeMetrics = {"P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
                         "recall_15", "recall_20", "F1_5", "F1_10", "F1_15", "F1_20"};
 
         Map<String, Float> averageRes = new HashMap<>();

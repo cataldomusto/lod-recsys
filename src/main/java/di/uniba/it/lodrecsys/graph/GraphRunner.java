@@ -48,7 +48,7 @@ public class GraphRunner {
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
         //for (String method : graphMethods) {
-        String method = "UserItemProperty"; //"UserItemPriorGraph";
+        String method = "UserItemPriorGraph";//"UserItemProperty"; //"UserItemPriorGraph";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
@@ -63,6 +63,7 @@ public class GraphRunner {
                 RequestStruct requestStruct = pair.value;
 
                 recommendationForSplits.add(userItemGraph.runPageRank(requestStruct));
+                currLogger.info("Computed recommendations for split #" + i);
             }
 
 

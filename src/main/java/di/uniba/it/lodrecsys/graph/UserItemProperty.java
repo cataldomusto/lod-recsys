@@ -89,7 +89,7 @@ public class UserItemProperty extends RecGraph {
 
         for (Statement stat : resProperties) {
             String object = stat.getObject().toString();
-            recGraph.addEdge(itemID + "-prop" + i, itemID, object);
+            recGraph.addEdge(itemID + "-prop" + i++, itemID, object);
 
         }
 
