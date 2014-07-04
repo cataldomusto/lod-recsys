@@ -88,9 +88,11 @@ public class GraphRunner {
                 currLogger.info(("Metrics results for sparsity level " + level + "\n"));
                 EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
                 metricsForSplit.clear(); // evaluate for the next sparsity level
-                recommendationForSplits.clear();
+
 
             }
+
+            recommendationForSplits.clear();
         }
 /*
         for (SparsityLevel level : SparsityLevel.values()) {
