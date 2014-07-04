@@ -91,7 +91,9 @@ public class UserItemProperty extends RecGraph {
         long i = 1;
 
         for (Statement stat : resProperties) {
-            recGraph.addEdge(itemID + "-prop" + i++, itemID, stat.getObject().toString());
+            String object = stat.getObject().toString();
+            recGraph.addEdge(itemID + "-prop" + i, itemID, object);
+            recGraph.addEdge("prop" + i++ + "-" + itemID, object, itemID);
 
         }
 
@@ -132,7 +134,7 @@ public class UserItemProperty extends RecGraph {
 
 
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, int numRec, double massProb) {
-        Set<Rating> recommendation = new TreeSet<>();
+        Set<Rating> recommendation = new TreeSet<>(), allRecommendation = new TreeSet<>();
 
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
@@ -140,11 +142,15 @@ public class UserItemProperty extends RecGraph {
         priors.setMaxIterations(25);
         priors.evaluate();
 
+        for (String currItemID : testItems) {
+            allRecommendation.add(new Rating(currItemID, priors.getVertexScore(currItemID) + ""));
+
+        }
+
         int i = 0;
 
-        for (String currItemID : testItems) {
-            recommendation.add(new Rating(currItemID, priors.getVertexScore(currItemID) + ""));
-
+        for (Rating rating : allRecommendation) {
+            recommendation.add(rating);
             if (++i == numRec)
                 break;
         }
