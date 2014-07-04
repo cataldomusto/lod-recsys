@@ -48,7 +48,7 @@ public class GraphRunner {
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
         //for (String method : graphMethods) {
-        String method = "UserItemPriorGraph";//"UserItemProperty"; //"UserItemPriorGraph";
+        String method = "UserItemProperty"; //"UserItemPriorGraph";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
@@ -88,6 +88,7 @@ public class GraphRunner {
                 currLogger.info(("Metrics results for sparsity level " + level + "\n"));
                 EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
                 metricsForSplit.clear(); // evaluate for the next sparsity level
+                recommendationForSplits.clear();
 
             }
         }
