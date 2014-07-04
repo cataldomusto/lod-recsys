@@ -21,17 +21,17 @@ public class EvaluateRecommendation {
         try {
             writer = new BufferedWriter(new FileWriter(resFile));
 
-            int i = 0;
+
             for (String userID : recommendationList.keySet()) {
                 Set<Rating> recommendationListForUser = recommendationList.get(userID);
-
+                int i = 0;
                 for (Rating rate : recommendationListForUser) {
                     String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
                     writer.write(trecLine);
                     writer.newLine();
 
                     // prints only numRec recommendation on file
-                    if (i++ == numRec)
+                    if (i == numRec)
                         break;
                 }
             }

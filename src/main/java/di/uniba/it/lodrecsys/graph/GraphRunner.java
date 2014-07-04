@@ -48,7 +48,7 @@ public class GraphRunner {
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
         //for (String method : graphMethods) {
-        String method = "UserItemProperty"; //"UserItemPriorGraph";
+        String method = "UserItemPriorGraph";//"UserItemProperty";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
