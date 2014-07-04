@@ -53,40 +53,28 @@ public class UserItemPriorGraph extends RecGraph {
     }
 
     @Override
-    public void runPageRank(String resultFile, RequestStruct requestParam) throws IOException, TasteException {
-        BufferedWriter writer = null;
+    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws TasteException {
+        Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
 
-        try {
-            writer = new BufferedWriter(new FileWriter(resultFile));
-            int numRec = (int) requestParam.params.get(0); // number of recommendation
-            double massProb = (double) requestParam.params.get(1); // max proportion of positive items for user
+        double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
 
-            // print recommendation for all users
+        // print recommendation for all users
 
-            for (String userID : testSet.keySet()) {
-                int i = 0;
-                currLogger.info("Page rank for user: " + userID);
-                List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
-                Set<String> testItems = testSet.get(userID);
-                Set<Rating> recommendations = profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, numRec, massProb);
-                serializeRatings(userID, recommendations, writer);
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
+        for (String userID : testSet.keySet()) {
+            int i = 0;
+            currLogger.info("Page rank for user: " + userID);
+            List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
+            Set<String> testItems = testSet.get(userID);
+            usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
 
         }
+
+        return usersRecommendation;
     }
 
 
-    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, int numRec, double massProb) {
-        Set<Rating> recommendation = new TreeSet<>(), allRecommendation = new TreeSet<>();
+    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
+        Set<Rating> allRecommendation = new TreeSet<>();
 
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
@@ -99,15 +87,7 @@ public class UserItemPriorGraph extends RecGraph {
 
         }
 
-        int i = 0;
-
-        for (Rating rating : allRecommendation) {
-            recommendation.add(rating);
-            if (++i == numRec)
-                break;
-        }
-
-        return recommendation;
+        return allRecommendation;
     }
 
 

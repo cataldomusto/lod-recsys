@@ -6,15 +6,12 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
-import di.uniba.it.lodrecsys.graph.scorer.WeightedVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
 import org.apache.mahout.cf.taste.common.TasteException;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -101,13 +98,10 @@ public class UserItemProperty extends RecGraph {
     }
 
     @Override
-    public void runPageRank(String resultFile, RequestStruct requestParam) throws IOException, TasteException {
-        BufferedWriter writer = null;
+    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws TasteException {
+        Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
 
-        try {
-            writer = new BufferedWriter(new FileWriter(resultFile));
-            int numRec = (int) requestParam.params.get(0); // number of recommendation
-            double massProb = (double) requestParam.params.get(1); // max proportion of positive items for user
+        double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
 
             // print recommendation for all users
 
@@ -116,25 +110,15 @@ public class UserItemProperty extends RecGraph {
                 currLogger.info("Page rank for user: " + userID);
                 List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
                 Set<String> testItems = testSet.get(userID);
-                Set<Rating> recommendations = profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, numRec, massProb);
-                serializeRatings(userID, recommendations, writer);
+                usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
             }
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
-
-        }
+        return usersRecommendation;
     }
 
 
-    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, int numRec, double massProb) {
-        Set<Rating> recommendation = new TreeSet<>(), allRecommendation = new TreeSet<>();
+    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
+        Set<Rating> allRecommendation = new TreeSet<>();
 
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
@@ -147,14 +131,6 @@ public class UserItemProperty extends RecGraph {
 
         }
 
-        int i = 0;
-
-        for (Rating rating : allRecommendation) {
-            recommendation.add(rating);
-            if (++i == numRec)
-                break;
-        }
-
-        return recommendation;
+        return allRecommendation;
     }
 }

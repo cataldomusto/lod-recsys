@@ -19,16 +19,16 @@ public class GraphFactory {
         switch (specificModel) {
             case "UserItemGraph":
                 graph = new UserItemGraph((String) params[0], (String) params[1]);
-                requestStruct = RequestStructFactory.create(specificModel, (int) params[2]);
+                requestStruct = RequestStructFactory.create(specificModel);
                 break;
             case "UserItemPriorGraph":
                 graph = new UserItemPriorGraph((String) params[0], (String) params[1]);
-                requestStruct = RequestStructFactory.create(specificModel, (int) params[2], (double) params[3]);
+                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
                 break;
 
             case "UserItemProperty":
                 graph = new UserItemProperty((String) params[0], (String) params[1], (String) params[4], (List<MovieMapping>) params[5]);
-                requestStruct = RequestStructFactory.create(specificModel, (int) params[2], (double) params[3]);
+                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
                 break;
 
         }
@@ -46,11 +46,11 @@ class RequestStructFactory {
 
         switch (specificModel) {
             case "UserItemGraph":
-                return new RequestStruct((int) params[0]);
+                return new RequestStruct();
             case "UserItemPriorGraph":
-                return new RequestStruct((int) params[0], (double) params[1]);
+                return new RequestStruct((double) params[1]);
             case "UserItemProperty":
-                return new RequestStruct((int) params[0], (double) params[1]);
+                return new RequestStruct((double) params[1]);
 
             default:
                 return null;

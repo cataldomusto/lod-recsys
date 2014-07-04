@@ -16,6 +16,36 @@ import java.util.logging.Logger;
 public class EvaluateRecommendation {
     private static Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
+    public static void serializeRatings(Map<String, Set<Rating>> recommendationList, String resFile, int numRec) throws IOException {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(resFile));
+
+            int i = 0;
+            for (String userID : recommendationList.keySet()) {
+                Set<Rating> recommendationListForUser = recommendationList.get(userID);
+
+                for (Rating rate : recommendationListForUser) {
+                    String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
+                    writer.write(trecLine);
+                    writer.newLine();
+
+                    // prints only numRec recommendation on file
+                    if (i++ == numRec)
+                        break;
+                }
+            }
+        } catch (IOException e) {
+            logger.severe(e.toString());
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+
+
+    }
+
 
     /**
      * Trec eval results format

@@ -42,21 +42,59 @@ public class GraphRunner {
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
         //new String[]{"UserItemGraph", "UserItemTAGME", "UserItemLOD", "UserItemTL"};
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        //String method = graphMethods[0];
-        //int numRec = 5;
         int[] listRecSizes = new int[]{5, 10, 15, 20};
         int numberOfSplit = 5;
         double massProb = 0.8;
-
+        List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
         //for (String method : graphMethods) {
         String method = "UserItemProperty"; //"UserItemPriorGraph";
 
-        //for (SparsityLevel level : SparsityLevel.values()) {
+        for (SparsityLevel level : SparsityLevel.values()) {
 
-        //    for (int numRec : listRecSizes) {
-        SparsityLevel level = SparsityLevel.FIVE;
-        int numRec = 5;
+            for (int i = 1; i <= numberOfSplit; i++) {
+
+                String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                        "u" + i + ".base",
+                        testFile = testPath + File.separator + "u" + i + ".test";
+
+                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(method, trainFile, testFile, massProb, propertyIndexDir, mappingList);
+                RecGraph userItemGraph = pair.key;
+                RequestStruct requestStruct = pair.value;
+
+                recommendationForSplits.add(userItemGraph.runPageRank(requestStruct));
+            }
+
+
+            for (int numRec : listRecSizes) {
+                String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                        "top_" + numRec + File.separator + "metrics.complete";
+                for (int i = 1; i <= numberOfSplit; i++) {
+                    String trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
+                            resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                                    "top_" + numRec + File.separator + "u" + i + ".results";
+
+                    EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
+
+
+                    String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                            + File.separator + "u" + i + ".final";
+                    EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+                    currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                }
+
+                currLogger.info(("Metrics results for sparsity level " + level + "\n"));
+                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
+                metricsForSplit.clear(); // evaluate for the next sparsity level
+
+            }
+        }
+/*
+        for (SparsityLevel level : SparsityLevel.values()) {
+
+            for (int numRec : listRecSizes) {
+
                     //for each split (from 1 to 5)
                     String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
                             "top_" + numRec + File.separator + "metrics.complete";
@@ -85,12 +123,11 @@ public class GraphRunner {
                     currLogger.info(("Metrics results for sparsity level " + level + "\n"));
                     EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
                     metricsForSplit.clear(); // evaluate for the next sparsity level
-        // }
+            }
+        } */
+
+
         //}
-
-
         //}
     }
-
-
 }

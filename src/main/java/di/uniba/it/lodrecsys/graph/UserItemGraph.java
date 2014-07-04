@@ -4,13 +4,10 @@ import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.utils.Utils;
 import edu.uci.ics.jung.algorithms.scoring.PageRank;
-import edu.uci.ics.jung.graph.Graph;
 import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
-import org.apache.mahout.cf.taste.model.DataModel;
 
 import java.io.*;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -57,44 +54,29 @@ public class UserItemGraph extends RecGraph {
     }
 
     @Override
-    public void runPageRank(String resultFile, RequestStruct requestParam) throws IOException, TasteException {
-        BufferedWriter writer = null;
+    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws TasteException {
 
-        try {
-            writer = new BufferedWriter(new FileWriter(resultFile));
-            int numRec = (int) requestParam.params.get(0); // number of recommendation
-
+        Map<String, Set<Rating>> recommendationList = new HashMap<>();
             PageRank<String, String> pageRank = new PageRank<>(this.recGraph, 0.15);
 
             pageRank.setMaxIterations(25);
 
             pageRank.evaluate();
 
-            Set<Rating> pageRankValues = new TreeSet<>();
 
             // print recommendation for all users
 
             for (String userID : testSet.keySet()) {
                 int totElement = 0;
+                Set<Rating> pageRankValues = new TreeSet<>();
                 for (String itemID : testSet.get(userID)) {
                     pageRankValues.add(new Rating(itemID, pageRank.getVertexScore(itemID) + ""));
-                    if (++totElement == numRec)
-                        break; // the method has got all the recommendation
                 }
+                recommendationList.put(userID, pageRankValues);
 
-                serializeRatings(userID, pageRankValues, writer);
-                pageRankValues.clear();
+
             }
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
-
-        }
+        return recommendationList;
     }
 }
