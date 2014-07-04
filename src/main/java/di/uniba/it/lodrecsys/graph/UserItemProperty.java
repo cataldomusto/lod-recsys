@@ -90,7 +90,6 @@ public class UserItemProperty extends RecGraph {
         for (Statement stat : resProperties) {
             String object = stat.getObject().toString();
             recGraph.addEdge(itemID + "-prop" + i, itemID, object);
-            recGraph.addEdge("prop" + i++ + "-" + itemID, object, itemID);
 
         }
 
@@ -103,15 +102,15 @@ public class UserItemProperty extends RecGraph {
 
         double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
 
-            // print recommendation for all users
+        // print recommendation for all users
 
-            for (String userID : testSet.keySet()) {
-                int i = 0;
-                currLogger.info("Page rank for user: " + userID);
-                List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
-                Set<String> testItems = testSet.get(userID);
-                usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
-            }
+        for (String userID : testSet.keySet()) {
+            int i = 0;
+            currLogger.info("Page rank for user: " + userID);
+            List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
+            Set<String> testItems = testSet.get(userID);
+            usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
+        }
 
         return usersRecommendation;
     }

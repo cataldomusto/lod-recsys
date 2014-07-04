@@ -27,7 +27,7 @@ public class GraphFactory {
                 break;
 
             case "UserItemProperty":
-                graph = new UserItemProperty((String) params[0], (String) params[1], (String) params[4], (List<MovieMapping>) params[5]);
+                graph = new UserItemProperty((String) params[0], (String) params[1], (String) params[3], (List<MovieMapping>) params[4]);
                 requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
                 break;
 
@@ -48,9 +48,9 @@ class RequestStructFactory {
             case "UserItemGraph":
                 return new RequestStruct();
             case "UserItemPriorGraph":
-                return new RequestStruct((double) params[1]);
+                return new RequestStruct((double) params[0]);
             case "UserItemProperty":
-                return new RequestStruct((double) params[1]);
+                return new RequestStruct((double) params[0]);
 
             default:
                 return null;
