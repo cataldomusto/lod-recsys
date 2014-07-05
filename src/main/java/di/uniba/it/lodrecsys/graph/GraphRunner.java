@@ -1,20 +1,13 @@
 package di.uniba.it.lodrecsys.graph;
 
-import com.google.common.collect.ArrayListMultimap;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
-import di.uniba.it.lodrecsys.utils.CmdExecutor;
-import di.uniba.it.lodrecsys.utils.PredictionFileConverter;
 import di.uniba.it.lodrecsys.utils.Utils;
-import edu.uci.ics.jung.algorithms.scoring.PageRank;
-import edu.uci.ics.jung.graph.util.Graphs;
 import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
-import org.apache.mahout.cf.taste.model.DataModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,17 +31,14 @@ public class GraphRunner {
                 propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
                 mappedItemFile = "mapping/item.mapping";
 
-        String[] graphMethods = new String[]{"UserItemGraph", "UserItemPriorGraph"};
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        //new String[]{"UserItemGraph", "UserItemTAGME", "UserItemLOD", "UserItemTL"};
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
         int[] listRecSizes = new int[]{5, 10, 15, 20};
         int numberOfSplit = 5;
         double massProb = 0.8;
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
-        //for (String method : graphMethods) {
-        String method = "UserItemPriorGraph";
+        String method = "UserItemPriorGraph"; // "UserItemProperty";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
