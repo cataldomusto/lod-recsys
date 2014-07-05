@@ -142,7 +142,7 @@ public class SPARQLClient {
 
             while (resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
-                wikiURI = currSolution.getResource(uriVar).toString();
+                wikiURI = currSolution.get(uriVar).toString();
             }
 
         } finally {

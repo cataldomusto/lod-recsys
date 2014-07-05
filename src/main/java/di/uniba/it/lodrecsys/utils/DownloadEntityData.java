@@ -3,13 +3,10 @@ package di.uniba.it.lodrecsys.utils;
 import de.l3s.boilerpipe.BoilerpipeProcessingException;
 import de.l3s.boilerpipe.extractors.ArticleExtractor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
@@ -20,6 +17,17 @@ import di.uniba.it.lodrecsys.query.SimpleQueryOutRelation;
 import di.uniba.it.lodrecsys.query.SimpleResult;
 
 import di.uniba.it.lodrecsys.utils.mapping.SPARQLClient;
+import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -57,52 +65,62 @@ public class DownloadEntityData {
 
             String line = reader.readLine();
             String[] lineValues = line.split("\t");
-            logger.log(Level.INFO, "Processing {0}", lineValues[0]);
-            logger.log(Level.INFO, "Make dir");
-            String bookDirname = outputDir + "/" + lineValues[0];
-            new File(bookDirname).mkdir();
-            String wikiURI = client.getWikipediaURI(lineValues[2]);
-            String text = null;
 
-            if (wikiURI != null) {
-                numPages++;
-                int t = 0;
-                while (text == null && t < MAX_ATTEMPT) {
+            // remove not mapped items
+            if (!lineValues[2].equals("null")) {
+                logger.log(Level.INFO, "Processing {0}", lineValues[0]);
+                logger.log(Level.INFO, "Make dir");
+                String bookDirname = outputDir + "/" + lineValues[0];
+                new File(bookDirname).mkdir();
 
-                    try {
-                        text = ArticleExtractor.getInstance().getText(new URL(wikiURI));
-                        if (text != null) {
-                            text = text.replace("[ edit ]", "");
+                String wikiURI = client.getWikipediaURI(lineValues[2]);
+                String text = null;
+
+                if (wikiURI != null) {
+                    numPages++;
+                    int t = 0;
+                    while (text == null && t < MAX_ATTEMPT) {
+
+                        try {
+
+                            text = ArticleExtractor.getInstance().getText(new URL(wikiURI));
+                            if (text != null) {
+                                if (text.contains("[ edit ]")) {
+                                    text = text.replace("[ edit ]", "");
+                                } else {
+                                    text = client.getResourceAbstract(lineValues[2]);
+                                }
+                            }
+                        } catch (BoilerpipeProcessingException ex) {
+                            Logger.getLogger(DownloadEntityData.class.getName()).log(Level.WARNING, "Error to extract text", ex);
+                            logger.warning("Re-try downloading...");
+                            myWait(15);
+                            t++;
                         }
-                    } catch (BoilerpipeProcessingException ex) {
-                        Logger.getLogger(DownloadEntityData.class.getName()).log(Level.WARNING, "Error to extract text", ex);
-                        logger.warning("Re-try downloading...");
-                        myWait(15);
-                        t++;
                     }
+                    if (text == null) {
+                        logger.log(Level.WARNING, "No text for {0}", lineValues[0]);
+                        text = "";
+                    }
+                } else {
+                    text = client.getResourceAbstract(lineValues[2]);
                 }
+
                 if (text == null) {
-                    logger.log(Level.WARNING, "No text for {0}", lineValues[0]);
                     text = "";
                 }
-            } else {
-                text = client.getResourceAbstract(lineValues[2]);
+
+
+                FileWriter writer = new FileWriter(bookDirname + "/" + lineValues[0] + ".text");
+                writer.write(text);
+                writer.close();
             }
-
-            if (text == null) {
-                text = "";
-            }
-
-
-            FileWriter writer = new FileWriter(bookDirname + "/" + lineValues[0] + ".text");
-            writer.write(text);
-            writer.close();
 
         }
         reader.close();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, BoilerpipeProcessingException, URISyntaxException {
         if (args.length == 2) {
             try {
                 DownloadEntityData dd = new DownloadEntityData();
@@ -114,6 +132,8 @@ public class DownloadEntityData {
             logger.log(Level.WARNING, "Number of arguments not valid {0}", args.length);
             System.exit(1);
         }
+
+
     }
 
     private void myWait(int sec) {
@@ -125,4 +145,6 @@ public class DownloadEntityData {
         }
         logger.info("Wake-up!");
     }
+
+
 }
