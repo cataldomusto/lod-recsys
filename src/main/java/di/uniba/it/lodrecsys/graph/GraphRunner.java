@@ -48,7 +48,7 @@ public class GraphRunner {
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
         //for (String method : graphMethods) {
-        String method = "UserItemPriorGraph";//"UserItemProperty";
+        String method = "UserItemPriorGraph";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
@@ -94,44 +94,6 @@ public class GraphRunner {
 
             recommendationForSplits.clear();
         }
-/*
-        for (SparsityLevel level : SparsityLevel.values()) {
 
-            for (int numRec : listRecSizes) {
-
-                    //for each split (from 1 to 5)
-                    String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-                            "top_" + numRec + File.separator + "metrics.complete";
-
-                    for (int i = 1; i <= numberOfSplit; i++) {
-                        String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
-                                "u" + i + ".base",
-                                testFile = testPath + File.separator + "u" + i + ".test",
-                                trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                                resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
-                                        "top_" + numRec + File.separator + "u" + i + ".results";
-
-                        Pair<RecGraph, RequestStruct> pair = GraphFactory.create(method, trainFile, testFile, numRec, massProb, propertyIndexDir, mappingList);
-                        RecGraph userItemGraph = pair.key;
-                        RequestStruct requestStruct = pair.value;
-
-                        userItemGraph.runPageRank(resFile, requestStruct);
-
-                        String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                                + File.separator + "u" + i + ".final";
-                        EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-                        metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-                        currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-                    }
-
-                    currLogger.info(("Metrics results for sparsity level " + level + "\n"));
-                    EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
-                    metricsForSplit.clear(); // evaluate for the next sparsity level
-            }
-        } */
-
-
-        //}
-        //}
     }
 }

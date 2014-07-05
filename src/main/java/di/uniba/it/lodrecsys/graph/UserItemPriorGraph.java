@@ -50,6 +50,8 @@ public class UserItemPriorGraph extends RecGraph {
 
         }
 
+        currLogger.info("Vertex: " + recGraph.getVertexCount() + " Edges: " + recGraph.getEdgeCount());
+
     }
 
     @Override
