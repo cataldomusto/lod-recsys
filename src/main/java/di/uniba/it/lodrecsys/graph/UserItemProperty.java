@@ -25,7 +25,6 @@ public class UserItemProperty extends RecGraph {
     private Map<String, String> mappedItems;
 
     public UserItemProperty(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
-
         try {
             getMapForMappedItems(mappedItems);
             propManager = new PropertiesManager(proprIndexDir);
@@ -102,10 +101,9 @@ public class UserItemProperty extends RecGraph {
 
         double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
 
-        // print recommendation for all users
+        // compute recommendation for all users
 
         for (String userID : testSet.keySet()) {
-            int i = 0;
             currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);

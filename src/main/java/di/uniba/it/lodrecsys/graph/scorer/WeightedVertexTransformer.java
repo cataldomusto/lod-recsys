@@ -1,78 +1,71 @@
 package di.uniba.it.lodrecsys.graph.scorer;
 
+import com.hp.hpl.jena.rdf.model.Statement;
+import di.uniba.it.lodrecsys.utils.PropertiesCalculator;
+import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import org.apache.commons.collections15.Transformer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by asuglia on 7/1/14.
  */
 public class WeightedVertexTransformer implements Transformer<String, Double> {
-    private Set<String> trainingPos;
-
-    private Set<String> trainingNeg;
+    private List<String> userProfile;
+    Map<String, String> mappedItems;
 
     private int graphSize;
 
+    private PropertiesManager manager;
     private double massProb = 0.8;
 
-    private final Map<String, Set<String>> uriIdMap;
-
-
-    public WeightedVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap) {
-        this.trainingPos = trainingPos;
-        this.trainingNeg = trainingNeg;
+    public WeightedVertexTransformer(PropertiesManager manager, Set<String> trainingPos, Set<String> trainingNeg,
+                                     Map<String, String> mappedItems, int graphSize) {
         this.graphSize = graphSize;
-        this.uriIdMap = uriIdMap;
+        this.manager = manager;
+        this.mappedItems = mappedItems;
+        generateUserProfile(trainingPos, trainingNeg, mappedItems);
     }
 
-    public WeightedVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, double massProb) {
-        this.trainingPos = trainingPos;
-        this.trainingNeg = trainingNeg;
-        this.graphSize = graphSize;
-        this.massProb = massProb;
-        this.uriIdMap = new HashMap<>();
+
+    private void generateUserProfile(Set<String> trainingPos, Set<String> trainingNeg, Map<String, String> mappedItems) {
+        Map<String, List<String>> propMapper = new HashMap<>();
+
+
+        // Take all the properties from the user's positive items
+        for (String itemID : trainingPos) {
+            propMapper.put(itemID, generateItemPropList(itemID));
+        }
+
+        this.userProfile = PropertiesCalculator.computeCentroid(propMapper);
+
+
     }
 
-    public WeightedVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap, double massProb) {
-        this.trainingPos = trainingPos;
-        this.trainingNeg = trainingNeg;
-        this.graphSize = graphSize;
-        this.uriIdMap = uriIdMap;
-        this.massProb = massProb;
+    private List<String> generateItemPropList(String itemID) {
+        List<String> propList = new ArrayList<>();
+        for (Statement stat : manager.getResourceProperties(mappedItems.get(itemID))) {
+            propList.add(stat.getObject().toString());
+        }
+
+        return propList;
     }
+
 
     @Override
     public Double transform(String node) {
-        boolean containsPos = trainingPos.contains(node), containsNeg = false;
-        if (!containsPos) {
-            containsNeg = trainingNeg.contains(node);
+        // User node
+        if (node.startsWith("U:")) {
+            //return computeSimilarity(getUserProfile(node), currUserProfile) / sumSimilarity(userI, currUserProfile)
+
+        } else if (node.startsWith("I:")) { // item node
+            //return computeSimilarity(generateItemPropList(node), currUserProfile) / sumSimilarity(itemI, currUserProfile)
+        } else { // other (propr, tagme, ...)
+            // some kind of value distributed among propr, tagme and other
+            // |other| = (graphsize - (user+item))
         }
 
-        if (containsPos) {
-            return massProb / (double) (trainingPos.size());
-        } else if (containsNeg) {
-            return 0d;
-        } else {
-            return (1 - massProb) / (double) (graphSize - (trainingPos.size() + trainingNeg.size()));
-        }
+        return 0d;
     }
 
-    public int getGraphSize() {
-        return graphSize;
-    }
-
-    public void setGraphSize(int graphSize) {
-        this.graphSize = graphSize;
-    }
-
-    public double getMassProb() {
-        return massProb;
-    }
-
-    public void setMassProb(double massProb) {
-        this.massProb = massProb;
-    }
 }
