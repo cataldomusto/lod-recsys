@@ -27,11 +27,11 @@ public class SPARQLClient {
     private static final String PREDICATE_ABSTRACT = "<http://dbpedia.org/ontology/abstract>";
 
 
-    private String formatPropertiesList(Collection<String> specificProp) {
+    private String formatPropertiesList(Collection<String> specificProp, boolean areURI) {
         String formattedProperties = "";
 
         for (String prop : specificProp)
-            formattedProperties += "<" + prop + ">\n";
+            formattedProperties += (areURI) ? "<" + prop + ">\n" : prop + "\n";
 
         return formattedProperties;
 
@@ -51,7 +51,7 @@ public class SPARQLClient {
                                 "  { " + formattedResource + " " + expPropVar + " " + expPropValueVar + " .\n" +
                                 itemVar + " <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Film> .\n" +
                                 itemVar + " " + expPropVar + " " + expPropValueVar + ".\n" +
-                                "VALUES " + expPropVar + " { " + formatPropertiesList(expProperties) + " }\n" +
+                                "VALUES " + expPropVar + " { " + formatPropertiesList(expProperties, true) + " }\n" +
                                 "  }";
 
         currLogger.info(currQuery);
@@ -156,6 +156,47 @@ public class SPARQLClient {
 
     }
 
+    public Map<String, String> getURIfromWikiID(Set<String> wikiIDList) {
+        String dbpediaVar = "?dbpedia_uri",
+                queryWiki = "SELECT DISTINCT " + dbpediaVar + "\n" +
+                        "WHERE\n" +
+                        "  { " + dbpediaVar + " <http://dbpedia.org/ontology/wikiPageID> %s\n" +
+
+                        "  }";
+
+        Map<String, String> wikiIDURI = new HashMap<>();
+
+        for (String wikiID : wikiIDList) {
+
+            String realQuery = String.format(queryWiki, wikiID);
+
+            currLogger.info(realQuery);
+
+            Query currQuery = QueryFactory.create(realQuery);
+
+            QueryExecution execution = null;
+            try {
+                execution = QueryExecutionFactory.sparqlService(endpoint, currQuery);
+
+                ResultSet resultSet = execution.execSelect();
+                QuerySolution solution = null;
+
+                while (resultSet.hasNext()) {
+                    solution = resultSet.nextSolution();
+
+                    wikiIDURI.put(wikiID, solution.get(dbpediaVar).toString());
+                }
+
+            } finally {
+                if (execution != null)
+                    execution.close();
+            }
+        }
+
+
+        return wikiIDURI;
+    }
+
     public void saveResourceProperties(String resourceURI, Collection<String> specificProp, PropertiesManager propManager) {
 
         String proprVariable = "?prop",
@@ -163,7 +204,7 @@ public class SPARQLClient {
                 fixedURI = "<" + resourceURI + ">",
                 queryProp = "select " + proprVariable + " " + valueVariable + " where {\n" +
                         fixedURI + " " + proprVariable + " " + valueVariable +
-                        " values " + proprVariable + "{" + formatPropertiesList(specificProp) + "} \n" +
+                        " values " + proprVariable + "{" + formatPropertiesList(specificProp, true) + "} \n" +
                         "}";
         currLogger.info(queryProp);
         Query query = QueryFactory.create(queryProp);
