@@ -45,9 +45,12 @@ public class CompleteTagME {
                     wikiID.add(record.get(0));
                 }
 
+                parser.close();
+
                 Map<String, String> wikiIDdbpedia = client.getURIfromWikiID(wikiID);
 
                 serializeMap(wikiIDdbpedia, tagmeFile);
+                currLogger.info("Serialized " + tagmeFile);
 
 
             }
