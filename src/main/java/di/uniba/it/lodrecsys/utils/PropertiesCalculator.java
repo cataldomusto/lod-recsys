@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class PropertiesCalculator {
     public static double computeJaccard(List<String> first, List<String> second) {
-        double totInter = 0, totUnion = 0;
+        double totInter = 0;
 
         for (int i = 0; i < first.size(); i++) {
             if (first.get(i).equals(second.get(i)))
