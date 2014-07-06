@@ -95,16 +95,16 @@ public class PropertiesCalculator {
                 forth = new ArrayList<>();
 
         first.add("A1");
-        first.add("B1");
+        first.add("A1");
         first.add("C2");
 
 
         sec.add("A1");
-        sec.add("B2");
+        sec.add("A2");
         sec.add("C2");
 
         third.add("A2");
-        third.add("B1");
+        third.add("A1");
         third.add("C2");
 
 
