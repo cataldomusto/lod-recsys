@@ -2,10 +2,7 @@ package di.uniba.it.lodrecsys.graph;
 
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.Hypergraph;
+import edu.uci.ics.jung.graph.*;
 import org.apache.mahout.cf.taste.common.TasteException;
 
 import java.io.BufferedWriter;
@@ -25,12 +22,12 @@ public abstract class RecGraph {
     protected Graph<String, String> recGraph;
 
     public RecGraph() {
-        recGraph = new DirectedSparseMultigraph<>();
+        recGraph = new UndirectedSparseMultigraph<>();//WRONG: new DirectedSparseMultigraph<>();
 
     }
 
     public RecGraph(String trainingFile, String testFile) throws IOException {
-        recGraph = new DirectedSparseGraph<>();
+        recGraph = new UndirectedSparseMultigraph<>(); //WRONG: new DirectedSparseGraph<>();
         try {
             generateGraph(trainingFile, testFile);
         } catch (IOException e) {
