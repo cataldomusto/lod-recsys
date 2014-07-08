@@ -6,6 +6,7 @@ import di.uniba.it.lodrecsys.entity.RequestStruct;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asuglia on 7/1/14.
@@ -27,7 +28,19 @@ public class GraphFactory {
                 break;
 
             case "UserItemProperty":
-                graph = new UserItemProperty((String) params[0], (String) params[1], (String) params[3], (List<MovieMapping>) params[4]);
+                graph = new UserItemProperty((String) params[0],
+                        (String) params[1],
+                        (String) params[3],
+                        (List<MovieMapping>) params[4]);
+                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+                break;
+
+            case "UserItemPropTag":
+                graph = new UserItemPropTag((String) params[0],
+                        (String) params[1],
+                        (String) params[3],
+                        (List<MovieMapping>) params[4],
+                        (Map<String, List<String>>) params[5]);
                 requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
                 break;
 
@@ -51,7 +64,8 @@ class RequestStructFactory {
                 return new RequestStruct((double) params[0]);
             case "UserItemProperty":
                 return new RequestStruct((double) params[0]);
-
+            case "UserItemPropTag":
+                return new RequestStruct((double) params[0]);
             default:
                 return null;
 

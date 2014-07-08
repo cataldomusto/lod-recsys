@@ -29,16 +29,18 @@ public class GraphRunner {
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
                 resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
                 propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
                 mappedItemFile = "mapping/item.mapping";
 
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
         int[] listRecSizes = new int[]{5, 10, 15, 20};
         int numberOfSplit = 5;
         double massProb = 0.8;
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
-        String method = "UserItemProperty";
+        String method = "UserItemPropTag";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
@@ -48,7 +50,8 @@ public class GraphRunner {
                         "u" + i + ".base",
                         testFile = testPath + File.separator + "u" + i + ".test";
 
-                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(method, trainFile, testFile, massProb, propertyIndexDir, mappingList);
+                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(method, trainFile,
+                        testFile, massProb, propertyIndexDir, mappingList, tagmeConcepts);
                 RecGraph userItemGraph = pair.key;
                 RequestStruct requestStruct = pair.value;
 

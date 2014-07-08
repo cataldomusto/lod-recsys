@@ -23,21 +23,9 @@ public class UserItemPropTag extends RecGraph {
     private Map<String, Set<String>> testSet;
 
     public UserItemPropTag(String trainingFileName, String testFileName, String proprIndexDir,
-                           List<MovieMapping> mappedItems, String tagMeDir) throws IOException {
-        generateGraph(new RequestStruct(trainingFileName, testFileName, proprIndexDir, mappedItems, tagMeDir));
+                           List<MovieMapping> mappedItems, Map<String, List<String>> tagmeConcepts) throws IOException {
+        generateGraph(new RequestStruct(trainingFileName, testFileName, proprIndexDir, mappedItems, tagmeConcepts));
 
-    }
-
-    private Map<String, List<String>> loadTagmeConcepts(String tagmeDir) {
-        Map<String, List<String>> tagmeConcepts;
-
-        try {
-            tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
-        } catch (IOException e) {
-            tagmeConcepts = new HashMap<>(); // unable to load tagme concepts
-        }
-
-        return tagmeConcepts;
     }
 
     private Map<String, String> getMapForMappedItems(List<MovieMapping> movieList) {
@@ -58,7 +46,7 @@ public class UserItemPropTag extends RecGraph {
         PropertiesManager propManager = new PropertiesManager((String) requestStruct.params.get(2));
         List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
         Map<String, String> mappedItems = getMapForMappedItems(mappedItemsList);
-        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems((String) requestStruct.params.get(4));
+        Map<String, List<String>> tagmeConcepts = (Map<String, List<String>>) requestStruct.params.get(4);
 
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
@@ -98,9 +86,12 @@ public class UserItemPropTag extends RecGraph {
 
     private void addItemTAGmeConcepts(String itemID, Map<String, List<String>> tagmeConcepts) {
         int i = 0;
+        List<String> itemTagMeConcepts = tagmeConcepts.get(itemID);
 
-        for (String tagmeRes : tagmeConcepts.get(itemID)) {
-            recGraph.addEdge(itemID + "-tagme" + i++, itemID, tagmeRes);
+        if (itemTagMeConcepts != null) {
+            for (String tagmeRes : itemTagMeConcepts) {
+                recGraph.addEdge(itemID + "-tagme" + i++, itemID, tagmeRes);
+            }
         }
 
     }
