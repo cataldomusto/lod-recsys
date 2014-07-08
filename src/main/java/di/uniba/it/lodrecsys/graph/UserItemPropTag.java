@@ -9,7 +9,6 @@ import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
-import jdk.nashorn.internal.ir.RuntimeNode;
 import org.apache.mahout.cf.taste.common.TasteException;
 
 import java.io.File;
@@ -17,20 +16,28 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 7/1/14.
+ * Created by asuglia on 7/8/14.
  */
-public class UserItemProperty extends RecGraph {
+public class UserItemPropTag extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
 
-    public UserItemProperty(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
+    public UserItemPropTag(String trainingFileName, String testFileName, String proprIndexDir,
+                           List<MovieMapping> mappedItems, String tagMeDir) throws IOException {
+        generateGraph(new RequestStruct(trainingFileName, testFileName, proprIndexDir, mappedItems, tagMeDir));
+
+    }
+
+    private Map<String, List<String>> loadTagmeConcepts(String tagmeDir) {
+        Map<String, List<String>> tagmeConcepts;
+
         try {
-            getMapForMappedItems(mappedItems);
-            generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
+            tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
         } catch (IOException e) {
-            e.printStackTrace();
+            tagmeConcepts = new HashMap<>(); // unable to load tagme concepts
         }
 
+        return tagmeConcepts;
     }
 
     private Map<String, String> getMapForMappedItems(List<MovieMapping> movieList) {
@@ -51,10 +58,11 @@ public class UserItemProperty extends RecGraph {
         PropertiesManager propManager = new PropertiesManager((String) requestStruct.params.get(2));
         List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
         Map<String, String> mappedItems = getMapForMappedItems(mappedItemsList);
-
+        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems((String) requestStruct.params.get(4));
 
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
+
         Set<String> allItemsID = new TreeSet<>();
 
         for (Set<String> items : testSet.values()) {
@@ -69,6 +77,7 @@ public class UserItemProperty extends RecGraph {
         for (String itemID : allItemsID) {
             recGraph.addVertex(itemID);
             addItemProperties(itemID, propManager, mappedItems);
+            addItemTAGmeConcepts(itemID, tagmeConcepts);
         }
 
 
@@ -84,6 +93,15 @@ public class UserItemProperty extends RecGraph {
         }
 
         currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
+
+    }
+
+    private void addItemTAGmeConcepts(String itemID, Map<String, List<String>> tagmeConcepts) {
+        int i = 0;
+
+        for (String tagmeRes : tagmeConcepts.get(itemID)) {
+            recGraph.addEdge(itemID + "-tagme" + i++, itemID, tagmeRes);
+        }
 
     }
 

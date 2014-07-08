@@ -20,11 +20,15 @@ public class UserItemGraph extends RecGraph {
     private Map<String, Set<String>> testSet;
 
     public UserItemGraph(String trainingFileName, String testFile) throws IOException {
-        super(trainingFileName, testFile);
+        generateGraph(new RequestStruct(trainingFileName, testFile));
     }
 
+
     @Override
-    public void generateGraph(String trainingFileName, String testFile) throws IOException {
+    public void generateGraph(RequestStruct requestStruct) throws IOException {
+        String trainingFileName = (String) requestStruct.params.get(0),
+                testFile = (String) requestStruct.params.get(1);
+
         trainingSet = Utils.loadRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
 
@@ -57,25 +61,25 @@ public class UserItemGraph extends RecGraph {
     public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws TasteException {
 
         Map<String, Set<Rating>> recommendationList = new HashMap<>();
-            PageRank<String, String> pageRank = new PageRank<>(this.recGraph, 0.15);
+        PageRank<String, String> pageRank = new PageRank<>(this.recGraph, 0.15);
 
-            pageRank.setMaxIterations(25);
+        pageRank.setMaxIterations(25);
 
-            pageRank.evaluate();
-
-
-            // print recommendation for all users
-
-            for (String userID : testSet.keySet()) {
-                int totElement = 0;
-                Set<Rating> pageRankValues = new TreeSet<>();
-                for (String itemID : testSet.get(userID)) {
-                    pageRankValues.add(new Rating(itemID, pageRank.getVertexScore(itemID) + ""));
-                }
-                recommendationList.put(userID, pageRankValues);
+        pageRank.evaluate();
 
 
+        // print recommendation for all users
+
+        for (String userID : testSet.keySet()) {
+            int totElement = 0;
+            Set<Rating> pageRankValues = new TreeSet<>();
+            for (String itemID : testSet.get(userID)) {
+                pageRankValues.add(new Rating(itemID, pageRank.getVertexScore(itemID) + ""));
             }
+            recommendationList.put(userID, pageRankValues);
+
+
+        }
 
         return recommendationList;
     }

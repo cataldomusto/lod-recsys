@@ -26,6 +26,8 @@ public abstract class RecGraph {
 
     }
 
+
+    /*
     public RecGraph(String trainingFile, String testFile) throws IOException {
         recGraph = new UndirectedSparseMultigraph<>(); //WRONG: new DirectedSparseGraph<>();
         try {
@@ -34,9 +36,11 @@ public abstract class RecGraph {
             e.printStackTrace();
             throw e;
         }
-    }
+    } */
 
-    public abstract void generateGraph(String trainingFileName, String testFile) throws IOException;
+    //public abstract void generateGraph(String trainingFileName, String testFile) throws IOException;
+
+    public abstract void generateGraph(RequestStruct requestStruct) throws IOException;
 
     public abstract Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws IOException, TasteException;
 

@@ -7,6 +7,7 @@ import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
 import org.apache.mahout.cf.taste.common.TasteException;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,16 +21,16 @@ public class UserItemPriorGraph extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
 
-    public UserItemPriorGraph(String trainingFileName, String testFile) {
-        try {
-            generateGraph(trainingFileName, testFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public UserItemPriorGraph(String trainingFileName, String testFile) throws IOException {
+        generateGraph(new RequestStruct(trainingFileName, testFile));
+
     }
 
     @Override
-    public void generateGraph(String trainingFileName, String testFile) throws IOException {
+    public void generateGraph(RequestStruct requestStruct) throws IOException {
+        String trainingFileName = (String) requestStruct.params.get(0),
+                testFile = (String) requestStruct.params.get(1);
+
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
 

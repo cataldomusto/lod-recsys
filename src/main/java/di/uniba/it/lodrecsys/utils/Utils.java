@@ -3,6 +3,9 @@ package di.uniba.it.lodrecsys.utils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import di.uniba.it.lodrecsys.entity.*;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -227,7 +230,7 @@ public class Utils {
             e.printStackTrace();
             throw e;
         } finally {
-            if(writer != null) {
+            if (writer != null) {
                 writer.close();
             }
 
@@ -312,7 +315,7 @@ public class Utils {
 
 
                 if (splitted.length == 3) {
-                    String movieYear = splitted[2].substring(splitted[2].lastIndexOf("-")+1, splitted[2].length());
+                    String movieYear = splitted[2].substring(splitted[2].lastIndexOf("-") + 1, splitted[2].length());
 
                     mappingEntities.add(new MovieMapping(splitted[0], null, splitted[1], movieYear));
                 }
@@ -368,6 +371,7 @@ public class Utils {
 
     /**
      * Loads all the item to be mapped
+     *
      * @param dbpediaItemsFile
      * @return
      * @throws IOException
@@ -394,6 +398,40 @@ public class Utils {
         }
 
 
+    }
+
+
+    public static Map<String, List<String>> loadTAGmeConceptsForItems(String itemsDir) throws IOException {
+        Map<String, List<String>> tagMeConcepts = new HashMap<>();
+
+        File tagmeDir = new File(itemsDir);
+        File[] listSubDir = tagmeDir.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isDirectory();
+            }
+        });
+
+        int i = 0;
+
+        for (File subDir : listSubDir) {
+            String itemID = subDir.getName(),
+                    textFile = subDir.getCanonicalPath() + File.separator + itemID + ".tagme";
+
+
+            CSVParser parser = new CSVParser(new FileReader(textFile), CSVFormat.TDF);
+            List<String> resourceList = new ArrayList<>();
+
+            for (CSVRecord record : parser.getRecords()) {
+                resourceList.add(record.get(1));
+            }
+
+            tagMeConcepts.put(itemID, resourceList);
+
+
+        }
+
+        return tagMeConcepts;
     }
 
 
