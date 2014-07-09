@@ -20,10 +20,10 @@ public class SimpleVertexTransformer implements Transformer<String, Double> {
 
     private double massProb = 0.8;
 
-    private final Map<String, Set<String>> uriIdMap;
+    private final Map<String, String> uriIdMap;
 
 
-    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap) {
+    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, String> uriIdMap) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
         this.graphSize = graphSize;
@@ -38,7 +38,7 @@ public class SimpleVertexTransformer implements Transformer<String, Double> {
         this.uriIdMap = new HashMap<>();
     }
 
-    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, Set<String>> uriIdMap, double massProb) {
+    public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, double massProb, Map<String, String> uriIdMap) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
         this.graphSize = graphSize;
@@ -48,10 +48,15 @@ public class SimpleVertexTransformer implements Transformer<String, Double> {
 
     @Override
     public Double transform(String node) {
-        boolean containsPos = trainingPos.contains(node), containsNeg = false;
-        if (!containsPos) {
-            containsNeg = trainingNeg.contains(node);
-        }
+        String resourceID = uriIdMap.get(node),
+                itemID = (resourceID == null) ? node : resourceID;
+
+        boolean containsPos = trainingPos.contains(itemID),
+                containsNeg = false;
+
+        if (!containsPos)
+            containsNeg = trainingNeg.contains(itemID);
+
 
         if (containsPos) {
             return massProb / (double) (trainingPos.size());

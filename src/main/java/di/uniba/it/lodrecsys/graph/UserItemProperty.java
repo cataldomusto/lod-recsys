@@ -22,7 +22,9 @@ import java.util.*;
 public class UserItemProperty extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
-
+    private Map<String, String> uriIdMap;
+    private Map<String, String> idUriMap;
+    
     public UserItemProperty(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
         try {
             getMapForMappedItems(mappedItems);
@@ -33,14 +35,15 @@ public class UserItemProperty extends RecGraph {
 
     }
 
-    private Map<String, String> getMapForMappedItems(List<MovieMapping> movieList) {
+    private void getMapForMappedItems(List<MovieMapping> movieList) {
         // key: item-id - value: dbpedia uri
-        Map<String, String> mappedItems = new HashMap<>();
+        idUriMap = new HashMap<>();
+        uriIdMap = new HashMap<>();
 
-        for (MovieMapping movie : movieList)
-            mappedItems.put(movie.getItemID(), movie.getDbpediaURI());
-
-        return mappedItems;
+        for (MovieMapping movie : movieList) {
+            idUriMap.put(movie.getItemID(), movie.getDbpediaURI());
+            uriIdMap.put(movie.getDbpediaURI(), movie.getItemID());
+        }
     }
 
     @Override
@@ -50,7 +53,7 @@ public class UserItemProperty extends RecGraph {
 
         PropertiesManager propManager = new PropertiesManager((String) requestStruct.params.get(2));
         List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
-        Map<String, String> mappedItems = getMapForMappedItems(mappedItemsList);
+        getMapForMappedItems(mappedItemsList);
 
 
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
@@ -67,8 +70,13 @@ public class UserItemProperty extends RecGraph {
         }
 
         for (String itemID : allItemsID) {
-            recGraph.addVertex(itemID);
-            addItemProperties(itemID, propManager, mappedItems);
+            String resourceURI = idUriMap.get(itemID);
+            if (resourceURI == null)
+                recGraph.addVertex(itemID);
+            else {
+                recGraph.addVertex(resourceURI);
+                addItemProperties(itemID, propManager, resourceURI);
+            }
         }
 
 
@@ -76,7 +84,11 @@ public class UserItemProperty extends RecGraph {
             int edgeCounter = 0;
 
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
-                recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
+                String resourceURI = idUriMap.get(posItemID);
+                if (resourceURI == null)
+                    recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
+                else
+                    recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, resourceURI);
                 edgeCounter++;
 
             }
@@ -87,16 +99,13 @@ public class UserItemProperty extends RecGraph {
 
     }
 
-    private void addItemProperties(String itemID, PropertiesManager propManager, Map<String, String> mappedItems) {
-        String resourceURI = mappedItems.get(itemID);
-
+    private void addItemProperties(String itemID, PropertiesManager propManager, String resourceURI) {
         List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
         long i = 1;
 
         for (Statement stat : resProperties) {
             String object = stat.getObject().toString();
-            recGraph.addEdge(itemID + "-prop" + i++, itemID, object);
-
+            recGraph.addEdge(itemID + "-prop" + i++, resourceURI, object);
         }
 
 
@@ -124,15 +133,18 @@ public class UserItemProperty extends RecGraph {
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb);
+        SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
         priors.evaluate();
 
         for (String currItemID : testItems) {
-            allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(currItemID))));
-
+            String resourceURI = idUriMap.get(currItemID);
+            if (resourceURI == null)
+                allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(currItemID))));
+            else
+                allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(resourceURI))));
         }
 
         return allRecommendation;

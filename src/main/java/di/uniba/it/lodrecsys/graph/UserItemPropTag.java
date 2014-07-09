@@ -21,6 +21,7 @@ import java.util.*;
 public class UserItemPropTag extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
+    Map<String, String> mappedItems;
 
     public UserItemPropTag(String trainingFileName, String testFileName, String proprIndexDir,
                            List<MovieMapping> mappedItems, Map<String, List<String>> tagmeConcepts) throws IOException {
@@ -28,14 +29,14 @@ public class UserItemPropTag extends RecGraph {
 
     }
 
-    private Map<String, String> getMapForMappedItems(List<MovieMapping> movieList) {
+    private void getMapForMappedItems(List<MovieMapping> movieList) {
         // key: item-id - value: dbpedia uri
-        Map<String, String> mappedItems = new HashMap<>();
+        mappedItems = new HashMap<>();
 
         for (MovieMapping movie : movieList)
             mappedItems.put(movie.getItemID(), movie.getDbpediaURI());
 
-        return mappedItems;
+
     }
 
     @Override
@@ -45,7 +46,7 @@ public class UserItemPropTag extends RecGraph {
 
         PropertiesManager propManager = new PropertiesManager((String) requestStruct.params.get(2));
         List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
-        Map<String, String> mappedItems = getMapForMappedItems(mappedItemsList);
+        getMapForMappedItems(mappedItemsList);
         Map<String, List<String>> tagmeConcepts = (Map<String, List<String>>) requestStruct.params.get(4);
 
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
@@ -63,9 +64,14 @@ public class UserItemPropTag extends RecGraph {
         }
 
         for (String itemID : allItemsID) {
-            recGraph.addVertex(itemID);
-            addItemProperties(itemID, propManager, mappedItems);
-            addItemTAGmeConcepts(itemID, tagmeConcepts);
+            String resourceURI = mappedItems.get(itemID);
+            if (resourceURI == null)
+                recGraph.addVertex(itemID);
+            else {
+                recGraph.addVertex(resourceURI);
+                addItemProperties(itemID, propManager, resourceURI);
+                addItemTAGmeConcepts(itemID, tagmeConcepts, resourceURI);
+            }
         }
 
 
@@ -73,7 +79,11 @@ public class UserItemPropTag extends RecGraph {
             int edgeCounter = 0;
 
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
-                recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
+                String resourceURI = mappedItems.get(posItemID);
+                if (resourceURI == null)
+                    recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
+                else
+                    recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, resourceURI);
                 edgeCounter++;
 
             }
@@ -84,28 +94,26 @@ public class UserItemPropTag extends RecGraph {
 
     }
 
-    private void addItemTAGmeConcepts(String itemID, Map<String, List<String>> tagmeConcepts) {
+    private void addItemTAGmeConcepts(String itemID, Map<String, List<String>> tagmeConcepts, String resourceURI) {
         int i = 0;
         List<String> itemTagMeConcepts = tagmeConcepts.get(itemID);
 
+
         if (itemTagMeConcepts != null) {
             for (String tagmeRes : itemTagMeConcepts) {
-                recGraph.addEdge(itemID + "-tagme" + i++, itemID, tagmeRes);
+                recGraph.addEdge(itemID + "-tagme" + i++, resourceURI, tagmeRes);
             }
         }
 
     }
 
-    private void addItemProperties(String itemID, PropertiesManager propManager, Map<String, String> mappedItems) {
-        String resourceURI = mappedItems.get(itemID);
-
+    private void addItemProperties(String itemID, PropertiesManager propManager, String resourceURI) {
         List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
         long i = 1;
 
         for (Statement stat : resProperties) {
             String object = stat.getObject().toString();
-            recGraph.addEdge(itemID + "-prop" + i++, itemID, object);
-
+            recGraph.addEdge(itemID + "-prop" + i++, resourceURI, object);
         }
 
 
@@ -140,8 +148,11 @@ public class UserItemPropTag extends RecGraph {
         priors.evaluate();
 
         for (String currItemID : testItems) {
-            allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(currItemID))));
-
+            String resourceURI = mappedItems.get(currItemID);
+            if (resourceURI == null)
+                allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(currItemID))));
+            else
+                allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(resourceURI))));
         }
 
         return allRecommendation;
