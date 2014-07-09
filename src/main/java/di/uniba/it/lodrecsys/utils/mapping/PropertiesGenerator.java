@@ -1,5 +1,6 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
+import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 
@@ -17,40 +18,21 @@ import java.util.List;
 public class PropertiesGenerator {
     public static void main(String[] args) throws Exception {
         String choosenProp = "mapping/choosen_prop.txt",
-                propertiesDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                propertiesDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop_exp",
                 dbpediaMapping = "mapping/item.mapping",
                 firstLevelExpProp = "mapping/exp_prop.txt";
 
         PropertiesManager manager = new PropertiesManager(propertiesDir);
 
-        Collection<String> expPropList = loadPropertiesURI(firstLevelExpProp);
+        List<Statement> statements = manager.getResourceProperties("http://dbpedia.org/resource/Quentin_Tarantino");
 
-        SPARQLClient sparql = new SPARQLClient();
+        if (!statements.isEmpty())
+            System.out.println("Correct tarantino");
 
-        List<MovieMapping> mappedItems = Utils.loadDBpediaMappedItems(dbpediaMapping);
+        statements = manager.getResourceProperties("http://dbpedia.org/resource/Pulp_Fiction");
 
-
-        int i = 0;
-
-        for (MovieMapping mappedItem : mappedItems) {
-            try {
-                manager.start(true);
-                //sparql.saveResourceProperties(mappedItem.getDbpediaURI(), choosenPropList, manager);
-                sparql.downloadFirstLevelRelation(mappedItem.getDbpediaURI(), expPropList, manager);
-
-                i++;
-
-                manager.commitChanges();
-                if (i % 50 == 0) {
-                    myWait(30);
-                }
-            } finally {
-
-                manager.closeManager();
-            }
-
-
-        }
+        if (!statements.isEmpty())
+            System.out.println("Correct pulp");
 
 
     }
@@ -63,6 +45,34 @@ public class PropertiesGenerator {
         while ((System.currentTimeMillis() - cm) < sec * 1000) ;
 
     }
+
+    private static void loadFirstLevelExpansionProp(PropertiesManager manager, String firstLevelExpProp, String dbpediaMapping) throws IOException {
+        Collection<String> expPropList = loadPropertiesURI(firstLevelExpProp);
+
+        SPARQLClient sparql = new SPARQLClient();
+
+        List<MovieMapping> mappedItems = Utils.loadDBpediaMappedItems(dbpediaMapping);
+
+
+        int i = 0;
+
+        for (MovieMapping mappedItem : mappedItems) {
+            try {
+                manager.start(true);
+                sparql.downloadFirstLevelRelation(mappedItem.getDbpediaURI(), expPropList, manager);
+
+                i++;
+
+                manager.commitChanges();
+            } finally {
+
+                manager.closeManager();
+            }
+
+
+        }
+    }
+
 
 
     private static Collection<String> loadPropertiesURI(String fileName) {

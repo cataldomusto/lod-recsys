@@ -41,12 +41,7 @@ public class SPARQLClient {
         String expPropVar = "?exp_prop", expPropValueVar = "?exp_prop_value",
                 itemVar = "?item", formattedResource = "<" + resource + ">",
                 currQuery =
-                        "PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                                "PREFIX  dbpedia-owl: <http://dbpedia.org/ontology>\n" +
-                                "PREFIX  dbpedia: <http://dbpedia.org/resource>\n" +
-                                "PREFIX  rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                                "\n" +
-                                "SELECT DISTINCT *\n" +
+                        "SELECT DISTINCT *\n" +
                                 "WHERE\n" +
                                 "  { " + formattedResource + " " + expPropVar + " " + expPropValueVar + " .\n" +
                                 itemVar + " <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Film> .\n" +
