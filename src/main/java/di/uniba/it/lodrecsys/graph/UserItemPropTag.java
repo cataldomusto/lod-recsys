@@ -21,7 +21,8 @@ import java.util.*;
 public class UserItemPropTag extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
-    Map<String, String> mappedItems;
+    private Map<String, String> uriIdMap;
+    private Map<String, String> idUriMap;
 
     public UserItemPropTag(String trainingFileName, String testFileName, String proprIndexDir,
                            List<MovieMapping> mappedItems, Map<String, List<String>> tagmeConcepts) throws IOException {
@@ -30,12 +31,16 @@ public class UserItemPropTag extends RecGraph {
     }
 
     private void getMapForMappedItems(List<MovieMapping> movieList) {
+
+        // key: dbpedia_URI - value: id dataset
+        uriIdMap = new HashMap<>();
         // key: item-id - value: dbpedia uri
-        mappedItems = new HashMap<>();
+        idUriMap = new HashMap<>();
 
-        for (MovieMapping movie : movieList)
-            mappedItems.put(movie.getItemID(), movie.getDbpediaURI());
-
+        for (MovieMapping movie : movieList) {
+            idUriMap.put(movie.getItemID(), movie.getDbpediaURI());
+            uriIdMap.put(movie.getDbpediaURI(), movie.getItemID());
+        }
 
     }
 
@@ -64,7 +69,7 @@ public class UserItemPropTag extends RecGraph {
         }
 
         for (String itemID : allItemsID) {
-            String resourceURI = mappedItems.get(itemID);
+            String resourceURI = idUriMap.get(itemID);
             if (resourceURI == null)
                 recGraph.addVertex(itemID);
             else {
@@ -79,7 +84,7 @@ public class UserItemPropTag extends RecGraph {
             int edgeCounter = 0;
 
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
-                String resourceURI = mappedItems.get(posItemID);
+                String resourceURI = idUriMap.get(posItemID);
                 if (resourceURI == null)
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
                 else
@@ -120,7 +125,7 @@ public class UserItemPropTag extends RecGraph {
     }
 
     @Override
-    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws TasteException {
+    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
         Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
 
         double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
@@ -141,14 +146,14 @@ public class UserItemPropTag extends RecGraph {
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb);
+        SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
         priors.evaluate();
 
         for (String currItemID : testItems) {
-            String resourceURI = mappedItems.get(currItemID);
+            String resourceURI = idUriMap.get(currItemID);
             if (resourceURI == null)
                 allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(currItemID))));
             else

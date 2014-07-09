@@ -42,7 +42,7 @@ public abstract class RecGraph {
 
     public abstract void generateGraph(RequestStruct requestStruct) throws IOException;
 
-    public abstract Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws IOException, TasteException;
+    public abstract Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws IOException;
 
 
 }

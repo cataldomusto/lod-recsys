@@ -56,7 +56,7 @@ public class UserItemPriorGraph extends RecGraph {
     }
 
     @Override
-    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws TasteException {
+    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
         Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
 
         double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user

@@ -58,7 +58,7 @@ public class UserItemGraph extends RecGraph {
     }
 
     @Override
-    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws TasteException {
+    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
 
         Map<String, Set<Rating>> recommendationList = new HashMap<>();
         PageRank<String, String> pageRank = new PageRank<>(this.recGraph, 0.15);
