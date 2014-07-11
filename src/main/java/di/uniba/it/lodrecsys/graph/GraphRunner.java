@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class GraphRunner {
     private static Logger currLogger = Logger.getLogger(GraphRunner.class.getName());
 
-    public static void main(String[] args) throws IOException, TasteException {
+    public static void main(String[] args) throws IOException {
         String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
                 testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
@@ -40,7 +40,7 @@ public class GraphRunner {
         double massProb = 0.8;
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
-        String method = "UserItemPropTag";
+        String method = "UserItemTag";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
