@@ -49,6 +49,7 @@ public class GraphFactory {
                         (List<MovieMapping>) params[4],
                         (Map<String, List<String>>) params[5]);
                 requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+                break;
 
             case "UserItemOneExp":
                 graph = new UserItemOneExp((String) params[0],

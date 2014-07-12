@@ -50,9 +50,9 @@ public class UserItemTag extends RecGraph {
                 testFile = (String) requestStruct.params.get(1);
 
         //PropertiesManager propManager = new PropertiesManager((String) requestStruct.params.get(2));
-        List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
+        List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(2);
         getMapForMappedItems(mappedItemsList);
-        Map<String, List<String>> tagmeConcepts = (Map<String, List<String>>) requestStruct.params.get(4);
+        Map<String, List<String>> tagmeConcepts = (Map<String, List<String>>) requestStruct.params.get(3);
 
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
