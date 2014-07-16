@@ -58,6 +58,14 @@ public class GraphFactory {
                         (List<MovieMapping>) params[4]
                 );
                 requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+            case "UserItemComplete":
+                graph = new UserItemComplete((String) params[0],
+                        (String) params[1],
+                        (String) params[3],
+                        (List<MovieMapping>) params[4],
+                        (Map<String, List<String>>) params[5]
+                );
+                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
 
 
         }
@@ -85,6 +93,8 @@ class RequestStructFactory {
             case "UserItemTag":
                 return new RequestStruct((double) params[0]);
             case "UserItemOneExp":
+                return new RequestStruct((double) params[0]);
+            case "UserItemComplete":
                 return new RequestStruct((double) params[0]);
             default:
                 return null;
