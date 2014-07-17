@@ -58,6 +58,7 @@ public class GraphFactory {
                         (List<MovieMapping>) params[4]
                 );
                 requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+                break;
             case "UserItemComplete":
                 graph = new UserItemComplete((String) params[0],
                         (String) params[1],
