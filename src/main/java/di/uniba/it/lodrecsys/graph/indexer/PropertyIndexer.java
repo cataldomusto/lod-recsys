@@ -8,7 +8,6 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
-import org.apache.commons.math3.util.MathUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -50,30 +49,41 @@ public class PropertyIndexer {
         threadExecutor.shutdown();
     }
 
-    public Map<String, Map<String, Double>> getScoreVector(final List<String> userTrainingSet) {
+    public Map<String, Map<String, Double>> getScoreVector(final Set<String> userTrainingSet) {
         Map<String, Map<String, Double>> scoreVectors = new HashMap<>();
         Map<String, Double> propFrequency = new HashMap<>();
 
         for (String itemID : userTrainingSet) {
             Map<String, String> currItemRepr = itemRepresentation.get(itemID);
 
-            for (String valueProp : currItemRepr.values()) {
+            if (currItemRepr != null) {
+                for (String valueProp : currItemRepr.values()) {
+                    Collection<String> postingList = invertedIndex.get(valueProp);
+                    int postingLen = postingList.size();
 
-                Double intersectionSize = (double) Collections2.filter(invertedIndex.get(valueProp), new Predicate<String>() {
-                    @Override
-                    public boolean apply(String input) {
-                        return userTrainingSet.contains(input);
-                    }
-                }).size();
+                    Double intersectionSize = (double) Collections2.filter(postingList, new Predicate<String>() {
+                        @Override
+                        public boolean apply(String input) {
+                            return userTrainingSet.contains(input);
+                        }
+                    }).size();
 
-                // log-scaling
-                propFrequency.put(valueProp, 1 + Math.log10(intersectionSize));
+                    // log-scaling * idf
+                    Double tfIDF = (intersectionSize != 0) ? (1 + Math.log10(intersectionSize) * Math.log(itemRepresentation.size() / postingLen)) : 0d;
+                    propFrequency.put(valueProp, tfIDF);
+                }
             }
-
         }
 
 
         for (String itemID : itemRepresentation.keySet()) {
+            Map<String, Double> termMap = new HashMap<>();
+
+            for (String indexTerm : invertedIndex.keySet()) {
+                termMap.put(indexTerm, propFrequency.getOrDefault(indexTerm, 0d));
+            }
+
+            scoreVectors.put(itemID, termMap);
 
         }
 
@@ -90,12 +100,22 @@ public class PropertyIndexer {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
         String propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                mappedItemFile = "mapping/item.mapping";
+                mappedItemFile = "mapping/item.mapping",
+                trainFile = "/home/asuglia/thesis/dataset/ml-100k/binarized/u1.base";
 
-
+        Multimap<String, Set<String>> ratings = Utils.loadPosNegRatingForEachUser(trainFile);
         PropertyIndexer indexer = new PropertyIndexer(mappedItemFile, propertyIndexDir);
 
-        System.out.println(indexer);
+        //System.out.println(indexer);
+
+        Map<String, Map<String, Double>> scoreVectors = indexer.getScoreVector(((List<Set<String>>) ratings.get("1")).get(0));
+
+        Map<String, Double> vector = scoreVectors.get("1");
+        for (String term : vector.keySet()) {
+            Double termVal = vector.get(term);
+            if (termVal > 0)
+                System.out.println(term + " " + termVal);
+        }
 
     }
 }
