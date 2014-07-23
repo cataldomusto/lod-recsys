@@ -1,11 +1,14 @@
 package di.uniba.it.lodrecsys.graph.indexer;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
+import org.apache.commons.math3.util.MathUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -47,10 +50,31 @@ public class PropertyIndexer {
         threadExecutor.shutdown();
     }
 
-    public Map<String, Map<String, Double>> getScoreVector(List<String> userTrainingSet) {
+    public Map<String, Map<String, Double>> getScoreVector(final List<String> userTrainingSet) {
         Map<String, Map<String, Double>> scoreVectors = new HashMap<>();
+        Map<String, Double> propFrequency = new HashMap<>();
 
         for (String itemID : userTrainingSet) {
+            Map<String, String> currItemRepr = itemRepresentation.get(itemID);
+
+            for (String valueProp : currItemRepr.values()) {
+
+                Double intersectionSize = (double) Collections2.filter(invertedIndex.get(valueProp), new Predicate<String>() {
+                    @Override
+                    public boolean apply(String input) {
+                        return userTrainingSet.contains(input);
+                    }
+                }).size();
+
+                // log-scaling
+                propFrequency.put(valueProp, 1 + Math.log10(intersectionSize));
+            }
+
+        }
+
+
+        for (String itemID : itemRepresentation.keySet()) {
+
         }
 
 
