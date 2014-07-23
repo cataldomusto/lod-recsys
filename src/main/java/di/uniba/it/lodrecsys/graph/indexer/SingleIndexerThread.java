@@ -1,17 +1,18 @@
 package di.uniba.it.lodrecsys.graph.indexer;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.concurrent.RecursiveTask;
 
 /**
  * Created by asuglia on 7/23/14.
  */
-public class SingleIndexerThread implements Callable<Map<String, Set<String>>> {
+public class SingleIndexerThread implements Callable<Multimap<String, String>> {
     private PropertiesManager propertiesManager;
     private List<MovieMapping> itemsSet;
 
@@ -21,8 +22,8 @@ public class SingleIndexerThread implements Callable<Map<String, Set<String>>> {
     }
 
     @Override
-    public Map<String, Set<String>> call() throws Exception {
-        Map<String, Set<String>> propIndexer = new HashMap<>();
+    public Multimap<String, String> call() throws Exception {
+        Multimap<String, String> propIndexer = HashMultimap.create();
 
         // loop for each item
         for (MovieMapping movie : itemsSet) {
@@ -30,12 +31,7 @@ public class SingleIndexerThread implements Callable<Map<String, Set<String>>> {
 
             for (Statement stat : propList) {
                 String propValue = stat.getObject().toString();
-                Set<String> connectedItems = propIndexer.get(propValue);
-                if (connectedItems == null)
-                    connectedItems = new TreeSet<>();
-
-                connectedItems.add(movie.getItemID());
-                propIndexer.put(propValue, connectedItems);
+                propIndexer.put(propValue, movie.getItemID());
 
             }
 

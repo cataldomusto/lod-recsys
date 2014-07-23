@@ -1,5 +1,7 @@
 package di.uniba.it.lodrecsys.graph.indexer;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
@@ -12,24 +14,12 @@ import java.util.concurrent.*;
  * Created by asuglia on 7/22/14.
  */
 public class PropertyIndexer {
-    private Map<String, Set<String>> invertedIndex;
+    private Multimap<String, String> invertedIndex;
 
     public PropertyIndexer(String dbpediaMappingFile, String propertyIndexDir) throws IOException, ExecutionException, InterruptedException {
 
-        invertedIndex = new HashMap<>();
+        invertedIndex = HashMultimap.create();
         indexItems(Utils.loadDBpediaMappedItems(dbpediaMappingFile), new PropertiesManager(propertyIndexDir), 5);
-    }
-
-    private Map<String, String> getMapForMappedItems(List<MovieMapping> movieList) {
-        // key: item-id - value: dbpedia uri
-        Map<String, String> idUriMap = new HashMap<>();
-
-        for (MovieMapping movie : movieList) {
-            idUriMap.put(movie.getItemID(), movie.getDbpediaURI());
-
-        }
-
-        return idUriMap;
     }
 
     private void indexItems(List<MovieMapping> itemsSet, PropertiesManager propertiesManager, int numThread) throws ExecutionException, InterruptedException {
@@ -39,18 +29,26 @@ public class PropertyIndexer {
 
         List<List<MovieMapping>> itemSubLists = com.google.common.collect.Lists.partition(itemsSet, itemsPerThread);
 
-        List<Future<Map<String, Set<String>>>> computedIndex = new ArrayList<>();
+        List<Future<Multimap<String, String>>> computedIndex = new ArrayList<>();
 
 
         for (int i = 0; i < numThread; i++)
             computedIndex.add(threadExecutor.submit(new SingleIndexerThread(itemSubLists.get(i), propertiesManager)));
 
-        for (Future<Map<String, Set<String>>> newIndexResult : computedIndex) {
+        for (Future<Multimap<String, String>> newIndexResult : computedIndex) {
             invertedIndex.putAll(newIndexResult.get());
 
         }
 
         threadExecutor.shutdown();
+    }
+
+    public Map<String, List<Double>> getScoreVector() {
+        Map<String, List<Double>> scoreVectors = new HashMap<>();
+
+
+        return scoreVectors;
+
     }
 
     @Override
@@ -65,6 +63,7 @@ public class PropertyIndexer {
 
         PropertyIndexer indexer = new PropertyIndexer(mappedItemFile, propertyIndexDir);
 
+        System.out.println(indexer);
 
     }
 }
