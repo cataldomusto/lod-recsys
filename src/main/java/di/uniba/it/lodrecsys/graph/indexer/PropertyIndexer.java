@@ -53,4 +53,18 @@ public class PropertyIndexer {
         threadExecutor.shutdown();
     }
 
+    @Override
+    public String toString() {
+        return this.invertedIndex.toString();
+    }
+
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+        String propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                mappedItemFile = "mapping/item.mapping";
+
+
+        PropertyIndexer indexer = new PropertyIndexer(mappedItemFile, propertyIndexDir);
+
+
+    }
 }
