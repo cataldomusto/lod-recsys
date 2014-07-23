@@ -541,6 +541,28 @@ public class Utils {
         return ratingsMap;
     }
 
+    public static Set<String> loadMovieLensItems(String itemFile) throws IOException {
+        Set<String> itemsSet = new TreeSet<>();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(itemFile));
+
+            while (reader.ready()) {
+                String currLine = reader.readLine();
+
+                itemsSet.add(currLine.split("|")[0]);
+
+            }
+
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+
+
+        return itemsSet;
+    }
 
     public static Map<String, Set<Rating>> loadRatingForEachUser(String ratingFile) throws IOException {
         Map<String, Set<Rating>> ratingsMap = new HashMap<>();
