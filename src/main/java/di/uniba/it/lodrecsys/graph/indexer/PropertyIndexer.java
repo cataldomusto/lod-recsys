@@ -3,6 +3,7 @@ package di.uniba.it.lodrecsys.graph.indexer;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 
@@ -15,9 +16,10 @@ import java.util.concurrent.*;
  */
 public class PropertyIndexer {
     private Multimap<String, String> invertedIndex;
+    private Map<String, Map<String, String>> itemRepresentation;
 
     public PropertyIndexer(String dbpediaMappingFile, String propertyIndexDir) throws IOException, ExecutionException, InterruptedException {
-
+        itemRepresentation = new HashMap<>();
         invertedIndex = HashMultimap.create();
         indexItems(Utils.loadDBpediaMappedItems(dbpediaMappingFile), new PropertiesManager(propertyIndexDir), 5);
     }
@@ -29,22 +31,28 @@ public class PropertyIndexer {
 
         List<List<MovieMapping>> itemSubLists = com.google.common.collect.Lists.partition(itemsSet, itemsPerThread);
 
-        List<Future<Multimap<String, String>>> computedIndex = new ArrayList<>();
+        List<Future<Pair<Multimap<String, String>, Map<String, Map<String, String>>>>> computedIndex = new ArrayList<>();
 
 
         for (int i = 0; i < numThread; i++)
             computedIndex.add(threadExecutor.submit(new SingleIndexerThread(itemSubLists.get(i), propertiesManager)));
 
-        for (Future<Multimap<String, String>> newIndexResult : computedIndex) {
-            invertedIndex.putAll(newIndexResult.get());
+        for (Future<Pair<Multimap<String, String>, Map<String, Map<String, String>>>> newIndexResult : computedIndex) {
+            Pair<Multimap<String, String>, Map<String, Map<String, String>>> pair = newIndexResult.get();
+            invertedIndex.putAll(pair.key);
+            itemRepresentation.putAll(pair.value);
 
         }
 
         threadExecutor.shutdown();
     }
 
-    public Map<String, List<Double>> getScoreVector() {
-        Map<String, List<Double>> scoreVectors = new HashMap<>();
+    public Map<String, Map<String, Double>> getScoreVector(List<String> userTrainingSet) {
+        Map<String, Map<String, Double>> scoreVectors = new HashMap<>();
+
+        for (String itemID : userTrainingSet) {
+        }
+
 
 
         return scoreVectors;
