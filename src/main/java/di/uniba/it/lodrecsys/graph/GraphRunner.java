@@ -40,7 +40,7 @@ public class GraphRunner {
         double massProb = 0.8;
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
-        String method = "UserItemComplete";
+        String method = "UserItemJaccard";
 
         for (SparsityLevel level : SparsityLevel.values()) {
 

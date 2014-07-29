@@ -87,9 +87,9 @@ public class DownloadEntityData {
                             if (text != null) {
                                 if (text.contains("[ edit ]")) {
                                     text = text.replace("[ edit ]", "");
-                                } else {
-                                    text = client.getResourceAbstract(lineValues[2]);
                                 }
+                            } else {
+                                text = client.getResourceAbstract(lineValues[2]);
                             }
                         } catch (BoilerpipeProcessingException ex) {
                             Logger.getLogger(DownloadEntityData.class.getName()).log(Level.WARNING, "Error to extract text", ex);
@@ -111,7 +111,7 @@ public class DownloadEntityData {
                 }
 
 
-                FileWriter writer = new FileWriter(bookDirname + "/" + lineValues[0] + ".text");
+                FileWriter writer = new FileWriter(bookDirname + File.separator + lineValues[0] + ".text");
                 writer.write(text);
                 writer.close();
             }
