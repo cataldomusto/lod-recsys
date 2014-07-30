@@ -26,12 +26,17 @@ public class PropertiesCalculator {
                 secElements = new TreeSet<>();
 
         for (String firstKey : first.keySet()) {
-            firstElements.addAll(first.get(firstKey));
+            for (String propValue : first.get(firstKey)) {
+                firstElements.add(firstKey + ":" + propValue);
+            }
         }
 
         for (String secKey : second.keySet()) {
-            secElements.addAll(second.get(secKey));
+            for (String propValue : second.get(secKey)) {
+                secElements.add(secKey + ":" + propValue);
+            }
         }
+
 
         return (double) Sets.intersection(firstElements, secElements).size() / (double) Sets.union(firstElements, secElements).size();
 
