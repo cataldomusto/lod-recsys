@@ -69,8 +69,8 @@ public class GraphFactory {
                 requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
                 break;
 
-            case "UserItemJaccard":
-                graph = new UserItemJaccard((String) params[0],
+            case "UserItemJaccardScore":
+                graph = new UserItemJaccardScore((String) params[0],
                         (String) params[1],
                         (String) params[3],
                         (List<MovieMapping>) params[4]);
@@ -105,7 +105,7 @@ class RequestStructFactory {
                 return new RequestStruct((double) params[0]);
             case "UserItemComplete":
                 return new RequestStruct((double) params[0]);
-            case "UserItemJaccard":
+            case "UserItemJaccardScore":
                 return new RequestStruct((double) params[0]);
             default:
                 return null;
