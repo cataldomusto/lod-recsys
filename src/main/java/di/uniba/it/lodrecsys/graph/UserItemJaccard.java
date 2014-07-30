@@ -1,10 +1,12 @@
 package di.uniba.it.lodrecsys.graph;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
+import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.PropertiesCalculator;
 import di.uniba.it.lodrecsys.utils.Utils;
@@ -23,7 +25,7 @@ public class UserItemJaccard extends RecGraph {
     private Map<String, String> uriIdMap;
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
-    private Map<String, List<String>> usersCentroid;
+    private Map<String, Multimap<String, String>> usersCentroid;
     private PropertiesManager propManager;
 
 
@@ -56,6 +58,7 @@ public class UserItemJaccard extends RecGraph {
         propManager = new PropertiesManager((String) requestStruct.params.get(2));
         List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
         getMapForMappedItems(mappedItemsList);
+        usersCentroid = new HashMap<>();
 
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
@@ -114,44 +117,42 @@ public class UserItemJaccard extends RecGraph {
         return usersRecommendation;
     }
 
-    private Map<String, List<String>> loadItemsRepresentation(Collection<String> ratedItemList, PropertiesManager manager) {
-        Map<String, List<String>> itemsRepresentation = new HashMap<>();
+    private Map<String, Multimap<String, String>> loadItemsRepresentation(Collection<String> ratedItemList, PropertiesManager manager) {
+        Map<String, Multimap<String, String>> itemsRepresentation = new HashMap<>();
 
         for (String itemID : ratedItemList) {
             String resourceID = idUriMap.get(itemID);
             if (resourceID != null) {
                 List<Statement> propList = manager.getResourceProperties(resourceID);
-                List<String> itemProperties = new ArrayList<>();
+                Multimap<String, String> itemProperties = ArrayListMultimap.create();
 
                 for (Statement stat : propList) {
-                    itemProperties.add(stat.getObject().toString());
+                    itemProperties.put(stat.getPredicate().toString(), stat.getObject().toString());
                 }
 
                 itemsRepresentation.put(itemID, itemProperties);
 
             }
-
-
         }
 
         return itemsRepresentation;
 
     }
 
-    private List<String> loadItemRepresentation(String itemResource) {
-        List<String> itemRepresentation = new ArrayList<>();
+    private Multimap<String, String> loadItemRepresentation(String itemResource) {
+        Multimap<String, String> itemRepresentation = ArrayListMultimap.create();
 
         List<Statement> propStatement = propManager.getResourceProperties(itemResource);
 
         for (Statement stat : propStatement) {
-            itemRepresentation.add(stat.getObject().toString());
+            itemRepresentation.put(stat.getPredicate().toString(), stat.getObject().toString());
         }
 
         return itemRepresentation;
 
     }
 
-    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb, List<String> userCentroid) {
+    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb, Multimap<String, String> userCentroid) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
 
@@ -191,6 +192,16 @@ public class UserItemJaccard extends RecGraph {
         UserItemJaccard jaccard = new UserItemJaccard(testPath + File.separator + "u1.base", testPath + File.separator + "u1.test",
                 propertyIndexDir, mappingList);
         Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
+
+        String resFile = resPath + File.separator + "UserItemJaccard" + File.separator + "u1.result";
+
+        EvaluateRecommendation.serializeRatings(ratings, resFile, 10);
+
+        String trecTestFile = testTrecPath + File.separator + "u1.test";
+        String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                + File.separator + "u1.final";
+        EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+        currLogger.info(EvaluateRecommendation.getTrecEvalResults(trecResultFinal).toString());
 
 
     }

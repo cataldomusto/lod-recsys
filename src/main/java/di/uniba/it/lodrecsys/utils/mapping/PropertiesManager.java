@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class PropertiesManager {
     private Dataset tupleDataset;
-    private Model datasetModel;
+    public Model datasetModel;
     private boolean isWriteMode;
 
 

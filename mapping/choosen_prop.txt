@@ -15,5 +15,3 @@ http://dbpedia.org/ontology/abstract
 http://dbpedia.org/ontology/writer
 http://dbpedia.org/property/gross
 http://dbpedia.org/property/budget
-http://dbpedia.org/ontology/wikiPageInLinkCount
-http://dbpedia.org/ontology/wikiPageOutLinkCount

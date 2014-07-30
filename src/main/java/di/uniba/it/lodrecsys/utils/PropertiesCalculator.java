@@ -1,31 +1,44 @@
 package di.uniba.it.lodrecsys.utils;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.NodeIterator;
+import com.hp.hpl.jena.rdf.model.Resource;
+import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
+import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import org.paukov.combinatorics.Factory;
 import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by asuglia on 7/6/14.
  */
 public class PropertiesCalculator {
-    public static double computeJaccard(List<String> first, List<String> second) {
-        double totInter = 0;
+    public static double computeJaccard(Multimap<String, String> first, Multimap<String, String> second) {
+        Set<String> firstElements = new TreeSet<>(),
+                secElements = new TreeSet<>();
 
-        for (int i = 0; i < first.size(); i++) {
-            if (first.get(i).equals(second.get(i)))
-                totInter++;
+        for (String firstKey : first.keySet()) {
+            firstElements.addAll(first.get(firstKey));
         }
 
+        for (String secKey : second.keySet()) {
+            secElements.addAll(second.get(secKey));
+        }
 
-        return totInter / (first.size() + second.size() - totInter);
+        return (double) Sets.intersection(firstElements, secElements).size() / (double) Sets.union(firstElements, secElements).size();
 
     }
 
 
-    public static List<String> computeCentroid(Map<String, List<String>> mapper) {
+    public static Multimap<String, String> computeCentroid(Map<String, Multimap<String, String>> mapper) {
         // Create the initial vector
         ICombinatoricsVector<String> initialVector = Factory.createVector(
                 mapper.keySet());
@@ -86,43 +99,72 @@ public class PropertiesCalculator {
     }
 
 
-    public static void main(String[] args) {
-        Map<String, List<String>> mapper = new HashMap<>();
+    public static void main(String[] args) throws IOException {
+        PropertiesManager manager = new PropertiesManager("/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop");
+        List<MovieMapping> mappings = Utils.loadDBpediaMappedItems("mapping/item.mapping");
+        Collection<String> properties = loadPropertiesURI("mapping/choosen_prop.txt");
 
-        List<String> first = new ArrayList<>(),
-                sec = new ArrayList<>(),
-                third = new ArrayList<>(),
-                forth = new ArrayList<>();
+        Model model = manager.datasetModel;
+        Map<String, Integer> mapper = new HashMap<>();
 
-        first.add("A1");
-        first.add("A1");
-        first.add("C2");
+        for (MovieMapping movie : mappings) {
+            Resource currMovieResource = model.createResource(movie.getDbpediaURI());
+
+            for (String prop : properties) {
+                int cont;
+
+                NodeIterator it = model.listObjectsOfProperty(currMovieResource, model.createProperty(prop));
+
+                for (cont = 0; it.hasNext(); cont++)
+                    it.next();
+
+                mapper.put(prop, mapper.getOrDefault(prop, 0) + cont);
+                //System.out.println("Movie '" + movie.getItemID() + "' has " + cont + " objects for " + prop);
+            }
+
+            //System.out.println();
+        }
+
+        double totEntities = mappings.size();
+
+        for (String prop : properties) {
+            System.out.println("Average for prop: " + prop + " " + (double) mapper.get(prop) / totEntities);
+        }
+
+        System.out.println(formatPropertiesList(properties, true));
 
 
-        sec.add("A1");
-        sec.add("A2");
-        sec.add("C2");
+    }
 
-        third.add("A2");
-        third.add("A1");
-        third.add("C2");
+    private static String formatPropertiesList(Collection<String> specificProp, boolean areURI) {
+        String formattedProperties = "";
+
+        for (String prop : specificProp)
+            formattedProperties += (areURI) ? "<" + prop + ">\n" : prop + "\n";
+
+        return formattedProperties;
+
+    }
+
+    private static Collection<String> loadPropertiesURI(String fileName) {
+        BufferedReader reader = null;
+        Collection<String> listProp = new ArrayList<>();
+
+        try {
+            reader = new BufferedReader(new FileReader(fileName));
 
 
-        forth.add("A2");
-        forth.add("B1");
-        forth.add("C1");
+            while (reader.ready()) {
+                listProp.add(reader.readLine());
+
+            }
 
 
-        mapper.put("I1", first);
-        mapper.put("I2", sec);
-        mapper.put("I3", third);
-        mapper.put("I4", forth);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-        List<String> centroid = computeCentroid(mapper);
-
-        System.out.println(centroid);
-
+        return listProp;
 
     }
 
