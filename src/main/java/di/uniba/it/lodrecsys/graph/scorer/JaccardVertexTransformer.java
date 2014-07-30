@@ -3,7 +3,10 @@ package di.uniba.it.lodrecsys.graph.scorer;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.hp.hpl.jena.rdf.model.Statement;
-import di.uniba.it.lodrecsys.utils.PropertiesCalculator;
+import di.uniba.it.lodrecsys.properties.JaccardSimilarityFunction;
+import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
+import di.uniba.it.lodrecsys.properties.Similarity;
+import di.uniba.it.lodrecsys.properties.SimilarityFunction;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import org.apache.commons.collections15.Transformer;
 
@@ -32,26 +35,13 @@ public class JaccardVertexTransformer implements Transformer<String, Double> {
         this.itemsRepresentationMap = itemsRepresentationMap;
     }
 
-    private Multimap<String, String> loadItemRepresentation(String itemResource) {
-        Multimap<String, String> itemRepresentation = ArrayListMultimap.create();
-
-        List<Statement> propStatement = propManager.getResourceProperties(itemResource);
-
-        for (Statement stat : propStatement) {
-            itemRepresentation.put(stat.getPredicate().toString(), stat.getObject().toString());
-        }
-
-        return itemRepresentation;
-
-    }
-
     @Override
     public Double transform(String entityID) {
 
 
-        // 40% of the weight evenly distributed among training items
+        // 35% of the weight evenly distributed among training items
         if (trainingPos.contains(entityID)) {
-            return 0.4 / trainingPos.size();
+            return 0.35 / trainingPos.size();
         }
 
         // no additional weight for user or not liked items
@@ -62,10 +52,10 @@ public class JaccardVertexTransformer implements Transformer<String, Double> {
 
         // 60% * sim_score distributed among all the other items
         Multimap<String, String> currItemRepresentation = itemsRepresentationMap.get(entityID);
-
+        SimilarityFunction function = new JaccardSimilarityFunction();
         return (currItemRepresentation != null) ?
-                (0.6 * PropertiesCalculator.computeJaccard(userCentroid, currItemRepresentation)) / (totalNumberItems - (trainingNeg.size() + trainingPos.size())) :
-                (0.6 / (totalNumberItems - (trainingNeg.size() + trainingPos.size())));
+                (0.75 * function.compute(userCentroid, currItemRepresentation)) / (totalNumberItems - (trainingNeg.size() + trainingPos.size())) :
+                (0.75 / (totalNumberItems - (trainingNeg.size() + trainingPos.size())));
 
 
     }

@@ -8,7 +8,8 @@ import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
-import di.uniba.it.lodrecsys.utils.PropertiesCalculator;
+import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
+import di.uniba.it.lodrecsys.properties.Similarity;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
@@ -27,6 +28,7 @@ public class UserItemJaccardScore extends RecGraph {
     private Map<String, Set<String>> testSet;
     private Map<String, Multimap<String, String>> usersCentroid;
     private PropertiesManager propManager;
+    private PropertiesCalculator calculator;
 
 
     public UserItemJaccardScore(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
@@ -63,8 +65,9 @@ public class UserItemJaccardScore extends RecGraph {
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
 
+        calculator = PropertiesCalculator.create(Similarity.JACCARD);
         for (String userID : testSet.keySet()) {
-            usersCentroid.put(userID, PropertiesCalculator.computeCentroid(loadItemsRepresentation(trainingPosNeg.get(userID).get(0), propManager)));
+            usersCentroid.put(userID, calculator.computeCentroid(loadItemsRepresentation(trainingPosNeg.get(userID).get(0), propManager)));
         }
 
         Set<String> allItemsID = new TreeSet<>();
@@ -166,7 +169,7 @@ public class UserItemJaccardScore extends RecGraph {
             String resourceURI = idUriMap.get(currItemID);
             Double finalScore = priors.getVertexScore(currItemID); // pageRankScore
             if (resourceURI != null) {
-                Double jaccardScore = PropertiesCalculator.computeJaccard(userCentroid, loadItemRepresentation(resourceURI));
+                Double jaccardScore = calculator.getSimilarity().compute(userCentroid, loadItemRepresentation(resourceURI));
                 finalScore = (2 * finalScore * jaccardScore) / (jaccardScore + finalScore);
 
             }

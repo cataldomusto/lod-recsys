@@ -2,14 +2,15 @@ package di.uniba.it.lodrecsys.graph;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.scorer.JaccardVertexTransformer;
-import di.uniba.it.lodrecsys.utils.PropertiesCalculator;
+import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
+import di.uniba.it.lodrecsys.properties.Similarity;
+import di.uniba.it.lodrecsys.properties.SimilarityFunction;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
@@ -77,9 +78,9 @@ public class UserItemJaccard extends RecGraph {
         }
 
         itemsRepresentation = loadItemsRepresentation(allItemsID, propManager);
-
+        PropertiesCalculator calculator = PropertiesCalculator.create(Similarity.JACCARD);
         for (String userID : testSet.keySet()) {
-            usersCentroid.put(userID, PropertiesCalculator.computeCentroid(getRatedItemRepresentation(trainingPosNeg.get(userID).get(0))));
+            usersCentroid.put(userID, calculator.computeCentroid(getRatedItemRepresentation(trainingPosNeg.get(userID).get(0))));
         }
 
         for (String itemID : allItemsID) {
