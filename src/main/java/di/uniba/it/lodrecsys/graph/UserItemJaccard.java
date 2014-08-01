@@ -143,6 +143,7 @@ public class UserItemJaccard extends RecGraph {
 
         for (String currUser : userSet) {
             Multimap<String, String> currUserVector = usersCentroid.get(currUser);
+            Map<String, Double> currUserMap = simUserMap.get(currUser);
 
             for (String otherUser : userSet) {
 
@@ -154,8 +155,6 @@ public class UserItemJaccard extends RecGraph {
                 if (currUserVector != null && otherUserVector != null)
                     simScore *= function.compute(currUserVector, otherUserVector);
 
-
-                Map<String, Double> currUserMap = simUserMap.get(currUser);
                 if (currUserMap == null) {
                     currUserMap = new HashMap<>();
                 }
@@ -163,6 +162,8 @@ public class UserItemJaccard extends RecGraph {
                 currUserMap.put(otherUser, simScore);
 
             }
+
+            this.simUserMap.put(currUser, currUserMap);
 
         }
 
