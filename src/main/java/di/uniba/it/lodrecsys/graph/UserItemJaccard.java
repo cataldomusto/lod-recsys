@@ -2,12 +2,15 @@ package di.uniba.it.lodrecsys.graph;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
+import di.uniba.it.lodrecsys.graph.scorer.ImprovedJaccardTransformer;
 import di.uniba.it.lodrecsys.graph.scorer.JaccardVertexTransformer;
+import di.uniba.it.lodrecsys.properties.JaccardSimilarityFunction;
 import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
 import di.uniba.it.lodrecsys.properties.Similarity;
 import di.uniba.it.lodrecsys.properties.SimilarityFunction;
@@ -30,6 +33,8 @@ public class UserItemJaccard extends RecGraph {
     private Map<String, Multimap<String, String>> usersCentroid;
     private PropertiesManager propManager;
     private Map<String, Multimap<String, String>> itemsRepresentation;
+    private int totalNumberItems;
+    private Map<String, Map<String, Double>> simUserMap;
 
 
     public UserItemJaccard(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
@@ -77,18 +82,22 @@ public class UserItemJaccard extends RecGraph {
 
         }
 
+        totalNumberItems = allItemsID.size();
+
         itemsRepresentation = loadItemsRepresentation(allItemsID, propManager);
         PropertiesCalculator calculator = PropertiesCalculator.create(Similarity.JACCARD);
         for (String userID : testSet.keySet()) {
             usersCentroid.put(userID, calculator.computeCentroid(getRatedItemRepresentation(trainingPosNeg.get(userID).get(0))));
         }
 
+        computeSimilarityMap();
+
         for (String itemID : allItemsID) {
             recGraph.addVertex(itemID);
         }
 
-
-        for (String userID : trainingPosNeg.keySet()) {
+        Set<String> userSet = trainingPosNeg.keySet();
+        for (String userID : userSet) {
             int edgeCounter = 0;
 
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
@@ -97,9 +106,73 @@ public class UserItemJaccard extends RecGraph {
 
             }
 
+            Map<String, Double> currUserSimMap = simUserMap.get(userID);
+            if (currUserSimMap != null) {
+
+                for (String otherUser : userSet) {
+                    if (currUserSimMap.getOrDefault(otherUser, 0d) > 0.5) {
+                        recGraph.addEdge("U:" + userID + "-U:" + otherUser, "U:" + userID, "U:" + otherUser);
+                    }
+
+                }
+            }
         }
 
+
+        /*for (String userID : trainingPosNeg.keySet()) {
+            int edgeCounter = 0;
+
+            for (String posItemID : trainingPosNeg.get(userID).get(0)) {
+                recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
+                edgeCounter++;
+
+            }
+
+
+        }*/
+
         currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
+
+    }
+
+    private void computeSimilarityMap() {
+        this.simUserMap = new HashMap<>();
+
+        Set<String> userSet = trainingPosNeg.keySet();
+        SimilarityFunction function = new JaccardSimilarityFunction();
+
+        for (String currUser : userSet) {
+            Multimap<String, String> currUserVector = usersCentroid.get(currUser);
+
+            for (String otherUser : userSet) {
+
+                Double simScore;
+                // compute covoted items first
+                simScore = computeCovotedItems(currUser, otherUser);
+                // compute content-based sim score
+                Multimap<String, String> otherUserVector = usersCentroid.get(otherUser);
+                if (currUserVector != null && otherUserVector != null)
+                    simScore *= function.compute(currUserVector, otherUserVector);
+
+
+                Map<String, Double> currUserMap = simUserMap.get(currUser);
+                if (currUserMap == null) {
+                    currUserMap = new HashMap<>();
+                }
+
+                currUserMap.put(otherUser, simScore);
+
+            }
+
+        }
+
+    }
+
+    private double computeCovotedItems(String firstUser, String secUser) {
+        Set<String> firstPostems = trainingPosNeg.get(firstUser).get(0),
+                secPosItems = trainingPosNeg.get(secUser).get(0);
+
+        return Sets.intersection(firstPostems, secPosItems).size() / totalNumberItems;
 
     }
 
@@ -115,8 +188,7 @@ public class UserItemJaccard extends RecGraph {
             currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);
-            usersRecommendation.put(userID, profileUser(posNegativeRatings.get(0), posNegativeRatings.get(1),
-                    testItems, massProb, usersCentroid.get(userID)));
+            usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems));
         }
 
         return usersRecommendation;
@@ -155,11 +227,11 @@ public class UserItemJaccard extends RecGraph {
         return ratedItemsRepresentation;
     }
 
-    private Set<Rating> profileUser(Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb, Multimap<String, String> userCentroid) {
+    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        JaccardVertexTransformer transformer = new JaccardVertexTransformer(trainingPos, trainingNeg, idUriMap.keySet().size(), userCentroid, propManager, itemsRepresentation);
-        //SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);
+        //ImprovedJaccardTransformer transformer = new ImprovedJaccardTransformer(userID, trainingPos, trainingNeg, totalNumberItems, recGraph.getVertexCount(), usersCentroid, itemsRepresentation);
+        JaccardVertexTransformer transformer = new JaccardVertexTransformer(trainingPos, trainingNeg, recGraph.getVertexCount(), usersCentroid.get(userID), itemsRepresentation, usersCentroid);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);

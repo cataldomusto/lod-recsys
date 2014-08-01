@@ -1,16 +1,10 @@
 package di.uniba.it.lodrecsys.graph.scorer;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.properties.JaccardSimilarityFunction;
-import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
-import di.uniba.it.lodrecsys.properties.Similarity;
 import di.uniba.it.lodrecsys.properties.SimilarityFunction;
-import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import org.apache.commons.collections15.Transformer;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,43 +14,53 @@ import java.util.Set;
 public class JaccardVertexTransformer implements Transformer<String, Double> {
     private Set<String> trainingPos;
     private Set<String> trainingNeg;
-    private int totalNumberItems;
-    private Multimap<String, String> userCentroid;
-    private PropertiesManager propManager;
+    private int totalNumberNodes;
+    private Multimap<String, String> currUserCentroid;
     private Map<String, Multimap<String, String>> itemsRepresentationMap;
+    private Map<String, Multimap<String, String>> usersCentroid;
 
-    public JaccardVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int totalNumberItems, Multimap<String, String> userCentroid,
-                                    PropertiesManager propManager, Map<String, Multimap<String, String>> itemsRepresentationMap) {
+    public JaccardVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int totalNumberNodes, Multimap<String, String> currUserCentroid,
+                                    Map<String, Multimap<String, String>> itemsRepresentationMap, Map<String, Multimap<String, String>> usersCentroid) {
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;
-        this.totalNumberItems = totalNumberItems;
-        this.userCentroid = userCentroid;
-        this.propManager = propManager;
+        this.totalNumberNodes = totalNumberNodes;
+        this.currUserCentroid = currUserCentroid;
         this.itemsRepresentationMap = itemsRepresentationMap;
+        this.usersCentroid = usersCentroid;
     }
 
     @Override
     public Double transform(String entityID) {
+        Double finalScore;
 
+        // entityID is a item
+        if (!entityID.startsWith("U:")) {
+            if (trainingNeg.contains(entityID)) {
+                finalScore = 0d;
+            } else {
+                Multimap<String, String> itemVector = itemsRepresentationMap.get(entityID);
+                // we got a LOD representation for the item
+                if (itemVector != null) {
+                    SimilarityFunction simFunction = new JaccardSimilarityFunction();
+                    finalScore = simFunction.compute(itemVector, currUserCentroid);
 
-        // 35% of the weight evenly distributed among training items
-        if (trainingPos.contains(entityID)) {
-            return 0.35 / trainingPos.size();
+                } else { // no LOD features for the item
+                    finalScore = 0.2 / totalNumberNodes;
+                }
+            }
+        } else { // entity is a user
+            String userID = entityID.substring(entityID.indexOf("U:") + 1, entityID.length());
+
+            Multimap<String, String> userVector = usersCentroid.get(userID);
+            // we got a LOD representation for the item
+            if (userVector != null) {
+                SimilarityFunction simFunction = new JaccardSimilarityFunction();
+                finalScore = simFunction.compute(userVector, currUserCentroid);
+            } else { // no LOD features for the item
+                finalScore = 0.2 / totalNumberNodes;
+            }
         }
 
-        // no additional weight for user or not liked items
-        if (trainingNeg.contains(entityID) || entityID.startsWith("U:")) {
-            return 0d;
-        }
-
-
-        // 60% * sim_score distributed among all the other items
-        Multimap<String, String> currItemRepresentation = itemsRepresentationMap.get(entityID);
-        SimilarityFunction function = new JaccardSimilarityFunction();
-        return (currItemRepresentation != null) ?
-                (0.75 * function.compute(userCentroid, currItemRepresentation)) / (totalNumberItems - (trainingNeg.size() + trainingPos.size())) :
-                (0.75 / (totalNumberItems - (trainingNeg.size() + trainingPos.size())));
-
-
+        return finalScore;
     }
 }
