@@ -90,10 +90,11 @@ public class UserItemJaccard extends RecGraph {
             usersCentroid.put(userID, calculator.computeCentroid(getRatedItemRepresentation(trainingPosNeg.get(userID).get(0))));
         }
 
-        computeSimilarityMap();
+        computeSimilarityMap(calculator.getSimilarity(), allItemsID);
+        Double meanSimUser = computeMeanUserSimilarity();
 
         for (String itemID : allItemsID) {
-            recGraph.addVertex(itemID);
+            recGraph.addVertex("I:" + itemID);
         }
 
         Set<String> userSet = trainingPosNeg.keySet();
@@ -101,7 +102,7 @@ public class UserItemJaccard extends RecGraph {
             int edgeCounter = 0;
 
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
-                recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
+                recGraph.addEdge("U:" + userID + "-" + edgeCounter, "U:" + userID, "I:" + posItemID);
                 edgeCounter++;
 
             }
@@ -110,7 +111,7 @@ public class UserItemJaccard extends RecGraph {
             if (currUserSimMap != null) {
 
                 for (String otherUser : userSet) {
-                    if (currUserSimMap.getOrDefault(otherUser, 0d) > 0.5) {
+                    if (currUserSimMap.get("U:" + otherUser) >= meanSimUser) {
                         recGraph.addEdge("U:" + userID + "-U:" + otherUser, "U:" + userID, "U:" + otherUser);
                     }
 
@@ -118,62 +119,125 @@ public class UserItemJaccard extends RecGraph {
             }
         }
 
-
-        /*for (String userID : trainingPosNeg.keySet()) {
-            int edgeCounter = 0;
-
-            for (String posItemID : trainingPosNeg.get(userID).get(0)) {
-                recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
-                edgeCounter++;
-
-            }
-
-
-        }*/
-
         currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
 
     }
 
-    private void computeSimilarityMap() {
+    private Double computeMeanUserSimilarity() {
+        Double totalSum = 0d;
+
+        for (String currUser : simUserMap.keySet()) {
+            Map<String, Double> currUserSim = simUserMap.get(currUser);
+
+            for (String entityID : currUserSim.keySet()) {
+                if (entityID.startsWith("U:"))
+                    totalSum += currUserSim.get(entityID);
+            }
+        }
+
+        return totalSum / simUserMap.keySet().size();
+    }
+
+    private void computeSimilarityMap(SimilarityFunction function, Set<String> allItems) {
         this.simUserMap = new HashMap<>();
 
         Set<String> userSet = trainingPosNeg.keySet();
-        SimilarityFunction function = new JaccardSimilarityFunction();
+        double sumSimilarity = 0, minSimilarity = Double.MAX_VALUE;
 
         for (String currUser : userSet) {
             Multimap<String, String> currUserVector = usersCentroid.get(currUser);
-            Map<String, Double> currUserMap = simUserMap.get(currUser);
+            Map<String, Double> currUserMap = new HashMap<>();
 
-            for (String otherUser : userSet) {
+            if (currUserVector != null) {
+                for (String otherUser : userSet) {
+                    Multimap<String, String> otherUserVector = usersCentroid.get(otherUser);
+                    Double finalScore = null;
+                    if (otherUserVector != null) {
+                        // F1(collaborative score, content-score)
+                        Double collabScore = computeCovotedItems(currUser, otherUser),
+                                contentScore = function.compute(currUserVector, otherUserVector);
 
-                Double simScore;
-                // compute covoted items first
-                simScore = computeCovotedItems(currUser, otherUser);
-                // compute content-based sim score
-                Multimap<String, String> otherUserVector = usersCentroid.get(otherUser);
-                if (currUserVector != null && otherUserVector != null)
-                    simScore *= function.compute(currUserVector, otherUserVector);
+                        finalScore = (collabScore + contentScore) / 2;
 
-                if (currUserMap == null) {
-                    currUserMap = new HashMap<>();
+                    }
+
+                    currUserMap.put("U:" + otherUser, finalScore);
+                    if (finalScore != null) {
+                        // update minimum score similarity
+                        if (finalScore < minSimilarity)
+                            minSimilarity = finalScore;
+
+                        // update sum similarity
+                        sumSimilarity += finalScore;
+                    }
                 }
 
-                currUserMap.put(otherUser, simScore);
+                for (String itemID : allItems) {
+                    Multimap<String, String> itemVector = itemsRepresentation.get(itemID);
+                    Double finalScore = null;
+                    if (itemVector != null) {
+                        finalScore = function.compute(currUserVector, itemVector);
+                    }
 
+                    currUserMap.put("I:" + itemID, finalScore);
+                    if (finalScore != null) {
+                        // update minimum score similarity
+                        if (finalScore < minSimilarity)
+                            minSimilarity = finalScore;
+
+                        // total similarity
+                        sumSimilarity += finalScore;
+                    }
+
+                }
+            } else {
+                for (String otherUser : userSet) {
+                    currUserMap.put("U:" + otherUser, null);
+                }
+
+                for (String itemID : allItems) {
+                    currUserMap.put("I:" + itemID, null);
+                }
             }
 
-            this.simUserMap.put(currUser, currUserMap);
+            simUserMap.put(currUser, currUserMap);
 
         }
 
+        // set missed minimum similarity value for not mapped item
+        setMinimumValueSimMap(minSimilarity);
+
+        // normalize matrix
+        normalizeSimilarityScore(sumSimilarity);
+
+
+    }
+
+    private void setMinimumValueSimMap(Double minValue) {
+        for (String currUser : this.simUserMap.keySet()) {
+            Map<String, Double> currUserSim = simUserMap.get(currUser);
+            for (String entityID : currUserSim.keySet()) {
+                if (currUserSim.get(entityID) == null)
+                    currUserSim.put(entityID, minValue);
+            }
+        }
+    }
+
+    private void normalizeSimilarityScore(Double sumValue) {
+        for (String currUser : simUserMap.keySet()) {
+            Map<String, Double> currUserSim = simUserMap.get(currUser);
+
+            for (String entityID : currUserSim.keySet()) {
+                currUserSim.put(entityID, currUserSim.get(entityID) / sumValue);
+            }
+        }
     }
 
     private double computeCovotedItems(String firstUser, String secUser) {
         Set<String> firstPostems = trainingPosNeg.get(firstUser).get(0),
                 secPosItems = trainingPosNeg.get(secUser).get(0);
 
-        return Sets.intersection(firstPostems, secPosItems).size() / totalNumberItems;
+        return (double) Sets.intersection(firstPostems, secPosItems).size() / (firstPostems.size() + secPosItems.size());
 
     }
 
@@ -231,15 +295,14 @@ public class UserItemJaccard extends RecGraph {
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        //ImprovedJaccardTransformer transformer = new ImprovedJaccardTransformer(userID, trainingPos, trainingNeg, totalNumberItems, recGraph.getVertexCount(), usersCentroid, itemsRepresentation);
-        JaccardVertexTransformer transformer = new JaccardVertexTransformer(trainingPos, trainingNeg, recGraph.getVertexCount(), usersCentroid.get(userID), itemsRepresentation, usersCentroid);
+        JaccardVertexTransformer transformer = new JaccardVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
         priors.evaluate();
 
         for (String currItemID : testItems) {
-            allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(currItemID))));
+            allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore("I:" + currItemID))));
 
         }
 
