@@ -8,9 +8,7 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
-import di.uniba.it.lodrecsys.graph.scorer.ImprovedJaccardTransformer;
 import di.uniba.it.lodrecsys.graph.scorer.JaccardVertexTransformer;
-import di.uniba.it.lodrecsys.properties.JaccardSimilarityFunction;
 import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
 import di.uniba.it.lodrecsys.properties.Similarity;
 import di.uniba.it.lodrecsys.properties.SimilarityFunction;
@@ -86,7 +84,7 @@ public class UserItemJaccard extends RecGraph {
 
         itemsRepresentation = loadItemsRepresentation(allItemsID, propManager);
         PropertiesCalculator calculator = PropertiesCalculator.create(Similarity.JACCARD);
-        for (String userID : testSet.keySet()) {
+        for (String userID : trainingPosNeg.keySet()) {
             usersCentroid.put(userID, calculator.computeCentroid(getRatedItemRepresentation(trainingPosNeg.get(userID).get(0))));
         }
 
@@ -111,8 +109,12 @@ public class UserItemJaccard extends RecGraph {
             if (currUserSimMap != null) {
 
                 for (String otherUser : userSet) {
+
                     if (currUserSimMap.get("U:" + otherUser) >= meanSimUser) {
-                        recGraph.addEdge("U:" + userID + "-U:" + otherUser, "U:" + userID, "U:" + otherUser);
+                        String currUserGraph = "U:" + userID, otherUserGraph = "U:" + otherUser;
+
+                        if (recGraph.findEdge(currUserGraph, otherUserGraph) == null)
+                            recGraph.addEdge(currUserGraph + "-" + otherUserGraph, currUserGraph, otherUserGraph);
                     }
 
                 }
@@ -125,17 +127,20 @@ public class UserItemJaccard extends RecGraph {
 
     private Double computeMeanUserSimilarity() {
         Double totalSum = 0d;
+        int numAdd = 0;
 
         for (String currUser : simUserMap.keySet()) {
             Map<String, Double> currUserSim = simUserMap.get(currUser);
 
             for (String entityID : currUserSim.keySet()) {
-                if (entityID.startsWith("U:"))
+                if (entityID.startsWith("U:")) {
                     totalSum += currUserSim.get(entityID);
+                    numAdd++;
+                }
             }
         }
 
-        return totalSum / simUserMap.keySet().size();
+        return totalSum / numAdd;
     }
 
     private void computeSimilarityMap(SimilarityFunction function, Set<String> allItems) {
@@ -205,7 +210,7 @@ public class UserItemJaccard extends RecGraph {
         }
 
         // set missed minimum similarity value for not mapped item
-        setMinimumValueSimMap(minSimilarity);
+        replaceNullFields(minSimilarity);
 
         // normalize matrix
         normalizeSimilarityScore(sumSimilarity);
@@ -213,7 +218,7 @@ public class UserItemJaccard extends RecGraph {
 
     }
 
-    private void setMinimumValueSimMap(Double minValue) {
+    private void replaceNullFields(Double minValue) {
         for (String currUser : this.simUserMap.keySet()) {
             Map<String, Double> currUserSim = simUserMap.get(currUser);
             for (String entityID : currUserSim.keySet()) {
