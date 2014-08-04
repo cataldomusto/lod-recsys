@@ -582,6 +582,8 @@ public class Utils {
 
                 }
 
+                if (splittedLine.length < 2)
+                    System.out.println("ERROR");
                 ratings.add(new Rating(splittedLine[1], splittedLine[2]));
                 ratingsMap.put(splittedLine[0], ratings);
 
@@ -590,8 +592,8 @@ public class Utils {
         } catch (IOException e) {
             throw e;
         } finally {
-            assert reader != null;
-            reader.close();
+            if (reader != null)
+                reader.close();
 
         }
 

@@ -31,7 +31,7 @@ public class EvaluateRecommendation {
                     writer.newLine();
 
                     // prints only numRec recommendation on file
-                    if (i == numRec)
+                    if (numRec != -1 && i == numRec)
                         break;
                 }
             }
