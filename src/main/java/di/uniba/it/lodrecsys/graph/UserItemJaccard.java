@@ -210,7 +210,9 @@ public class UserItemJaccard extends RecGraph {
         }
 
         // set missed minimum similarity value for not mapped item
-        replaceNullFields(minSimilarity);
+        int numNullFields = replaceNullFields(minSimilarity);
+
+        sumSimilarity += numNullFields * minSimilarity;
 
         // normalize matrix
         normalizeSimilarityScore(sumSimilarity);
@@ -218,14 +220,20 @@ public class UserItemJaccard extends RecGraph {
 
     }
 
-    private void replaceNullFields(Double minValue) {
+    private int replaceNullFields(Double minValue) {
+        int numNullFields = 0;
+
         for (String currUser : this.simUserMap.keySet()) {
             Map<String, Double> currUserSim = simUserMap.get(currUser);
             for (String entityID : currUserSim.keySet()) {
-                if (currUserSim.get(entityID) == null)
+                if (currUserSim.get(entityID) == null) {
                     currUserSim.put(entityID, minValue);
+                    numNullFields++;
+                }
             }
         }
+
+        return numNullFields;
     }
 
     private void normalizeSimilarityScore(Double sumValue) {

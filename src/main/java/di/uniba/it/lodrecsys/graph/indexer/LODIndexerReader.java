@@ -3,24 +3,20 @@ package di.uniba.it.lodrecsys.graph.indexer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttributeImpl;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
-import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.AttributeImpl;
-import org.apache.lucene.util.AttributeSource;
 import org.apache.lucene.util.Version;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by asuglia on 8/3/14.
@@ -35,22 +31,43 @@ public class LODIndexerReader {
 
     }
 
-    public float computeSimilarityUser(String firstUser, String secUser) throws IOException {
-        int firstUserDoc = getUserProfileDocID(firstUser), secUserDoc = getUserProfileDocID(secUser);
+    public Map<String, Double> computeSimilarityUser(String currUser) throws IOException {
+        int currUserDoc = getUserProfileDocID(currUser);
+        Map<String, Double> scoreMap = new HashMap<>();
+        Document currUserProfile = indexSearcher.doc(currUserDoc);
 
-        Document secUserProfile = indexSearcher.doc(secUserDoc);
+        Query userProfileQuery = getUserProfileQuery(currUserProfile);
 
-        Query secUserProfileQuery = getUserProfileQuery(secUserProfile);
+        TopDocs docs = indexSearcher.search(userProfileQuery, indexSearcher.getIndexReader().numDocs());
 
-        TopDocs results = indexSearcher.search(secUserProfileQuery, 10);
-
-        for (ScoreDoc scoreDoc : results.scoreDocs) {
-            if (scoreDoc.doc == firstUserDoc) {
-                return scoreDoc.score;
-            }
+        for (ScoreDoc scoreDoc : docs.scoreDocs) {
+            scoreMap.put(getEntityIDFromLuceneID(scoreDoc.doc), (double) scoreDoc.score);
         }
 
-        return 0;
+        return scoreMap;
+
+    }
+
+    private String getEntityIDFromLuceneID(int luceneDocID) throws IOException {
+        Document document = indexSearcher.doc(luceneDocID);
+
+        IndexableField currField = document.getField("user_id");
+
+        if (currField == null)
+            currField = document.getField("item_id");
+
+        TokenStream stream = currField.tokenStream(new WhitespaceAnalyzer(Version.LUCENE_47));
+
+        stream.reset();
+        String entityID = null;
+
+        while (stream.incrementToken()) {
+            entityID = stream.getAttribute(CharTermAttribute.class).toString();
+        }
+
+        stream.close();
+
+        return (currField.name().equals("item_id")) ? "I:" + entityID : "U:" + entityID;
     }
 
     private int getUserProfileDocID(String realUserID) throws IOException {
@@ -63,14 +80,19 @@ public class LODIndexerReader {
 
     private Query getUserProfileQuery(Document userProfile) throws IOException {
         Query userProfileQuery = new BooleanQuery();
+        BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
 
         for (IndexableField field : userProfile.getFields())
             if (field.name().equals("content")) {
                 TokenStream stream = field.tokenStream(new WhitespaceAnalyzer(Version.LUCENE_47));
 
+                stream.reset();
                 while (stream.incrementToken()) {
                     ((BooleanQuery) userProfileQuery).add(new TermQuery(new Term("content", stream.getAttribute(CharTermAttribute.class).toString())), BooleanClause.Occur.SHOULD);
+
                 }
+
+                stream.close();
 
             }
 
@@ -79,10 +101,7 @@ public class LODIndexerReader {
 
     }
 
-    public Double computeSimilarityUserItem(String userID, String itemID) {
 
-        return 0d;
-    }
 
 
 }
