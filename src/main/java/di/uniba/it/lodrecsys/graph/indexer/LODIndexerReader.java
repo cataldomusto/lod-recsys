@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Created by asuglia on 8/3/14.
@@ -39,9 +37,17 @@ public class LODIndexerReader {
         Query userProfileQuery = getUserProfileQuery(currUserProfile);
 
         TopDocs docs = indexSearcher.search(userProfileQuery, indexSearcher.getIndexReader().numDocs());
+        double maxScore = Double.MIN_VALUE;
 
         for (ScoreDoc scoreDoc : docs.scoreDocs) {
+            if (maxScore < scoreDoc.score)
+                maxScore = scoreDoc.score;
             scoreMap.put(getEntityIDFromLuceneID(scoreDoc.doc), (double) scoreDoc.score);
+        }
+
+        // Normalize the lucene score between 0-1 using the maximum score for the current user
+        for (String id : scoreMap.keySet()) {
+            scoreMap.put(id, scoreMap.get(id) / maxScore);
         }
 
         return scoreMap;
