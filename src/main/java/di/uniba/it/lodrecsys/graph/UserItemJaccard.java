@@ -8,7 +8,7 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
-import di.uniba.it.lodrecsys.graph.scorer.JaccardVertexTransformer;
+import di.uniba.it.lodrecsys.graph.scorer.SimNextVertexTransformer;
 import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
 import di.uniba.it.lodrecsys.properties.Similarity;
 import di.uniba.it.lodrecsys.properties.SimilarityFunction;
@@ -308,7 +308,7 @@ public class UserItemJaccard extends RecGraph {
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        JaccardVertexTransformer transformer = new JaccardVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
+        SimNextVertexTransformer transformer = new SimNextVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);

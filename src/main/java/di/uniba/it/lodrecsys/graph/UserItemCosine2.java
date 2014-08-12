@@ -6,7 +6,7 @@ import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.indexer.LODIndexerReader;
-import di.uniba.it.lodrecsys.graph.scorer.JaccardVertexTransformer;
+import di.uniba.it.lodrecsys.graph.scorer.SimNextVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
@@ -78,6 +78,14 @@ public class UserItemCosine2 extends RecGraph {
         computeSimilarityMap(allItemsID);
         currLogger.info("Computed similarity map");
         Double meanSimUser = computeMeanUserSimilarity();
+
+        /*currLogger.info("sim(u1, i6)= " + simUserMap.get("1").get("I:6")); //p
+
+        currLogger.info("sim(u1, i10)= " + simUserMap.get("1").get("I:10")); //n
+        currLogger.info("sim(u1, i100)= " + simUserMap.get("1").get("I:100")); //p
+
+        currLogger.info("sim(u1, i90)= " + simUserMap.get("1").get("I:90")); //n
+        */
 
         for (String itemID : allItemsID) {
             recGraph.addVertex("I:" + itemID);
@@ -153,6 +161,7 @@ public class UserItemCosine2 extends RecGraph {
             simUserMap.put(currUser, currUserMap);
         }
 
+        //String currUser = "1";
         for (String currUser : userSet) {
             currLogger.info("Computing similarity for user:" + currUser);
             Map<String, Double> currMap = simUserMap.get(currUser);
@@ -228,7 +237,7 @@ public class UserItemCosine2 extends RecGraph {
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        JaccardVertexTransformer transformer = new JaccardVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
+        SimNextVertexTransformer transformer = new SimNextVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);

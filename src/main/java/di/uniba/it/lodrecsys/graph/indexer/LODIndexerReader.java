@@ -7,12 +7,15 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queries.mlt.MoreLikeThis;
+import org.apache.lucene.queries.mlt.MoreLikeThisQuery;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,21 +29,19 @@ public class LODIndexerReader {
 
         indexSearcher = new IndexSearcher(DirectoryReader.open(FSDirectory.open(new File(indexDir))));
 
-
     }
 
     public Map<String, Double> computeSimilarityUser(String currUser) throws IOException {
         int currUserDoc = getUserProfileDocID(currUser);
         Map<String, Double> scoreMap = new HashMap<>();
-        Document currUserProfile = indexSearcher.doc(currUserDoc);
+        //Document currUserProfile = indexSearcher.doc(currUserDoc);
 
-        Query userProfileQuery = getUserProfileQuery(currUserProfile);
-
+        Query userProfileQuery = getUserProfileQuery(currUserDoc);//getUserProfileQuery(currUserProfile);
         TopDocs docs = indexSearcher.search(userProfileQuery, indexSearcher.getIndexReader().numDocs());
         double maxScore = Double.MIN_VALUE;
 
         for (ScoreDoc scoreDoc : docs.scoreDocs) {
-            if (maxScore < scoreDoc.score)
+            if (maxScore <= scoreDoc.score)
                 maxScore = scoreDoc.score;
             scoreMap.put(getEntityIDFromLuceneID(scoreDoc.doc), (double) scoreDoc.score);
         }
@@ -84,30 +85,13 @@ public class LODIndexerReader {
 
     }
 
-    private Query getUserProfileQuery(Document userProfile) throws IOException {
-        Query userProfileQuery = new BooleanQuery();
-        BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
+    private Query getUserProfileQuery(int docNum) throws IOException {
+        MoreLikeThis mlt = new MoreLikeThis(indexSearcher.getIndexReader());
+        mlt.setAnalyzer(new WhitespaceAnalyzer(Version.LUCENE_47));
+        mlt.setFieldNames(new String[]{"content"});
 
-        for (IndexableField field : userProfile.getFields())
-            if (field.name().equals("content")) {
-                TokenStream stream = field.tokenStream(new WhitespaceAnalyzer(Version.LUCENE_47));
-
-                stream.reset();
-                while (stream.incrementToken()) {
-                    ((BooleanQuery) userProfileQuery).add(new TermQuery(new Term("content", stream.getAttribute(CharTermAttribute.class).toString())), BooleanClause.Occur.SHOULD);
-
-                }
-
-                stream.close();
-
-            }
-
-
-        return userProfileQuery;
-
+        return mlt.like(docNum);
     }
-
-
 
 
 }

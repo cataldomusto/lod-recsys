@@ -1,23 +1,19 @@
 package di.uniba.it.lodrecsys.graph.scorer;
 
-import com.google.common.collect.Multimap;
-import di.uniba.it.lodrecsys.properties.JaccardSimilarityFunction;
-import di.uniba.it.lodrecsys.properties.SimilarityFunction;
 import org.apache.commons.collections15.Transformer;
-
 import java.util.Map;
 import java.util.Set;
 
 /**
  * Created by asuglia on 7/30/14.
  */
-public class JaccardVertexTransformer implements Transformer<String, Double> {
+public class SimilarityVertexTransformer implements Transformer<String, Double> {
     private String currUserID;
     private Set<String> trainingPos;
     private Set<String> trainingNeg;
     private Map<String, Map<String, Double>> simUserMap;
 
-    public JaccardVertexTransformer(String currUserID, Set<String> trainingPos, Set<String> trainingNeg, Map<String, Map<String, Double>> simUserMap) {
+    public SimilarityVertexTransformer(String currUserID, Set<String> trainingPos, Set<String> trainingNeg, Map<String, Map<String, Double>> simUserMap) {
         this.currUserID = currUserID;
         this.trainingPos = trainingPos;
         this.trainingNeg = trainingNeg;

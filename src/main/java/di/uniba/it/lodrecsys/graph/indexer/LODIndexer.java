@@ -11,8 +11,10 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
@@ -51,6 +53,7 @@ public class LODIndexer {
             throws IOException {
         IndexWriter writer = null;
 
+
         try {
             Directory d = FSDirectory.open(new File("lod_index"));
             IndexWriterConfig indexConfig = new IndexWriterConfig(Version.LUCENE_47, new WhitespaceAnalyzer(Version.LUCENE_47));
@@ -63,7 +66,8 @@ public class LODIndexer {
                     List<Statement> resourceList = manager.getResourceProperties(idUriMap.get(itemID));
 
                     for (Statement stat : resourceList) {
-                        docTextBuilder.append(stat.getPredicate().toString()).append(":").append(stat.getObject().toString()).append("\n");
+                        //docTextBuilder.append(stat.getObject().toString()).append(" ");
+                        docTextBuilder.append(stat.getPredicate().toString()).append(":").append(stat.getObject().toString()).append(" ");
                     }
                 }
 
@@ -80,23 +84,24 @@ public class LODIndexer {
                 List<Statement> resourceList = manager.getResourceProperties(idUriMap.get(itemID));
 
                 for (Statement stat : resourceList) {
-                    docTextBuilder.append(stat.getPredicate().toString()).append(":").append(stat.getObject().toString()).append("\n");
+                    //docTextBuilder.append(stat.getObject().toString()).append(" ");
+                    docTextBuilder.append(stat.getPredicate().toString()).append(":").append(stat.getObject().toString()).append(" ");
                 }
 
 
                 Document newDocument = new Document();
                 newDocument.add(new StringField("item_id", itemID, Field.Store.YES));
                 newDocument.add(new TextField("content", docTextBuilder.toString(), Field.Store.YES));
-
                 writer.addDocument(newDocument);
+
                 currLogger.info("Added document for item: " + itemID);
 
             }
+
         } finally {
             if (writer != null)
                 writer.close();
         }
     }
-
 
 }
