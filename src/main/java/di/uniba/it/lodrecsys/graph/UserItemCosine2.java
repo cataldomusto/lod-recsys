@@ -7,6 +7,7 @@ import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.indexer.LODIndexerReader;
 import di.uniba.it.lodrecsys.graph.scorer.SimNextVertexTransformer;
+import di.uniba.it.lodrecsys.graph.scorer.SimilarityVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
@@ -76,16 +77,17 @@ public class UserItemCosine2 extends RecGraph {
 
 
         computeSimilarityMap(allItemsID);
+        Utils.serializeSimilarityMatrix(this.simUserMap, "sim.txt");
         currLogger.info("Computed similarity map");
         Double meanSimUser = computeMeanUserSimilarity();
 
-        /*currLogger.info("sim(u1, i6)= " + simUserMap.get("1").get("I:6")); //p
+        currLogger.info("sim(u1, i1)= " + simUserMap.get("1").get("I:1")); //p
 
-        currLogger.info("sim(u1, i10)= " + simUserMap.get("1").get("I:10")); //n
-        currLogger.info("sim(u1, i100)= " + simUserMap.get("1").get("I:100")); //p
+        currLogger.info("sim(u1, i9)= " + simUserMap.get("1").get("I:9")); //n
+        currLogger.info("sim(u1, i2)= " + simUserMap.get("1").get("I:2")); //p
 
-        currLogger.info("sim(u1, i90)= " + simUserMap.get("1").get("I:90")); //n
-        */
+        currLogger.info("sim(u1, i5)= " + simUserMap.get("1").get("I:5")); //n
+
 
         for (String itemID : allItemsID) {
             recGraph.addVertex("I:" + itemID);
@@ -237,7 +239,8 @@ public class UserItemCosine2 extends RecGraph {
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        SimNextVertexTransformer transformer = new SimNextVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
+        SimilarityVertexTransformer transformer = new SimilarityVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
+        //SimNextVertexTransformer transformer = new SimNextVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
@@ -261,19 +264,28 @@ public class UserItemCosine2 extends RecGraph {
                 mappedItemFile = "mapping/item.mapping";
 
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+        List<Map<String, String>> metricsForSplit = new ArrayList<>();
+        String completeResFile = resPath + File.separator + "UserItemCosineNorm" + File.separator + "metrics.complete";
 
-        UserItemCosine2 jaccard = new UserItemCosine2(testPath + File.separator + "u1.base", testPath + File.separator + "u1.test",
-                propertyIndexDir, mappingList);
-        Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
+        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+            UserItemCosine2 jaccard = new UserItemCosine2(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
+                    propertyIndexDir, mappingList);
+            Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
 
-        String resFile = resPath + File.separator + "UserItemCosine" + File.separator + "u1.result";
+            String resFile = resPath + File.separator + "UserItemCosineNorm" + File.separator + "u" + numSplit + ".result";
 
-        EvaluateRecommendation.serializeRatings(ratings, resFile, 10);
+            EvaluateRecommendation.serializeRatings(ratings, resFile, -1);
 
-        String trecTestFile = testTrecPath + File.separator + "u1.test";
-        String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                + File.separator + "u1.final";
-        EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-        currLogger.info(EvaluateRecommendation.getTrecEvalResults(trecResultFinal).toString());
+            String trecTestFile = testTrecPath + File.separator + "u" + numSplit + ".test";
+            String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                    + File.separator + "u" + numSplit + ".final";
+            EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+            metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+            currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+
+        }
+
+        EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, 5), completeResFile);
+
     }
 }

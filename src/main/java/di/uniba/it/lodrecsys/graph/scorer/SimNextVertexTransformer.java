@@ -62,6 +62,6 @@ public class SimNextVertexTransformer implements Transformer<String, Double> {
 
         }
 
-        return simUserMap.get(currUserID).get(entityID) >= meanSimUser ? 0.8 / overMean : 0.2 / underMean;
+        return simUserMap.get(currUserID).get(entityID) >= meanSimUser ? (double) 1 / overMean : 0;
     }
 }

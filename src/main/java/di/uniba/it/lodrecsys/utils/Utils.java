@@ -602,6 +602,64 @@ public class Utils {
     }
 
 
+    public static Map<String, Map<String, Double>> readSimilarityMatrix(String simFileName) throws IOException {
+        BufferedReader reader = null;
+        Map<String, Map<String, Double>> simMap = new HashMap<>();
+
+        try {
+            reader = new BufferedReader(new FileReader(simFileName));
+
+            while (reader.ready()) {
+                String[] currLineSplit = reader.readLine().split("\t"),
+                        simValues = currLineSplit[1].split("-");
+                String currUser = currLineSplit[0];
+
+                Map<String, Double> currUserSim = new HashMap<>();
+
+                for (int i = 0; i < simValues.length; i += 2) {
+                    currUserSim.put(simValues[i], Double.parseDouble(simValues[i + 1]));
+                }
+
+                simMap.put(currUser, currUserSim);
+
+            }
+
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+
+        return simMap;
+
+    }
+
+    public static void serializeSimilarityMatrix(Map<String, Map<String, Double>> simMap, String simFileName) throws IOException {
+        PrintWriter writer = null;
+
+        try {
+            writer = new PrintWriter(new BufferedWriter(new FileWriter(simFileName)));
+
+            for (String userID : simMap.keySet()) {
+                StringBuilder simValuesLine = new StringBuilder(userID + "\t");
+
+                Map<String, Double> currUserSim = simMap.get(userID);
+
+                for (String entityID : currUserSim.keySet()) {
+                    simValuesLine.append(entityID).append("-").append(currUserSim.get(entityID)).append(" ");
+                }
+
+                writer.println(simValuesLine.toString());
+
+            }
+
+        } finally {
+            if (writer != null)
+                writer.close();
+        }
+
+
+    }
+
     public static Map<String, Set<String>> loadRatedItems(File file, boolean skipHeader) throws IOException {
         Map<String, Set<String>> map = new HashMap<String, Set<String>>();
         BufferedReader reader = new BufferedReader(new FileReader(file));

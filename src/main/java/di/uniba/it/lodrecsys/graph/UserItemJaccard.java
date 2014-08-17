@@ -9,6 +9,7 @@ import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.scorer.SimNextVertexTransformer;
+import di.uniba.it.lodrecsys.graph.scorer.SimilarityVertexTransformer;
 import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
 import di.uniba.it.lodrecsys.properties.Similarity;
 import di.uniba.it.lodrecsys.properties.SimilarityFunction;
@@ -308,7 +309,7 @@ public class UserItemJaccard extends RecGraph {
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        SimNextVertexTransformer transformer = new SimNextVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
+        SimilarityVertexTransformer transformer = new SimilarityVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
@@ -332,20 +333,29 @@ public class UserItemJaccard extends RecGraph {
                 mappedItemFile = "mapping/item.mapping";
 
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+        List<Map<String, String>> metricsForSplit = new ArrayList<>();
+        String completeResFile = resPath + File.separator + "UserItemJaccard" + File.separator + "metrics.complete";
 
-        UserItemJaccard jaccard = new UserItemJaccard(testPath + File.separator + "u1.base", testPath + File.separator + "u1.test",
-                propertyIndexDir, mappingList);
-        Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
+        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+            UserItemJaccard jaccard = new UserItemJaccard(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
+                    propertyIndexDir, mappingList);
+            Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
 
-        String resFile = resPath + File.separator + "UserItemJaccard" + File.separator + "u1.result";
+            String resFile = resPath + File.separator + "UserItemJaccard" + File.separator + "u" + numSplit + ".result";
 
-        EvaluateRecommendation.serializeRatings(ratings, resFile, 10);
+            EvaluateRecommendation.serializeRatings(ratings, resFile, -1);
 
-        String trecTestFile = testTrecPath + File.separator + "u1.test";
-        String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                + File.separator + "u1.final";
-        EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-        currLogger.info(EvaluateRecommendation.getTrecEvalResults(trecResultFinal).toString());
+            String trecTestFile = testTrecPath + File.separator + "u" + numSplit + ".test";
+            String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                    + File.separator + "u" + numSplit + ".final";
+            EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+            metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+            currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+
+        }
+
+        EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, 5), completeResFile);
+
     }
 
 }
