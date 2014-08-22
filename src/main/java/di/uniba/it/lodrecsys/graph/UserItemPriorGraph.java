@@ -1,8 +1,10 @@
 package di.uniba.it.lodrecsys.graph;
 
 import com.google.common.collect.ArrayListMultimap;
+import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
+import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
@@ -93,5 +95,28 @@ public class UserItemPriorGraph extends RecGraph {
         return allRecommendation;
     }
 
+    public static void main(String[] args) throws IOException {
+        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
+                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
+                mappedItemFile = "mapping/item.mapping";
+
+        //List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+        long meanTimeElapsed = 0, startTime;
+
+        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+            startTime = System.nanoTime();
+            UserItemPriorGraph graph = new UserItemPriorGraph(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test");
+            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
+            meanTimeElapsed += (System.nanoTime() - startTime);
+        }
+
+        meanTimeElapsed /= 5;
+        currLogger.info("Total running time: " + meanTimeElapsed);
+
+    }
 
 }

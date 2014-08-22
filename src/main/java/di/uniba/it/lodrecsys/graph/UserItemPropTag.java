@@ -162,4 +162,29 @@ public class UserItemPropTag extends RecGraph {
 
         return allRecommendation;
     }
+
+    public static void main(String[] args) throws IOException {
+        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
+                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
+                mappedItemFile = "mapping/item.mapping";
+
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+        long meanTimeElapsed = 0, startTime;
+
+        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+            startTime = System.nanoTime();
+            UserItemPropTag graph = new UserItemPropTag(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
+                    propertyIndexDir, mappingList, Utils.loadTAGmeConceptsForItems(tagmeDir));
+            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
+            meanTimeElapsed += (System.nanoTime() - startTime);
+        }
+
+        meanTimeElapsed /= 5;
+        currLogger.info("Total running time: " + meanTimeElapsed);
+
+    }
 }

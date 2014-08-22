@@ -532,8 +532,8 @@ public class Utils {
         } catch (IOException e) {
             throw e;
         } finally {
-            assert reader != null;
-            reader.close();
+            if (reader != null)
+                reader.close();
 
         }
 
