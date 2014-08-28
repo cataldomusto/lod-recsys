@@ -205,6 +205,7 @@ public class UserItemJaccard extends RecGraph {
                 }
             }
 
+            this.simUserMap.put(currUser, currUserMap);
 
             // set missed minimum similarity value for not mapped item
             int numNullFields = replaceNullFields(currUser, minSimilarity);
@@ -216,8 +217,6 @@ public class UserItemJaccard extends RecGraph {
 
             sumSimilarity = 0;
             minSimilarity = Double.MAX_VALUE;
-
-            simUserMap.put(currUser, currUserMap);
 
         }
 
