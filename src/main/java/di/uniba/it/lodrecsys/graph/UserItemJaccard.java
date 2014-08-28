@@ -8,7 +8,6 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
-import di.uniba.it.lodrecsys.graph.scorer.SimNextVertexTransformer;
 import di.uniba.it.lodrecsys.graph.scorer.SimilarityVertexTransformer;
 import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
 import di.uniba.it.lodrecsys.properties.Similarity;
@@ -206,45 +205,47 @@ public class UserItemJaccard extends RecGraph {
                 }
             }
 
+
+            // set missed minimum similarity value for not mapped item
+            int numNullFields = replaceNullFields(currUser, minSimilarity);
+
+            sumSimilarity += numNullFields * minSimilarity;
+
+            // normalize curr user similarities with minimum similarity
+            normalizeSimilarityScore(currUser, sumSimilarity);
+
+            sumSimilarity = 0;
+            minSimilarity = Double.MAX_VALUE;
+
             simUserMap.put(currUser, currUserMap);
 
         }
 
-        // set missed minimum similarity value for not mapped item
-        int numNullFields = replaceNullFields(minSimilarity);
-
-        sumSimilarity += numNullFields * minSimilarity;
-
-        // normalize matrix
-        normalizeSimilarityScore(sumSimilarity);
-
 
     }
 
-    private int replaceNullFields(Double minValue) {
+    private int replaceNullFields(String currUser, Double minValue) {
         int numNullFields = 0;
 
-        for (String currUser : this.simUserMap.keySet()) {
-            Map<String, Double> currUserSim = simUserMap.get(currUser);
-            for (String entityID : currUserSim.keySet()) {
-                if (currUserSim.get(entityID) == null) {
-                    currUserSim.put(entityID, minValue);
-                    numNullFields++;
-                }
+        Map<String, Double> currUserSim = simUserMap.get(currUser);
+        for (String entityID : currUserSim.keySet()) {
+            if (currUserSim.get(entityID) == null) {
+                currUserSim.put(entityID, minValue);
+                numNullFields++;
             }
         }
 
         return numNullFields;
     }
 
-    private void normalizeSimilarityScore(Double sumValue) {
-        for (String currUser : simUserMap.keySet()) {
-            Map<String, Double> currUserSim = simUserMap.get(currUser);
+    private void normalizeSimilarityScore(String currUser, Double sumValue) {
 
-            for (String entityID : currUserSim.keySet()) {
-                currUserSim.put(entityID, currUserSim.get(entityID) / sumValue);
-            }
+        Map<String, Double> currUserSim = simUserMap.get(currUser);
+
+        for (String entityID : currUserSim.keySet()) {
+            currUserSim.put(entityID, currUserSim.get(entityID) / sumValue);
         }
+
     }
 
     private double computeCovotedItems(String firstUser, String secUser) {
@@ -323,39 +324,5 @@ public class UserItemJaccard extends RecGraph {
         return allRecommendation;
     }
 
-    public static void main(String[] args) throws IOException {
-        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
-                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
-                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
-                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
-                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
-                mappedItemFile = "mapping/item.mapping";
-
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        String completeResFile = resPath + File.separator + "UserItemJaccard" + File.separator + "metrics.complete";
-
-        for (int numSplit = 1; numSplit <= 5; numSplit++) {
-            UserItemJaccard jaccard = new UserItemJaccard(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
-                    propertyIndexDir, mappingList);
-            Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
-
-            String resFile = resPath + File.separator + "UserItemJaccard" + File.separator + "u" + numSplit + ".result";
-
-            EvaluateRecommendation.serializeRatings(ratings, resFile, -1);
-
-            String trecTestFile = testTrecPath + File.separator + "u" + numSplit + ".test";
-            String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                    + File.separator + "u" + numSplit + ".final";
-            EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-            metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-            currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-
-        }
-
-        EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, 5), completeResFile);
-
-    }
 
 }
