@@ -56,7 +56,7 @@ public class GraphRunner {
                 RequestStruct requestStruct = pair.value;
 
                 recommendationForSplits.add(userItemGraph.runPageRank(requestStruct));
-                currLogger.info("Computed recommendations for split #" + i);
+                currLogger.info("Computed recommendations for split #" + i + " level: " + level);
             }
 
 

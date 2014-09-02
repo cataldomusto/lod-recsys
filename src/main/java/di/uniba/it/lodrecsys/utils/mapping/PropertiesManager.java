@@ -2,8 +2,16 @@ package di.uniba.it.lodrecsys.utils.mapping;
 
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.*;
+import com.hp.hpl.jena.sparql.util.StringUtils;
 import com.hp.hpl.jena.tdb.TDBFactory;
+import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.utils.Utils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,16 +62,20 @@ public class PropertiesManager {
     public List<Statement> getResourceProperties(String resourceURI) {
         List<Statement> listStat = null;
 
-        if (!isWriteMode) {
-
-            listStat = new ArrayList<>();
-
-            StmtIterator statIterator = datasetModel.getResource(resourceURI).listProperties();
-
-            while (statIterator.hasNext()) {
-                listStat.add(statIterator.nextStatement());
-            }
+        try {
+            resourceURI = URLDecoder.decode(resourceURI, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return null;
         }
+
+        listStat = new ArrayList<>();
+
+        StmtIterator statIterator = datasetModel.getResource(resourceURI).listProperties();
+
+        while (statIterator.hasNext()) {
+            listStat.add(statIterator.nextStatement());
+        }
+
 
         return listStat;
     }
@@ -80,6 +92,5 @@ public class PropertiesManager {
         if (isWriteMode)
             tupleDataset.begin(ReadWrite.WRITE);
     }
-
 
 }

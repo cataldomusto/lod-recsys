@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,23 +19,33 @@ import java.util.List;
 public class PropertiesGenerator {
     public static void main(String[] args) throws Exception {
         String choosenProp = "mapping/choosen_prop.txt",
-                propertiesDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop_exp",
+                propertiesDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
                 dbpediaMapping = "mapping/item.mapping",
                 firstLevelExpProp = "mapping/exp_prop.txt";
 
         PropertiesManager manager = new PropertiesManager(propertiesDir);
-
-        List<Statement> statements = manager.getResourceProperties("http://dbpedia.org/resource/Quentin_Tarantino");
-
-        if (!statements.isEmpty())
-            System.out.println("Correct tarantino");
-
-        statements = manager.getResourceProperties("http://dbpedia.org/resource/Pulp_Fiction");
-
-        if (!statements.isEmpty())
-            System.out.println("Correct pulp");
+        SPARQLClient sparql = new SPARQLClient();
+        Collection<String> expPropList = loadPropertiesURI(choosenProp);
+        Collection<String> missed = loadPropertiesURI("mapping/missed");
 
 
+        int i = 0;
+
+        for (String mappedItem : missed) {
+            try {
+                manager.start(true);
+                sparql.saveResourceProperties(URLDecoder.decode(mappedItem, "UTF-8"), expPropList, manager);
+
+                i++;
+
+                manager.commitChanges();
+            } finally {
+
+                manager.closeManager();
+            }
+
+
+        }
     }
 
 
@@ -44,6 +55,33 @@ public class PropertiesGenerator {
         long cm = System.currentTimeMillis();
         while ((System.currentTimeMillis() - cm) < sec * 1000) ;
 
+    }
+
+    private static void loadProperties(PropertiesManager manager, String propFile, String dbpediaMapping) throws IOException {
+        Collection<String> expPropList = loadPropertiesURI(propFile);
+
+        SPARQLClient sparql = new SPARQLClient();
+
+        List<MovieMapping> mappedItems = Utils.loadDBpediaMappedItems(dbpediaMapping);
+
+
+        int i = 0;
+
+        for (MovieMapping mappedItem : mappedItems) {
+            try {
+                manager.start(true);
+                sparql.saveResourceProperties(URLDecoder.decode(mappedItem.getDbpediaURI(), "UTF-8"), expPropList, manager);
+
+                i++;
+
+                manager.commitChanges();
+            } finally {
+
+                manager.closeManager();
+            }
+
+
+        }
     }
 
     private static void loadFirstLevelExpansionProp(PropertiesManager manager, String firstLevelExpProp, String dbpediaMapping) throws IOException {
@@ -72,7 +110,6 @@ public class PropertiesGenerator {
 
         }
     }
-
 
 
     private static Collection<String> loadPropertiesURI(String fileName) {
