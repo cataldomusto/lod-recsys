@@ -37,7 +37,7 @@ public class BaselineRunner {
          * */
 
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        String[] rec_methods = {"UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"};
+        String[] rec_methods = {"ItemKNNLod"};//{"UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"};
         int[] list_rec_size = new int[]{5, 10, 15, 20};
         String methodOptions = "--recommender-options=";
         int numberOfSplit = 5;
@@ -52,18 +52,18 @@ public class BaselineRunner {
                         // for each sparsity level
                         for (SparsityLevel level : SparsityLevel.values()) {
                             //for each split (from 1 to 5)
-                            String completeResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                            String completeResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
                                     "top_" + numRec + File.separator + "metrics.complete";
                             for (int i = 1; i <= 5; i++) {
-                                String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                                String trainFile = trainPath + File.separator + level + File.separator +
                                         "u" + i + ".base",
                                         testFile = testPath + File.separator + "u" + i + ".test",
                                         trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                                        tempResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                                        tempResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
                                                 "top_" + numRec + File.separator + "u" + i + ".temp_res",
-                                        resFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                                        resFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
                                                 "top_" + numRec + File.separator + "u" + i + ".mml_res",
-                                        trecResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                                        trecResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
                                                 "top_" + numRec + File.separator + "u" + i + ".results";
 
 
@@ -95,18 +95,18 @@ public class BaselineRunner {
                         // for each sparsity level
                         for (SparsityLevel level : SparsityLevel.values()) {
                             //for each split (from 1 to 5)
-                            String completeResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
+                            String completeResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + level + File.separator +
                                     "top_" + numRec + File.separator + "metrics.complete";
                             for (int i = 1; i <= 5; i++) {
-                                String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                                String trainFile = trainPath + File.separator + level + File.separator +
                                         "u" + i + ".base",
                                         testFile = testPath + File.separator + "u" + i + ".test",
                                         trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                                        resFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
+                                        resFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + level + File.separator +
                                                 "top_" + numRec + File.separator + "u" + i + ".mml_res",
-                                        tempResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
+                                        tempResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + level + File.separator +
                                                 "top_" + numRec + File.separator + "u" + i + ".temp_res",
-                                        trecResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + "given_" + level.toString() + File.separator +
+                                        trecResFile = resPath + File.separator + method + File.separator + "fact_" + latent_fact + File.separator + level + File.separator +
                                                 "top_" + numRec + File.separator + "u" + i + ".results";
 
 
@@ -132,22 +132,65 @@ public class BaselineRunner {
                         }
                     }
 
+                } else if (method.equals("ItemKNNLod")) { // Item-based CF with jaccard similarity matrix based on LOD properties
+                    String simPath = "/home/asuglia/thesis/dataset/ml-100k/results/ItemKNNLod/similarities";
+                    for (int num_neigh : IIRecSys.num_neighbors) {
+                        String neigh_options = "\"k=" + num_neigh + "\"";
+                        // for each sparsity level
+                        for (SparsityLevel level : SparsityLevel.values()) {
+                            //for each split (from 1 to 5)
+                            String completeResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
+                                    "top_" + numRec + File.separator + "metrics.complete";
+                            for (int i = 1; i <= 5; i++) {
+                                String trainFile = trainPath + File.separator + level + File.separator +
+                                        "u" + i + ".base",
+                                        testFile = testPath + File.separator + "u" + i + ".test",
+                                        trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
+                                        tempResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
+                                                "top_" + numRec + File.separator + "u" + i + ".temp_res",
+                                        resFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
+                                                "top_" + numRec + File.separator + "u" + i + ".mml_res",
+                                        trecResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + level + File.separator +
+                                                "top_" + numRec + File.separator + "u" + i + ".results",
+                                        simFile = simPath + File.separator + level + File.separator + "u" + i + ".sim";
+
+
+                                // Executes MyMediaLite tool
+                                String mmlString = "/home/asuglia/itemlod_bin/itemknn_lod.exe " + trainFile + " " +
+                                        testFile + " " + simFile + " " + tempResFile + " " + num_neigh;
+                                currLogger.info(mmlString);
+                                CmdExecutor.executeCommand(mmlString, false);
+                                // Now transform the results file in the TrecEval format for evaluation
+                                PredictionFileConverter.fixPredictionFile(testFile, tempResFile, resFile, numRec);
+                                EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile);
+                                String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
+                                        + File.separator + "u" + i + ".final";
+                                EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, trecResultFinal);
+                                metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+                                currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                            }
+
+                            currLogger.info(("Metrics results for sparsity level " + level + "\n"));
+                            EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
+                            metricsForSplit.clear(); // evaluate for the next sparsity level
+                        }
+                    }
                 } else { // non-personalized algorithm
                     for (SparsityLevel level : SparsityLevel.values()) {
                         //for each split (from 1 to 5)
-                        String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                        String completeResFile = resPath + File.separator + method + File.separator + level + File.separator +
                                 "top_" + numRec
                                 + File.separator + "metrics.complete";
                         for (int i = 1; i <= 5; i++) {
-                            String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                            String trainFile = trainPath + File.separator + level + File.separator +
                                     "u" + i + ".base",
                                     testFile = testPath + File.separator + "u" + i + ".test",
                                     trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                                    resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                                    resFile = resPath + File.separator + method + File.separator + level + File.separator +
                                             "top_" + numRec + File.separator + "u" + i + ".mml_res",
-                                    tempResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                                    tempResFile = resPath + File.separator + method + File.separator + level + File.separator +
                                             "top_" + numRec + File.separator + "u" + i + ".temp_res",
-                                    trecResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                                    trecResFile = resPath + File.separator + method + File.separator + level + File.separator +
                                             "top_" + numRec + File.separator + "u" + i + ".results";
 
 

@@ -2,9 +2,12 @@ package di.uniba.it.lodrecsys.baseline;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.properties.JaccardSimilarityFunction;
 import di.uniba.it.lodrecsys.properties.SimilarityFunction;
 import di.uniba.it.lodrecsys.utils.Utils;
@@ -57,13 +60,8 @@ public class JaccardPropKNN {
 
         @Override
         public int compareTo(SimScore o) {
-            if (this.similarity == null && o.similarity == null)
-                return 0;
-            if (this.similarity == null && o.similarity != null)
-                return -1;
-
-            if (this.similarity != null && o.similarity == null)
-                return 1;
+            if (this.similarity == null || o.similarity == null)
+                return this.itemID.compareTo(o.itemID);
 
             return this.similarity != null ? this.similarity.compareTo(o.similarity) : -1;
         }
@@ -176,18 +174,41 @@ public class JaccardPropKNN {
         return maxID;
     }
 
+    public void serializeSimMatrix(String simMatrixFile) throws IOException {
+        StringBuilder builder = new StringBuilder();
+
+        for (String itemID : itemSimScore.keySet()) {
+            for (SimScore score : itemSimScore.get(itemID)) {
+                builder.append(itemID).append(" ").append(score.getItemID()).append(" ").append(score.getSimilarity()).append("\n");
+
+            }
+        }
+
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(simMatrixFile));
+            writer.write(builder.toString());
+        } finally {
+            if (writer != null)
+                writer.close();
+        }
+
+    }
+
+
     public void serializeModelFormat(String modelFileName) throws IOException {
         Map<String, String> valuesMap = new HashMap<>();
         valuesMap.put("version", "3.03");
         valuesMap.put("class_name", "MyMediaLite.ItemRecommendation.ItemKNN");
         valuesMap.put("correlation", "Cosine");
-        String maxVal = String.valueOf(itemSimScore.keySet().size());
+        String maxVal = String.valueOf(itemSimScore.keySet().size() + 1);
         valuesMap.put("k", maxVal);
 
         StringBuilder builder = new StringBuilder();
 
         for (String itemID : itemSimScore.keySet()) {
-            builder.append(Joiner.on(" ").join(itemSimScore.get(itemID))).append("\n");
+            builder.append(Joiner.on(" ").join(Iterables.limit(itemSimScore.get(itemID), 80))).append("\n");
         }
 
         valuesMap.put("neighbours", builder.toString());
@@ -220,16 +241,73 @@ public class JaccardPropKNN {
     }
 
     public static void main(String[] args) throws IOException {
-        String dataPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+                simPath = "/home/asuglia/thesis/dataset/ml-100k/results/ItemKNNLod/similarities",
                 propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
                 mappedItemFile = "mapping/item.mapping";
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
 
-        JaccardPropKNN jaccard = new JaccardPropKNN(dataPath + File.separator + "u1.base", propertyIndexDir, mappingList);
+        for (SparsityLevel level : SparsityLevel.values()) {
+            for (int i = 1; i <= 5; i++) {
+                JaccardPropKNN jaccard = new JaccardPropKNN(trainPath + File.separator + level
+                        + File.separator + "u" + i + ".base", propertyIndexDir, mappingList);
 
-        jaccard.computeItemSimilarites();
+                jaccard.computeItemSimilarites();
 
-        jaccard.serializeModelFormat("/home/asuglia/model.txt");
+                jaccard.serializeSimMatrix(simPath + File.separator + level + File.separator + "u" + i + ".sim");
+
+            }
+
+        }
+
+
+        /*
+        * for (int numRec : list_rec_size) {
+
+                if (method.equals(IIRecSys.algorithmName) || method.equals(UURecSys.algorithmName)) {
+                    for (int num_neigh : IIRecSys.num_neighbors) {
+                        String neigh_options = "\"k=" + num_neigh + "\"";
+                        // for each sparsity level
+                        for (SparsityLevel level : SparsityLevel.values()) {
+                            //for each split (from 1 to 5)
+                            String completeResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                                    "top_" + numRec + File.separator + "metrics.complete";
+                            for (int i = 1; i <= 5; i++) {
+                                String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                                        "u" + i + ".base",
+                                        testFile = testPath + File.separator + "u" + i + ".test",
+                                        trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
+                                        tempResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                                                "top_" + numRec + File.separator + "u" + i + ".temp_res",
+                                        resFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                                                "top_" + numRec + File.separator + "u" + i + ".mml_res",
+                                        trecResFile = resPath + File.separator + method + File.separator + "neigh_" + num_neigh + File.separator + "given_" + level.toString() + File.separator +
+                                                "top_" + numRec + File.separator + "u" + i + ".results";
+
+
+                                // Executes MyMediaLite tool
+                                String mmlString = "item_recommendation --training-file=" + trainFile + " --test-file=" +
+                                        testFile + " --prediction-file=" + tempResFile +
+                                        " --recommender=" + method + " --recommender-options=" + neigh_options;
+                                currLogger.info(mmlString);
+                                CmdExecutor.executeCommand(mmlString, false);
+                                // Now transform the results file in the TrecEval format for evaluation
+                                PredictionFileConverter.fixPredictionFile(testFile, tempResFile, resFile, numRec);
+                                EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile);
+                                String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
+                                        + File.separator + "u" + i + ".final";
+                                EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, trecResultFinal);
+                                metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+                                currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                            }
+
+                            currLogger.info(("Metrics results for sparsity level " + level + "\n"));
+                            EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
+                            metricsForSplit.clear(); // evaluate for the next sparsity level
+                        }
+                    }
+        *
+        * */
 
     }
 

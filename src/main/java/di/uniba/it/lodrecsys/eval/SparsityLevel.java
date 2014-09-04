@@ -22,6 +22,6 @@ public enum SparsityLevel {
     }
 
     public String toString() {
-        return "" + (id == 1 ? "all" : id);
+        return "given_" + (id == 1 ? "all" : id);
     }
 }
