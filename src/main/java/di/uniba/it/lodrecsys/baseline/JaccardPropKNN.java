@@ -35,9 +35,9 @@ public class JaccardPropKNN {
 
     public static class SimScore implements Comparable<SimScore> {
         private String itemID;
-        private Double similarity;
+        private Float similarity;
 
-        public SimScore(String itemID, Double similarity) {
+        public SimScore(String itemID, Float similarity) {
             this.itemID = itemID;
             this.similarity = similarity;
         }
@@ -50,11 +50,11 @@ public class JaccardPropKNN {
             this.itemID = itemID;
         }
 
-        public Double getSimilarity() {
+        public Float getSimilarity() {
             return similarity;
         }
 
-        public void setSimilarity(Double similarity) {
+        public void setSimilarity(Float similarity) {
             this.similarity = similarity;
         }
 
@@ -93,7 +93,7 @@ public class JaccardPropKNN {
     }
 
     private void computeItemSimilarites() {
-        double minSimilarity = Double.MAX_VALUE;
+        float minSimilarity = simFunction.getMaxValue();
         Set<String> allItems = idUriMap.keySet();
         for (String currItemID : allItems) {
             currLogger.info("Computing similarities for item " + currItemID);
@@ -103,7 +103,7 @@ public class JaccardPropKNN {
 
             for (String otherItemID : allItems) {
                 Multimap<String, String> otherItemVector = itemsRepresentation.get(otherItemID);
-                Double finalScore = null;
+                Float finalScore = null;
 
                 if (currItemVector != null && otherItemVector != null) {
                     finalScore = simFunction.compute(currItemVector, otherItemVector);
@@ -122,15 +122,18 @@ public class JaccardPropKNN {
             this.itemSimScore.put(currItemID, currSimSet);
 
             // set missed minimum similarity value for not mapped item
+            if (minSimilarity == simFunction.getMaxValue()) // all one or all null for the current user
+                minSimilarity = simFunction.getMinValue();
+
             replaceNullFields(currItemID, minSimilarity);
-            minSimilarity = Double.MAX_VALUE;
+            minSimilarity = simFunction.getMaxValue();
 
         }
 
 
     }
 
-    private void replaceNullFields(String currUser, Double minValue) {
+    private void replaceNullFields(String currUser, Float minValue) {
         Set<SimScore> currItemSim = itemSimScore.get(currUser);
         for (SimScore score : currItemSim) {
             if (score.getSimilarity() == null) {
@@ -188,7 +191,9 @@ public class JaccardPropKNN {
 
         try {
             writer = new BufferedWriter(new FileWriter(simMatrixFile));
-            writer.write(builder.toString());
+            writer.write(String.valueOf(getMaxID() + 1)); // number of items
+            writer.newLine();
+            writer.write(builder.toString()); // similarities
         } finally {
             if (writer != null)
                 writer.close();

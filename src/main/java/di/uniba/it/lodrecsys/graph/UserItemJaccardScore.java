@@ -169,7 +169,7 @@ public class UserItemJaccardScore extends RecGraph {
             String resourceURI = idUriMap.get(currItemID);
             Double finalScore = priors.getVertexScore(currItemID); // pageRankScore
             if (resourceURI != null) {
-                Double jaccardScore = calculator.getSimilarity().compute(userCentroid, loadItemRepresentation(resourceURI));
+                Double jaccardScore = (double) calculator.getSimilarity().compute(userCentroid, loadItemRepresentation(resourceURI));
                 finalScore = (2 * finalScore * jaccardScore) / (jaccardScore + finalScore);
 
             }

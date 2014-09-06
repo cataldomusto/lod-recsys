@@ -11,7 +11,7 @@ import java.util.TreeSet;
  */
 public class JaccardSimilarityFunction implements SimilarityFunction {
     @Override
-    public double compute(Multimap<String, String> first, Multimap<String, String> second) {
+    public float compute(Multimap<String, String> first, Multimap<String, String> second) {
         Set<String> firstElements = new TreeSet<>(),
                 secElements = new TreeSet<>();
 
@@ -28,6 +28,16 @@ public class JaccardSimilarityFunction implements SimilarityFunction {
         }
 
 
-        return (double) Sets.intersection(firstElements, secElements).size() / (double) Sets.union(firstElements, secElements).size();
+        return (float) Sets.intersection(firstElements, secElements).size() / (float) Sets.union(firstElements, secElements).size();
+    }
+
+    @Override
+    public float getMaxValue() {
+        return 1;
+    }
+
+    @Override
+    public float getMinValue() {
+        return 0f;
     }
 }

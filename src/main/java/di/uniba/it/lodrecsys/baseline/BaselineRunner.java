@@ -156,10 +156,10 @@ public class BaselineRunner {
 
 
                                 // Executes MyMediaLite tool
-                                String mmlString = "/home/asuglia/itemlod_bin/itemknn_lod.exe " + trainFile + " " +
+                                String mmlString = "mono /home/asuglia/itemlod_bin/itemknn_lod.exe " + trainFile + " " +
                                         testFile + " " + simFile + " " + tempResFile + " " + num_neigh;
                                 currLogger.info(mmlString);
-                                CmdExecutor.executeCommand(mmlString, false);
+                                CmdExecutor.executeCommand(mmlString, true);
                                 // Now transform the results file in the TrecEval format for evaluation
                                 PredictionFileConverter.fixPredictionFile(testFile, tempResFile, resFile, numRec);
                                 EvaluateRecommendation.generateTrecEvalFile(resFile, trecResFile);

@@ -46,7 +46,7 @@ public class GraphRunner {
 
             for (int i = 1; i <= numberOfSplit; i++) {
 
-                String trainFile = trainPath + File.separator + "given_" + level.toString() + File.separator +
+                String trainFile = trainPath + File.separator + level + File.separator +
                         "u" + i + ".base",
                         testFile = testPath + File.separator + "u" + i + ".test";
 
@@ -61,11 +61,11 @@ public class GraphRunner {
 
 
             for (int numRec : listRecSizes) {
-                String completeResFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                String completeResFile = resPath + File.separator + method + File.separator + level + File.separator +
                         "top_" + numRec + File.separator + "metrics.complete";
                 for (int i = 1; i <= numberOfSplit; i++) {
                     String trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                            resFile = resPath + File.separator + method + File.separator + "given_" + level.toString() + File.separator +
+                            resFile = resPath + File.separator + method + File.separator + level + File.separator +
                                     "top_" + numRec + File.separator + "u" + i + ".results";
 
                     EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);

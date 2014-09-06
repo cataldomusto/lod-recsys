@@ -148,7 +148,7 @@ public class UserItemJaccard extends RecGraph {
         this.simUserMap = new HashMap<>();
 
         Set<String> userSet = trainingPosNeg.keySet();
-        double sumSimilarity = 0, minSimilarity = Double.MAX_VALUE;
+        Double sumSimilarity = 0d, minSimilarity = (double) function.getMaxValue();
 
         for (String currUser : userSet) {
             Multimap<String, String> currUserVector = usersCentroid.get(currUser);
@@ -163,7 +163,7 @@ public class UserItemJaccard extends RecGraph {
                         //        contentScore = function.compute(currUserVector, otherUserVector);
 
                         //finalScore = (collabScore + contentScore) / 2;
-                        finalScore = function.compute(currUserVector, otherUserVector);
+                        finalScore = (double) function.compute(currUserVector, otherUserVector);
                     }
 
                     currUserMap.put("U:" + otherUser, finalScore);
@@ -180,9 +180,15 @@ public class UserItemJaccard extends RecGraph {
                 for (String itemID : allItems) {
                     Multimap<String, String> itemVector = itemsRepresentation.get(itemID);
                     Double finalScore = null;
-                    if (itemVector != null) {
-                        finalScore = function.compute(currUserVector, itemVector);
+
+                    // If the current item has been voted positively by the current user
+                    // assign "1" as a similarity score
+                    if (trainingPosNeg.get(currUser).get(0).contains(itemID)) {
+                        finalScore = 1d;
+                    } else if (itemVector != null) {
+                        finalScore = (double) function.compute(currUserVector, itemVector);
                     }
+
 
                     currUserMap.put("I:" + itemID, finalScore);
                     if (finalScore != null) {
@@ -201,13 +207,22 @@ public class UserItemJaccard extends RecGraph {
                 }
 
                 for (String itemID : allItems) {
-                    currUserMap.put("I:" + itemID, null);
+                    Double finalScore = null;
+
+                    if (trainingPosNeg.get(currUser).get(0).contains(itemID)) {
+                        finalScore = 1d;
+                    }
+
+                    currUserMap.put("I:" + itemID, finalScore);
+
                 }
             }
 
             this.simUserMap.put(currUser, currUserMap);
 
             // set missed minimum similarity value for not mapped item
+            if (minSimilarity == function.getMaxValue())
+                minSimilarity = 0d;
             int numNullFields = replaceNullFields(currUser, minSimilarity);
 
             sumSimilarity += numNullFields * minSimilarity;
@@ -215,8 +230,8 @@ public class UserItemJaccard extends RecGraph {
             // normalize curr user similarities with minimum similarity
             normalizeSimilarityScore(currUser, sumSimilarity);
 
-            sumSimilarity = 0;
-            minSimilarity = Double.MAX_VALUE;
+            sumSimilarity = 0d;
+            minSimilarity = (double) function.getMaxValue();
 
         }
 

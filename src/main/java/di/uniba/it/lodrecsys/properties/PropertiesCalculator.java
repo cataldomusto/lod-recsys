@@ -45,7 +45,7 @@ public class PropertiesCalculator {
 
         // Compute distance between each combination
         for (ICombinatoricsVector<String> combination : gen) {
-            distanceValues.put(combination, 1 - similarity.compute(mapper.get(combination.getValue(0)), mapper.get(combination.getValue(1))));
+            distanceValues.put(combination, 1 - (double) similarity.compute(mapper.get(combination.getValue(0)), mapper.get(combination.getValue(1))));
         }
 
         Set<String> itemsSet = mapper.keySet();
