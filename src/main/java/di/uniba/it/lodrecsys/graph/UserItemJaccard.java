@@ -214,6 +214,14 @@ public class UserItemJaccard extends RecGraph {
                     }
 
                     currUserMap.put("I:" + itemID, finalScore);
+                    if (finalScore != null) {
+                        // update minimum score similarity
+                        if (finalScore < minSimilarity)
+                            minSimilarity = finalScore;
+
+                        // total similarity
+                        sumSimilarity += finalScore;
+                    }
 
                 }
             }
