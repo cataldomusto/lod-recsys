@@ -9,29 +9,15 @@ import java.util.Set;
  */
 public class SimilarityVertexTransformer implements Transformer<String, Double> {
     private String currUserID;
-    private Set<String> trainingPos;
-    private Set<String> trainingNeg;
     private Map<String, Map<String, Double>> simUserMap;
 
-    public SimilarityVertexTransformer(String currUserID, Set<String> trainingPos, Set<String> trainingNeg, Map<String, Map<String, Double>> simUserMap) {
+    public SimilarityVertexTransformer(String currUserID, Map<String, Map<String, Double>> simUserMap) {
         this.currUserID = currUserID;
-        this.trainingPos = trainingPos;
-        this.trainingNeg = trainingNeg;
         this.simUserMap = simUserMap;
     }
 
     @Override
     public Double transform(String entityID) {
-
-        if (entityID.startsWith("I:")) {
-            String itemID = entityID.substring(entityID.indexOf("I:") + 1, entityID.length());
-
-            if (trainingNeg.contains(itemID)) {
-                return 0d;
-            }
-
-        }
-
         return simUserMap.get(currUserID).get(entityID);
     }
 }
