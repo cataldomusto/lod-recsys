@@ -159,10 +159,6 @@ public class UserItemJaccard extends RecGraph {
                     Multimap<String, String> otherUserVector = usersCentroid.get(otherUser);
                     Double finalScore = null;
                     if (otherUserVector != null) {
-                        //Double collabScore = computeCovotedItems(currUser, otherUser),
-                        //        contentScore = function.compute(currUserVector, otherUserVector);
-
-                        //finalScore = (collabScore + contentScore) / 2;
                         finalScore = (double) function.compute(currUserVector, otherUserVector);
                     }
 
