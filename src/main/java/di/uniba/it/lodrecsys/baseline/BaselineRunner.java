@@ -25,17 +25,6 @@ public class BaselineRunner {
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
                 resPath = "/home/asuglia/thesis/dataset/ml-100k/results";
 
-        /**
-         *
-         * Misure: valuteremo al momento precision e recall delle liste di top-N recommendations,
-         * al variare di N (5, 10, 15, 20)
-         - User to user e Item to Item Collaborative Filtering: neighbors (20, 50, 80)
-         - BPRMF: numero di fattori latenti:  10, 20, 50, 100
-         Random e MostPopular
-         *
-         *
-         * */
-
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
         String[] rec_methods = {"ItemKNNLod"};//{"UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"};
         int[] list_rec_size = new int[]{5, 10, 15, 20};
