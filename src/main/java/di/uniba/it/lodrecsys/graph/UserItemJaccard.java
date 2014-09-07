@@ -15,6 +15,7 @@ import di.uniba.it.lodrecsys.properties.SimilarityFunction;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
+import org.apache.commons.math3.stat.descriptive.summary.Sum;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,21 +127,21 @@ public class UserItemJaccard extends RecGraph {
     }
 
     private Double computeMeanUserSimilarity() {
-        Double totalSum = 0d;
-        int numAdd = 0;
+        Sum sumObj = new Sum();
 
         for (String currUser : simUserMap.keySet()) {
             Map<String, Double> currUserSim = simUserMap.get(currUser);
 
             for (String entityID : currUserSim.keySet()) {
                 if (entityID.startsWith("U:")) {
-                    totalSum += currUserSim.get(entityID);
-                    numAdd++;
+                    Double score = currUserSim.get(entityID);
+                    if (!score.isNaN())
+                        sumObj.increment(score);
                 }
             }
         }
 
-        return totalSum / numAdd;
+        return sumObj.getResult() / (sumObj.getN() / 2);
     }
 
 
@@ -148,7 +149,8 @@ public class UserItemJaccard extends RecGraph {
         this.simUserMap = new HashMap<>();
 
         Set<String> userSet = trainingPosNeg.keySet();
-        Double sumSimilarity = 0d, minSimilarity = (double) function.getMaxValue();
+        Double minSimilarity = (double) function.getMaxValue();
+        Sum sumObject = new Sum();
 
         for (String currUser : userSet) {
             Multimap<String, String> currUserVector = usersCentroid.get(currUser);
@@ -169,7 +171,8 @@ public class UserItemJaccard extends RecGraph {
                             minSimilarity = finalScore;
 
                         // update sum similarity
-                        sumSimilarity += finalScore;
+                        if (!finalScore.isNaN())
+                            sumObject.increment(finalScore);
                     }
                 }
 
@@ -194,8 +197,10 @@ public class UserItemJaccard extends RecGraph {
                         if (finalScore < minSimilarity)
                             minSimilarity = finalScore;
 
-                        // total similarity
-                        sumSimilarity += finalScore;
+
+                        // update sum similarity
+                        if (!finalScore.isNaN())
+                            sumObject.increment(finalScore);
                     }
 
                 }
@@ -221,8 +226,10 @@ public class UserItemJaccard extends RecGraph {
                         if (finalScore < minSimilarity)
                             minSimilarity = finalScore;
 
-                        // total similarity
-                        sumSimilarity += finalScore;
+
+                        // update sum similarity
+                        if (!finalScore.isNaN())
+                            sumObject.increment(finalScore);
                     }
 
                 }
@@ -235,12 +242,13 @@ public class UserItemJaccard extends RecGraph {
                 minSimilarity = 0d;
             int numNullFields = replaceNullFields(currUser, minSimilarity);
 
-            sumSimilarity += numNullFields * minSimilarity;
 
+            // update sum similarity
+            sumObject.increment(numNullFields * minSimilarity);
             // normalize curr user similarities with minimum similarity
-            normalizeSimilarityScore(currUser, sumSimilarity);
+            normalizeSimilarityScore(currUser, sumObject.getResult());
 
-            sumSimilarity = 0d;
+            sumObject.clear();
             minSimilarity = (double) function.getMaxValue();
 
         }
