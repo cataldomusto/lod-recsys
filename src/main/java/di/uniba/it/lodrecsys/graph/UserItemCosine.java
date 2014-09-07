@@ -209,25 +209,22 @@ public class UserItemCosine extends RecGraph {
     @Override
     public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws IOException {
         Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
-
-        double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
-
         // compute recommendation for all users
 
         for (String userID : testSet.keySet()) {
             currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);
-            usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems));
+            usersRecommendation.put(userID, profileUser(userID, testItems));
         }
 
         return usersRecommendation;
     }
 
-    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems) {
+    private Set<Rating> profileUser(String userID, Set<String> testItems) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
-        SimilarityVertexTransformer transformer = new SimilarityVertexTransformer(userID, trainingPos, trainingNeg, simUserMap);
+        SimilarityVertexTransformer transformer = new SimilarityVertexTransformer(userID, simUserMap);
         PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
