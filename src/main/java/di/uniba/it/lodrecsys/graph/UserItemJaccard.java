@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 7/30/14.
+ * Class which represents a collaborative graph with
+ * an enhanced weighting scheme based on Jaccard Similarity
+ *
  */
 public class UserItemJaccard extends RecGraph {
     private Map<String, String> idUriMap;

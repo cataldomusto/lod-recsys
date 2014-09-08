@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by asuglia on 7/1/14.
+ * Factory class which generates instances for specific graph
+ * configuration
  */
 public class GraphFactory {
 

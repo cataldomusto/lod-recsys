@@ -1,9 +1,11 @@
 package di.uniba.it.lodrecsys.entity;
 
-import com.sun.istack.internal.NotNull;
 
 /**
- * Created by asuglia on 4/22/14.
+ * Class that stores the score associated to each item
+ * by the recommender. When inserted in a ordered data structure
+ * will be automatically ordered decreasing order due to
+ * the specific *compareTo* implementation.
  */
 public class Rating implements Comparable<Rating> {
     private String itemID;

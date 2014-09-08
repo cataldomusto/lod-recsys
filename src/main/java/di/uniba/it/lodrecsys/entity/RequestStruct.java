@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by asuglia on 5/21/14.
+ * Class used in order to pass multiple parameters through
+ * other classes
  */
 public class RequestStruct {
     public List<Object> params;

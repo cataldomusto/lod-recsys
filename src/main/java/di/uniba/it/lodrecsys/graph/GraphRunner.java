@@ -7,14 +7,11 @@ import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.utils.Utils;
-import org.apache.mahout.cf.taste.common.TasteException;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -24,6 +21,10 @@ public class GraphRunner {
     private static Logger currLogger = Logger.getLogger(GraphRunner.class.getName());
 
     public static void main(String[] args) throws IOException {
+        Properties prop = new Properties();
+        prop.load(new FileReader(args[0]));
+
+        /*
         String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
                 testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
@@ -31,6 +32,15 @@ public class GraphRunner {
                 propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
                 tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
                 mappedItemFile = "mapping/item.mapping";
+        */
+
+        String trainPath = prop.getProperty("trainPath"),
+                testPath = prop.getProperty("testPath"),
+                testTrecPath = prop.getProperty("testTrecPath"),
+                resPath = prop.getProperty("resPath"),
+                propertyIndexDir = prop.getProperty("propertyIndexDir"),
+                tagmeDir = prop.getProperty("tagmeDir"),
+                mappedItemFile = prop.getProperty("mappedItemFile");
 
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
         Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
@@ -40,7 +50,7 @@ public class GraphRunner {
         double massProb = 0.8;
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
-        String method = "UserItemJaccard";
+        String method = prop.getProperty("methodName");
 
         for (SparsityLevel level : SparsityLevel.values()) {
 

@@ -17,7 +17,10 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 8/3/14.
+ * Class which represents a collaborative graph with
+ * an enhanced weighting scheme based on Cosine similarity
+ *
+ * **EXPERIMENTAL**
  */
 public class UserItemCosine2 extends RecGraph {
 

@@ -10,15 +10,16 @@ import di.uniba.it.lodrecsys.properties.SimilarityFunction;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
 /**
  * Created by asuglia on 9/2/14.
+ * <p/>
+ * Class which defines the method in order to compute
+ * similarities among items using the Linked Open Data
+ * properties saved in your local TDB repository.
  */
 public class JaccardPropKNN {
     private static Logger currLogger = Logger.getLogger(JaccardPropKNN.class.getName());
@@ -29,6 +30,9 @@ public class JaccardPropKNN {
     private Map<String, String> idUriMap;
 
 
+    /**
+     * Class which defines the similarity score between two items
+     */
     public static class SimScore implements Comparable<SimScore> {
         private String itemID;
         private Float similarity;
@@ -68,6 +72,15 @@ public class JaccardPropKNN {
         }
     }
 
+    /**
+     * Constructs this object to compute similarities among
+     * the items in the specified training set
+     *
+     * @param trainFile    the current training set
+     * @param propIndexDir Jena TDB stored index
+     * @param mappedItems  All the items that are effectively mapped with the LODC
+     * @throws IOException If one of the needed file is incorrect or doesn't exist
+     */
     public JaccardPropKNN(String trainFile, String propIndexDir, List<MovieMapping> mappedItems) throws IOException {
         manager = new PropertiesManager(propIndexDir);
         simFunction = new JaccardSimilarityFunction();
@@ -76,6 +89,14 @@ public class JaccardPropKNN {
         loadItemsRepresentation(manager);
     }
 
+    /**
+     * Obtains an easy to use map that is able to convert a specific
+     * item-id defined in the dataset to a HTTP URI that represents the entity
+     * in the LODC
+     *
+     * @param movieList list of mapped items
+     * @param allItems  list of dataset items' id
+     */
     private void getMapForMappedItems(List<MovieMapping> movieList, Set<String> allItems) {
         // key: item-id - value: dbpedia uri
         idUriMap = new HashMap<>();
@@ -88,6 +109,10 @@ public class JaccardPropKNN {
         }
     }
 
+    /**
+     * Populates the similarity matrix computing the similarities among all the
+     * items.
+     */
     private void computeItemSimilarites() {
         float minSimilarity = simFunction.getMaxValue();
         Set<String> allItems = idUriMap.keySet();
@@ -129,8 +154,15 @@ public class JaccardPropKNN {
 
     }
 
-    private void replaceNullFields(String currUser, Float minValue) {
-        Set<SimScore> currItemSim = itemSimScore.get(currUser);
+    /**
+     * Replaces all the null values in the current item similarity list
+     * with a specified value
+     *
+     * @param currItem the item for which will be done the substitution
+     * @param minValue the value that will replace the "null"
+     */
+    private void replaceNullFields(String currItem, Float minValue) {
+        Set<SimScore> currItemSim = itemSimScore.get(currItem);
         for (SimScore score : currItemSim) {
             if (score.getSimilarity() == null) {
                 score.setSimilarity(minValue);
@@ -140,6 +172,14 @@ public class JaccardPropKNN {
 
     }
 
+    /**
+     * Uses the specified properties manager in order to construct a
+     * LOD representation for each mapped item.
+     * For each property could be multiple values associated to the same
+     * item.
+     *
+     * @param manager object that manages the Jena TDB stored index
+     */
     private void loadItemsRepresentation(PropertiesManager manager) {
         itemsRepresentation = new HashMap<>();
 
@@ -160,6 +200,12 @@ public class JaccardPropKNN {
 
     }
 
+    /**
+     * Returns the maximum item ID from the similarity matrix and
+     * converts it in a long
+     *
+     * @return the maximum available id
+     */
     private long getMaxID() {
         long maxID = Long.MIN_VALUE;
 
@@ -173,6 +219,12 @@ public class JaccardPropKNN {
         return maxID;
     }
 
+    /**
+     * Prints in a formatted file the computed similarity matrix
+     *
+     * @param simMatrixFile The filename in which the matrix will be saved
+     * @throws IOException If unable to open the file
+     */
     public void serializeSimMatrix(String simMatrixFile) throws IOException {
         StringBuilder builder = new StringBuilder();
 
@@ -198,10 +250,21 @@ public class JaccardPropKNN {
     }
 
     public static void main(String[] args) throws IOException {
+        /*
+            EXAMPLE VALUES:
+
         String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
                 simPath = "/home/asuglia/thesis/dataset/ml-100k/results/ItemKNNLod/similarities",
                 propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
                 mappedItemFile = "mapping/item.mapping";
+        */
+        Properties prop = new Properties();
+        prop.load(new FileReader(args[0]));
+        String trainPath = prop.getProperty("trainPath"),
+                simPath = prop.getProperty("simPath"),
+                propertyIndexDir = prop.getProperty("propertyIndexDir"),
+                mappedItemFile = prop.getProperty("mappedItemFile");
+
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
 
         for (SparsityLevel level : SparsityLevel.values()) {

@@ -19,7 +19,11 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 7/24/14.
+ * Class which represents a collaborative graph with
+ * an enhanced weighting scheme. Each item is weighted according to
+ * a similarity score and a PageRank score.
+ *
+ * **EXPERIMENTAL**
  */
 public class UserItemJaccardScore extends RecGraph {
     private Map<String, String> idUriMap;

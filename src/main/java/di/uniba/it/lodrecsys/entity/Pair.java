@@ -1,7 +1,8 @@
 package di.uniba.it.lodrecsys.entity;
 
 /**
- * Created by asuglia on 7/1/14.
+ * A generic class that represents a simple pair.
+ * Unfortunately Java doesn't provide a generic Pair class :)
  */
 public class Pair<K, V> {
     public K key;

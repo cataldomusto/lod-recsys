@@ -1,7 +1,8 @@
 package di.uniba.it.lodrecsys.eval;
 
 /**
- * Created by asuglia on 4/22/14.
+ * Defines the sparsity level adopted in the evaluation
+ * framework
  */
 public enum SparsityLevel {
     FIVE(5),

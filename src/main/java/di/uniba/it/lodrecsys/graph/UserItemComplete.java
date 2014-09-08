@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 7/16/14.
+ * Class which represent a graph with all the DBpedia and tag.ME
+ * information connected to the items
  */
 public class UserItemComplete extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;

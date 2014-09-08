@@ -1,7 +1,8 @@
 package di.uniba.it.lodrecsys.entity;
 
 /**
- * Created by asuglia on 5/30/14.
+ * Class which represents POJO class which stores
+ * specific information for the items of the dataset
  */
 public class MappingEntity {
     protected String dbpediaURI;
@@ -16,7 +17,7 @@ public class MappingEntity {
         this.itemID = itemID;
     }
 
-    public MappingEntity(String itemID,String dbpediaURI, String name) {
+    public MappingEntity(String itemID, String dbpediaURI, String name) {
         this.dbpediaURI = dbpediaURI;
         this.name = name;
         this.itemID = itemID;

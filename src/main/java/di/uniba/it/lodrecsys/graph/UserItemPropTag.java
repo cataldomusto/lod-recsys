@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 7/8/14.
+ * Class which represents the user-item-lod-tagme configuration
  */
 public class UserItemPropTag extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;

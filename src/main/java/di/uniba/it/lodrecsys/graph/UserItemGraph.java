@@ -13,8 +13,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Created by asuglia on 5/21/14.
- */
+ * Class which represents a collaborative graph (user-item)
+ * which produces recommendation according the classic PageRank
+ * implementation
+ * */
 public class UserItemGraph extends RecGraph {
     private Map<String, Set<Rating>> trainingSet;
     private Map<String, Set<String>> testSet;

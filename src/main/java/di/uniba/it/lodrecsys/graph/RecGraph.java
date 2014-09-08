@@ -14,7 +14,8 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * Created by asuglia on 5/21/14.
+ * An abstract class which represents the generic structure
+ * for a recommendation graph on which could be run Personalized PageRank
  */
 public abstract class RecGraph {
     protected static Logger currLogger = Logger.getLogger(RecGraph.class.getName());
@@ -22,26 +23,26 @@ public abstract class RecGraph {
     protected Graph<String, String> recGraph;
 
     public RecGraph() {
-        recGraph = new UndirectedSparseMultigraph<>();//WRONG: new DirectedSparseMultigraph<>();
-
+        recGraph = new UndirectedSparseMultigraph<>();
     }
 
-
-    /*
-    public RecGraph(String trainingFile, String testFile) throws IOException {
-        recGraph = new UndirectedSparseMultigraph<>(); //WRONG: new DirectedSparseGraph<>();
-        try {
-            generateGraph(trainingFile, testFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
-    } */
-
-    //public abstract void generateGraph(String trainingFileName, String testFile) throws IOException;
-
+    /**
+     * Constructs the graph according to the request passed
+     * as a parameter
+     *
+     * @param requestStruct the parameters needed in order to construct the graph
+     * @throws IOException if some wrong operations are done on the request's data
+     */
     public abstract void generateGraph(RequestStruct requestStruct) throws IOException;
 
+    /**
+     * Executes personalized PageRank and returns recommendation
+     * for each user in the test set
+     *
+     * @param requestParam Parameters needed for the algorithm
+     * @return recommendation list for each user in the test set
+     * @throws IOException if something is wrong during the algorithm execution
+     */
     public abstract Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws IOException;
 
 

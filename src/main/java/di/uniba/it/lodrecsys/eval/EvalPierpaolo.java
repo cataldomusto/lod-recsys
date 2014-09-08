@@ -7,22 +7,31 @@ import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 8/4/14.
+ * Evaluation class for external algorithm's results
  */
 public class EvalPierpaolo {
-
     public static void main(String[] args) throws IOException {
+        Properties prop = new Properties();
+        prop.load(new FileReader(args[0]));
+
+        /*
+            EXAMPLE VALUES:
         String resDir = "/home/asuglia/exp_pier/exp_out",
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec";
+        */
+
+        String resDir = prop.getProperty("resDir"),
+                testTrecPath = prop.getProperty("testTrecPath");
 
         Map<String, Multimap<String, String>> mapResFile = new HashMap<>();
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        int numberOfSplit = 5;
-        int[] listRecSizes = new int[]{5, 10, 15, 20};
+        // EXAMPLE VALUE: int numberOfSplit = 5;
+        int numberOfSplit = Integer.parseInt(prop.getProperty("numberOfSplit"));
 
         for (SparsityLevel level : SparsityLevel.values()) {
             String sparsityLevel = "given_" + level.toString();

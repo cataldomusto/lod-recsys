@@ -16,6 +16,15 @@ import java.util.logging.Logger;
 public class EvaluateRecommendation {
     private static Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
+    /**
+     * Serializes a specific number of recommendation for each user according to
+     * the TREC evaluation file format
+     *
+     * @param recommendationList all the recommendation for each user
+     * @param resFile            the result's filename
+     * @param numRec             number of recommendation that will be saved (-1 if all of them needed)
+     * @throws IOException unable to write the result file
+     */
     public static void serializeRatings(Map<String, Set<Rating>> recommendationList, String resFile, int numRec) throws IOException {
         BufferedWriter writer = null;
         try {
@@ -48,6 +57,9 @@ public class EvaluateRecommendation {
 
 
     /**
+     * Transforms the MyMediaLite prediction's file into
+     * a TREC eval results file format.
+     * <p/>
      * Trec eval results format
      * <id_user> Q0 <id_item> <posizione nel rank> <score> <nome esperimento>
      */
@@ -93,8 +105,13 @@ public class EvaluateRecommendation {
 
     }
 
-
-
+    /**
+     * Transforms an array of strings which contains prediction in the format
+     * item_id:rating, into a set of Rating
+     *
+     * @param ratings array of rating in string form
+     * @return an ordered list of ratings
+     */
     private static Set<Rating> getRatingsSet(String[] ratings) {
         Set<Rating> ratingSet = new TreeSet<>();
 
@@ -107,6 +124,14 @@ public class EvaluateRecommendation {
 
     }
 
+    /**
+     * Executes the trec_eval tool to evaluate the produced results
+     * and saves them in a file
+     *
+     * @param goldStandardFile filename of the test file in trec_eval format
+     * @param resultFile       filename of the results file in trec_eval format
+     * @param trecResultFile   filename of the results produced by trec_eval
+     */
     public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
         String trecEvalCommand = "trec_eval -m all_trec " + goldStandardFile + " " + resultFile;
 
@@ -114,6 +139,14 @@ public class EvaluateRecommendation {
         logger.info(trecEvalCommand);
     }
 
+    /**
+     * Parses the specified trec eval results file and retrives all the produced
+     * metrics
+     *
+     * @param trecEvalFile filename of the trec_eval results file
+     * @return a dictionary whose keys are metrics' name and whose values are metrics' values
+     * @throws IOException
+     */
     public static Map<String, String> getTrecEvalResults(String trecEvalFile) throws IOException {
         CSVParser parser = null;
         Map<String, String> trecMetrics = new HashMap<>();
@@ -135,12 +168,25 @@ public class EvaluateRecommendation {
 
     }
 
-
+    /**
+     * Computes F1-measure from the precision and recall specified
+     * values
+     *
+     * @param precision current precision
+     * @param recall    current recall
+     * @return f1-measure
+     */
     private static float getF1(float precision, float recall) {
         return (2 * precision * recall) / (precision + recall);
 
     }
 
+    /**
+     * Computes F1-measure for all the cut-off levels defined
+     * which are: 5, 10, 15, 20
+     *
+     * @param measures the metrics' map that will be updated with f1-measures
+     */
     private static void evalF1Measure(Map<String, Float> measures) {
         int[] cutoffLevels = new int[]{5, 10, 15, 20};
         String precisionString = "P", recallString = "recall", fMeasureString = "F1";
@@ -155,6 +201,13 @@ public class EvaluateRecommendation {
 
     }
 
+    /**
+     * Averages the metrics results for each split
+     *
+     * @param metricsValuesForSplit list of metrics computed for each split
+     * @param numberOfSplit         number of split
+     * @return string representation of the results
+     */
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
@@ -182,6 +235,13 @@ public class EvaluateRecommendation {
 
     }
 
+    /**
+     * Serializes the metrics results coming from the evaluation process in a file
+     *
+     * @param metricsResult      string representation of the results
+     * @param completeReportFile filename of the metrics results
+     * @throws IOException if unable to write the file
+     */
     public static void generateMetricsFile(String metricsResult, String completeReportFile) throws IOException {
         BufferedWriter writer = null;
 

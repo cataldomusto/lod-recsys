@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 7/1/14.
+ * Class which represents the user-item-lod
+ * configuration
  */
 public class UserItemProperty extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;

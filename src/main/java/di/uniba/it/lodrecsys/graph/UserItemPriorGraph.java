@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 5/26/14.
+ * Class which represents the user-item configuration
+ * (Collaborative graph)
  */
 public class UserItemPriorGraph extends RecGraph {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;

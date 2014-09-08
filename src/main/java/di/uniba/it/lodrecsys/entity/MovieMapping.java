@@ -16,7 +16,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by asuglia on 5/30/14.
+ * Class which represents a specialized entity for the MovieLens
+ * dataset (ml-100k).
  */
 public class MovieMapping extends MappingEntity implements Comparable<MovieMapping> {
     private String year;
@@ -43,6 +44,13 @@ public class MovieMapping extends MappingEntity implements Comparable<MovieMappi
                 " year='" + year + '\'' + '}';
     }
 
+    /**
+     * Defines when two distinct object are equal according to
+     * an heuristic specific for the ml-100k dataset
+     *
+     * @param o an other movie
+     * @return <code>true</code> if the two movie are equal, <code>false</code> otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof MovieMapping))
