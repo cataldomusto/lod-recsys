@@ -2,51 +2,21 @@ package di.uniba.it.lodrecsys.utils;
 
 import de.l3s.boilerpipe.BoilerpipeProcessingException;
 import de.l3s.boilerpipe.extractors.ArticleExtractor;
-
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import di.uniba.it.lodrecsys.query.SimpleQueryInRelation;
-import di.uniba.it.lodrecsys.query.SimpleQueryOutRelation;
-import di.uniba.it.lodrecsys.query.SimpleResult;
-
 import di.uniba.it.lodrecsys.utils.mapping.SPARQLClient;
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.util.Version;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
- * @author pierpaolo
+ * Another utility class used in order to download Wikipedia pages associated
+ * to the DBpedia entities
  */
 public class DownloadEntityData {
 
     private static final Logger logger = Logger.getLogger(DownloadEntityData.class.getName());
-
-    private static final String PREDICATE_WIKIPAGE = "http://xmlns.com/foaf/0.1/isPrimaryTopicOf";
-
-    private static final String PREDICATE_ABSTRACT = "http://dbpedia.org/ontology/abstract";
-
     private static final int MAX_ATTEMPT = 3;
 
 

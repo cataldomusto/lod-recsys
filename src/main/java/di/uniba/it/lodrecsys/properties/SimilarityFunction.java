@@ -3,7 +3,8 @@ package di.uniba.it.lodrecsys.properties;
 import com.google.common.collect.Multimap;
 
 /**
- * Created by asuglia on 7/30/14.
+ * Defines a generic similarity function that could be
+ * used to determine how much similar are two instances
  */
 public interface SimilarityFunction {
     public float compute(Multimap<String, String> first, Multimap<String, String> second);

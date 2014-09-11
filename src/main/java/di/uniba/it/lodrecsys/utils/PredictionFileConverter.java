@@ -9,7 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by asuglia on 5/5/14.
+ * Class used to convert MyMediaLite prediction file to
+ * specific data structure used in the current program
  */
 public class PredictionFileConverter {
     private static List<RITriple> getScore(String line, String userId, Set<String> testSet) {

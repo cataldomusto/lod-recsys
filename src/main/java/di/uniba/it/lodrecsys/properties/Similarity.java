@@ -1,7 +1,7 @@
 package di.uniba.it.lodrecsys.properties;
 
 /**
- * Created by asuglia on 7/30/14.
+ * Defines all the available similarity functions
  */
 public enum Similarity {
     JACCARD

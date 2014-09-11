@@ -94,7 +94,10 @@ public class GraphFactory {
 
 }
 
-
+/**
+ * Constructs specific request needed by some specific
+ * algorithm's configuration.
+ */
 class RequestStructFactory {
     public static RequestStruct create(String specificModel, Object... params) throws IOException {
 

@@ -8,7 +8,8 @@ import java.io.*;
 import java.util.logging.Logger;
 
 /**
- * Created by asuglia on 4/4/14.
+ * Utility class used to convert simple dataset in CSV format
+ * into the trec_eval rating format
  */
 public class TSVToTrecEval {
 

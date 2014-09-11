@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Created by asuglia on 7/30/14.
+ * Class which defines the Jaccard similarity function
  */
 public class JaccardSimilarityFunction implements SimilarityFunction {
     @Override

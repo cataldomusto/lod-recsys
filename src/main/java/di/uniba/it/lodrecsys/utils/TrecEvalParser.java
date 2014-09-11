@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 5/15/14.
+ * Utility class used to parse the trec eval results file
+ * and to get a map which contains all the desired metrics
  */
 public class TrecEvalParser {
     private static final String[] usefulMetrics = new String[]{"map", "P_5", "P_10", "P_15",

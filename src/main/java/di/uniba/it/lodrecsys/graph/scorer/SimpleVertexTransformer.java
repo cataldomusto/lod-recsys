@@ -8,7 +8,11 @@ import java.util.Set;
 import org.apache.commons.collections15.Transformer;
 
 /**
- * @author pierpaolo
+ * Class which defines a simple method that is used in order
+ * to distribute weights to the nodes.
+ * In particular, 80% of the weights is distributed equally among
+ * positively rated items. 20% is distributed among all the other items and
+ * 0 is directly assigned to negatively rated items.
  */
 public class SimpleVertexTransformer implements Transformer<String, Double> {
 

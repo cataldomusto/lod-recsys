@@ -1,11 +1,14 @@
 package di.uniba.it.lodrecsys.graph.scorer;
 
 import org.apache.commons.collections15.Transformer;
+
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by asuglia on 7/30/14.
+ * Class that defines a basic similarity weighting scheme.
+ * Each nodes receive a normalized weight according to a similarity metric
+ * defined.
  */
 public class SimilarityVertexTransformer implements Transformer<String, Double> {
     private String currUserID;

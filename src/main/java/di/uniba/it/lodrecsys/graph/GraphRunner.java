@@ -15,7 +15,8 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * Created by asuglia on 5/21/14.
+ * Starts all the graph-based experiments and evaluate them
+ * according to the trec_eval program.
  */
 public class GraphRunner {
     private static Logger currLogger = Logger.getLogger(GraphRunner.class.getName());

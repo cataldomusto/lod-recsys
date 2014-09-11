@@ -13,10 +13,11 @@ import java.util.logging.Logger;
 
 
 /**
- * Created by asuglia on 5/30/14.
+ * Class used to associate each dataset's instance to a DBpedia instance
  */
 public class MovieMappingGenerator {
     private static Logger currLogger = Logger.getLogger(MovieMappingGenerator.class.getName());
+
     public static void main(String[] args) throws IOException {
         String itemFile = "mapping/u.item",
                 dbpediaItemsFile = "mapping/item.dbpedia",
@@ -78,7 +79,6 @@ public class MovieMappingGenerator {
             if (reader != null)
                 reader.close();
         }
-
 
 
     }

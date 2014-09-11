@@ -14,7 +14,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by asuglia on 6/26/14.
+ * Class which uses a specific file in which there are all the mapped items,
+ * in order to retrieve the selected properties for them
  */
 public class PropertiesGenerator {
     public static void main(String[] args) throws Exception {

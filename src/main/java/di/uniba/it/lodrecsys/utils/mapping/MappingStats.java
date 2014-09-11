@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by asuglia on 6/11/14.
+ * Defines some method used in order to understand which elements
+ * belong to the dataset and their frequency
  */
 public class MappingStats {
     public static void main(String[] args) throws IOException {

@@ -36,7 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author pierpaolo
+ * Commons utility function used among the whole program
  */
 public class Utils {
 

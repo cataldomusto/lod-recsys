@@ -18,7 +18,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Created by asuglia on 7/5/14.
+ * Uses the JSON RESTful API in order to use the TAG.me service.
+ * For each DBpedia entity uses TAG.me in order to extract all the concepts
+ * associated to the entities the Wikipedia main page or the dbpedia:abstract
+ * property
  */
 public class TagMEthem {
     private static Logger logger = Logger.getLogger(TagMEthem.class.getName());
@@ -120,6 +123,16 @@ public class TagMEthem {
         return out.toString();
     }
 
+    /**
+     * Returns the result struct obtained from the TAG.me service
+     * used on a specific text
+     *
+     * @param text       The text that will be eleborated by TAG.me
+     * @param key        Secret key for the TAG.me service
+     * @param isLongText true if the text is long, false otherwise
+     * @return All the annotations extracted from the text
+     * @throws IOException if some errors occur while retrieving data
+     */
     private static TagMeResult tagIt(String text, String key, boolean isLongText) throws IOException {
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("key", key));

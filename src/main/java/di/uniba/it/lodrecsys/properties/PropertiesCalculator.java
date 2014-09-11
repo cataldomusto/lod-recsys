@@ -5,10 +5,13 @@ import di.uniba.it.lodrecsys.entity.Pair;
 import org.paukov.combinatorics.Factory;
 import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
+
 import java.util.*;
 
 /**
- * Created by asuglia on 7/6/14.
+ * Computes the representative element among a list according
+ * to a specified similarity metric which is used to determine how much
+ * distance there is between two different instances.
  */
 public class PropertiesCalculator {
     private SimilarityFunction similarity;

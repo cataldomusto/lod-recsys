@@ -5,7 +5,14 @@ import org.apache.commons.collections15.Transformer;
 import java.util.Map;
 import java.util.Set;
 
-
+/**
+ * Class that models the heuristic used to distribute weights
+ * according to a similarity metric defined.
+ * In particular the whole weight is distributed among
+ * all the items whose similarity with the current user,
+ * is greater that the average computed similarity. Otherwise,
+ * to those items is assigned 0, so they will be treated as irrelevant.
+ */
 public class SimNextVertexTransformer implements Transformer<String, Double> {
     private String currUserID;
     private Set<String> trainingPos;

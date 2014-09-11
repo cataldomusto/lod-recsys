@@ -2,22 +2,17 @@ package di.uniba.it.lodrecsys.utils.mapping;
 
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.RDFNode;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
-import di.uniba.it.lodrecsys.utils.Utils;
-import org.apache.jena.atlas.web.HttpException;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * Created by asuglia on 5/27/14.
+ * A utility class used to retrieve information from the
+ * DBpedia endpoint
  */
 public class SPARQLClient {
-    private String endpoint = "http://193.204.187.35:8890/sparql";
     private String dbpediaEndpoint = "http://live.dbpedia.org/sparql";
     private String graphURI = "http://dbpedia.org";
     private static Logger currLogger = Logger.getLogger(SPARQLClient.class.getName());
@@ -56,7 +51,7 @@ public class SPARQLClient {
 
 
         try {
-            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+            qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
 
             ResultSet resultSet = qexec.execSelect();
 
@@ -91,7 +86,7 @@ public class SPARQLClient {
         String wikiURI = null;
 
         try {
-            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+            qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
 
             ResultSet resultSet = qexec.execSelect();
 
@@ -127,7 +122,7 @@ public class SPARQLClient {
         String wikiURI = null;
 
         try {
-            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+            qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
 
             ResultSet resultSet = qexec.execSelect();
 
@@ -171,7 +166,7 @@ public class SPARQLClient {
 
             QueryExecution execution = null;
             try {
-                execution = QueryExecutionFactory.sparqlService(endpoint, currQuery);
+                execution = QueryExecutionFactory.sparqlService(dbpediaEndpoint, currQuery);
 
                 ResultSet resultSet = execution.execSelect();
                 QuerySolution solution = null;
@@ -206,7 +201,7 @@ public class SPARQLClient {
 
         QueryExecution qexec = null;
         try {
-            qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+            qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
 
             ResultSet resultSet = qexec.execSelect();
 
@@ -254,10 +249,10 @@ public class SPARQLClient {
 
                 try {
                     if (graphURI == null)
-                        qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+                        qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
                         //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
                     else
-                        qexec = QueryExecutionFactory.sparqlService(endpoint, query,
+                        qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query,
                                 graphURI);
 
                     ResultSet resultSet = qexec.execSelect();
@@ -372,10 +367,10 @@ public class SPARQLClient {
         QueryExecution qexec = null;
         try {
             if (graphURI == null)
-                qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+                qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
                 //qexec = QueryExecutionFactory.sparqlService(newEndpoint, query);
             else
-                qexec = QueryExecutionFactory.sparqlService(endpoint, query,
+                qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query,
                         graphURI);
 
             ResultSet resultSet = qexec.execSelect();
