@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * Class which represents a collaborative graph with
  * an enhanced weighting scheme based on Cosine similarity
- *
+ * <p/>
  * **EXPERIMENTAL**
  */
 public class UserItemCosine2 extends RecGraph {
@@ -286,6 +286,7 @@ public class UserItemCosine2 extends RecGraph {
         }
 
         EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, 5), completeResFile);
+
 
     }
 }

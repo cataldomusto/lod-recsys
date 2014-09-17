@@ -10,7 +10,7 @@ import java.util.*;
  * and to get a map which contains all the desired metrics
  */
 public class TrecEvalParser {
-    private static final String[] usefulMetrics = new String[]{"map", "P_5", "P_10", "P_15",
+    private static final String[] usefulMetrics = new String[]{"P_5", "P_10", "P_15",
             "P_20", "recall_5", "recall_10", "recall_15", "recall_20"};
     private static final List<String> listStrings = new ArrayList<>();
 
@@ -22,14 +22,14 @@ public class TrecEvalParser {
         return listStrings.contains(metric);
     }
 
-    public static Map<String, Map<String, Double>> getPerUserMetrics(String trecFinalName) throws IOException {
-        Map<String, Map<String, Double>> perUserMetrics = new HashMap<>();
+    public static Map<String, Map<String, Float>> getPerUserMetrics(String trecFinalName) throws IOException {
+        Map<String, Map<String, Float>> perUserMetrics = new HashMap<>();
         BufferedReader reader = null;
 
         try {
             reader = new BufferedReader(new FileReader(trecFinalName));
             String currUser = "";
-            Map<String, Double> currUserMetrics = new HashMap<>();
+            Map<String, Float> currUserMetrics = new HashMap<>();
             while (reader.ready()) {
                 String currMetricLine = reader.readLine();
                 String[] splittedLine = currMetricLine.split("\t");
@@ -50,7 +50,7 @@ public class TrecEvalParser {
                     currUserMetrics = new HashMap<>();
                 }
 
-                currUserMetrics.put(currMetric, Double.parseDouble(splittedLine[2]));
+                currUserMetrics.put(currMetric, Float.parseFloat(splittedLine[2]));
 
             }
         } catch (IOException e) {

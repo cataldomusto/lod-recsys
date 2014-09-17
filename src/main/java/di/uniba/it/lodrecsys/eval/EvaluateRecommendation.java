@@ -126,6 +126,21 @@ public class EvaluateRecommendation {
 
     /**
      * Executes the trec_eval tool to evaluate the produced results
+     * computing per user metrics and saves all in a file
+     *
+     * @param goldStandardFile filename of the test file in trec_eval format
+     * @param resultFile       filename of the results file in trec_eval format
+     * @param trecResultFile   filename of the results produced by trec_eval
+     */
+    public static void savePerUserTrec(String goldStandardFile, String resultFile, String trecResultFile) {
+        String trecEvalCommand = "trec_eval -q -m all_trec " + goldStandardFile + " " + resultFile;
+
+        CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
+        logger.info(trecEvalCommand);
+    }
+
+    /**
+     * Executes the trec_eval tool to evaluate the produced results
      * and saves them in a file
      *
      * @param goldStandardFile filename of the test file in trec_eval format
@@ -176,7 +191,7 @@ public class EvaluateRecommendation {
      * @param recall    current recall
      * @return f1-measure
      */
-    private static float getF1(float precision, float recall) {
+    public static float getF1(float precision, float recall) {
         return (2 * precision * recall) / (precision + recall);
 
     }
