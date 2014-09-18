@@ -41,7 +41,7 @@ public class TrecEvalParser {
                     currUser = splittedLine[1];
 
                 } else if (currUser.equals("all")) {
-                    perUserMetrics.put(currUser, currUserMetrics);
+                    //perUserMetrics.put(currUser, currUserMetrics);
                     break; // last user completed
 
                 } else if (!currUser.equals(splittedLine[1])) {

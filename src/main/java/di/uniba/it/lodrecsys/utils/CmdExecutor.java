@@ -6,6 +6,17 @@ import java.io.*;
  * Created by asuglia on 4/22/14.
  */
 public class CmdExecutor {
+    public static void executeCommandAndPrintLinux(String command, String resultFilename) {
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command + " > " + resultFilename});
+            p.waitFor();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Executes a specific command to the BASH and save the results printed on the
      * stdout into a file whose name is the one specified in input.

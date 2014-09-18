@@ -135,7 +135,7 @@ public class EvaluateRecommendation {
     public static void savePerUserTrec(String goldStandardFile, String resultFile, String trecResultFile) {
         String trecEvalCommand = "trec_eval -q -m all_trec " + goldStandardFile + " " + resultFile;
 
-        CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
+        CmdExecutor.executeCommandAndPrintLinux(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);
     }
 
@@ -192,7 +192,7 @@ public class EvaluateRecommendation {
      * @return f1-measure
      */
     public static float getF1(float precision, float recall) {
-        return (2 * precision * recall) / (precision + recall);
+        return (precision == 0 && precision == recall) ? 0 : (2 * precision * recall) / (precision + recall);
 
     }
 

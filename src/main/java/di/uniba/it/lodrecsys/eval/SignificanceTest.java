@@ -11,11 +11,15 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by asuglia on 5/17/14.
  */
 public class SignificanceTest {
+    private static Logger currLogger = Logger.getLogger(SignificanceTest.class.getName());
+
     public static double[] generateMeasureArray(Map<String, Map<String, Double>> usersMetrics, String measure) {
         double[] usersF1 = new double[usersMetrics.size()];
 
@@ -66,12 +70,12 @@ public class SignificanceTest {
 
     }
 
-    private static double[] getAveragedMetricForUser(String resDir, String testDir, int numSplit, int totUsers, int reclistSize) throws IOException {
-        double[] avgVector = new double[totUsers];
-        Map<String, Float> userMetrics = new HashMap<>();
-        String cutoff = String.valueOf(reclistSize);
+    private static double[] getAveragedMetricForUser(String resDir, String testDir, int numSplit, int reclistSize) throws IOException {
 
-        for (int i = 0; i < numSplit; i++) {
+        Map<String, Float> userMetrics = new HashMap<>();
+        String cutoff = String.valueOf(reclistSize), refMetric = "F1_" + cutoff;
+
+        for (int i = 1; i <= numSplit; i++) {
             String goldStandardFile = testDir + File.separator + "u" + i + ".test";
             String resFile = resDir + File.separator + "u" + i + ".results";
             String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
@@ -82,25 +86,26 @@ public class SignificanceTest {
             for (String currUser : perUserMetrics.keySet()) {
                 Map<String, Float> currMetrics = perUserMetrics.get(currUser);
                 evalF1Measure(currMetrics, cutoff);
-                userMetrics.put(currUser, userMetrics.getOrDefault(currUser, 0f) + currMetrics.get(currUser));
+                userMetrics.put(currUser, userMetrics.getOrDefault(currUser, 0f) + currMetrics.get(refMetric));
             }
         }
 
+        double[] avgVector = new double[userMetrics.keySet().size()];
         for (String currUser : userMetrics.keySet()) {
             int userIndex = Integer.parseInt(currUser);
-            avgVector[userIndex - 1] /= numSplit;
+            avgVector[userIndex - 1] = userMetrics.get(currUser) / numSplit;
         }
 
         return avgVector;
 
     }
 
-    private static Map<String, double[]> computeAllAlgoMetrics(List<String> algoList, String sparsityLevel, String testDir, int totUsers, int numSplit, int reclistSize) throws IOException {
+    private static Map<String, double[]> computeAllAlgoMetrics(List<String> algoList, String sparsityLevel, String testDir, int numSplit, int reclistSize) throws IOException {
         Map<String, double[]> algoMetrics = new HashMap<>();
 
         for (String algo : algoList) {
             String resDir = algo + File.separator + "given_" + sparsityLevel + File.separator + "top_" + reclistSize;
-            algoMetrics.put(algo, getAveragedMetricForUser(resDir, testDir, numSplit, totUsers, reclistSize));
+            algoMetrics.put(algo, getAveragedMetricForUser(resDir, testDir, numSplit, reclistSize));
         }
 
 
@@ -120,7 +125,6 @@ public class SignificanceTest {
 
 
                 int reclistSize = Integer.parseInt(prop.getProperty("reclistSize")), // e.g., recommendation list size
-                        totUsers = Integer.parseInt(prop.getProperty("totUsers")), // number of users in the dataset
                         numSplit = Integer.parseInt(prop.getProperty("numSplit"));
                 String[] sparsityLevels = prop.getProperty("sparsityLevels").split(",");
                 List<String> algorithmPaths = readAlgorithmsPath(algoListFileName);
@@ -128,10 +132,12 @@ public class SignificanceTest {
                 Map<String, Map<String, double[]>> algoMetricsForSparsity = new HashMap<>();
 
                 for (String sparsityLevel : sparsityLevels) {
-                    algoMetricsForSparsity.put(sparsityLevel, computeAllAlgoMetrics(algorithmPaths, sparsityLevel, testDir, totUsers, numSplit, reclistSize));
+                    currLogger.info("Computing metrics for sparsity level given_" + sparsityLevel);
+                    algoMetricsForSparsity.put(sparsityLevel, computeAllAlgoMetrics(algorithmPaths, sparsityLevel, testDir, numSplit, reclistSize));
                 }
 
                 for (String sparsityLevel : sparsityLevels) {
+                    currLogger.info("Computing significance test for sparsity level given_" + sparsityLevel);
                     String resFile = resDir + File.separator + "sign_given_" + sparsityLevel + ".csv";
                     BufferedWriter writer = null;
                     Map<String, double[]> currAlgoMetrics = algoMetricsForSparsity.get(sparsityLevel);
@@ -140,13 +146,26 @@ public class SignificanceTest {
                         writer.append("Sys1\tSys2\tT-test");
                         writer.newLine();
 
+                        Pattern algoNamePattern = Pattern.compile(".*" + File.separator + "results" + File.separator + "(.*)");
+
                         for (String sys1 : algorithmPaths) {
+                            Matcher sys1Match = algoNamePattern.matcher(sys1);
+                            String sys1Name = sys1;
+                            if (sys1Match.matches()) {
+                                sys1Name = sys1Match.group(1);
+                            }
+
                             for (String sys2 : algorithmPaths) {
                                 if (!sys1.equals(sys2)) {
-                                    Logger.getLogger(SignificanceTest.class.getName()).log(Level.INFO, "Compare {0} VS {1}", new Object[]{sys1, sys2});
+                                    Matcher sys2Match = algoNamePattern.matcher(sys2);
+                                    String sys2Name = sys2;
+                                    if (sys2Match.matches()) {
+                                        sys2Name = sys2Match.group(1);
+                                    }
+                                    currLogger.info(String.format("%s VS %s", sys1Name, sys2Name));
 
-                                    writer.append(sys1);
-                                    writer.append("\t").append(sys2);
+                                    writer.append(sys1Name);
+                                    writer.append("\t").append(sys2Name);
 
 
                                     double[] sample1 = currAlgoMetrics.get(sys1),
@@ -154,6 +173,7 @@ public class SignificanceTest {
 
                                     writer.append("\t");
                                     writer.append(String.valueOf(TestUtils.pairedTTest(sample1, sample2)));
+                                    writer.newLine();
                                 }
 
                             }
