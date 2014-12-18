@@ -2,12 +2,9 @@ package di.uniba.it.lodrecsys.graph;
 
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
-import edu.uci.ics.jung.graph.*;
-import org.apache.mahout.cf.taste.common.TasteException;
+import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;

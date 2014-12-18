@@ -1,11 +1,7 @@
 package di.uniba.it.lodrecsys.eval;
 
 import di.uniba.it.lodrecsys.utils.TrecEvalParser;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 import org.apache.commons.math3.stat.inference.TestUtils;
-import org.apache.commons.math3.stat.inference.WilcoxonSignedRankTest;
 
 import java.io.*;
 import java.util.*;

@@ -1,15 +1,8 @@
 package di.uniba.it.lodrecsys.entity;
 
 import di.uniba.it.lodrecsys.utils.Utils;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.search.spell.JaroWinklerDistance;
 import org.apache.lucene.search.spell.LevensteinDistance;
-import org.apache.lucene.util.Version;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;

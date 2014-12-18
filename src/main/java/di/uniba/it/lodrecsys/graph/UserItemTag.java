@@ -1,15 +1,12 @@
 package di.uniba.it.lodrecsys.graph;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
-import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
-import org.apache.mahout.cf.taste.common.TasteException;
 
 import java.io.File;
 import java.io.IOException;

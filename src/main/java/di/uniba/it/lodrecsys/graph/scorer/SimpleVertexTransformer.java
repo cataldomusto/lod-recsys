@@ -1,11 +1,10 @@
 package di.uniba.it.lodrecsys.graph.scorer;
 
+import org.apache.commons.collections15.Transformer;
+
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections15.Transformer;
 
 /**
  * Class which defines a simple method that is used in order

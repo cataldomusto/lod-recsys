@@ -44,10 +44,12 @@ public class GraphRunner {
                 mappedItemFile = prop.getProperty("mappedItemFile");
 
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
+//        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
+        Map<String, List<String>> tagmeConcepts = null;
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        int[] listRecSizes = new int[]{5, 10, 15, 20};
-        int numberOfSplit = 5;
+//        int[] listRecSizes = new int[]{5, 10, 15, 20};    // lista di dimensioni delle liste di raccomandazione
+        int[] listRecSizes = new int[]{5};    // lista di dimensioni delle liste di raccomandazione
+        int numberOfSplit = 5;    // numero di split da considerare per la cross-validation
         double massProb = 0.8;
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
@@ -72,6 +74,8 @@ public class GraphRunner {
 
 
             for (int numRec : listRecSizes) {
+                new File(resPath + File.separator + method + File.separator + level + File.separator +
+                        "top_" + numRec).mkdirs();  // Create dir results
                 String completeResFile = resPath + File.separator + method + File.separator + level + File.separator +
                         "top_" + numRec + File.separator + "metrics.complete";
                 for (int i = 1; i <= numberOfSplit; i++) {

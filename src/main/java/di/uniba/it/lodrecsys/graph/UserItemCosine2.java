@@ -6,7 +6,6 @@ import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.indexer.LODIndexerReader;
-import di.uniba.it.lodrecsys.graph.scorer.SimNextVertexTransformer;
 import di.uniba.it.lodrecsys.graph.scorer.SimilarityVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
@@ -60,7 +59,6 @@ public class UserItemCosine2 extends RecGraph {
         propManager = new PropertiesManager((String) requestStruct.params.get(2));
         List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
         getMapForMappedItems(mappedItemsList);
-
 
         trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);

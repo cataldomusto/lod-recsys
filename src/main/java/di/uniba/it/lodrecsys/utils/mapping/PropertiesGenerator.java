@@ -1,11 +1,9 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
-import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLDecoder;

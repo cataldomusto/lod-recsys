@@ -2,13 +2,13 @@ package di.uniba.it.lodrecsys.utils;
 
 import de.l3s.boilerpipe.BoilerpipeProcessingException;
 import de.l3s.boilerpipe.extractors.ArticleExtractor;
+import di.uniba.it.lodrecsys.utils.mapping.SPARQLClient;
+
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import di.uniba.it.lodrecsys.utils.mapping.SPARQLClient;
 
 /**
  * Another utility class used in order to download Wikipedia pages associated

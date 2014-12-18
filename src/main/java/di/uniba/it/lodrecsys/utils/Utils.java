@@ -1,37 +1,22 @@
 package di.uniba.it.lodrecsys.utils;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import di.uniba.it.lodrecsys.entity.*;
+import di.uniba.it.lodrecsys.entity.ItemScore;
+import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.entity.RITriple;
+import di.uniba.it.lodrecsys.entity.Rating;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
 
 import java.io.*;
-import java.text.DateFormat;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

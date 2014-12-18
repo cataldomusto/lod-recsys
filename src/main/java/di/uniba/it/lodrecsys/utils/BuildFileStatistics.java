@@ -1,15 +1,11 @@
 package di.uniba.it.lodrecsys.utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.apache.commons.math3.stat.StatUtils;
+
+import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.apache.commons.math3.stat.StatUtils;
 
 /**
  * @author pierpaolo
