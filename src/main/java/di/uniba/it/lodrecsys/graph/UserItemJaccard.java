@@ -7,7 +7,6 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
-import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.graph.scorer.SimilarityVertexTransformer;
 import di.uniba.it.lodrecsys.properties.PropertiesCalculator;
 import di.uniba.it.lodrecsys.properties.Similarity;

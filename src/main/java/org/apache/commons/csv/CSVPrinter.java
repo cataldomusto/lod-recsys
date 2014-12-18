@@ -17,16 +17,13 @@
 
 package org.apache.commons.csv;
 
-import static org.apache.commons.csv.Constants.COMMENT;
-import static org.apache.commons.csv.Constants.CR;
-import static org.apache.commons.csv.Constants.LF;
-import static org.apache.commons.csv.Constants.SP;
-
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static org.apache.commons.csv.Constants.*;
 
 /**
  * Prints values in a CSV format.

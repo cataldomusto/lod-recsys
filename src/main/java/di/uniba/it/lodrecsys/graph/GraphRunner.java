@@ -72,6 +72,10 @@ public class GraphRunner {
 
 
             for (int numRec : listRecSizes) {
+
+                File f = new File(resPath + File.separator + method + File.separator + level + File.separator +
+                        "top_" + numRec);
+                f.mkdirs();
                 String completeResFile = resPath + File.separator + method + File.separator + level + File.separator +
                         "top_" + numRec + File.separator + "metrics.complete";
                 for (int i = 1; i <= numberOfSplit; i++) {

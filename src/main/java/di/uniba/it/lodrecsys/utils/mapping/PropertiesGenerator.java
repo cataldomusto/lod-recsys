@@ -1,17 +1,16 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
-import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Class which uses a specific file in which there are all the mapped items,
@@ -19,11 +18,16 @@ import java.util.List;
  */
 public class PropertiesGenerator {
     public static void main(String[] args) throws Exception {
-        String choosenProp = "mapping/choosen_prop.txt",
-                propertiesDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                dbpediaMapping = "mapping/item.mapping",
-                firstLevelExpProp = "mapping/exp_prop.txt";
 
+        Properties prop = new Properties();
+        prop.load(new FileReader(args[0]));
+        String propertiesDir = prop.getProperty("propertyIndexDir"),
+                choosenProp = prop.getProperty("choosenProp");
+//                propertiesDir = "C:/Users/Simo/Desktop/ml-100k/stored_prop",
+//                dbpediaMapping = "mapping/item.mapping",
+//                firstLevelExpProp = "mapping/exp_prop.txt";
+
+        System.out.println(choosenProp);
         PropertiesManager manager = new PropertiesManager(propertiesDir);
         SPARQLClient sparql = new SPARQLClient();
         Collection<String> expPropList = loadPropertiesURI(choosenProp);

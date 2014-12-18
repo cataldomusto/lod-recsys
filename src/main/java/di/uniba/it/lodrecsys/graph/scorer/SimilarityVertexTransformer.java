@@ -3,7 +3,6 @@ package di.uniba.it.lodrecsys.graph.scorer;
 import org.apache.commons.collections15.Transformer;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Class that defines a basic similarity weighting scheme.
