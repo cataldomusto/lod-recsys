@@ -1,0 +1,9 @@
+*.class
+bin/
+.*
+!/.gitignore
+*.xml
+*.png
+*.iml
+target/
+dataset/

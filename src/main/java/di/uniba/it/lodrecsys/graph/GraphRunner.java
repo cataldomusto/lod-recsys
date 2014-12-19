@@ -44,12 +44,10 @@ public class GraphRunner {
                 mappedItemFile = prop.getProperty("mappedItemFile");
 
         List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-//        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
-        Map<String, List<String>> tagmeConcepts = null;
+        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-//        int[] listRecSizes = new int[]{5, 10, 15, 20};    // lista di dimensioni delle liste di raccomandazione
-        int[] listRecSizes = new int[]{5};    // lista di dimensioni delle liste di raccomandazione
-        int numberOfSplit = 5;    // numero di split da considerare per la cross-validation
+        int[] listRecSizes = new int[]{5, 10, 15, 20};
+        int numberOfSplit = 5;
         double massProb = 0.8;
         List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
@@ -74,25 +72,27 @@ public class GraphRunner {
 
 
             for (int numRec : listRecSizes) {
-                new File(resPath + File.separator + method + File.separator + level + File.separator +
-                        "top_" + numRec).mkdirs();  // Create dir results
+//
+                File f = new File(resPath + File.separator + method + File.separator + level + File.separator +
+                        "top_" + numRec);
+                f.mkdirs();
+//
                 String completeResFile = resPath + File.separator + method + File.separator + level + File.separator +
                         "top_" + numRec + File.separator + "metrics.complete";
                 for (int i = 1; i <= numberOfSplit; i++) {
-                    String trecTestFile = testTrecPath + File.separator + "u" + i + ".test",
-                            resFile = resPath + File.separator + method + File.separator + level + File.separator +
-                                    "top_" + numRec + File.separator + "u" + i + ".results";
+                    String trecTestFile = testTrecPath + File.separator + "u" + i + ".test";
+                    String resFile = resPath + File.separator + method + File.separator + level + File.separator +
+                            "top_" + numRec + File.separator + "u" + i + ".results";
 
                     EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
-
-
+//
                     String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
                     currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
                 }
-
+//
                 currLogger.info(("Metrics results for sparsity level " + level + "\n"));
                 EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
                 metricsForSplit.clear(); // evaluate for the next sparsity level

@@ -61,14 +61,14 @@ public class BaselineRunner {
         String trainPath = prop.getProperty("trainPath"),
                 testPath = prop.getProperty("testPath"),
                 testTrecPath = prop.getProperty("testTrecPath"),
-                resPath = prop.getProperty("resPath"),
-                itemKnnLodCmd = prop.getProperty("itemKnnLodCmd");
+                resPath = prop.getProperty("resPath");
+//                itemKnnLodCmd = prop.getProperty("itemKnnLodCmd");
 
 
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
         // EXAMPLE VALUE:
-        // String[] rec_methods = {"ItemKNNLod", "UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"};
-        String[] recMethods = prop.getProperty("recMethods").split(" ");
+        String[] recMethods = {"ItemKNNLod", "UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"};
+//        String[] recMethods = prop.getProperty("recMethods").split(" ");
         // EXAMPLE VALUE:
         //int[] listRecSize = new int[]{5, 10, 15, 20};
         List<Integer> listRecSize = getIntList(prop.getProperty("listRecSize").split(" "));
@@ -192,6 +192,7 @@ public class BaselineRunner {
 
                                 // Executes MyMediaLite tool
                                 // itemknnLod command: /home/asuglia/itemlod_bin/itemknn_lod.exe
+                                String itemKnnLodCmd = "/home/asuglia/itemlod_bin/itemknn_lod.exe";
                                 String mmlString = "mono " + itemKnnLodCmd + " " + trainFile + " " +
                                         testFile + " " + simFile + " " + tempResFile + " " + numNeigh;
                                 currLogger.info(mmlString);

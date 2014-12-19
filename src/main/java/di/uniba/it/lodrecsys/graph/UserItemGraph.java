@@ -4,19 +4,19 @@ import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.utils.Utils;
 import edu.uci.ics.jung.algorithms.scoring.PageRank;
-import edu.uci.ics.jung.graph.event.GraphEvent;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Class which represents a collaborative graph (user-item)
  * which produces recommendation according the classic PageRank
  * implementation
- */
+ * */
 public class UserItemGraph extends RecGraph {
     private Map<String, Set<Rating>> trainingSet;
     private Map<String, Set<String>> testSet;
@@ -34,21 +34,11 @@ public class UserItemGraph extends RecGraph {
         trainingSet = Utils.loadRatingForEachUser(trainingFileName);
         testSet = Utils.loadRatedItems(new File(testFile), false);
 
-        File f = new File("home/simo/Scrivania/Tesi/Algoritmi/ml-100k/results/graph.dot")   ;
-        f.createNewFile();
-        System.out.println(f.getPath());
-        FileOutputStream fout = new FileOutputStream("home/simo/Scrivania/Tesi/Algoritmi/ml-100k/results/graph.dot");
-        PrintWriter out = new PrintWriter(fout);
-        out.println("graph dbpedia {");
-
         // Loads all the items rated in the test set
         for (Set<String> ratings : testSet.values()) {
-            for (String rate : ratings) {
+            for (String rate : ratings)
                 recGraph.addVertex(rate);
-                out.println("\"" + rate + "\" [shape=box];");
-            }
         }
-        out.println();
 
         for (String userID : trainingSet.keySet()) {
             // for each rating in the user's rating set
@@ -61,27 +51,13 @@ public class UserItemGraph extends RecGraph {
                 if (rate.getRating().equals("1")) {
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, rate.getItemID());
                     edgeCounter++;
-                    String s = "\"" + userID + "-" + edgeCounter + "\" -- \"" + rate.getItemID();
-                    s += "\" [weight=" + rate.getRating() + "];";
-                    out.println(s);
                 }
 
             }
 
         }
-        out.println("}");
-        out.close();
-        fout.close();
+
     }
-
-//    public static void printDot() throws IOException {
-//        new File("./dot").mkdirs();
-//        FileOutputStream fout = new FileOutputStream("./dot/graphComplete.dot");
-//        PrintWriter out = new PrintWriter(fout);
-//        out.println("graph dbpedia {");
-//
-//
-
 
     @Override
     public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
@@ -102,7 +78,6 @@ public class UserItemGraph extends RecGraph {
                 pageRankValues.add(new Rating(itemID, pageRank.getVertexScore(itemID) + ""));
             }
             recommendationList.put(userID, pageRankValues);
-
 
         }
 

@@ -20,7 +20,7 @@ public class TSVToTrecEval {
 
     /**
      * Converts the current test set which contains only binary ratings
-     * into a format useful for TrecEval which has this struture:
+     * into a format useful for TrecEval which has this structure:
      * <p/>
      * TREC_EVAL RATING FORMAT: <id_user> 0 <id_item> <binary_rating>
      * <p/>

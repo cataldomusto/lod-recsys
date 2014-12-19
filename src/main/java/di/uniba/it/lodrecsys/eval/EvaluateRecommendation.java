@@ -86,6 +86,7 @@ public class EvaluateRecommendation {
                 for (Rating rate : ratings) {
 
                     String trecLine = userID + " Q0 " + rate.getItemID() + " " + i++ + " " + rate.getRating() + " EXP";
+
                     writer.println(trecLine);
                 }
 
@@ -133,8 +134,8 @@ public class EvaluateRecommendation {
      * @param trecResultFile   filename of the results produced by trec_eval
      */
     public static void savePerUserTrec(String goldStandardFile, String resultFile, String trecResultFile) {
-        String trecEvalCommand = "trec_eval -q -m all_trec " + goldStandardFile + " " + resultFile;
-
+        System.out.println(goldStandardFile);
+        String trecEvalCommand = "~/Scrivania/trec_eval.9.0/trec_eval -q -m all_trec " + goldStandardFile + " " + resultFile;
         CmdExecutor.executeCommandAndPrintLinux(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);
     }
@@ -148,7 +149,8 @@ public class EvaluateRecommendation {
      * @param trecResultFile   filename of the results produced by trec_eval
      */
     public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
-        String trecEvalCommand = "trec_eval -m all_trec " + goldStandardFile + " " + resultFile;
+        String trecEvalCommand = "~/Scrivania/trec_eval.9.0/trec_eval -m all_trec " + goldStandardFile + " " + resultFile;
+        System.out.println(trecResultFile);
 
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);
@@ -231,7 +233,6 @@ public class EvaluateRecommendation {
                         "recall_15", "recall_20", "F1_5", "F1_10", "F1_15", "F1_20"};
 
         Map<String, Float> averageRes = new HashMap<>();
-
         for (String measure : usefulMetrics) {
             float currMetricsTot = 0f;
             for (Map<String, String> map : metricsValuesForSplit) {
