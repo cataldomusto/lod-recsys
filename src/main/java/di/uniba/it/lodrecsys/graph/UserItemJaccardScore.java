@@ -22,7 +22,7 @@ import java.util.*;
  * Class which represents a collaborative graph with
  * an enhanced weighting scheme. Each item is weighted according to
  * a similarity score and a PageRank score.
- *
+ * <p/>
  * **EXPERIMENTAL**
  */
 public class UserItemJaccardScore extends RecGraph {

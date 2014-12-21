@@ -29,7 +29,7 @@ public class LODIndexer {
     static Logger currLogger = Logger.getLogger(LODIndexer.class);
 
     public static void createLODIndexer(PropertiesManager manager, ArrayListMultimap<String, Set<String>> trainingPosNeg,
-                      Map<String, String> idUriMap) throws IOException {
+                                        Map<String, String> idUriMap) throws IOException {
 
         indexCreator(manager, idUriMap, getPositiveOnly(trainingPosNeg));
     }

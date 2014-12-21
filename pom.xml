@@ -131,4 +131,14 @@
     </dependencies>
 
 
+    <distributionManagement>
+        <repository>
+            <id>nxparser-repo</id>
+            <url>svn:https://nxparser.googlecode.com/svn/repository</url>
+        </repository>
+        <snapshotRepository>
+            <id>nxparser-snapshots</id>
+            <url>svn:https://nxparser.googlecode.com/svn/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

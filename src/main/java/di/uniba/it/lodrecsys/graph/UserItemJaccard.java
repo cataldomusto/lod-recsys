@@ -23,7 +23,6 @@ import java.util.*;
 /**
  * Class which represents a collaborative graph with
  * an enhanced weighting scheme based on Jaccard Similarity
- *
  */
 public class UserItemJaccard extends RecGraph {
     private Map<String, String> idUriMap;

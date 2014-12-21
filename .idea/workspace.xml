@@ -2,27 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a85efba9-89f7-4e65-854b-3979a345b79a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/home/simo/Scrivania/Tesi/Algoritmi/ml-100k/results/graph.dot" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/baseline/BaselineRunner.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/baseline/BaselineRunner.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraphHITS.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/properties/test.properties" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/GraphRunner.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/GraphRunner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/baseline/UURecSys.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/baseline/UURecSys.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/UserItemGraph.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/UserItemGraph.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/UserItemJaccard.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/UserItemJaccard.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccard.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccardScore.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccardScore.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemProperty.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemProperty.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.final" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.results" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.final" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.results" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.final" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.results" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.final" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.results" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.final" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.results" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
-    <list id="b46f002f-0a37-49d3-8bed-51698f949b70" name="Failed commit: Default" comment="Fix">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mapping/missed" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/properties/test.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/baseline/BaselineRunner.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/baseline/BaselineRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/TSVToTrecEval.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/TSVToTrecEval.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properties/my.properties" afterPath="$PROJECT_DIR$/properties/my.properties" />
-    </list>
+    <list id="b46f002f-0a37-49d3-8bed-51698f949b70" name="Failed commit: Default" comment="Fix" />
     <ignored path="lodrecsys.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -87,32 +91,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GraphRunner.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GraphRunner.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1919">
-              <caret line="71" column="29" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.4517045" vertical-offset="895" max-vertical-offset="1919">
+              <caret line="86" column="46" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TSVToTrecEval.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/TSVToTrecEval.java">
+      <file leaf-file-name="GraphFactory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="266" max-vertical-offset="1140">
-              <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="2432">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EvaluateRecommendation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java">
+      <file leaf-file-name="MovieMappingGenerator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/MovieMappingGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2277" max-vertical-offset="5282">
-              <caret line="152" column="41" selection-start-line="152" selection-start-column="41" selection-end-line="152" selection-end-column="41" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="57" max-vertical-offset="1577">
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PropertiesGenerator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="893" max-vertical-offset="2603">
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -121,7 +139,27 @@
         <entry file="file://$PROJECT_DIR$/properties/my.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="266">
-              <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="choosen_prop.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mapping/choosen_prop.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="437">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="exp_prop.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mapping/exp_prop.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="171">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -152,9 +190,18 @@
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/baseline/BaselineRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/TSVToTrecEval.java" />
+        <option value="$PROJECT_DIR$/src/main/java/simo/WebGraph.java" />
+        <option value="$PROJECT_DIR$/src/main/java/simo/PageRank.java" />
+        <option value="$PROJECT_DIR$/src/main/java/simo/SimRank.java" />
+        <option value="$PROJECT_DIR$/src/main/java/simo/test_HITS.java" />
+        <option value="$PROJECT_DIR$/src/main/java/simo/Test.java" />
+        <option value="$PROJECT_DIR$/src/main/java/simo/HITS.java" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraphHITS.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Graph.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" />
         <option value="$PROJECT_DIR$/properties/my.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/TSVToTrecEval.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" />
       </list>
     </option>
@@ -162,12 +209,37 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
   </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
   <component name="MavenProjectNavigator">
     <treeState>
       <PATH>
         <PATH_ELEMENT>
           <option name="myItemId" value="" />
           <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="lodrecsys" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Dependencies" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="lodrecsys" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
         </PATH_ELEMENT>
       </PATH>
     </treeState>
@@ -206,7 +278,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -248,7 +319,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="csv" />
+              <option name="myItemId" value="simo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lodrecsys" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="recsysthesis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -275,70 +368,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recsysthesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="properties" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recsysthesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="graph" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -369,138 +398,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="graph" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GraphFactory.java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recsysthesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="graph" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scorer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recsysthesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="graph" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="indexer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recsysthesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="eval" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recsysthesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entity" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -558,30 +455,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mapping" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lodrecsys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="recsysthesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="datasets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ml-100k" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -596,7 +476,7 @@
     <property name="recentsLimit" value="5" />
     <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
     <property name="FullScreen" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="options.lastSelected" value="reference.settings.project.maven.repository.indices" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -607,6 +487,16 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="LayoutCode.rearrangeEntriesJava" value="false" />
+    <property name="LayoutCode.rearrangeEntries" value="false" />
+    <property name="LayoutCode.rearrangeEntriesXML" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="simo" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="di.uniba.it.lodrecsys.graph" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.GraphRunner">
     <configuration default="false" name="GraphRunner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -1008,18 +898,20 @@
       <workItem from="1418936062415" duration="8098000" />
       <workItem from="1418979786248" duration="8937000" />
       <workItem from="1418990202903" duration="2294000" />
-      <workItem from="1419000716638" duration="1760000" />
+      <workItem from="1419000716638" duration="9002000" />
+      <workItem from="1419159089677" duration="2343000" />
+      <workItem from="1419165274465" duration="1805000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42316000" />
+    <option name="totallyTimeSpent" value="53706000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1368" height="742" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32512316" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1029,14 +921,15 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32888147" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32917318" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854986" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3546798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3546798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18277946" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21072507" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3366174" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1046,7 +939,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1077,179 +969,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/properties/my.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="266">
-          <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mapping/u.item">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="32072">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mapping/item.dbpedia">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.1189592" vertical-offset="1140" max-vertical-offset="1416640">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mapping/item.mapping">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="32053">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mapping/exp_prop.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="171">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/properties/PropertiesCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1805">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mapping/choosen_prop.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="437">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="551">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.218589" vertical-offset="0" max-vertical-offset="2660">
-          <caret line="129" column="10" selection-start-line="128" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/net/sf/jung/jung-algorithms/2.0.1/jung-algorithms-2.0.1.jar!/edu/uci/ics/jung/algorithms/scoring/PageRankWithPriors.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3480663" vertical-offset="58" max-vertical-offset="1387">
-          <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvalPierpaolo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="114" max-vertical-offset="1672">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/baseline/IIRecSys.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/baseline/JaccardPropKNN.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1160" max-vertical-offset="5149">
-          <caret line="102" column="16" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/baseline/MatrixFact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="304">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/baseline/UURecSys.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/entity/ItemScore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1140">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/entity/MappingEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="635" max-vertical-offset="1216">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/entity/MovieMapping.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2016" max-vertical-offset="2584">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/entity/Pair.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="399">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/entity/Rating.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1330">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/entity/RITriple.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1596">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexerReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="994" max-vertical-offset="1634">
-          <caret line="83" column="31" selection-start-line="83" selection-start-column="5" selection-end-line="83" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/properties/sign_test.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="209">
-          <caret line="0" column="46" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/SparsityLevel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.097112864" vertical-offset="151" max-vertical-offset="532">
@@ -1286,14 +1005,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1778" max-vertical-offset="2432">
-          <caret line="100" column="6" selection-start-line="100" selection-start-column="6" selection-end-line="100" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/properties/JaccardSimilarityFunction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="211" max-vertical-offset="779">
@@ -1327,9 +1038,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.9436619" vertical-offset="1104" max-vertical-offset="1672">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#3607#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1340,58 +1048,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemProperty.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2633" max-vertical-offset="3477">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/CompleteTagME.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1425">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/properties/test.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41643837" vertical-offset="0" max-vertical-offset="365">
-          <caret line="8" column="41" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43485916" vertical-offset="95" max-vertical-offset="2603">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4419014" vertical-offset="1539" max-vertical-offset="2356">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/RecGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="191" max-vertical-offset="798">
-          <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="199" max-vertical-offset="1748">
-          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1406,7 +1066,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.778409" vertical-offset="3078" max-vertical-offset="4864">
           <caret line="104" column="44" selection-start-line="104" selection-start-column="44" selection-end-line="104" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1414,7 +1073,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.0190215" vertical-offset="2348" max-vertical-offset="3724">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1422,21 +1080,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.8288045" vertical-offset="3033" max-vertical-offset="3686">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/properties/my.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="581">
-          <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2277" max-vertical-offset="5282">
-          <caret line="152" column="41" selection-start-line="152" selection-start-column="41" selection-end-line="152" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -1445,22 +1088,345 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.29545453" vertical-offset="256" max-vertical-offset="1292">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/TSVToTrecEval.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="95" max-vertical-offset="1140">
+          <caret line="25" column="42" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/simo/PageRank.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3572">
+          <caret line="1" column="12" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/simo/test_HITS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1121">
+          <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/simo/WebGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8227">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/simo/SimRank.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4180">
+          <caret line="9" column="38" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/LinksRank.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.305785" vertical-offset="3912" max-vertical-offset="4275">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/ConnectivityMatrix.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3324468" vertical-offset="84" max-vertical-offset="494">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/FlatMatrix.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45478722" vertical-offset="0" max-vertical-offset="3097">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/QuadraticExtrapolation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45478722" vertical-offset="0" max-vertical-offset="1995">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/Pair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.80851066" vertical-offset="0" max-vertical-offset="665">
+          <caret line="18" column="26" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/WeightsMatrix.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3324468" vertical-offset="27" max-vertical-offset="2755">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/Timer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.2632979" vertical-offset="270" max-vertical-offset="646">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/RankingIterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2394">
+          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://MAVEN/di.uniba.it:lodrecsys:1.0-SNAPSHOT">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>MAVEN</ID>
+          <OriginalElement>di.uniba.it:lodrecsys:1.0-SNAPSHOT</OriginalElement>
+          <nodes>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.mahout.commons:commons-cli:jar:2.0-mahout</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-configuration:commons-configuration:jar:1.6/commons-lang:commons-lang:jar:2.4</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/com.sun.xml.bind:jaxb-impl:jar:2.2.3-1/javax.xml.bind:jaxb-api:jar:2.2.2</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-io:commons-io:jar:2.1</node>
+            <node x="" y="">net.sf.jung:jung-algorithms:jar:2.0.1</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0/log4j:log4j:jar:1.2.16</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/com.thoughtworks.xstream:xstream:jar:1.4.4</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-server:jar:1.8</node>
+            <node x="" y="">com.googlecode.combinatoricslib:combinatoricslib:jar:2.1</node>
+            <node x="" y="">net.sf.jung:jung-algorithms:jar:2.0.1/colt:colt:jar:1.2.0</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.3.4/commons-logging:commons-logging:jar:1.1.3</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/com.sun.xml.bind:jaxb-impl:jar:2.2.3-1/javax.xml.bind:jaxb-api:jar:2.2.2/javax.activation:activation:jar:1.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/org.codehaus.jettison:jettison:jar:1.1</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.3.4</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8</node>
+            <node x="" y="">net.sourceforge.nekohtml:nekohtml:jar:1.9.13/xerces:xercesImpl:jar:2.9.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.codehaus.jackson:jackson-mapper-asl:jar:1.9.12</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0/org.apache.jena:jena-tdb:jar:1.0.0/org.apache.jena:jena-arq:jar:2.11.0</node>
+            <node x="" y="">org.apache.lucene:lucene-spellchecker:jar:3.6.2/org.apache.lucene:lucene-analyzers:jar:3.6.2</node>
+            <node x="" y="">org.apache.lucene:lucene-queryparser:jar:4.7.0</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.slf4j:slf4j-api:jar:1.7.5</node>
+            <node x="" y="">org.apache.lucene:lucene-queryparser:jar:4.7.0/org.apache.lucene:lucene-sandbox:jar:4.7.0</node>
+            <node x="" y="">net.sourceforge.nekohtml:nekohtml:jar:1.9.13/xerces:xercesImpl:jar:2.9.1/xml-apis:xml-apis:jar:1.3.04</node>
+            <node x="" y="">nz.ac.waikato.cms.weka:weka-stable:jar:3.6.10/net.sf.squirrel-sql.thirdparty-non-maven:java-cup:jar:0.11a</node>
+            <node x="" y="">org.semanticweb.yars:nxparser:jar:1.1.9</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-configuration:commons-configuration:jar:1.6</node>
+            <node x="" y="">org.apache.lucene:lucene-core:jar:4.7.0</node>
+            <node x="" y="">nz.ac.waikato.cms.weka:weka-stable:jar:3.6.10</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0/org.apache.jena:jena-tdb:jar:1.0.0/org.apache.jena:jena-arq:jar:2.11.0/org.slf4j:jcl-over-slf4j:jar:1.6.4</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-configuration:commons-configuration:jar:1.6/commons-digester:commons-digester:jar:1.8/commons-beanutils:commons-beanutils:jar:1.7.0</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-configuration:commons-configuration:jar:1.6/commons-beanutils:commons-beanutils-core:jar:1.8.0</node>
+            <node x="" y="">di.uniba.it:lodrecsys:1.0-SNAPSHOT</node>
+            <node x="" y="">net.sf.jung:jung-algorithms:jar:2.0.1/colt:colt:jar:1.2.0/concurrent:concurrent:jar:1.3.4</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.mahout:mahout-math:jar:0.9</node>
+            <node x="" y="">net.sf.jung:jung-api:jar:2.0.1</node>
+            <node x="" y="">de.bwaldvogel:liblinear:jar:1.94</node>
+            <node x="" y="">org.apache.lucene:lucene-spellchecker:jar:3.6.2</node>
+            <node x="" y="">org.apache.lucene:lucene-queryparser:jar:4.7.0/org.apache.lucene:lucene-queries:jar:4.7.0</node>
+            <node x="" y="">net.sourceforge.nekohtml:nekohtml:jar:1.9.13</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0/org.apache.jena:jena-tdb:jar:1.0.0/org.apache.jena:jena-core:jar:2.11.0/org.apache.jena:jena-iri:jar:1.0.0</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0/org.apache.jena:jena-tdb:jar:1.0.0/org.apache.jena:jena-core:jar:2.11.0</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/org.codehaus.jackson:jackson-jaxrs:jar:1.7.1</node>
+            <node x="" y="">org.apache.lucene:lucene-analyzers-common:jar:4.7.0</node>
+            <node x="" y="">com.googlecode.json-simple:json-simple:jar:1.1.1</node>
+            <node x="" y="">com.google.guava:guava:jar:17.0</node>
+            <node x="" y="">junit:junit:jar:4.11</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0/org.apache.jena:jena-tdb:jar:1.0.0</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/org.codehaus.jackson:jackson-xc:jar:1.7.1</node>
+            <node x="" y="">de.l3s.boilerpipe:boilerpipe:jar:1.1.0</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.3.4/org.apache.httpcomponents:httpcore:jar:4.3.2</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-cli:commons-cli:jar:1.2</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-core:jar:1.8</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-configuration:commons-configuration:jar:1.6/commons-collections:commons-collections:jar:3.2.1</node>
+            <node x="" y="">org.apache.httpcomponents:httpclient:jar:4.3.4/commons-codec:commons-codec:jar:1.6</node>
+            <node x="" y="">net.sf.jung:jung-api:jar:2.0.1/net.sourceforge.collections:collections-generic:jar:4.01</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.codehaus.jackson:jackson-core-asl:jar:1.9.12</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/com.sun.xml.bind:jaxb-impl:jar:2.2.3-1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-httpclient:commons-httpclient:jar:3.0.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/org.codehaus.jettison:jettison:jar:1.1/stax:stax-api:jar:1.0.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.commons:commons-lang3:jar:3.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.solr:solr-commons-csv:jar:3.5.0</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-server:jar:1.8/asm:asm:jar:3.1</node>
+            <node x="" y="">junit:junit:jar:4.11/org.hamcrest:hamcrest-core:jar:1.3</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/com.thoughtworks.xstream:xstream:jar:1.4.4/xpp3:xpp3_min:jar:1.1.4c</node>
+            <node x="" y="">org.apache.commons:commons-math3:jar:3.2</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/org.apache.commons:commons-math:jar:2.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-el:commons-el:jar:1.0</node>
+            <node x="" y="">net.sf.jung:jung-graph-impl:jar:2.0.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-net:commons-net:jar:1.4.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/commons-configuration:commons-configuration:jar:1.6/commons-digester:commons-digester:jar:1.8</node>
+            <node x="" y="">org.apache.jena:apache-jena-libs:pom:2.11.0/org.slf4j:slf4j-log4j12:jar:1.6.4</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/com.thoughtworks.xstream:xstream:jar:1.4.4/xmlpull:xmlpull:jar:1.1.3.1</node>
+            <node x="" y="">org.apache.mahout:mahout-core:jar:0.9/org.apache.hadoop:hadoop-core:jar:1.2.1/com.sun.jersey:jersey-json:jar:1.8/com.sun.xml.bind:jaxb-impl:jar:2.2.3-1/javax.xml.bind:jaxb-api:jar:2.2.2/javax.xml.stream:stax-api:jar:1.0-2</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.17808904452226113" x="492.0" y="690.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>All</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/RankingConsoleFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2660">
+          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/simo/HITS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="3857">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2246" max-vertical-offset="2850">
+          <caret line="142" column="29" selection-start-line="142" selection-start-column="29" selection-end-line="142" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Graph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7011">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mapping/item.mapping">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="32053">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/RecGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="433" max-vertical-offset="798">
+          <caret line="42" column="45" selection-start-line="42" selection-start-column="45" selection-end-line="42" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/MovieMappingGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="57" max-vertical-offset="1577">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="893" max-vertical-offset="2603">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/PropertiesManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="2356">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3479452" vertical-offset="44" max-vertical-offset="1558">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraphHITS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="513" max-vertical-offset="1520">
+          <caret line="64" column="58" selection-start-line="64" selection-start-column="58" selection-end-line="64" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.465909" vertical-offset="2780" max-vertical-offset="3249">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mapping/exp_prop.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="581">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mapping/choosen_prop.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="437">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="2432">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/properties/sign_test.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="209">
+          <caret line="0" column="46" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/properties/my.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="266">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33450705" vertical-offset="0" max-vertical-offset="5358">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1919">
-          <caret line="71" column="29" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/TSVToTrecEval.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1140">
-          <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+        <state vertical-scroll-proportion="1.4517045" vertical-offset="895" max-vertical-offset="1919">
+          <caret line="86" column="46" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -1552,5 +1518,8 @@
         </settings>
       </state>
     </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="" />
   </component>
 </project>

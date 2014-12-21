@@ -16,7 +16,7 @@ import java.util.TreeSet;
  * Class which represents a collaborative graph (user-item)
  * which produces recommendation according the classic PageRank
  * implementation
- * */
+ */
 public class UserItemGraph extends RecGraph {
     private Map<String, Set<Rating>> trainingSet;
     private Map<String, Set<String>> testSet;

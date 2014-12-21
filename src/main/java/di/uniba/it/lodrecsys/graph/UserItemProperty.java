@@ -23,7 +23,7 @@ public class UserItemProperty extends RecGraph {
     private Map<String, Set<String>> testSet;
     private Map<String, String> uriIdMap;
     private Map<String, String> idUriMap;
-    
+
     public UserItemProperty(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
         try {
             getMapForMappedItems(mappedItems);
