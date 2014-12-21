@@ -2,28 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a85efba9-89f7-4e65-854b-3979a345b79a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraphHITS.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/properties/test.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/baseline/UURecSys.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/baseline/UURecSys.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/UserItemJaccard.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/UserItemJaccard.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccard.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccardScore.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemJaccardScore.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemProperty.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.final" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u1.results" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.final" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u2.results" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.final" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u3.results" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.final" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u4.results" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.final" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.final" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.results" afterPath="$PROJECT_DIR$/datasets/ml-100k/results/UserItemGraph/given_5/top_5/u5.results" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/GraphRunner.class" afterPath="$PROJECT_DIR$/target/classes/di/uniba/it/lodrecsys/graph/GraphRunner.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="b46f002f-0a37-49d3-8bed-51698f949b70" name="Failed commit: Default" comment="Fix" />
@@ -94,9 +75,11 @@
       <file leaf-file-name="GraphRunner.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.4517045" vertical-offset="895" max-vertical-offset="1919">
-              <caret line="86" column="46" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
-              <folding />
+            <state vertical-scroll-proportion="0.80397725" vertical-offset="1142" max-vertical-offset="2451">
+              <caret line="75" column="12" selection-start-line="75" selection-start-column="12" selection-end-line="75" selection-end-column="12" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -200,9 +183,9 @@
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraphHITS.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Graph.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" />
         <option value="$PROJECT_DIR$/properties/my.properties" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" />
       </list>
     </option>
   </component>
@@ -508,7 +491,7 @@
       </extension>
       <option name="MAIN_CLASS_NAME" value="di.uniba.it.lodrecsys.graph.GraphRunner" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="properties/my.properties" />
+      <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -900,16 +883,16 @@
       <workItem from="1418990202903" duration="2294000" />
       <workItem from="1419000716638" duration="9002000" />
       <workItem from="1419159089677" duration="2343000" />
-      <workItem from="1419165274465" duration="1805000" />
+      <workItem from="1419165274465" duration="4169000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53706000" />
+    <option name="totallyTimeSpent" value="56070000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1368" height="742" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -923,7 +906,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854986" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3546798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3546798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21072507" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1425,9 +1408,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4517045" vertical-offset="895" max-vertical-offset="1919">
-          <caret line="86" column="46" selection-start-line="86" selection-start-column="46" selection-end-line="86" selection-end-column="46" />
-          <folding />
+        <state vertical-scroll-proportion="0.80397725" vertical-offset="1142" max-vertical-offset="2451">
+          <caret line="75" column="12" selection-start-line="75" selection-start-column="12" selection-end-line="75" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

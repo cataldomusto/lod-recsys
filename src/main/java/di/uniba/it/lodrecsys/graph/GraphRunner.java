@@ -9,7 +9,7 @@ import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -19,13 +19,20 @@ import java.util.logging.Logger;
  * according to the trec_eval program.
  */
 public class GraphRunner {
-    private static Logger currLogger = Logger.getLogger(GraphRunner.class.getName());
+    private static Logger LOGGERGRAPHRUNNER = Logger.getLogger(GraphRunner.class.getName());
+    static String TRAINPATH;
+    static String TESTPATH;
+    static String TESTTRECPATH;
+    static String RESPATH;
+    static String PROPERTYINDEXDIR;
+    static String TAGMEDIR;
+    static String MAPPEDITEMFILE;
+    static String METHOD;
+    static int[] LISTRECSIZES;
+    static int NUMSPLIT;
+    static double MASSPROB;
 
-    public static void main(String[] args) throws IOException {
-        Properties prop = new Properties();
-        prop.load(new FileReader(args[0]));
-
-        /*
+    /*
         String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
                 testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
                 testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
@@ -35,53 +42,62 @@ public class GraphRunner {
                 mappedItemFile = "mapping/item.mapping";
         */
 
-        String trainPath = prop.getProperty("trainPath"),
-                testPath = prop.getProperty("testPath"),
-                testTrecPath = prop.getProperty("testTrecPath"),
-                resPath = prop.getProperty("resPath"),
-                propertyIndexDir = prop.getProperty("propertyIndexDir"),
-                tagmeDir = prop.getProperty("tagmeDir"),
-                mappedItemFile = prop.getProperty("mappedItemFile");
+    static {
+        Properties prop = new Properties();
+        try {
+            prop.load(new FileInputStream("properties/my.properties"));
+            TRAINPATH = prop.getProperty("trainPath");
+            TESTPATH = prop.getProperty("testPath");
+            TESTTRECPATH = prop.getProperty("testTrecPath");
+            RESPATH = prop.getProperty("resPath");
+            PROPERTYINDEXDIR = prop.getProperty("propertyIndexDir");
+            TAGMEDIR = prop.getProperty("tagmeDir");
+            MAPPEDITEMFILE = prop.getProperty("mappedItemFile");
+            METHOD = prop.getProperty("methodName");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(tagmeDir);
+        LISTRECSIZES = new int[]{5, 10, 15, 20};
+        NUMSPLIT = 5;
+        MASSPROB = 0.8;
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(MAPPEDITEMFILE);
+        Map<String, List<String>> tagmeConcepts = Utils.loadTAGmeConceptsForItems(TAGMEDIR);
         List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        int[] listRecSizes = new int[]{5, 10, 15, 20};
-        int numberOfSplit = 5;
-        double massProb = 0.8;
-        List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
-        String method = prop.getProperty("methodName");
+        List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
 
         for (SparsityLevel level : SparsityLevel.values()) {
 
-            for (int i = 1; i <= numberOfSplit; i++) {
+            for (int i = 1; i <= NUMSPLIT; i++) {
 
-                String trainFile = trainPath + File.separator + level + File.separator +
+                String trainFile = TRAINPATH + File.separator + level + File.separator +
                         "u" + i + ".base",
-                        testFile = testPath + File.separator + "u" + i + ".test";
+                        testFile = TESTPATH + File.separator + "u" + i + ".test";
 
-                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(method, trainFile,
-                        testFile, massProb, propertyIndexDir, mappingList, tagmeConcepts);
+                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(METHOD, trainFile,
+                        testFile, MASSPROB, PROPERTYINDEXDIR, mappingList, tagmeConcepts);
                 RecGraph userItemGraph = pair.key;
                 RequestStruct requestStruct = pair.value;
 
                 recommendationForSplits.add(userItemGraph.runPageRank(requestStruct));
-                currLogger.info("Computed recommendations for split #" + i + " level: " + level);
+                LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + i + " level: " + level);
             }
 
 
-            for (int numRec : listRecSizes) {
-//
-                File f = new File(resPath + File.separator + method + File.separator + level + File.separator +
+            for (int numRec : LISTRECSIZES) {
+                File f = new File(RESPATH + File.separator + METHOD + File.separator + level + File.separator +
                         "top_" + numRec);
                 f.mkdirs();
-//
-                String completeResFile = resPath + File.separator + method + File.separator + level + File.separator +
+                String completeResFile = RESPATH + File.separator + METHOD + File.separator + level + File.separator +
                         "top_" + numRec + File.separator + "metrics.complete";
-                for (int i = 1; i <= numberOfSplit; i++) {
-                    String trecTestFile = testTrecPath + File.separator + "u" + i + ".test";
-                    String resFile = resPath + File.separator + method + File.separator + level + File.separator +
+                for (int i = 1; i <= NUMSPLIT; i++) {
+                    String trecTestFile = TESTTRECPATH + File.separator + "u" + i + ".test";
+                    String resFile = RESPATH + File.separator + METHOD + File.separator + level + File.separator +
                             "top_" + numRec + File.separator + "u" + i + ".results";
 
                     EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
@@ -90,11 +106,11 @@ public class GraphRunner {
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-                    currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
                 }
 //
-                currLogger.info(("Metrics results for sparsity level " + level + "\n"));
-                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, numberOfSplit), completeResFile);
+                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
+                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, NUMSPLIT), completeResFile);
                 metricsForSplit.clear(); // evaluate for the next sparsity level
 
 

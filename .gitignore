@@ -5,5 +5,5 @@ bin/
 *.xml
 *.png
 *.iml
-target/*
-dataset/
+target/**
+dataset/**
