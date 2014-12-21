@@ -1,4 +1,4 @@
-package simo;
+package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import java.io.File;
 import java.io.IOException;

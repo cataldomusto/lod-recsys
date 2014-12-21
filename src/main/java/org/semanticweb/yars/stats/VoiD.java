@@ -32,6 +32,7 @@ public class VoiD {
         FMT.setMaximumFractionDigits(2);
         FMT.setMinimumFractionDigits(2);
     }
+
     InputAnalyser input;
     private String _dataID;
 

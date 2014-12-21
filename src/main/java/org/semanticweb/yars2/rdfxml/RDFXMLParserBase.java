@@ -45,11 +45,13 @@ public class RDFXMLParserBase extends DefaultHandler {
     //elements from RDF (syntax) namespace disallowed as use in nodes in RDF/XML
     private static final Node[] NOT_ALLOWED_NODE = {RDF.ABOUT, RDF.DATATYPE, RDF.ID, RDF.NODEID, RDF.PARSETYPE, RDF.RESOURCE};
     private final static HashSet<Node> NOT_ALLOWED_NODE_TS = new HashSet<Node>();
+
     {
         for (Node n : NOT_ALLOWED_NODE) {
             NOT_ALLOWED_NODE_TS.add(n);
         }
     }
+
     //RDF syntax names and their allowed positions
     private static final String[] RDF_SUBJ_NODE_NAMES = {"Description", "Bag", "Seq", "Alt", "List", "Statement", "Property"};
     private static final String[] RDF_PROP_NODE_NAMES = {"type", "subject", "predicate", "object", "first", "rest", "value", "li"};
@@ -57,9 +59,10 @@ public class RDFXMLParserBase extends DefaultHandler {
     private static final String[] RDF_PROP_ATTR_NAMES = {"ID", "nodeID", "datatype", "parseType", "resource"};
     private final static HashSet<String> RDF_SUBJ_NODE_NAMES_TS = new HashSet<String>();
     private final static HashSet<String> RDF_PROP_NODE_NAMES_TS = new HashSet<String>();
-//	private ScopedThing<Boolean> _sptl = null;
+    //	private ScopedThing<Boolean> _sptl = null;
     private final static HashSet<String> RDF_SUBJ_ATTR_NAMES_TS = new HashSet<String>();
     private final static HashSet<String> RDF_PROP_ATTR_NAMES_TS = new HashSet<String>();
+
     {
         for (String s : RDF_SUBJ_NODE_NAMES) {
             RDF_SUBJ_NODE_NAMES_TS.add(s);
@@ -74,6 +77,7 @@ public class RDFXMLParserBase extends DefaultHandler {
             RDF_PROP_ATTR_NAMES_TS.add(s);
         }
     }
+
     private static Logger _log = Logger.getLogger(RDFXMLParserBase.class.getName());
     private boolean _skolemise = false;
     private boolean _strict = false;

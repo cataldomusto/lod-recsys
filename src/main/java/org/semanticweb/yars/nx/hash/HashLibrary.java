@@ -45,7 +45,7 @@ public class HashLibrary {
 
         return hash;
     }
-	/* End Of JS Hash Function */
+    /* End Of JS Hash Function */
 
 
     public static long PJWHash(String str) {

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Created by simo on 21/12/14.
+ * Created by di.uniba.it.lodrecsys.graph.featureSelection on 21/12/14.
  */
 public class LoadProperties {
     public static String TRAINPATH;

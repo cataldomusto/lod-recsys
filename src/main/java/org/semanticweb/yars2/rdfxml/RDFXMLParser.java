@@ -42,7 +42,7 @@ public class RDFXMLParser implements Iterator<Node[]>, Iterable<Node[]> {
     private Node[] _current = null;
     private Resource _con = null;
 
-//	private static final Header[] _headers = {
+    //	private static final Header[] _headers = {
 //		new Header("Accept", "application/rdf+xml"),
 //		new Header("User-Agent", "nxparser/java"),	
 //	};

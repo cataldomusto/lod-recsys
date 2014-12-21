@@ -132,7 +132,7 @@ public class Cleaner {
 
         // we have a number
         /*
-		if (numex.matcher(data).matches() == true) {
+        if (numex.matcher(data).matches() == true) {
 			NumberFormat nf = NumberFormat.getInstance();
 			try {
 				Number num = nf.parse(data);

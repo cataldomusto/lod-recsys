@@ -1,4 +1,4 @@
-package simo;
+package di.uniba.it.lodrecsys.graph.featureSelection;
 
 // HOST TABLE -> INDEX TABLE(A,B) -> Page TABLE
 

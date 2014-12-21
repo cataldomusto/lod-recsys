@@ -1,4 +1,4 @@
-package simo;
+package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import java.util.HashMap;
 import java.util.Iterator;

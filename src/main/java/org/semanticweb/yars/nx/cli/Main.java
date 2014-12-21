@@ -15,6 +15,7 @@ import java.util.zip.GZIPOutputStream;
 
 public class Main {
     public static final String DEFAULT_TMP_DIR = "./nxtmp/";
+
     //	public static final String DEFAULT_TEMP_DIR = System.getProperty("java.io.tmpdir");
     static {
         File f = new File(DEFAULT_TMP_DIR);
@@ -22,6 +23,7 @@ public class Main {
             f.deleteOnExit();
         ;
     }
+
     public static final String TEMP_PREFIX = "tmp";
     private static final String USAGE = "usage: org.semanticweb.yars.nx.cli.Main <utility> [options...]";
     private static final String PREFIX = "org.semanticweb.yars.nx.cli.";
