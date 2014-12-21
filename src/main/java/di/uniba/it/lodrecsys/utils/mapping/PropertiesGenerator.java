@@ -1,9 +1,12 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.graph.GraphRunner;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -17,20 +20,16 @@ import java.util.Properties;
  * in order to retrieve the selected properties for them
  */
 public class PropertiesGenerator {
+
     public static void main(String[] args) throws Exception {
 
-        Properties prop = new Properties();
-        prop.load(new FileReader(args[0]));
-        String propertiesDir = prop.getProperty("propertyIndexDir"),
-                choosenProp = prop.getProperty("choosenProp");
-//                propertiesDir = "C:/Users/Simo/Desktop/ml-100k/stored_prop",
 //                dbpediaMapping = "mapping/item.mapping",
 //                firstLevelExpProp = "mapping/exp_prop.txt";
 
-        PropertiesManager manager = new PropertiesManager(propertiesDir);
+        PropertiesManager manager = new PropertiesManager(LoadProperties.PROPERTYINDEXDIR);
         SPARQLClient sparql = new SPARQLClient();
-        Collection<String> expPropList = loadPropertiesURI(choosenProp);
-        Collection<String> missed = loadPropertiesURI("mapping/missed");
+        Collection<String> expPropList = loadPropertiesURI(LoadProperties.CHOOSENPROP);
+        Collection<String> missed = loadPropertiesURI(LoadProperties.MISSEDPROP);
 
 
         int i = 0;

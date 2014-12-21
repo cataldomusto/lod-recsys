@@ -1,6 +1,7 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.graph.GraphRunner;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.BufferedReader;
