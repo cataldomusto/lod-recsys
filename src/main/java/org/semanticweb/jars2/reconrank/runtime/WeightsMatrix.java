@@ -14,14 +14,12 @@ import java.util.Vector;
  * Count matrix, subclass of flat matrix, represents matrix with count of links
  */
 public class WeightsMatrix {
-    //	array of vectors simulate jagged matrix required to hold the data
-    protected Vector<Double>[] CMat;
-
     //count of non empty rows
     public int rowCount;
-
     //total links
     public int linksCount = 0;
+    //	array of vectors simulate jagged matrix required to hold the data
+    protected Vector<Double>[] CMat;
 
     //constructor, size specified
     public WeightsMatrix(int Size) {
@@ -56,6 +54,11 @@ public class WeightsMatrix {
         return rowCount;
     }
 
+    //set number of rows
+    public void setRowCount(int _rowCount) {
+        rowCount = _rowCount;
+    }
+
     //get length of specified row
     public int getRowSize(int rowIndex) {
         if (rowIndex >= CMat.length)
@@ -64,11 +67,6 @@ public class WeightsMatrix {
         if (row == null)
             return -1;
         return row.size();
-    }
-
-    //set number of rows
-    public void setRowCount(int _rowCount) {
-        rowCount = _rowCount;
     }
 
     //retrieve value from specified index

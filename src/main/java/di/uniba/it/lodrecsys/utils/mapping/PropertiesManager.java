@@ -16,8 +16,8 @@ import java.util.List;
  * Apache Jena TDB
  */
 public class PropertiesManager {
-    private Dataset tupleDataset;
     public Model datasetModel;
+    private Dataset tupleDataset;
     private boolean isWriteMode;
 
     /**

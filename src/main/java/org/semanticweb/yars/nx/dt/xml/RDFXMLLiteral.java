@@ -17,51 +17,43 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
+
 /**
  * Represents the xsd:hexBinary datatype
- * @author aidhog
  *
+ * @author aidhog
  */
-		
+
 public class RDFXMLLiteral extends Datatype<Document> {
-	public static final Resource DT = RDF.XMLLITERAL;
-	private Document _d = null;
-	private boolean _empty = false;
-	
-	public RDFXMLLiteral(String s) throws DatatypeParseException{
-		s = s.trim();
-		
-		if(s==null)
-			throw new DatatypeParseException("Null value passed.",0);
-		else if(s.isEmpty()){
-			_empty = true;
-			return;
-		}
-		
-		s = "<xmlliteral>"+s+"</xmlliteral>";
-		ByteArrayInputStream bais = new ByteArrayInputStream(s.getBytes());
-		try {
-			DocumentBuilderFactory builderF = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = builderF.newDocumentBuilder();
-			builder.setErrorHandler(new SuperAdvancedErrorHandler());
-			
-			_d = builder.parse(bais);
-			_d.normalize();
-		} catch (Exception e) {
-			throw new DatatypeParseException("Error parsing DOM Document (XMLLiteral) : "+e.getMessage(), 2);
-		}
-	}
+    public static final Resource DT = RDF.XMLLITERAL;
+    private Document _d = null;
+    private boolean _empty = false;
 
-	public Document getValue() {
-		return _d;
-	}
+    public RDFXMLLiteral(String s) throws DatatypeParseException {
+        s = s.trim();
 
-	public String getCanonicalRepresentation() {
-		if(_empty) return "";
-		return xmlToString(_d.getFirstChild().getFirstChild()).substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>".length());
-	}
-	
-	private static String xmlToString(Node node) {
+        if (s == null)
+            throw new DatatypeParseException("Null value passed.", 0);
+        else if (s.isEmpty()) {
+            _empty = true;
+            return;
+        }
+
+        s = "<xmlliteral>" + s + "</xmlliteral>";
+        ByteArrayInputStream bais = new ByteArrayInputStream(s.getBytes());
+        try {
+            DocumentBuilderFactory builderF = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderF.newDocumentBuilder();
+            builder.setErrorHandler(new SuperAdvancedErrorHandler());
+
+            _d = builder.parse(bais);
+            _d.normalize();
+        } catch (Exception e) {
+            throw new DatatypeParseException("Error parsing DOM Document (XMLLiteral) : " + e.getMessage(), 2);
+        }
+    }
+
+    private static String xmlToString(Node node) {
         try {
             Source source = new DOMSource(node);
             StringWriter stringWriter = new StringWriter();
@@ -77,25 +69,34 @@ public class RDFXMLLiteral extends Datatype<Document> {
         }
         return null;
     }
-	
-	public static void main(String args[]) throws DatatypeParseException{
-		RDFXMLLiteral hex = new RDFXMLLiteral("<lah>asd<br />fkg</lah>");
-		System.err.println(hex.getCanonicalRepresentation());
-	}
-	
-	public static class SuperAdvancedErrorHandler implements ErrorHandler {
 
-		public void error(SAXParseException arg0) throws SAXException {
-			;
-		}
+    public static void main(String args[]) throws DatatypeParseException {
+        RDFXMLLiteral hex = new RDFXMLLiteral("<lah>asd<br />fkg</lah>");
+        System.err.println(hex.getCanonicalRepresentation());
+    }
 
-		public void fatalError(SAXParseException arg0) throws SAXException {
-			;
-		}
+    public Document getValue() {
+        return _d;
+    }
 
-		public void warning(SAXParseException arg0) throws SAXException {
-			;
-		}
-		
-	}
+    public String getCanonicalRepresentation() {
+        if (_empty) return "";
+        return xmlToString(_d.getFirstChild().getFirstChild()).substring("<?xml version=\"1.0\" encoding=\"UTF-8\"?>".length());
+    }
+
+    public static class SuperAdvancedErrorHandler implements ErrorHandler {
+
+        public void error(SAXParseException arg0) throws SAXException {
+            ;
+        }
+
+        public void fatalError(SAXParseException arg0) throws SAXException {
+            ;
+        }
+
+        public void warning(SAXParseException arg0) throws SAXException {
+            ;
+        }
+
+    }
 }

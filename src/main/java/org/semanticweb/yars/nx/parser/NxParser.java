@@ -13,519 +13,509 @@ import java.util.logging.Logger;
 
 /**
  * NxParser is a non-validating N1, N2, N3, N4, Nx parser.
- * 
+ * <p/>
  * Assumes the data to be formatted according to NTRIPLES spec, including it to
  * be encoded in ASCII with Unicode characters properly escaped as in the
  * NTRIPLES spec.
- * 
+ * <p/>
  * Deviates from NTRIPLES spec in two points known so far:
  * <ul>
  * <li>Only space delimits parts of a statement, not space or tab.</li>
  * <li>Previous to the full stop at the end of a statement, there must be a
  * space.</li>
  * </ul>
- * 
- * 
- * @link http://www.w3.org/TR/rdf-testcases/#ntriples
- * @version 1.2
- * 
+ *
  * @author Aidan Hogan
  * @author Andreas Harth
  * @author Tobias Kaefer
+ * @version 1.2
+ * @link http://www.w3.org/TR/rdf-testcases/#ntriples
  */
 public class NxParser implements Iterator<Node[]>, Iterable<Node[]> {
 
-	private static Logger _log = Logger.getLogger(NxParser.class.getName());
+    /**
+     * @deprecated If you call a literal's
+     * {@link org.semanticweb.yars.nx.Literal#getDatatype()} method,
+     * you are presented with the data type, if there is one. So the
+     * processing of that is to be moved.
+     */
+    @Deprecated
+    public static boolean DEFAULT_PARSE_DTS = false;
+    private static Logger _log = Logger.getLogger(NxParser.class.getName());
+    private int _lineNo = 0;
+    private String _line = null;
+    private Iterator<String> _stringIt = null;
+    private Node[] next = null;
 
-	private int _lineNo = 0;
-	private String _line = null;
-	private Iterator<String> _stringIt = null;
-	private Node[] next = null;
+    public NxParser(Reader r) {
+        this(new BufferedReader(r));
+    }
 
-	public NxParser(Reader r) {
-		this(new BufferedReader(r));
-	}
+    public NxParser(InputStream is, Charset cs) {
+        this(new BufferedReader(new InputStreamReader(is, cs)));
+    }
 
-	public NxParser(InputStream is, Charset cs) {
-		this(new BufferedReader(new InputStreamReader(is, cs)));
-	}
+    public NxParser(InputStream is) {
+        this(new BufferedReader(new InputStreamReader(is)));
+    }
 
-	public NxParser(InputStream is) {
-		this(new BufferedReader(new InputStreamReader(is)));
-	}
+    public NxParser(BufferedReader br) {
+        this(stringItFromBufferedReader(br));
+    }
 
-	public NxParser(BufferedReader br) {
-		this(stringItFromBufferedReader(br));
-	}
+    public NxParser(Iterable<String> iterable) {
+        this(iterable.iterator());
+    }
 
-	public NxParser(Iterable<String> iterable) {
-		this(iterable.iterator());
-	}
+    public NxParser(Iterator<String> iterator) {
+        _stringIt = iterator;
+        loadNext();
+    }
 
-	public NxParser(Iterator<String> iterator) {
-		_stringIt = iterator;
-		loadNext();
-	}
+    /**
+     * @deprecated This is an iterator and therefore cannot throw exceptions at
+     * all. Therefore parameter strict is pointless here.
+     */
+    @Deprecated
+    public NxParser(Reader r, boolean strict) {
+        this(r);
+    }
 
-	public boolean hasNext() {
-		return next != null;
-	}
+    /**
+     * @deprecated See {@link #NxParser(Reader, boolean)} and {@link #DEFAULT_PARSE_DTS}.
+     */
+    @Deprecated
+    public NxParser(Reader r, boolean strict, boolean parseDts) {
+        this(r);
+    }
 
-	public Node[] next(){
-		if(next==null)
-			throw new NoSuchElementException();
-		Node[] now = next;
-		loadNext();
-		return now;
-	}
-	
-	private void loadNext() {
-		next = null;
-		do{
-			if (_stringIt.hasNext()){
-				_line = _stringIt.next();
-			} else {
-				next = null;
-				return;
-			}
-			++_lineNo;
-		} while(_line==null || isEntirelyWhitespaceOrEmpty(_line));
-		//iterate until we get a non-blank line
-		
-		try {
-			next = parseNodesInternal(_line);
-		} catch (Exception e) {
-			_log.warning("Moving on to the next line, as I couldn't parse line "
-					+ _lineNo + ": " + _line);
-			e.printStackTrace();
-			//invalid: skip and try again
-			loadNext();
-		}
-		
-		if(next != null && next.length==0)
-			// next == null : invalid last line in the file
-			//valid but empty: skip and try again
-			loadNext();
-	}
-	
-	private static boolean isEntirelyWhitespaceOrEmpty(String s){
-		for(char c:s.toCharArray()){
-			if (!Character.isWhitespace(c))
-				return false;
-		}
-		return true;
-	}
+    /**
+     * @deprecated See {@link #NxParser(Reader, boolean)} and {@link #DEFAULT_PARSE_DTS}.
+     */
+    @Deprecated
+    public NxParser(InputStream is, boolean strict, boolean parseDts) {
+        this(is);
+    }
 
-	/**
-	 * Calls remove from underlying string iterator.
-	 */
-	@Override
-	public void remove() {
-		_stringIt.remove();
-	}
+    /**
+     * @deprecated See {@link #NxParser(Reader, boolean)}.
+     */
+    @Deprecated
+    public NxParser(InputStream is, boolean strict) {
+        this(is);
+    }
 
-	@Override
-	public Iterator<Node[]> iterator() {
-		return this;
-	}
+    private static boolean isEntirelyWhitespaceOrEmpty(String s) {
+        for (char c : s.toCharArray()) {
+            if (!Character.isWhitespace(c))
+                return false;
+        }
+        return true;
+    }
 
-	public static Node[] parseNodes(final String line) throws ParseException {
-		try {
-			return parseNodesInternal(line);
-		} catch (Exception e) {
-			throw new ParseException(e);
-		}
-	}
+    public static Node[] parseNodes(final String line) throws ParseException {
+        try {
+            return parseNodesInternal(line);
+        } catch (Exception e) {
+            throw new ParseException(e);
+        }
+    }
 
-	/**
-	 * Parses line and returns a Node[] contained within that line.
-	 * May return an empty Node[] if the line is valid N-Triples
-	 * but contains no nodes (e.g., a blank or comment line).
-	 * 
-	 * @param line
-	 * @return
-	 * @throws ParseException
-	 */
-	private static Node[] parseNodesInternal(final String line) throws ParseException {
-		int startIndex = 0;
-		int endIndex = 0;
-		List<Node> nx = new LinkedList<Node>();
-		
-		if(line.isEmpty()) return new Node[0];
+    /**
+     * Parses line and returns a Node[] contained within that line.
+     * May return an empty Node[] if the line is valid N-Triples
+     * but contains no nodes (e.g., a blank or comment line).
+     *
+     * @param line
+     * @return
+     * @throws ParseException
+     */
+    private static Node[] parseNodesInternal(final String line) throws ParseException {
+        int startIndex = 0;
+        int endIndex = 0;
+        List<Node> nx = new LinkedList<Node>();
 
-		//instead of checking for individual IndexOutOfBoundExceptions,
-		//they are allowed to be thrown and caught in parseNodes()
-		
-		while (true) {
-			while (Character.isWhitespace(line.charAt(startIndex))) {
-				// skipping spaces
-				++startIndex;
-				++endIndex;
-				
-				if(startIndex==line.length()){
-					if(nx.isEmpty()){
-						return new Node[0];
-					} else{
-						throw new ParseException("Could not find closing '.' bracket for line "+line);
-					}
-				}
-			}
+        if (line.isEmpty()) return new Node[0];
 
-			if (line.charAt(startIndex) == '<') {
-				// resource.
-				endIndex = line.indexOf("> ", startIndex)+1;
-				if(endIndex==0) throw new ParseException("Could not find closing '>' bracket for resource starting at char "+startIndex+" while parsing line "+line);
-				nx.add(new Resource(line.substring(startIndex, endIndex), true));
-			} else if (line.charAt(startIndex) == '_') {
-				// bnode.
-				endIndex = line.indexOf(' ', startIndex);
-				nx.add(new BNode(line.substring(startIndex, endIndex), true));
-			} else if (line.charAt(startIndex) == '.') {
-				// statement's end.
-				if(nx.isEmpty()){
-					throw new ParseException("Exception at position " + startIndex+ " while parsing: '" + line +"'");
-				}
-				for(int i=startIndex+1; i<line.length(); i++){
-					if(!Character.isWhitespace(line.charAt(i))){
-						throw new ParseException("Exception at position " + i + " while parsing: '" + line +"'");
-					}
-				}
-				break;
-			} else if (line.charAt(startIndex) == '"') {
-				// literal.
-				// telling escaped quotes within the literal from
-				// literal-delimiting ones:
-				endIndex = startIndex;
-				do {
-					endIndex = line.indexOf('\"', endIndex + 1);
-				} while (line.charAt(endIndex - 1) == '\\'
-						&& (((endIndex - 1 - onlyCharUntil(line, '\\',
-								endIndex - 1)) % 2) == 0));
-				// ^^ if the number of backslashes in front of a quote is even,
-				// the found quote is the literal-delimiting one.
-				while (line.charAt(endIndex) != ' ') {
-					++endIndex;
-				}
-				nx.add(new Literal(line.substring(startIndex, endIndex), true));
-			} else if(line.charAt(startIndex) == '#' && nx.isEmpty()){
-				// comment line.
-				return new Node[0];
-			} else if (line.charAt(startIndex) == '?') {
-				// variable.
-				endIndex = line.indexOf(' ', startIndex);
-				nx.add(new Variable(line.substring(startIndex, endIndex), true));
-			} else if (line.charAt(startIndex) == Unbound.TO_STRING.charAt(0)) {
-				// unbound.
-				if (line.substring(startIndex,
-						startIndex + Unbound.TO_STRING.length()).equals(
-						Unbound.TO_STRING)) {
-					nx.add(new Unbound());
-					endIndex = startIndex + Unbound.TO_STRING.length();
-					if(endIndex >= line.length() || line.charAt(endIndex)!=' '){
-						throw new ParseException("Exception at position " + startIndex+ " while parsing: '" + line +"'");
-					}
-				} else{
-					throw new ParseException("Exception at position " + endIndex+ " while parsing: '" + line +"'");
-				}
-			} else{
-				throw new ParseException("Exception at position " + endIndex+ " while parsing: '" + line +"'");
-			}
+        //instead of checking for individual IndexOutOfBoundExceptions,
+        //they are allowed to be thrown and caught in parseNodes()
 
-			startIndex = endIndex + 1;
-		}
-		return nx.toArray(new Node[nx.size()]);
-	}
+        while (true) {
+            while (Character.isWhitespace(line.charAt(startIndex))) {
+                // skipping spaces
+                ++startIndex;
+                ++endIndex;
 
-	/**
-	 * Looks from a given position i in a string line backwards and returns the
-	 * index of the last occurence of parameter c in a row.
-	 * 
-	 * @param line
-	 *            the string
-	 * @param c
-	 *            the character
-	 * @param i
-	 *            the starting index
-	 * @return the index to be returned
-	 */
-	private static int onlyCharUntil(String line, char c, int i) {
-		while (line.charAt(i) == c) {
-			--i;
-		}
-		return i + 1;
-	}
+                if (startIndex == line.length()) {
+                    if (nx.isEmpty()) {
+                        return new Node[0];
+                    } else {
+                        throw new ParseException("Could not find closing '.' bracket for line " + line);
+                    }
+                }
+            }
 
-	/**
-	 * Creates an iterator of strings from a given buffered reader.
-	 * 
-	 * @param br
-	 *            the buffered reader
-	 * @return the iterator
-	 */
-	private static Iterator<String> stringItFromBufferedReader(
-			final BufferedReader br) {
-		return new Iterator<String>() {
+            if (line.charAt(startIndex) == '<') {
+                // resource.
+                endIndex = line.indexOf("> ", startIndex) + 1;
+                if (endIndex == 0)
+                    throw new ParseException("Could not find closing '>' bracket for resource starting at char " + startIndex + " while parsing line " + line);
+                nx.add(new Resource(line.substring(startIndex, endIndex), true));
+            } else if (line.charAt(startIndex) == '_') {
+                // bnode.
+                endIndex = line.indexOf(' ', startIndex);
+                nx.add(new BNode(line.substring(startIndex, endIndex), true));
+            } else if (line.charAt(startIndex) == '.') {
+                // statement's end.
+                if (nx.isEmpty()) {
+                    throw new ParseException("Exception at position " + startIndex + " while parsing: '" + line + "'");
+                }
+                for (int i = startIndex + 1; i < line.length(); i++) {
+                    if (!Character.isWhitespace(line.charAt(i))) {
+                        throw new ParseException("Exception at position " + i + " while parsing: '" + line + "'");
+                    }
+                }
+                break;
+            } else if (line.charAt(startIndex) == '"') {
+                // literal.
+                // telling escaped quotes within the literal from
+                // literal-delimiting ones:
+                endIndex = startIndex;
+                do {
+                    endIndex = line.indexOf('\"', endIndex + 1);
+                } while (line.charAt(endIndex - 1) == '\\'
+                        && (((endIndex - 1 - onlyCharUntil(line, '\\',
+                        endIndex - 1)) % 2) == 0));
+                // ^^ if the number of backslashes in front of a quote is even,
+                // the found quote is the literal-delimiting one.
+                while (line.charAt(endIndex) != ' ') {
+                    ++endIndex;
+                }
+                nx.add(new Literal(line.substring(startIndex, endIndex), true));
+            } else if (line.charAt(startIndex) == '#' && nx.isEmpty()) {
+                // comment line.
+                return new Node[0];
+            } else if (line.charAt(startIndex) == '?') {
+                // variable.
+                endIndex = line.indexOf(' ', startIndex);
+                nx.add(new Variable(line.substring(startIndex, endIndex), true));
+            } else if (line.charAt(startIndex) == Unbound.TO_STRING.charAt(0)) {
+                // unbound.
+                if (line.substring(startIndex,
+                        startIndex + Unbound.TO_STRING.length()).equals(
+                        Unbound.TO_STRING)) {
+                    nx.add(new Unbound());
+                    endIndex = startIndex + Unbound.TO_STRING.length();
+                    if (endIndex >= line.length() || line.charAt(endIndex) != ' ') {
+                        throw new ParseException("Exception at position " + startIndex + " while parsing: '" + line + "'");
+                    }
+                } else {
+                    throw new ParseException("Exception at position " + endIndex + " while parsing: '" + line + "'");
+                }
+            } else {
+                throw new ParseException("Exception at position " + endIndex + " while parsing: '" + line + "'");
+            }
 
-			boolean nextIsFetched = true;
-			String next = null;
+            startIndex = endIndex + 1;
+        }
+        return nx.toArray(new Node[nx.size()]);
+    }
 
-			@Override
-			public boolean hasNext() {
-				if (!nextIsFetched) {
-					return next == null ? false : true;
-				} else {
-					try {
-						next = br.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-						next = null;
-					}
-					nextIsFetched = false;
-					return next == null ? false : true;
-				}
-			}
+    /**
+     * Looks from a given position i in a string line backwards and returns the
+     * index of the last occurence of parameter c in a row.
+     *
+     * @param line the string
+     * @param c    the character
+     * @param i    the starting index
+     * @return the index to be returned
+     */
+    private static int onlyCharUntil(String line, char c, int i) {
+        while (line.charAt(i) == c) {
+            --i;
+        }
+        return i + 1;
+    }
 
-			@Override
-			public String next() {
-				if (nextIsFetched)
-					try {
-						next = br.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				nextIsFetched = true;
-				if (next == null)
-					throw new NoSuchElementException();
-				return next;
-			}
+    /**
+     * Creates an iterator of strings from a given buffered reader.
+     *
+     * @param br the buffered reader
+     * @return the iterator
+     */
+    private static Iterator<String> stringItFromBufferedReader(
+            final BufferedReader br) {
+        return new Iterator<String>() {
 
-			@Override
-			public void remove() {
-				throw new UnsupportedOperationException();
-			}
+            boolean nextIsFetched = true;
+            String next = null;
 
-		};
-	}
+            @Override
+            public boolean hasNext() {
+                if (!nextIsFetched) {
+                    return next == null ? false : true;
+                } else {
+                    try {
+                        next = br.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        next = null;
+                    }
+                    nextIsFetched = false;
+                    return next == null ? false : true;
+                }
+            }
+
+            @Override
+            public String next() {
+                if (nextIsFetched)
+                    try {
+                        next = br.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                nextIsFetched = true;
+                if (next == null)
+                    throw new NoSuchElementException();
+                return next;
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
+        };
+    }
 
 	/*
-	 * 
+     *
 	 * FROM HERE DOWNWARDS: LEGACY STUFF
 	 */
 
-	/**
-	 * Returns the line number that has currently been processed.
-	 * 
-	 * @return the line number
-	 */
-	public int lineNumber() {
-		return _lineNo;
-	}
+    /**
+     * @see #DEFAULT_PARSE_DTS
+     */
+    @Deprecated
+    public static Node[] parseNodes(String line, boolean parseDts)
+            throws ParseException {
+        return parseNodes(line);
+    }
 
-	/**
-	 * @deprecated This is an iterator and therefore cannot throw exceptions at
-	 *             all. Therefore parameter strict is pointless here.
-	 */
-	@Deprecated
-	public NxParser(Reader r, boolean strict) {
-		this(r);
-	}
+    /**
+     * @see #parseLiteral(String, boolean)
+     */
+    @Deprecated
+    public static Literal parseLiteral(String str) throws ParseException {
+        return parseLiteral(str, DEFAULT_PARSE_DTS);
+    }
 
-	/**
-	 * @deprecated See {@link #NxParser(Reader, boolean)} and {@link #DEFAULT_PARSE_DTS}.
-	 */
-	@Deprecated
-	public NxParser(Reader r, boolean strict, boolean parseDts) {
-		this(r);
-	}
+    /**
+     * @see #DEFAULT_PARSE_DTS
+     * @deprecated Doesn't do much parsing apart from checking the first char to
+     * be a quotation mark.
+     */
+    @Deprecated
+    public static Literal parseLiteral(String str, boolean parseDTs)
+            throws ParseException {
+        if (str.charAt(0) != '"') {
+            throw new ParseException("literal must be enclosed with \"\"");
+        }
+        return new Literal(str, true);
+    }
 
-	/**
-	 * @deprecated See {@link #NxParser(Reader, boolean)} and {@link #DEFAULT_PARSE_DTS}.
-	 */
-	@Deprecated
-	public NxParser(InputStream is, boolean strict, boolean parseDts) {
-		this(is);
-	}
+    /**
+     * @deprecated Doesn't do much parsing apart from checking the first char to
+     * be a question mark.
+     */
+    @Deprecated
+    public static Variable parseVariable(String str) throws ParseException {
+        if (str.charAt(0) != '?') {
+            throw new ParseException("variable must start with ?");
+        }
+        return new Variable(str, true);
+    }
 
-	/**
-	 * @deprecated See {@link #NxParser(Reader, boolean)}.
-	 */
-	@Deprecated
-	public NxParser(InputStream is, boolean strict) {
-		this(is);
-	}
+    /**
+     * @deprecated Doesn't do much parsing apart from checking the first and the
+     * last char to be angle brackets.
+     */
+    @Deprecated
+    public static Resource parseResource(String str) throws ParseException {
+        if (str.charAt(0) != '<' && str.charAt(str.length() - 1) != '>') {
+            throw new ParseException("resource must be enclosed with <>");
+        }
+        return new Resource(str, true);
+    }
 
-	/**
-	 * @deprecated If you call a literal's
-	 *             {@link org.semanticweb.yars.nx.Literal#getDatatype()} method,
-	 *             you are presented with the data type, if there is one. So the
-	 *             processing of that is to be moved.
-	 */
-	@Deprecated
-	public static boolean DEFAULT_PARSE_DTS = false;
+    /**
+     * @deprecated Doesn't do much parsing apart from checking the first chars
+     * to be :_.
+     */
+    @Deprecated
+    public static BNode parseBNode(String str) throws ParseException {
+        if (str.charAt(0) != '_' || str.charAt(1) != ':') {
+            throw new ParseException("bnode must start with :_");
+        }
+        return new BNode(str, true);
+    }
 
-	// private static BNodeHandler _bnh = null;
-	//
-	// @Deprecated
-	// public static void setBNodeHandler(BNodeHandler bnh) {
-	// _bnh = bnh;
-	// }
-	//
-	// @Deprecated
-	// public static BNodeHandler getBNodeHandler() {
-	// return _bnh == null? _bnh = new DummyBNodeHandler(): _bnh;
-	// }
-	//
-	// @Deprecated
-	// private static class DummyBNodeHandler implements BNodeHandler {
-	// public BNode getBNode(String id) {
-	// return new BNode(id);
-	// }
-	// }
+    // private static BNodeHandler _bnh = null;
+    //
+    // @Deprecated
+    // public static void setBNodeHandler(BNodeHandler bnh) {
+    // _bnh = bnh;
+    // }
+    //
+    // @Deprecated
+    // public static BNodeHandler getBNodeHandler() {
+    // return _bnh == null? _bnh = new DummyBNodeHandler(): _bnh;
+    // }
+    //
+    // @Deprecated
+    // private static class DummyBNodeHandler implements BNodeHandler {
+    // public BNode getBNode(String id) {
+    // return new BNode(id);
+    // }
+    // }
 
-	/**
-	 * @see #DEFAULT_PARSE_DTS
-	 */
-	@Deprecated
-	public static Node[] parseNodes(String line, boolean parseDts)
-			throws ParseException {
-		return parseNodes(line);
-	}
+    /**
+     * @see #parseNode(String, boolean)
+     */
+    @Deprecated
+    public static Node parseNode(String str) throws ParseException {
+        return parseNode(str, DEFAULT_PARSE_DTS);
+    }
 
-	/**
-	 * @see #parseLiteral(String, boolean)
-	 */
-	@Deprecated
-	public static Literal parseLiteral(String str) throws ParseException {
-		return parseLiteral(str, DEFAULT_PARSE_DTS);
-	}
+    /**
+     * @see #DEFAULT_PARSE_DTS
+     * @deprecated Tells the type of the node according to the first char in
+     * parameter str.
+     */
+    @Deprecated
+    public static Node parseNode(String str, boolean parseDts)
+            throws ParseException {
+        if (str.charAt(0) == '_') {
+            // blank node
+            return parseBNode(str);
+        } else if (str.charAt(0) == '<') {
+            return parseResource(str);
+        } else if (str.charAt(0) == '"') {
+            return parseLiteral(str, parseDts);
+        } else if (str.charAt(0) == '?') {
+            return parseVariable(str);
+        } else {
+            throw new ParseException("cannot parse " + str);
+        }
+    }
 
-	/**
-	 * @deprecated Doesn't do much parsing apart from checking the first char to
-	 *             be a quotation mark.
-	 * @see #DEFAULT_PARSE_DTS
-	 */
-	@Deprecated
-	public static Literal parseLiteral(String str, boolean parseDTs)
-			throws ParseException {
-		if (str.charAt(0) != '"') {
-			throw new ParseException("literal must be enclosed with \"\"");
-		}
-		return new Literal(str, true);
-	}
+    /**
+     * Escapes strings to unicode
+     *
+     * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
+     */
+    @Deprecated
+    public static String escapeForNx(String lit) {
+        return NxUtil.escapeForNx(lit);
+    }
 
-	/**
-	 * @deprecated Doesn't do much parsing apart from checking the first char to
-	 *             be a question mark.
-	 */
-	@Deprecated
-	public static Variable parseVariable(String str) throws ParseException {
-		if (str.charAt(0) != '?') {
-			throw new ParseException("variable must start with ?");
-		}
-		return new Variable(str, true);
-	}
+    /**
+     * Escapes strings for markup
+     *
+     * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
+     */
+    @Deprecated
+    public static String escapeForMarkup(String lit) {
+        return NxUtil.escapeForMarkup(lit);
+    }
 
-	/**
-	 * @deprecated Doesn't do much parsing apart from checking the first and the
-	 *             last char to be angle brackets.
-	 */
-	@Deprecated
-	public static Resource parseResource(String str) throws ParseException {
-		if (str.charAt(0) != '<' && str.charAt(str.length() - 1) != '>') {
-			throw new ParseException("resource must be enclosed with <>");
-		}
-		return new Resource(str, true);
-	}
+    /**
+     * Unescape special characters in literal by removing excess backslashes
+     *
+     * @param str The string to escape
+     * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
+     */
+    @Deprecated
+    public static String unescape(String str) {
+        return NxUtil.unescape(str, false);
+    }
 
-	/**
-	 * @deprecated Doesn't do much parsing apart from checking the first chars
-	 *             to be :_.
-	 */
-	@Deprecated
-	public static BNode parseBNode(String str) throws ParseException {
-		if (str.charAt(0) != '_' || str.charAt(1) != ':') {
-			throw new ParseException("bnode must start with :_");
-		}
-		return new BNode(str, true);
-	}
+    /**
+     * Unescape special characters in literal by removing excess backslashes
+     *
+     * @param str   The string to escape
+     * @param clean If true, cleans up excess slashes
+     * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
+     */
+    @Deprecated
+    public static String unescape(String str, boolean clean) {
+        return NxUtil.unescape(str, clean);
+    }
 
-	/**
-	 * @see #parseNode(String, boolean)
-	 */
-	@Deprecated
-	public static Node parseNode(String str) throws ParseException {
-		return parseNode(str, DEFAULT_PARSE_DTS);
-	}
+    public static void main(String[] args) throws ParseException {
+        System.err.println(Nodes.toN3(parseNodes("")));
+    }
 
-	/**
-	 * @deprecated Tells the type of the node according to the first char in
-	 *             parameter str.
-	 * @see #DEFAULT_PARSE_DTS
-	 */
-	@Deprecated
-	public static Node parseNode(String str, boolean parseDts)
-			throws ParseException {
-		if (str.charAt(0) == '_') {
-			// blank node
-			return parseBNode(str);
-		} else if (str.charAt(0) == '<') {
-			return parseResource(str);
-		} else if (str.charAt(0) == '"') {
-			return parseLiteral(str, parseDts);
-		} else if (str.charAt(0) == '?') {
-			return parseVariable(str);
-		} else {
-			throw new ParseException("cannot parse " + str);
-		}
-	}
+    public boolean hasNext() {
+        return next != null;
+    }
 
-	/**
-	 * Escapes strings to unicode
-	 * 
-	 * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
-	 */
-	@Deprecated
-	public static String escapeForNx(String lit) {
-		return NxUtil.escapeForNx(lit);
-	}
+    public Node[] next() {
+        if (next == null)
+            throw new NoSuchElementException();
+        Node[] now = next;
+        loadNext();
+        return now;
+    }
 
-	/**
-	 * Escapes strings for markup
-	 * 
-	 * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
-	 */
-	@Deprecated
-	public static String escapeForMarkup(String lit) {
-		return NxUtil.escapeForMarkup(lit);
-	}
+    private void loadNext() {
+        next = null;
+        do {
+            if (_stringIt.hasNext()) {
+                _line = _stringIt.next();
+            } else {
+                next = null;
+                return;
+            }
+            ++_lineNo;
+        } while (_line == null || isEntirelyWhitespaceOrEmpty(_line));
+        //iterate until we get a non-blank line
 
-	/**
-	 * Unescape special characters in literal by removing excess backslashes
-	 * 
-	 * @param str
-	 *            The string to escape
-	 * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
-	 */
-	@Deprecated
-	public static String unescape(String str) {
-		return NxUtil.unescape(str, false);
-	}
+        try {
+            next = parseNodesInternal(_line);
+        } catch (Exception e) {
+            _log.warning("Moving on to the next line, as I couldn't parse line "
+                    + _lineNo + ": " + _line);
+            e.printStackTrace();
+            //invalid: skip and try again
+            loadNext();
+        }
 
-	/**
-	 * Unescape special characters in literal by removing excess backslashes
-	 * 
-	 * @param str
-	 *            The string to escape
-	 * @param clean
-	 *            If true, cleans up excess slashes
-	 * @deprecated Moved to {@link org.semanticweb.yars.nx.util.NxUtil}.
-	 */
-	@Deprecated
-	public static String unescape(String str, boolean clean) {
-		return NxUtil.unescape(str, clean);
-	}	
-	
-	public static void main(String[] args) throws ParseException{
-		System.err.println(Nodes.toN3(parseNodes("")));
-	}
+        if (next != null && next.length == 0)
+            // next == null : invalid last line in the file
+            //valid but empty: skip and try again
+            loadNext();
+    }
+
+    /**
+     * Calls remove from underlying string iterator.
+     */
+    @Override
+    public void remove() {
+        _stringIt.remove();
+    }
+
+    @Override
+    public Iterator<Node[]> iterator() {
+        return this;
+    }
+
+    /**
+     * Returns the line number that has currently been processed.
+     *
+     * @return the line number
+     */
+    public int lineNumber() {
+        return _lineNo;
+    }
 }

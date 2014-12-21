@@ -196,18 +196,14 @@ class Annotation {
 }
 
 class TagMeResult {
-    @JsonProperty("timestamp")
-    String timestamp;
-
-    @JsonProperty("time")
-    String timeString;
-
-    @JsonProperty("api")
-    String apiType;
-
     @JsonProperty("annotations")
     public List<Annotation> annotationList;
-
+    @JsonProperty("timestamp")
+    String timestamp;
+    @JsonProperty("time")
+    String timeString;
+    @JsonProperty("api")
+    String apiType;
     @JsonProperty("lang")
     String language;
 

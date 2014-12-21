@@ -40,6 +40,32 @@ public class UserItemCosine extends RecGraph {
 
     }
 
+    public static void main(String[] args) throws IOException {
+        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
+                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
+                mappedItemFile = "mapping/item.mapping";
+
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+
+        UserItemCosine jaccard = new UserItemCosine(testPath + File.separator + "u1.base", testPath + File.separator + "u1.test",
+                propertyIndexDir, mappingList);
+        Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
+
+        String resFile = resPath + File.separator + "UserItemCosine" + File.separator + "u1.result";
+
+        EvaluateRecommendation.serializeRatings(ratings, resFile, 10);
+
+        String trecTestFile = testTrecPath + File.separator + "u1.test";
+        String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                + File.separator + "u1.final";
+        EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+        currLogger.info(EvaluateRecommendation.getTrecEvalResults(trecResultFinal).toString());
+    }
+
     private void getMapForMappedItems(List<MovieMapping> movieList) {
         // key: item-id - value: dbpedia uri
         idUriMap = new HashMap<>();
@@ -238,31 +264,5 @@ public class UserItemCosine extends RecGraph {
         }
 
         return allRecommendation;
-    }
-
-    public static void main(String[] args) throws IOException {
-        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
-                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
-                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
-                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
-                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
-                mappedItemFile = "mapping/item.mapping";
-
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-
-        UserItemCosine jaccard = new UserItemCosine(testPath + File.separator + "u1.base", testPath + File.separator + "u1.test",
-                propertyIndexDir, mappingList);
-        Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
-
-        String resFile = resPath + File.separator + "UserItemCosine" + File.separator + "u1.result";
-
-        EvaluateRecommendation.serializeRatings(ratings, resFile, 10);
-
-        String trecTestFile = testTrecPath + File.separator + "u1.test";
-        String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                + File.separator + "u1.final";
-        EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-        currLogger.info(EvaluateRecommendation.getTrecEvalResults(trecResultFinal).toString());
     }
 }

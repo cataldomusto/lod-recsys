@@ -19,6 +19,21 @@ public class DownloadEntityData {
     private static final Logger logger = Logger.getLogger(DownloadEntityData.class.getName());
     private static final int MAX_ATTEMPT = 3;
 
+    public static void main(String[] args) throws IOException, BoilerpipeProcessingException, URISyntaxException {
+        if (args.length == 2) {
+            try {
+                DownloadEntityData dd = new DownloadEntityData();
+                dd.download(args[0], args[1]);
+            } catch (IOException ex) {
+                Logger.getLogger(DownloadEntityData.class.getName()).log(Level.SEVERE, "Error in downloading data", ex);
+            }
+        } else {
+            logger.log(Level.WARNING, "Number of arguments not valid {0}", args.length);
+            System.exit(1);
+        }
+
+
+    }
 
     private void download(String startFile, String outputDir) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(startFile));
@@ -88,22 +103,6 @@ public class DownloadEntityData {
 
         }
         reader.close();
-    }
-
-    public static void main(String[] args) throws IOException, BoilerpipeProcessingException, URISyntaxException {
-        if (args.length == 2) {
-            try {
-                DownloadEntityData dd = new DownloadEntityData();
-                dd.download(args[0], args[1]);
-            } catch (IOException ex) {
-                Logger.getLogger(DownloadEntityData.class.getName()).log(Level.SEVERE, "Error in downloading data", ex);
-            }
-        } else {
-            logger.log(Level.WARNING, "Number of arguments not valid {0}", args.length);
-            System.exit(1);
-        }
-
-
     }
 
     private void myWait(int sec) {

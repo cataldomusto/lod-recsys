@@ -55,11 +55,11 @@ public class Subj extends GraphNode {
         return _linksTo;
     }
 
-    public void setTFIDF(double tfidf) {
-        _tfidf = tfidf;
-    }
-
     public double getTFIDF() {
         return _tfidf;
+    }
+
+    public void setTFIDF(double tfidf) {
+        _tfidf = tfidf;
     }
 }

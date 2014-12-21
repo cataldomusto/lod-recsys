@@ -1,7 +1,7 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
-import di.uniba.it.lodrecsys.graph.GraphRunner;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.BufferedReader;
@@ -19,16 +19,12 @@ public class MovieMappingGenerator {
     private static Logger currLogger = Logger.getLogger(MovieMappingGenerator.class.getName());
 
     public static void main(String[] args) throws IOException {
-        String itemFile = "mapping/u.item",
-                dbpediaItemsFile = "mapping/item.dbpedia",
-                dbpediaMapping = "mapping/item.mapping";
 
         SPARQLClient client = new SPARQLClient();
-        List<MovieMapping> movieListFromML = Utils.getMovieList(itemFile),
-                dbpediaList = Utils.loadDBpediaMappingItems(dbpediaItemsFile);
+        List<MovieMapping> movieListFromML = Utils.getMovieList(LoadProperties.ITEMFILE),
+                dbpediaList = Utils.loadDBpediaMappingItems(LoadProperties.DBPEDIAITEMSFILE);
 
         List<MovieMapping> mapped = generateCompleteMapping(dbpediaList, movieListFromML);
-
 
     }
 
@@ -48,9 +44,7 @@ public class MovieMappingGenerator {
                 currLogger.info("Mapped: " + film);
             }
 
-
         }
-
         return mapped;
     }
 
@@ -58,7 +52,6 @@ public class MovieMappingGenerator {
     private static List<MovieMapping> loadUnmappedItems(String dbpediaMapping) throws IOException {
         BufferedReader reader = null;
         List<MovieMapping> unmapped = new ArrayList<>();
-
 
         try {
 
@@ -79,8 +72,6 @@ public class MovieMappingGenerator {
             if (reader != null)
                 reader.close();
         }
-
-
     }
 
 }

@@ -6,21 +6,21 @@ import org.semanticweb.yars.nx.Nodes;
 import java.util.Iterator;
 
 public class NodesToNodeArrayIterator implements Iterator<Node[]> {
-	Iterator<Nodes> in;
-	
-	public NodesToNodeArrayIterator(Iterator<Nodes> in){
-		this.in = in;
-	}
+    Iterator<Nodes> in;
 
-	public boolean hasNext() {
-		return in.hasNext();
-	}
+    public NodesToNodeArrayIterator(Iterator<Nodes> in) {
+        this.in = in;
+    }
 
-	public Node[] next() {
-		return in.next().getNodes();
-	}
+    public boolean hasNext() {
+        return in.hasNext();
+    }
 
-	public void remove() {
-		in.remove();
-	}
+    public Node[] next() {
+        return in.next().getNodes();
+    }
+
+    public void remove() {
+        in.remove();
+    }
 }

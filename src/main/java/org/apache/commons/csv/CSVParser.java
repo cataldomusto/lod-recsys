@@ -120,6 +120,44 @@ import static org.apache.commons.csv.Token.Type.TOKEN;
  */
 public final class CSVParser implements Iterable<CSVRecord>, Closeable {
 
+    private final CSVFormat format;
+    /**
+     * A mapping of column names to column indices
+     */
+    private final Map<String, Integer> headerMap;
+    private final Lexer lexer;
+
+    // the following objects are shared to reduce garbage
+    /**
+     * A record buffer for getRecord(). Grows as necessary and is reused.
+     */
+    private final List<String> record = new ArrayList<String>();
+    private final Token reusableToken = new Token();
+    private long recordNumber;
+
+    /**
+     * Customized CSV parser using the given {@link CSVFormat}
+     * <p/>
+     * <p>
+     * If you do not read all records from the given {@code reader}, you should call {@link #close()} on the parser,
+     * unless you close the {@code reader}.
+     * </p>
+     *
+     * @param reader a Reader containing CSV-formatted input. Must not be null.
+     * @param format the CSVFormat used for CSV parsing. Must not be null.
+     * @throws IllegalArgumentException If the parameters of the format are inconsistent or if either reader or format are null.
+     * @throws IOException              If an I/O error occurs
+     */
+    public CSVParser(final Reader reader, final CSVFormat format) throws IOException {
+        Assertions.notNull(reader, "reader");
+        Assertions.notNull(format, "format");
+
+        format.validate();
+        this.format = format;
+        this.lexer = new Lexer(format, new ExtendedBufferedReader(reader));
+        this.headerMap = this.initializeHeader();
+    }
+
     /**
      * Creates a parser for the given {@link File}.
      *
@@ -173,49 +211,6 @@ public final class CSVParser implements Iterable<CSVRecord>, Closeable {
         Assertions.notNull(format, "format");
 
         return new CSVParser(new InputStreamReader(url.openStream(), charset), format);
-    }
-
-    // the following objects are shared to reduce garbage
-
-    private final CSVFormat format;
-
-    /**
-     * A mapping of column names to column indices
-     */
-    private final Map<String, Integer> headerMap;
-
-    private final Lexer lexer;
-
-    /**
-     * A record buffer for getRecord(). Grows as necessary and is reused.
-     */
-    private final List<String> record = new ArrayList<String>();
-
-    private long recordNumber;
-
-    private final Token reusableToken = new Token();
-
-    /**
-     * Customized CSV parser using the given {@link CSVFormat}
-     * <p/>
-     * <p>
-     * If you do not read all records from the given {@code reader}, you should call {@link #close()} on the parser,
-     * unless you close the {@code reader}.
-     * </p>
-     *
-     * @param reader a Reader containing CSV-formatted input. Must not be null.
-     * @param format the CSVFormat used for CSV parsing. Must not be null.
-     * @throws IllegalArgumentException If the parameters of the format are inconsistent or if either reader or format are null.
-     * @throws IOException              If an I/O error occurs
-     */
-    public CSVParser(final Reader reader, final CSVFormat format) throws IOException {
-        Assertions.notNull(reader, "reader");
-        Assertions.notNull(format, "format");
-
-        format.validate();
-        this.format = format;
-        this.lexer = new Lexer(format, new ExtendedBufferedReader(reader));
-        this.headerMap = this.initializeHeader();
     }
 
     private void addRecordValue() {

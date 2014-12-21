@@ -6,21 +6,22 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class HTMLTextExtractor extends HTMLEditorKit.ParserCallback {
-	StringBuffer _s;
+    StringBuffer _s;
 
-	public HTMLTextExtractor() {}
+    public HTMLTextExtractor() {
+    }
 
-	public void parse(Reader in) throws IOException {
-		_s = new StringBuffer();
-		ParserDelegator delegator = new ParserDelegator();
-		delegator.parse(in, this, false);
-	}
+    public void parse(Reader in) throws IOException {
+        _s = new StringBuffer();
+        ParserDelegator delegator = new ParserDelegator();
+        delegator.parse(in, this, false);
+    }
 
-	public void handleText(char[] text, int pos) {
-		_s.append(text);
-	}
+    public void handleText(char[] text, int pos) {
+        _s.append(text);
+    }
 
-	public String getText() {
-		return _s.toString();
-	}
+    public String getText() {
+        return _s.toString();
+    }
 }

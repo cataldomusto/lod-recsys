@@ -22,10 +22,6 @@ public abstract class GraphNode {
         _type = type;
     }
 
-    public void setCount(int count) {
-        _count = count;
-    }
-
     public void incrementCount() {
         _count++;
     }
@@ -34,8 +30,8 @@ public abstract class GraphNode {
         return _count;
     }
 
-    public void setCon(int con) {
-        _con = con;
+    public void setCount(int count) {
+        _count = count;
     }
 
     public void incrementCon() {
@@ -44,6 +40,10 @@ public abstract class GraphNode {
 
     public int getCon() {
         return _con;
+    }
+
+    public void setCon(int con) {
+        _con = con;
     }
 
 }

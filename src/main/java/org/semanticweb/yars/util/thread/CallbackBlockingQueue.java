@@ -6,38 +6,37 @@ import org.semanticweb.yars.nx.parser.Callback;
 
 import java.util.concurrent.BlockingQueue;
 
-public class CallbackBlockingQueue implements Callback{
-	BlockingQueue<Node[]> _q;
-	InterruptedException _e;
-	
-	public CallbackBlockingQueue(BlockingQueue<Node[]> q){
-		_q = q;
-	}
+public class CallbackBlockingQueue implements Callback {
+    BlockingQueue<Node[]> _q;
+    InterruptedException _e;
 
-	public void endDocument() {
-		processStatement(Nodes.EOM);
-	}
-	
-	public boolean successful(){
-		return _e == null;
-	}
+    public CallbackBlockingQueue(BlockingQueue<Node[]> q) {
+        _q = q;
+    }
 
-	public Exception getException(){
-		return _e;
-	}
+    public void endDocument() {
+        processStatement(Nodes.EOM);
+    }
 
-	public void processStatement(Node[] nx) {
-		try{
-			_q.put(nx);
-		} catch(InterruptedException e){
-			_e = e;
-		}
-	}
+    public boolean successful() {
+        return _e == null;
+    }
 
-	public void startDocument() {
-		;
-	}
-	
-	
+    public Exception getException() {
+        return _e;
+    }
+
+    public void processStatement(Node[] nx) {
+        try {
+            _q.put(nx);
+        } catch (InterruptedException e) {
+            _e = e;
+        }
+    }
+
+    public void startDocument() {
+        ;
+    }
+
 
 }

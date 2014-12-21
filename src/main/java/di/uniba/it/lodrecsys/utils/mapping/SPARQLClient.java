@@ -13,14 +13,11 @@ import java.util.logging.Logger;
  * DBpedia endpoint
  */
 public class SPARQLClient {
+    private static final String PREDICATE_WIKIPAGE = "<http://xmlns.com/foaf/0.1/isPrimaryTopicOf>";
+    private static final String PREDICATE_ABSTRACT = "<http://dbpedia.org/ontology/abstract>";
+    private static Logger currLogger = Logger.getLogger(SPARQLClient.class.getName());
     private String dbpediaEndpoint = "http://live.dbpedia.org/sparql";
     private String graphURI = "http://dbpedia.org";
-    private static Logger currLogger = Logger.getLogger(SPARQLClient.class.getName());
-
-    private static final String PREDICATE_WIKIPAGE = "<http://xmlns.com/foaf/0.1/isPrimaryTopicOf>";
-
-    private static final String PREDICATE_ABSTRACT = "<http://dbpedia.org/ontology/abstract>";
-
 
     private String formatPropertiesList(Collection<String> specificProp, boolean areURI) {
         String formattedProperties = "";

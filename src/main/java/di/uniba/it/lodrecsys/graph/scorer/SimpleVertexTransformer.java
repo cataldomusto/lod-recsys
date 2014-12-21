@@ -15,15 +15,11 @@ import java.util.Set;
  */
 public class SimpleVertexTransformer implements Transformer<String, Double> {
 
-    private Set<String> trainingPos;
-
-    private Set<String> trainingNeg;
-
-    private int graphSize;
-
-    private double massProb = 0.8;
-
     private final Map<String, String> uriIdMap;
+    private Set<String> trainingPos;
+    private Set<String> trainingNeg;
+    private int graphSize;
+    private double massProb = 0.8;
 
 
     public SimpleVertexTransformer(Set<String> trainingPos, Set<String> trainingNeg, int graphSize, Map<String, String> uriIdMap) {

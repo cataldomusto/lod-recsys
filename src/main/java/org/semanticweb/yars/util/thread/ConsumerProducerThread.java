@@ -10,68 +10,69 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Uses a blocking queue to co-ordinate between a producer thread
  * wrapping an iterator and a consumer thread wrapping a callback
- * @author aidhog
  *
+ * @author aidhog
  */
-public class ConsumerProducerThread extends Thread{
-	public static final Node[] EOM = new Node[0];
-	public static final int DEFAULT_BUFFER = 500;
+public class ConsumerProducerThread extends Thread {
+    public static final Node[] EOM = new Node[0];
+    public static final int DEFAULT_BUFFER = 500;
 
-	private ConsumerThread _ct;
-	private ProducerThread _pt;
-	private Exception _e;
-	
-	public ConsumerProducerThread(Iterator<Node[]> in, Callback out){
-		this(in, out, DEFAULT_BUFFER);
-	}
+    private ConsumerThread _ct;
+    private ProducerThread _pt;
+    private Exception _e;
 
-	public ConsumerProducerThread(Iterator<Node[]> in, Callback out, int buffer){
-		this(in, out, new ArrayBlockingQueue<Node[]>(buffer));
-	}
+    public ConsumerProducerThread(Iterator<Node[]> in, Callback out) {
+        this(in, out, DEFAULT_BUFFER);
+    }
 
-	public ConsumerProducerThread(Iterator<Node[]> in, Callback out, BlockingQueue<Node[]> q){
-		_ct = new ConsumerThread(out, q);
-		_pt = new ProducerThread(in, q);
-	}
+    public ConsumerProducerThread(Iterator<Node[]> in, Callback out, int buffer) {
+        this(in, out, new ArrayBlockingQueue<Node[]>(buffer));
+    }
 
-	/**
-	 * Threaded execution
-	 */
-	public void run(){
-		try{
-			runUnthreaded();
-		} catch(Exception e){
-			_e = e;
-		}
-	}
-	
-	public void setTicks(int ticks){
-		_ct.setTicks(ticks);
-		_pt.setTicks(ticks);
-	}
+    public ConsumerProducerThread(Iterator<Node[]> in, Callback out, BlockingQueue<Node[]> q) {
+        _ct = new ConsumerThread(out, q);
+        _pt = new ProducerThread(in, q);
+    }
 
-	public boolean successful(){
-		return _e == null;
-	}
+    /**
+     * Threaded execution
+     */
+    public void run() {
+        try {
+            runUnthreaded();
+        } catch (Exception e) {
+            _e = e;
+        }
+    }
 
-	public Exception getException(){
-		return _e;
-	}
+    public void setTicks(int ticks) {
+        _ct.setTicks(ticks);
+        _pt.setTicks(ticks);
+    }
 
-	/**
-	 * Non-threaded execution
-	 * @throws Exception 
-	 */
-	public void runUnthreaded() throws InterruptedException{
-		_pt.start();
-		_ct.start();
+    public boolean successful() {
+        return _e == null;
+    }
 
-		_pt.join();
+    public Exception getException() {
+        return _e;
+    }
 
-		_ct.join();
+    /**
+     * Non-threaded execution
+     *
+     * @throws Exception
+     */
+    public void runUnthreaded() throws InterruptedException {
+        _pt.start();
+        _ct.start();
 
-		if(!_ct.successful()){
-			throw _ct.getException();
-		}
-	}
+        _pt.join();
+
+        _ct.join();
+
+        if (!_ct.successful()) {
+            throw _ct.getException();
+        }
+    }
 }

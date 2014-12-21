@@ -6,22 +6,22 @@ import org.semanticweb.yars.nx.parser.Callback;
 
 /**
  * Just for debugging
- * @author aidhog
  *
+ * @author aidhog
  */
-public class PrintCallBack implements Callback{
+public class PrintCallBack implements Callback {
 
-	public void endDocument() {
-		;
-	}
+    public void endDocument() {
+        ;
+    }
 
-	public void processStatement(Node[] ns) {
-		System.err.println(Nodes.toN3(ns));
-	}
+    public void processStatement(Node[] ns) {
+        System.err.println(Nodes.toN3(ns));
+    }
 
-	public void startDocument() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+    public void startDocument() {
+        // TODO Auto-generated method stub
+
+    }
+
 }

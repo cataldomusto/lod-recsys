@@ -11,70 +11,69 @@ import java.io.*;
 public class CreateQuad {
 
     /**
-     * 
+     *
      */
     public static void main(String[] args) throws IOException, org.semanticweb.yars.nx.parser.ParseException {
-	Options options = new Options();
+        Options options = new Options();
 
-	Option inputO = new Option("i", "name of file to read, - for stdin");
-	inputO.setArgs(1);
-	options.addOption(inputO);
-	
-	Option outputO = new Option("o", "output directory");
-	outputO.setArgs(1);
-	options.addOption(outputO);
-	
-	
-	Option context = new Option("c", "context");
-	context.setArgs(1);
-	options.addOption(context);
+        Option inputO = new Option("i", "name of file to read, - for stdin");
+        inputO.setArgs(1);
+        options.addOption(inputO);
 
-	Option helpO = new Option("h", "print help");
-	options.addOption(helpO);
+        Option outputO = new Option("o", "output directory");
+        outputO.setArgs(1);
+        options.addOption(outputO);
 
-	
-	
-	CommandLineParser parser = new BasicParser();
-	CommandLine cmd = null;
 
-	try {
-	    cmd = parser.parse(options, args);
-	} catch (ParseException e) {
-	    System.err.println("***ERROR: " + e.getClass() + ": " + e.getMessage());
-	    HelpFormatter formatter = new HelpFormatter();
-	    formatter.printHelp("parameters:", options );
-	    return;
-	}
+        Option context = new Option("c", "context");
+        context.setArgs(1);
+        options.addOption(context);
 
-	if (cmd.hasOption("h")) {
-	    HelpFormatter formatter = new HelpFormatter();
-	    formatter.printHelp("parameters:", options );
-	    return;
-	}
+        Option helpO = new Option("h", "print help");
+        options.addOption(helpO);
 
-	InputStream in = System.in;
 
-	if (cmd.hasOption("i")) {
-	    if (cmd.getOptionValue("i").equals("-")) {
-		in = System.in;
-	    } else {
-		in = new FileInputStream(cmd.getOptionValue("i"));
-	    }
-	}
+        CommandLineParser parser = new BasicParser();
+        CommandLine cmd = null;
 
-	PrintWriter pw = new PrintWriter(System.out);
-	if(cmd.hasOption("o")){
-	    pw = new PrintWriter(new File(cmd.getOptionValue("c")));
-	}
-	
-	Resource cntx = new Resource(cmd.getOptionValue("c"));
-	
-	NxParser nxp = new NxParser(in);
-	while (nxp.hasNext()) {
-	    Node[] nx = nxp.next();
-	    pw.println(new Nodes(nx[0],nx[1],nx[2],cntx).toN3());
-	}
-	in.close();
-	pw.close();
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.err.println("***ERROR: " + e.getClass() + ": " + e.getMessage());
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("parameters:", options);
+            return;
+        }
+
+        if (cmd.hasOption("h")) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("parameters:", options);
+            return;
+        }
+
+        InputStream in = System.in;
+
+        if (cmd.hasOption("i")) {
+            if (cmd.getOptionValue("i").equals("-")) {
+                in = System.in;
+            } else {
+                in = new FileInputStream(cmd.getOptionValue("i"));
+            }
+        }
+
+        PrintWriter pw = new PrintWriter(System.out);
+        if (cmd.hasOption("o")) {
+            pw = new PrintWriter(new File(cmd.getOptionValue("c")));
+        }
+
+        Resource cntx = new Resource(cmd.getOptionValue("c"));
+
+        NxParser nxp = new NxParser(in);
+        while (nxp.hasNext()) {
+            Node[] nx = nxp.next();
+            pw.println(new Nodes(nx[0], nx[1], nx[2], cntx).toN3());
+        }
+        in.close();
+        pw.close();
     }
 }

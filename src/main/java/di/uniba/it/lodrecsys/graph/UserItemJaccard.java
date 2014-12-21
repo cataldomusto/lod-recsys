@@ -46,6 +46,31 @@ public class UserItemJaccard extends RecGraph {
 
     }
 
+    public static void main(String[] args) throws IOException {
+        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
+                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
+                mappedItemFile = "mapping/item.mapping";
+
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+        long meanTimeElapsed = 0, startTime;
+
+        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+            startTime = System.nanoTime();
+            UserItemJaccard graph = new UserItemJaccard(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
+                    propertyIndexDir, mappingList);
+            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
+            meanTimeElapsed += (System.nanoTime() - startTime);
+        }
+
+        meanTimeElapsed /= 5;
+        currLogger.info("Total running time: " + meanTimeElapsed);
+
+    }
+
     private void getMapForMappedItems(List<MovieMapping> movieList) {
         // key: item-id - value: dbpedia uri
         idUriMap = new HashMap<>();
@@ -143,7 +168,6 @@ public class UserItemJaccard extends RecGraph {
 
         return sumObj.getResult() / (sumObj.getN() / 2);
     }
-
 
     private void computeSimilarityMap(SimilarityFunction function, Set<String> allItems) {
         this.simUserMap = new HashMap<>();
@@ -350,32 +374,6 @@ public class UserItemJaccard extends RecGraph {
         }
 
         return allRecommendation;
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
-                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
-                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
-                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
-                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
-                mappedItemFile = "mapping/item.mapping";
-
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        long meanTimeElapsed = 0, startTime;
-
-        for (int numSplit = 1; numSplit <= 5; numSplit++) {
-            startTime = System.nanoTime();
-            UserItemJaccard graph = new UserItemJaccard(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
-                    propertyIndexDir, mappingList);
-            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
-            meanTimeElapsed += (System.nanoTime() - startTime);
-        }
-
-        meanTimeElapsed /= 5;
-        currLogger.info("Total running time: " + meanTimeElapsed);
-
     }
 
 

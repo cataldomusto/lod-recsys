@@ -24,163 +24,183 @@ import java.util.concurrent.TimeUnit;
 /**
  * RDFXMLParser... for... you guessed it... parsing RDF/XML
  * Based on SAXParser. Default behaviour creates a parsing thread
- * which fills a BlockingQueue and is consumed externally through the 
+ * which fills a BlockingQueue and is consumed externally through the
  * iterator model.
- * 
- * Can use custom CallBack which will not use a seperate thread for 
+ * <p/>
+ * Can use custom CallBack which will not use a seperate thread for
  * parsing and which does not use iterator methods.
- * 
- * @author aidhog
  *
+ * @author aidhog
  */
 public class RDFXMLParser implements Iterator<Node[]>, Iterable<Node[]> {
-	private BlockingQueue<Node[]> _q = null;
-	private boolean _done = false;
-	private Exception _e = null;
-	private ParserThread _pt = null;
-	private Node[] _current = null;
-	private Resource _con = null;
-	
-	public static final int DEFAULT_BUFFER = 1000;
-	public static final int TIME_OUT = 1000; //1 sec
-	
+    public static final int DEFAULT_BUFFER = 1000;
+    public static final int TIME_OUT = 1000; //1 sec
+    private BlockingQueue<Node[]> _q = null;
+    private boolean _done = false;
+    private Exception _e = null;
+    private ParserThread _pt = null;
+    private Node[] _current = null;
+    private Resource _con = null;
+
 //	private static final Header[] _headers = {
 //		new Header("Accept", "application/rdf+xml"),
 //		new Header("User-Agent", "nxparser/java"),	
 //	};
-	
-	private SAXParser _parser;
-	{
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		factory.setNamespaceAware(true);
-		factory.setValidating(false);
-		try {
-			_parser = factory.newSAXParser();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Short default constructor.
-	 * 
-	 */
-	public RDFXMLParser(InputStream in, String baseURI) throws ParseException, IOException {
-		this(in, false, true, baseURI, DEFAULT_BUFFER);
-	}
-	
-	/**
-	 * Short default constructor.
-	 * 
-	 */
-	public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI) throws ParseException, IOException {
-		this(in, strict, skolemise, baseURI, DEFAULT_BUFFER);
-	}
-	
-	/**
-	 * Default constructor. Creates a BlockingCallBack instance, whose buffer is filled
-	 * by a parser thread and consumed by this instance using the iterator model.
-	 */
-	public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI, int buffer) throws ParseException, IOException {
+    private SAXParser _parser;
+
+    {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setValidating(false);
+        try {
+            _parser = factory.newSAXParser();
+        } catch (ParserConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SAXException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Short default constructor.
+     */
+    public RDFXMLParser(InputStream in, String baseURI) throws ParseException, IOException {
+        this(in, false, true, baseURI, DEFAULT_BUFFER);
+    }
+
+    /**
+     * Short default constructor.
+     */
+    public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI) throws ParseException, IOException {
+        this(in, strict, skolemise, baseURI, DEFAULT_BUFFER);
+    }
+
+    /**
+     * Default constructor. Creates a BlockingCallBack instance, whose buffer is filled
+     * by a parser thread and consumed by this instance using the iterator model.
+     */
+    public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI, int buffer) throws ParseException, IOException {
 //		SAXParserFactory factory = SAXParserFactory.newInstance();
 //		factory.setNamespaceAware(true);
 //		factory.setValidating(strict);
-		try {
+        try {
 //			SAXParser saxParser = factory.newSAXParser();
-			_q = new ArrayBlockingQueue<Node[]>(buffer);
-			CallbackBlockingQueue bcb = new CallbackBlockingQueue(_q);
-			_pt = new ParserThread(_parser, in, new RDFXMLParserBase(baseURI, bcb, skolemise),_q);
-			_pt.start();
-		} catch (Exception err) {
-			throw new ParseException(err);
+            _q = new ArrayBlockingQueue<Node[]>(buffer);
+            CallbackBlockingQueue bcb = new CallbackBlockingQueue(_q);
+            _pt = new ParserThread(_parser, in, new RDFXMLParserBase(baseURI, bcb, skolemise), _q);
+            _pt.start();
+        } catch (Exception err) {
+            throw new ParseException(err);
 //			err.printStackTrace ();
-		}
-	}
-	
-	/**
-	 * Constructor given Callback. 
-	 * Interaction outside of iterator model but analagous to NxParser :(.
-	 * 
-	 */
-	public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI, Callback c) throws ParseException, IOException {
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		factory.setNamespaceAware(true);
-		factory.setValidating(strict);
-		try {
-			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(in, new RDFXMLParserBase(baseURI, c, skolemise));
-		} catch (Exception err) {
-			throw new ParseException(err);
+        }
+    }
+
+    /**
+     * Constructor given Callback.
+     * Interaction outside of iterator model but analagous to NxParser :(.
+     */
+    public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI, Callback c) throws ParseException, IOException {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setValidating(strict);
+        try {
+            SAXParser saxParser = factory.newSAXParser();
+            saxParser.parse(in, new RDFXMLParserBase(baseURI, c, skolemise));
+        } catch (Exception err) {
+            throw new ParseException(err);
 //			err.printStackTrace ();
-		}
-	}
-	
-	/**
-	 * Constructor given Callback. 
-	 * Interaction outside of iterator model but analagous to NxParser :(.
-	 * Produces quadruples using the provided context.
-	 * 
-	 */
-	public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI, Callback c, Resource con) throws ParseException, IOException {
-		_con = con;
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		factory.setNamespaceAware(true);
-		factory.setValidating(strict);
-		try {
-			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(in, new RDFXMLParserBase(baseURI, c, skolemise, con));
-		} catch (Exception err) {
-			throw new ParseException(err);
+        }
+    }
+
+    /**
+     * Constructor given Callback.
+     * Interaction outside of iterator model but analagous to NxParser :(.
+     * Produces quadruples using the provided context.
+     */
+    public RDFXMLParser(InputStream in, boolean strict, boolean skolemise, String baseURI, Callback c, Resource con) throws ParseException, IOException {
+        _con = con;
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setValidating(strict);
+        try {
+            SAXParser saxParser = factory.newSAXParser();
+            saxParser.parse(in, new RDFXMLParserBase(baseURI, c, skolemise, con));
+        } catch (Exception err) {
+            throw new ParseException(err);
 //			err.printStackTrace ();
-		}
-	}
-	
-	/**
-	 * Constructor given Callback and URL. 
-	 * Interaction outside of iterator model but analogous to NxParser :(.
-	 * 
-	 */
+        }
+    }
+
+    // for quick debugging
+    public static void main(String args[]) throws FileNotFoundException, ParseException, IOException, URISyntaxException {
+
+//		String in = "src/test/resources/rdfxml/propAttr1.rdf";
+//		String in = "src/test/resources/rdfxml/list1.rdf";
+//		String in = "src/test/resources/rdfxml/weirdXmlAttr.rdf";
+//		String in = "src/test/resources/rdfxml/wsXmlLit.rdf";
+//		String in = "src/test/resources/rdfxml/sameIdDiffR.rdf";
+        String in = "src/test/resources/rdfxml/nonAsciiId.rdf";
+
+        String baseURI = "http://baseuri.com/";
+
+        FileInputStream fis = new FileInputStream(in);
+
+        System.err.println("opening parser");
+
+        CallbackNxBufferedWriter cb = new CallbackNxBufferedWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+        RDFXMLParser rxp = new RDFXMLParser(fis, false, false, baseURI, cb, new Resource(NxUtil.escapeForNx(baseURI)));
+
+        System.err.println("reading data");
+        while (rxp.hasNext()) {
+            System.err.println(Nodes.toN3(rxp.next()));
+        }
+
+
+    }
+
+    /**
+     * Constructor given Callback and URL.
+     * Interaction outside of iterator model but analogous to NxParser :(.
+     */
 //	public RDFXMLParser(URL u, boolean strict, boolean skolemise, Callback c) throws ParseException, IOException {
 //		this(u, strict, skolemise,u.toString(), c, false, TIME_OUT);
 //	}
 //
 //	/**
-//	* Constructor given Callback and URL. 
+//	* Constructor given Callback and URL.
 //	* Interaction outside of iterator model but analogous to NxParser :(.
-//	* 
+//	*
 //	*/
 //	public RDFXMLParser(URL u, boolean strict, boolean skolemise, String baseURI, Callback c, boolean writeQuads) throws ParseException, IOException {
 //		this(u, strict, skolemise,u.toString(), c, writeQuads, TIME_OUT);
 //	}
-	
+
 //	/**
-//	 * Constructor given Callback and URL if baseURI different from URL. 
+//	 * Constructor given Callback and URL if baseURI different from URL.
 //	 * Interaction outside of iterator model but analogous to NxParser :(.
-//	 * @throws SAXException 
-//	 * @throws ParserConfigurationException 
-//	 * 
+//	 * @throws SAXException
+//	 * @throws ParserConfigurationException
+//	 *
 //	 * @TODO doesn't parse my bloody file, UTF error
 //	 */
 //	public RDFXMLParser(URL u, boolean strict, boolean skolemise, String baseURI, Callback c, boolean writeQuads, int timeOut) throws ParseException, IOException {
 //		this(u, strict, skolemise, baseURI, c, writeQuads, timeOut, Long.MAX_VALUE);
 //	}
-	
+
 //	/**
-//	 * Constructor given Callback and URL if baseURI different from URL. 
+//	 * Constructor given Callback and URL if baseURI different from URL.
 //	 * Interaction outside of iterator model but analogous to NxParser :(.
-//	 * @throws SAXException 
-//	 * @throws ParserConfigurationException 
-//	 * 
+//	 * @throws SAXException
+//	 * @throws ParserConfigurationException
+//	 *
 //	 * @TODO doesn't parse my bloody file, UTF error
 //	 */
 //	public RDFXMLParser(URL u, boolean strict, boolean skolemise, String baseURI, Callback c, boolean writeQuads, int timeOut, long maxLength) throws ParseException, IOException {
 //		//took Andreas' code from NxParser
 //		//could use saxParer.parse(String url, DefaultHandler blah)
-//		
+//
 //		_con = new Resource(u.toString());
 //		HttpClient http = new HttpClient();
 //
@@ -188,7 +208,7 @@ public class RDFXMLParser implements Iterator<Node[]>, Iterable<Node[]> {
 //			HostConfiguration hc = http.getHostConfiguration();
 //			hc.setProxy(System.getProperty("http.proxyHost"), Integer.parseInt(System.getProperty("http.proxyPort")));
 //		}
-//		
+//
 //		http.getHttpConnectionManager().getParams().setConnectionTimeout(timeOut);
 //		http.getHttpConnectionManager().getParams().setSoTimeout(timeOut);
 //
@@ -196,15 +216,15 @@ public class RDFXMLParser implements Iterator<Node[]>, Iterable<Node[]> {
 //		InputStream is = null;
 //		int status = -1;
 //		boolean rdfxml = false;
-//		
+//
 //		for (Header h: _headers) {
 //			gm.setRequestHeader(h);
 //		}
-//		
+//
 ////		try {
 //		http.executeMethod(gm);
 //
-	//		String furi = gm.getURI().toString();
+    //		String furi = gm.getURI().toString();
 //		if(baseURI==null)
 //			baseURI = furi;
 //		_con = new Resource(gm.getURI().toString());
@@ -218,7 +238,7 @@ public class RDFXMLParser implements Iterator<Node[]>, Iterable<Node[]> {
 //				rdfxml = true;
 //			}
 //		}
-//		
+//
 //		Header[] length = gm.getResponseHeaders("Content-Length");
 //		if(length!=null) for (Header h : length) {
 //			String tmp = h.getValue();
@@ -248,16 +268,16 @@ public class RDFXMLParser implements Iterator<Node[]>, Iterable<Node[]> {
 //			} catch (SAXException e1) {
 //				throw new ParseException(e1);
 //			}
-//		} else{ 
+//		} else{
 //			gm.releaseConnection();
 //			if(status!=200)
 //				throw new IOException(u+" returned response code " + status + " " + gm.getStatusLine());
 //			else if(!rdfxml)
 //				throw new IOException(u+" did not return Content-Type application/rdf+xml");
 //		}
-//			
-//			
-////		} 
+//
+//
+////		}
 ////		catch (Exception ex) {
 ////			e = ex;
 ////			ex.printStackTrace ();
@@ -274,106 +294,77 @@ public class RDFXMLParser implements Iterator<Node[]>, Iterable<Node[]> {
 ////				gm.releaseConnection();
 ////				throw new IOException("returned response code " + status + " " + gm.getStatusLine());
 ////			}
-////			
+////
 ////			if (!rdfxml) {
 ////				gm.releaseConnection();
-////				throw new IOException("not rdfxml");				
+////				throw new IOException("not rdfxml");
 ////			}
-////			
+////
 ////			if(strict)
-////			
+////
 ////			gm.releaseConnection();
 ////		}
-//		
+//
 //	}
-	
-	public Resource getContext(){
-		return _con;
-	}
-	
-	public boolean hasNext() {
-		if(_q==null){
-			return false;
-		} else if(_done){
-			return false;
-		} else if(_current!=null){
-			//if(NodeComparator.NC.equals(_current,BlockingCallBack.POISON_TOKEN)){
-			//faster hack :( :)
-			if(_current.length==0){
-				_done = true;
-				_e = _pt.getException();
-				return false;
-			}
-			else return true;
-		} else if(_q.size()>0){
-			_current = _q.poll();
-			return hasNext();
-		} else{
-			try {
-				_current = _q.poll(1000, TimeUnit.MILLISECONDS);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				_done = true;
-				return false;
-			}
-			return hasNext();
-		}
-	}
+    public Resource getContext() {
+        return _con;
+    }
 
-	public Node[] next() {
-		if(_current==null){
-			if(!hasNext()){
-				throw new NoSuchElementException();
-			}
-		}
-		
-		Node[] result = new Node[_current.length];
-		System.arraycopy(_current, 0, result, 0, _current.length);
-		_current = null;
-		return result;
-	}
+    public boolean hasNext() {
+        if (_q == null) {
+            return false;
+        } else if (_done) {
+            return false;
+        } else if (_current != null) {
+            //if(NodeComparator.NC.equals(_current,BlockingCallBack.POISON_TOKEN)){
+            //faster hack :( :)
+            if (_current.length == 0) {
+                _done = true;
+                _e = _pt.getException();
+                return false;
+            } else return true;
+        } else if (_q.size() > 0) {
+            _current = _q.poll();
+            return hasNext();
+        } else {
+            try {
+                _current = _q.poll(1000, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                _done = true;
+                return false;
+            }
+            return hasNext();
+        }
+    }
 
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
-	
-	public boolean isSuccess(){
-		return _e == null;
-	}
-	
-	public Exception getException(){
-		return _e;
-	}
-		
-	// for quick debugging
-	public static void main(String args[]) throws FileNotFoundException, ParseException, IOException, URISyntaxException{
-		
-//		String in = "src/test/resources/rdfxml/propAttr1.rdf";
-//		String in = "src/test/resources/rdfxml/list1.rdf";
-//		String in = "src/test/resources/rdfxml/weirdXmlAttr.rdf";
-//		String in = "src/test/resources/rdfxml/wsXmlLit.rdf";
-//		String in = "src/test/resources/rdfxml/sameIdDiffR.rdf";
-		String in = "src/test/resources/rdfxml/nonAsciiId.rdf";
-		
-		String baseURI = "http://baseuri.com/";
-		
-		FileInputStream fis = new FileInputStream(in);
-		
-		System.err.println("opening parser");
-		
-		CallbackNxBufferedWriter cb = new CallbackNxBufferedWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
-		RDFXMLParser rxp = new RDFXMLParser(fis, false, false, baseURI, cb, new Resource(NxUtil.escapeForNx(baseURI)));
-		
-		System.err.println("reading data");
-		while(rxp.hasNext()){
-			System.err.println(Nodes.toN3(rxp.next()));
-		}
-		
+    public Node[] next() {
+        if (_current == null) {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+        }
 
-	}
+        Node[] result = new Node[_current.length];
+        System.arraycopy(_current, 0, result, 0, _current.length);
+        _current = null;
+        return result;
+    }
 
-	@Override
-	public Iterator<Node[]> iterator() {
-		return this;
-	}
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean isSuccess() {
+        return _e == null;
+    }
+
+    public Exception getException() {
+        return _e;
+    }
+
+    @Override
+    public Iterator<Node[]> iterator() {
+        return this;
+    }
 }

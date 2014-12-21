@@ -138,20 +138,6 @@ import static org.apache.commons.csv.Constants.*;
  */
 public final class CSVFormat implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private final char delimiter;
-    private final Character quoteChar; // null if quoting is disabled
-    private final Quote quotePolicy;
-    private final Character commentStart; // null if commenting is disabled
-    private final Character escape; // null if escaping is disabled
-    private final boolean ignoreSurroundingSpaces; // Should leading/trailing spaces be ignored around values?
-    private final boolean ignoreEmptyLines;
-    private final String recordSeparator; // for outputs
-    private final String nullString; // the string to be used for null values
-    private final String[] header;
-    private final boolean skipHeaderRecord;
-
     /**
      * Standard comma separated format, as for {@link #RFC4180} but allowing empty lines.
      * <h3>RFC 4180:</h3>
@@ -167,7 +153,6 @@ public final class CSVFormat implements Serializable {
      */
     public static final CSVFormat DEFAULT = new CSVFormat(COMMA, DOUBLE_QUOTE_CHAR, null, null, null,
             false, true, CRLF, null, null, false);
-
     /**
      * Comma separated format as defined by <a href="http://tools.ietf.org/html/rfc4180">RFC 4180</a>.
      * <h3>RFC 4180:</h3>
@@ -178,7 +163,6 @@ public final class CSVFormat implements Serializable {
      * </ul>
      */
     public static final CSVFormat RFC4180 = DEFAULT.withIgnoreEmptyLines(false);
-
     /**
      * Excel file format (using a comma as the value delimiter). Note that the actual value delimiter used by Excel is
      * locale dependent, it might be necessary to customize this format to accommodate to your regional settings.
@@ -197,7 +181,6 @@ public final class CSVFormat implements Serializable {
      * Note: this is currently the same as RFC4180
      */
     public static final CSVFormat EXCEL = DEFAULT.withIgnoreEmptyLines(false);
-
     /**
      * Tab-delimited format, with quote; leading and trailing spaces ignored.
      */
@@ -205,7 +188,6 @@ public final class CSVFormat implements Serializable {
             DEFAULT
                     .withDelimiter(TAB)
                     .withIgnoreSurroundingSpaces(true);
-
     /**
      * Default MySQL format used by the <tt>SELECT INTO OUTFILE</tt> and <tt>LOAD DATA INFILE</tt> operations. This is
      * a tab-delimited format with a LF character as the line separator. Values are not quoted and special characters
@@ -221,37 +203,18 @@ public final class CSVFormat implements Serializable {
                     .withIgnoreEmptyLines(false)
                     .withQuoteChar(null)
                     .withRecordSeparator(LF);
-
-    /**
-     * Returns true if the given character is a line break character.
-     *
-     * @param c the character to check
-     * @return true if <code>c</code> is a line break character
-     */
-    private static boolean isLineBreak(final char c) {
-        return c == LF || c == CR;
-    }
-
-    /**
-     * Returns true if the given character is a line break character.
-     *
-     * @param c the character to check, may be null
-     * @return true if <code>c</code> is a line break character (and not null)
-     */
-    private static boolean isLineBreak(final Character c) {
-        return c != null && isLineBreak(c.charValue());
-    }
-
-    /**
-     * Creates a new CSV format with the specified delimiter.
-     *
-     * @param delimiter the char used for value separation, must not be a line break character
-     * @return a new CSV format.
-     * @throws IllegalArgumentException if the delimiter is a line break character
-     */
-    public static CSVFormat newFormat(final char delimiter) {
-        return new CSVFormat(delimiter, null, null, null, null, false, false, null, null, null, false);
-    }
+    private static final long serialVersionUID = 1L;
+    private final char delimiter;
+    private final Character quoteChar; // null if quoting is disabled
+    private final Quote quotePolicy;
+    private final Character commentStart; // null if commenting is disabled
+    private final Character escape; // null if escaping is disabled
+    private final boolean ignoreSurroundingSpaces; // Should leading/trailing spaces be ignored around values?
+    private final boolean ignoreEmptyLines;
+    private final String recordSeparator; // for outputs
+    private final String nullString; // the string to be used for null values
+    private final String[] header;
+    private final boolean skipHeaderRecord;
 
     /**
      * Creates a customized CSV format.
@@ -289,6 +252,37 @@ public final class CSVFormat implements Serializable {
         this.nullString = nullString;
         this.header = header == null ? null : header.clone();
         this.skipHeaderRecord = skipHeaderRecord;
+    }
+
+    /**
+     * Returns true if the given character is a line break character.
+     *
+     * @param c the character to check
+     * @return true if <code>c</code> is a line break character
+     */
+    private static boolean isLineBreak(final char c) {
+        return c == LF || c == CR;
+    }
+
+    /**
+     * Returns true if the given character is a line break character.
+     *
+     * @param c the character to check, may be null
+     * @return true if <code>c</code> is a line break character (and not null)
+     */
+    private static boolean isLineBreak(final Character c) {
+        return c != null && isLineBreak(c.charValue());
+    }
+
+    /**
+     * Creates a new CSV format with the specified delimiter.
+     *
+     * @param delimiter the char used for value separation, must not be a line break character
+     * @return a new CSV format.
+     * @throws IllegalArgumentException if the delimiter is a line break character
+     */
+    public static CSVFormat newFormat(final char delimiter) {
+        return new CSVFormat(delimiter, null, null, null, null, false, false, null, null, null, false);
     }
 
     @Override

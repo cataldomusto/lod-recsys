@@ -60,17 +60,6 @@ public class PageRank {
     }
 
     /**
-     * Sets the value for the PageRank dampening factor. The amount of PageRank that
-     * is transferred depends on a dampening factor which stands for “the probability
-     * that a random surfer will get bored”. The dampening factor generally is set to 0.85.
-     *
-     * @param damp The dampening factor
-     */
-    public void setDampening(double damp) {
-        this.dampening = damp;
-    }
-
-    /**
      * Returns the dampening factor used for the PageRank Algorithm. The amount of PageRank that
      * is transferred depends on a dampening factor which stands for “the probability
      * that a random surfer will get bored”. The dampening factor generally is set to 0.85.
@@ -79,6 +68,17 @@ public class PageRank {
      */
     public double getDampening() {
         return this.dampening;
+    }
+
+    /**
+     * Sets the value for the PageRank dampening factor. The amount of PageRank that
+     * is transferred depends on a dampening factor which stands for “the probability
+     * that a random surfer will get bored”. The dampening factor generally is set to 0.85.
+     *
+     * @param damp The dampening factor
+     */
+    public void setDampening(double damp) {
+        this.dampening = damp;
     }
 
     /**

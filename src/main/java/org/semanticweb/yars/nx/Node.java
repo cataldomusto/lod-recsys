@@ -10,12 +10,12 @@ import java.io.Serializable;
  *
  * @author Andreas Harth
  */
-public interface Node extends Comparable, Serializable { 
+public interface Node extends Comparable, Serializable {
     /**
      * N3 representation.
      */
     public String toN3();
-    
+
     /**
      * String representation.
      */
@@ -25,14 +25,14 @@ public interface Node extends Comparable, Serializable {
      * Equality?
      */
     public boolean equals(Object n);
-    
+
     /**
      * Needed for storing in hashtables.
      */
     public int hashCode();
-    
+
     /**
-     * compare method 
+     * compare method
      */
     public int compareTo(Object n);
 }

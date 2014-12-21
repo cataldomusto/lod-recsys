@@ -5,35 +5,34 @@ import org.semanticweb.yars.nx.parser.Callback;
 
 import java.util.concurrent.BlockingQueue;
 
-public class CallbackBlockingQueue implements Callback{
-	private BlockingQueue<Node[]> _q;
-	
-	//do not change
-	public static Node[] POISON_TOKEN = new Node[0];
-	
-	public CallbackBlockingQueue(BlockingQueue<Node[]> q){
-		_q = q;
-	}
+public class CallbackBlockingQueue implements Callback {
+    //do not change
+    public static Node[] POISON_TOKEN = new Node[0];
+    private BlockingQueue<Node[]> _q;
 
-	public void endDocument() {
-		try {
-			_q.put(POISON_TOKEN);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    public CallbackBlockingQueue(BlockingQueue<Node[]> q) {
+        _q = q;
+    }
 
-	public void processStatement(Node[] ns) {
-		try {
-			_q.put(ns);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    public void endDocument() {
+        try {
+            _q.put(POISON_TOKEN);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void startDocument() {
-		;
-	}
-	
-	
+    public void processStatement(Node[] ns) {
+        try {
+            _q.put(ns);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startDocument() {
+        ;
+    }
+
+
 }

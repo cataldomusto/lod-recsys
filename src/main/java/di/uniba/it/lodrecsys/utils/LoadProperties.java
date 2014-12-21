@@ -21,6 +21,9 @@ public class LoadProperties {
     public static double MASSPROB;
     public static String CHOOSENPROP;
     public static String MISSEDPROP;
+    public static String ITEMFILE;
+    public static String DBPEDIAITEMSFILE;
+    public static String DBPEDIAMAPPING;
 
     static {
         Properties prop = new Properties();
@@ -36,6 +39,12 @@ public class LoadProperties {
             METHOD = prop.getProperty("methodName");
             CHOOSENPROP = prop.getProperty("choosenProp");
             MISSEDPROP = prop.getProperty("missedProp");
+            ITEMFILE = prop.getProperty("itemFile");
+
+            DBPEDIAITEMSFILE = prop.getProperty("dbpediaItemsFile");
+            DBPEDIAMAPPING = prop.getProperty("dbpediaMapping");
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

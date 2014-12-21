@@ -8,35 +8,33 @@ import java.util.logging.Logger;
 
 public class CallbackNxAppender implements Callback {
 
-	static Logger _log = Logger
-			.getLogger(CallbackNxAppender.class.getName());
+    public final static String DOTNEWLINE = "."
+            + System.getProperty("line.separator");
+    static Logger _log = Logger
+            .getLogger(CallbackNxAppender.class.getName());
+    Appendable _app;
 
-	Appendable _app;
+    public CallbackNxAppender(Appendable app) {
+        _app = app;
 
-	public final static String DOTNEWLINE = "."
-			+ System.getProperty("line.separator");
+    }
 
-	public CallbackNxAppender(Appendable app) {
-		_app = app;
+    public void startDocument() {
+    }
 
-	}
+    public void endDocument() {
+    }
 
-	public void startDocument() {
-	}
-
-	public void endDocument() {
-	}
-
-	public synchronized void processStatement(Node[] nx) {
-		try {
-			for (Node n : nx) {
-				_app.append(n.toN3());
-				_app.append(' ');
-			}
-			_app.append(DOTNEWLINE);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
+    public synchronized void processStatement(Node[] nx) {
+        try {
+            for (Node n : nx) {
+                _app.append(n.toN3());
+                _app.append(' ');
+            }
+            _app.append(DOTNEWLINE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

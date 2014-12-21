@@ -31,48 +31,6 @@ public class JaccardPropKNN {
 
 
     /**
-     * Class which defines the similarity score between two items
-     */
-    public static class SimScore implements Comparable<SimScore> {
-        private String itemID;
-        private Float similarity;
-
-        public SimScore(String itemID, Float similarity) {
-            this.itemID = itemID;
-            this.similarity = similarity;
-        }
-
-        public String getItemID() {
-            return itemID;
-        }
-
-        public void setItemID(String itemID) {
-            this.itemID = itemID;
-        }
-
-        public Float getSimilarity() {
-            return similarity;
-        }
-
-        public void setSimilarity(Float similarity) {
-            this.similarity = similarity;
-        }
-
-        @Override
-        public int compareTo(SimScore o) {
-            if (this.similarity == null || o.similarity == null)
-                return this.itemID.compareTo(o.itemID);
-
-            return this.similarity != null ? this.similarity.compareTo(o.similarity) : -1;
-        }
-
-        @Override
-        public String toString() {
-            return itemID;
-        }
-    }
-
-    /**
      * Constructs this object to compute similarities among
      * the items in the specified training set
      *
@@ -87,6 +45,39 @@ public class JaccardPropKNN {
         itemSimScore = new HashMap<>();
         getMapForMappedItems(mappedItems, Utils.loadRatingForEachItem(trainFile).keySet());
         loadItemsRepresentation(manager);
+    }
+
+    public static void main(String[] args) throws IOException {
+        /*
+            EXAMPLE VALUES:
+
+        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+                simPath = "/home/asuglia/thesis/dataset/ml-100k/results/ItemKNNLod/similarities",
+                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                mappedItemFile = "mapping/item.mapping";
+        */
+        Properties prop = new Properties();
+        prop.load(new FileReader(args[0]));
+        String trainPath = prop.getProperty("trainPath"),
+                simPath = prop.getProperty("simPath"),
+                propertyIndexDir = prop.getProperty("propertyIndexDir"),
+                mappedItemFile = prop.getProperty("mappedItemFile");
+
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+
+        for (SparsityLevel level : SparsityLevel.values()) {
+            for (int i = 1; i <= 5; i++) {
+                JaccardPropKNN jaccard = new JaccardPropKNN(trainPath + File.separator + level
+                        + File.separator + "u" + i + ".base", propertyIndexDir, mappingList);
+
+                jaccard.computeItemSimilarites();
+
+                jaccard.serializeSimMatrix(simPath + File.separator + level + File.separator + "u" + i + ".sim");
+
+            }
+
+        }
+
     }
 
     /**
@@ -249,37 +240,46 @@ public class JaccardPropKNN {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        /*
-            EXAMPLE VALUES:
+    /**
+     * Class which defines the similarity score between two items
+     */
+    public static class SimScore implements Comparable<SimScore> {
+        private String itemID;
+        private Float similarity;
 
-        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
-                simPath = "/home/asuglia/thesis/dataset/ml-100k/results/ItemKNNLod/similarities",
-                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                mappedItemFile = "mapping/item.mapping";
-        */
-        Properties prop = new Properties();
-        prop.load(new FileReader(args[0]));
-        String trainPath = prop.getProperty("trainPath"),
-                simPath = prop.getProperty("simPath"),
-                propertyIndexDir = prop.getProperty("propertyIndexDir"),
-                mappedItemFile = prop.getProperty("mappedItemFile");
-
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-
-        for (SparsityLevel level : SparsityLevel.values()) {
-            for (int i = 1; i <= 5; i++) {
-                JaccardPropKNN jaccard = new JaccardPropKNN(trainPath + File.separator + level
-                        + File.separator + "u" + i + ".base", propertyIndexDir, mappingList);
-
-                jaccard.computeItemSimilarites();
-
-                jaccard.serializeSimMatrix(simPath + File.separator + level + File.separator + "u" + i + ".sim");
-
-            }
-
+        public SimScore(String itemID, Float similarity) {
+            this.itemID = itemID;
+            this.similarity = similarity;
         }
 
+        public String getItemID() {
+            return itemID;
+        }
+
+        public void setItemID(String itemID) {
+            this.itemID = itemID;
+        }
+
+        public Float getSimilarity() {
+            return similarity;
+        }
+
+        public void setSimilarity(Float similarity) {
+            this.similarity = similarity;
+        }
+
+        @Override
+        public int compareTo(SimScore o) {
+            if (this.similarity == null || o.similarity == null)
+                return this.itemID.compareTo(o.itemID);
+
+            return this.similarity != null ? this.similarity.compareTo(o.similarity) : -1;
+        }
+
+        @Override
+        public String toString() {
+            return itemID;
+        }
     }
 
 

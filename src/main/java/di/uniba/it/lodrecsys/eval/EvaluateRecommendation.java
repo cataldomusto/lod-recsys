@@ -154,7 +154,6 @@ public class EvaluateRecommendation {
      */
     public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
         String trecEvalCommand = PATHTREC + "trec_eval -m all_trec " + goldStandardFile + " " + resultFile;
-        System.out.println(trecResultFile);
 
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);

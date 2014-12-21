@@ -9,17 +9,17 @@ public class MappingEntity {
     protected String name;
     protected String itemID;
 
+    public MappingEntity(String itemID, String dbpediaURI, String name) {
+        this.dbpediaURI = dbpediaURI;
+        this.name = name;
+        this.itemID = itemID;
+    }
+
     public String getItemID() {
         return itemID;
     }
 
     public void setItemID(String itemID) {
-        this.itemID = itemID;
-    }
-
-    public MappingEntity(String itemID, String dbpediaURI, String name) {
-        this.dbpediaURI = dbpediaURI;
-        this.name = name;
         this.itemID = itemID;
     }
 

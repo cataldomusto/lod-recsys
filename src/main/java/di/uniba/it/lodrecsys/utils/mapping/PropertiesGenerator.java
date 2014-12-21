@@ -1,19 +1,16 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
-import di.uniba.it.lodrecsys.graph.GraphRunner;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Class which uses a specific file in which there are all the mapped items,
@@ -46,9 +43,8 @@ public class PropertiesGenerator {
 
                 manager.closeManager();
             }
-
-
         }
+        System.out.println("Finished");
     }
 
 

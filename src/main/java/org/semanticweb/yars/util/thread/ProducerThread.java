@@ -11,52 +11,49 @@ import java.util.concurrent.BlockingQueue;
  * Thread which takes a Node[] Iterator and successively adds
  * the contents to a blocking queue. Also adds Nodes.EOM when
  * the iterator is exhausted.
- * 
- * @author aidhog
  *
+ * @author aidhog
  */
-public class ProducerThread extends Thread{
-	int _ticks = Main.TICKS;
-	
-	static int _thread_count = 0;
+public class ProducerThread extends Thread {
+    static int _thread_count = 0;
+    int _ticks = Main.TICKS;
+    Iterator<Node[]> _in;
+    BlockingQueue<Node[]> _q;
+    InterruptedException _e;
 
-	Iterator<Node[]> _in;
-	BlockingQueue<Node[]> _q;
-	InterruptedException _e;
+    public ProducerThread(Iterator<Node[]> in, BlockingQueue<Node[]> q) {
+        super(ProducerThread.class.getName() + _thread_count);
+        _thread_count++;
+        _q = q;
+        _in = in;
+    }
 
-	public ProducerThread(Iterator<Node[]> in, BlockingQueue<Node[]> q){
-		super(ProducerThread.class.getName()+_thread_count);
-		_thread_count++;
-		_q = q;
-		_in = in;
-	}
+    public void run() {
+        int i = 0;
+        try {
+            while (_in.hasNext()) {
+                i++;
+                if (_ticks > 0 && i % _ticks == 0) {
+                    System.err.println(getName() + " done " + i);
+                }
+                _q.put(_in.next());
+            }
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            _e = e;
+        }
+        _q.add(Nodes.EOM);
+    }
 
-	public void run(){
-		int i = 0;
-		try {
-			while(_in.hasNext()){
-				i++;
-				if(_ticks>0 && i%_ticks ==0){
-					System.err.println(getName()+" done "+i);
-				}
-				_q.put(_in.next());
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			_e = e;
-		}
-		_q.add(Nodes.EOM);
-	}
-	
-	public void setTicks(int ticks){
-		_ticks = ticks;
-	}
+    public void setTicks(int ticks) {
+        _ticks = ticks;
+    }
 
-	public boolean successful(){
-		return _e == null;
-	}
+    public boolean successful() {
+        return _e == null;
+    }
 
-	public InterruptedException getException(){
-		return _e;
-	}
+    public InterruptedException getException() {
+        return _e;
+    }
 }

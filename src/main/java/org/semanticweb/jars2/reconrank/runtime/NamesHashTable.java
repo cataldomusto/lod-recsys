@@ -12,11 +12,9 @@ import java.util.Hashtable;
  *         find the node index given the node identifer (URI).
  */
 public class NamesHashTable {
-    private int value;
-
     //flag specifying if last entry attempted to be added was unique
     public boolean unique;
-
+    private int value;
     //hashtable to store data
     private Hashtable namesHT;
 

@@ -14,43 +14,30 @@ import java.io.PrintWriter;
  */
 public class LinksRank {
 
-    //holds current eigenvector, or current ranking table
-    public double[] rankTable;
-
-    //
-    private double summation;
-
-    //sum of dangling nodes
-    private double emptySum;
-
-    //number of nodes
-    private int size;
-
-
-    private double SIZE;
-
-    private double EMPTY;
-
-    //the measure of convergence
-    public double l1residual;
-
-    //count of iterations done
-    public int iterationsDone = 0;
-
     //tolerance used to determine fixpoint
     //when l1 norm of residual drops below tol, iterations ended
     private static final double tol = 0.001;
-
+    //d is the damping factor, the probability of following the links, not teleporting
+    private final double d = 0.85;
+    //holds current eigenvector, or current ranking table
+    public double[] rankTable;
+    //the measure of convergence
+    public double l1residual;
+    //count of iterations done
+    public int iterationsDone = 0;
+    //
+    private double summation;
+    //sum of dangling nodes
+    private double emptySum;
+    //number of nodes
+    private int size;
+    private double SIZE;
+    private double EMPTY;
     //mu is the weight of the link to nodes not explicity linked to
     // (a function of d)
     private double mu;
-
     //number of dangling nodes
     private int countEmpty = 0;
-
-    //d is the damping factor, the probability of following the links, not teleporting
-    private final double d = 0.85;
-
     //the number of iterations between which quadratic extrapolation is performed
     // (min should be 4)
     private int QEPeriod = 4;

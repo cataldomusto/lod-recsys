@@ -8,38 +8,39 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * Wraps an iterator around a blocking queue.
- * @author aidhog
  *
+ * @author aidhog
  */
 public class BlockingQueueIterator implements Iterator<Node[]> {
-	BlockingQueue<Node[]> _q;
-	Node[] _current = null;
-	
-	/**
-	 * Constructor... Producer for queue should be initialised
-	 * before calling constructor as the constructor will wait
-	 * on q poll.
-	 * @param q
-	 */
-	public BlockingQueueIterator(BlockingQueue<Node[]> q){
-		_q = q;
-		_current = _q.poll();
-	}
-	
-	public boolean hasNext() {
-		if(_current==null || _current==Nodes.EOM){
-			return false;
-		}
-		return true;
-	}
+    BlockingQueue<Node[]> _q;
+    Node[] _current = null;
 
-	public Node[] next() {
-		Node[] next = _current;
-		_current = _q.poll();
-		return next;
-	}
+    /**
+     * Constructor... Producer for queue should be initialised
+     * before calling constructor as the constructor will wait
+     * on q poll.
+     *
+     * @param q
+     */
+    public BlockingQueueIterator(BlockingQueue<Node[]> q) {
+        _q = q;
+        _current = _q.poll();
+    }
 
-	public void remove() {
-		;
-	}
+    public boolean hasNext() {
+        if (_current == null || _current == Nodes.EOM) {
+            return false;
+        }
+        return true;
+    }
+
+    public Node[] next() {
+        Node[] next = _current;
+        _current = _q.poll();
+        return next;
+    }
+
+    public void remove() {
+        ;
+    }
 }

@@ -32,6 +32,34 @@ final class Token {
      * length of the initial token (content-)buffer
      */
     private static final int INITIAL_TOKEN_LENGTH = 50;
+    /**
+     * The content buffer.
+     */
+    final StringBuilder content = new StringBuilder(INITIAL_TOKEN_LENGTH);
+    /**
+     * Token type
+     */
+    Token.Type type = INVALID;
+    /**
+     * Token ready flag: indicates a valid token with content (ready for the parser).
+     */
+    boolean isReady;
+
+    void reset() {
+        content.setLength(0);
+        type = INVALID;
+        isReady = false;
+    }
+
+    /**
+     * Eases IDE debugging.
+     *
+     * @return a string helpful for debugging.
+     */
+    @Override
+    public String toString() {
+        return type.name() + " [" + content.toString() + "]";
+    }
 
     enum Type {
         /**
@@ -58,36 +86,5 @@ final class Token {
          * Token is a comment line.
          */
         COMMENT
-    }
-
-    /**
-     * Token type
-     */
-    Token.Type type = INVALID;
-
-    /**
-     * The content buffer.
-     */
-    final StringBuilder content = new StringBuilder(INITIAL_TOKEN_LENGTH);
-
-    /**
-     * Token ready flag: indicates a valid token with content (ready for the parser).
-     */
-    boolean isReady;
-
-    void reset() {
-        content.setLength(0);
-        type = INVALID;
-        isReady = false;
-    }
-
-    /**
-     * Eases IDE debugging.
-     *
-     * @return a string helpful for debugging.
-     */
-    @Override
-    public String toString() {
-        return type.name() + " [" + content.toString() + "]";
     }
 }

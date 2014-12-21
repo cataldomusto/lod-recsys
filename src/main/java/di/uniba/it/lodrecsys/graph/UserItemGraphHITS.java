@@ -1,11 +1,9 @@
 package di.uniba.it.lodrecsys.graph;
 
-import com.sun.jersey.core.util.StringIgnoreCaseKeyComparator;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.utils.Utils;
 import edu.uci.ics.jung.algorithms.scoring.HITS;
-import edu.uci.ics.jung.algorithms.scoring.PageRank;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +63,7 @@ public class UserItemGraphHITS extends RecGraph {
     public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
 
         Map<String, Set<Rating>> recommendationList = new HashMap<>();
-        HITS<String, String> hits = new HITS<>(this.recGraph,0.15);
+        HITS<String, String> hits = new HITS<>(this.recGraph, 0.15);
         hits.setMaxIterations(25);
         hits.evaluate();
 

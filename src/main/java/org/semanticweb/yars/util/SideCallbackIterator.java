@@ -7,41 +7,41 @@ import java.util.Iterator;
 
 /**
  * Iterator which does a Callback on the side...
- * @author aidhog
  *
+ * @author aidhog
  */
-public class SideCallbackIterator implements Iterator<Node[]>{
-	final Iterator<Node[]> _in;
-	final Callback _cb;
-	final boolean _autoclose;
-	boolean _closed = false;
-	
-	public SideCallbackIterator(Iterator<Node[]> in, Callback cb){
-		this(in, cb, false);
-	}
-	
-	public SideCallbackIterator(Iterator<Node[]> in, Callback cb, boolean autoclose){
-		_in = in;
-		_cb = cb;
-		_autoclose = autoclose;
-	}
+public class SideCallbackIterator implements Iterator<Node[]> {
+    final Iterator<Node[]> _in;
+    final Callback _cb;
+    final boolean _autoclose;
+    boolean _closed = false;
 
-	public boolean hasNext() {
-		boolean hn = _in.hasNext();
-		if(!hn && _autoclose && !_closed){
-			_cb.endDocument();
-			_closed = true;
-		}
-		return hn;
-	}
-	
-	public Node[] next() {
-		Node[] next = _in.next();
-		_cb.processStatement(next);
-		return next;
-	}
+    public SideCallbackIterator(Iterator<Node[]> in, Callback cb) {
+        this(in, cb, false);
+    }
 
-	public void remove() {
-		_in.remove();
-	}
+    public SideCallbackIterator(Iterator<Node[]> in, Callback cb, boolean autoclose) {
+        _in = in;
+        _cb = cb;
+        _autoclose = autoclose;
+    }
+
+    public boolean hasNext() {
+        boolean hn = _in.hasNext();
+        if (!hn && _autoclose && !_closed) {
+            _cb.endDocument();
+            _closed = true;
+        }
+        return hn;
+    }
+
+    public Node[] next() {
+        Node[] next = _in.next();
+        _cb.processStatement(next);
+        return next;
+    }
+
+    public void remove() {
+        _in.remove();
+    }
 }

@@ -47,17 +47,6 @@ public class SimRank {
     }
 
     /**
-     * Sets the value for the SimRank dampening factor. The amount of SimRank that
-     * is transferred depends on a dampening factor which stands for “the probability
-     * that a random surfer will get bored”. The dampening factor generally is set to 0.85.
-     *
-     * @param damp The dampening factor
-     */
-    public void setDampening(double damp) {
-        this.dampening = damp;
-    }
-
-    /**
      * Returns the dampening factor used for the SimRank Algorithm. The amount of SimRank that
      * is transferred depends on a dampening factor which stands for “the probability
      * that a random surfer will get bored”. The dampening factor generally is set to 0.85.
@@ -66,6 +55,17 @@ public class SimRank {
      */
     public double getDampening() {
         return this.dampening;
+    }
+
+    /**
+     * Sets the value for the SimRank dampening factor. The amount of SimRank that
+     * is transferred depends on a dampening factor which stands for “the probability
+     * that a random surfer will get bored”. The dampening factor generally is set to 0.85.
+     *
+     * @param damp The dampening factor
+     */
+    public void setDampening(double damp) {
+        this.dampening = damp;
     }
 
     /**

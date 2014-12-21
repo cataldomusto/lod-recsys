@@ -5,27 +5,27 @@ import org.semanticweb.yars.nx.Node;
 import java.util.Iterator;
 
 public class IteratorObjectPair<E> implements Iterator<Node[]> {
-	E e;
-	Iterator<Node[]> in;
-	
-	public IteratorObjectPair(Iterator<Node[]> in, E e){
-		this.in = in;
-		this.e = e;
-	}
+    E e;
+    Iterator<Node[]> in;
 
-	public boolean hasNext() {
-		return in.hasNext();
-	}
+    public IteratorObjectPair(Iterator<Node[]> in, E e) {
+        this.in = in;
+        this.e = e;
+    }
 
-	public Node[] next() {
-		return in.next();
-	}
+    public boolean hasNext() {
+        return in.hasNext();
+    }
 
-	public void remove() {
-		in.remove();
-	}
-	
-	public E getObject(){
-		return e;
-	}
+    public Node[] next() {
+        return in.next();
+    }
+
+    public void remove() {
+        in.remove();
+    }
+
+    public E getObject() {
+        return e;
+    }
 }

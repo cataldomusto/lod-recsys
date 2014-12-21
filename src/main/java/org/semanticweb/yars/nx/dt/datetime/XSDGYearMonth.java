@@ -9,34 +9,34 @@ import java.util.GregorianCalendar;
 
 /**
  * xsd:gYearMonth
- * @author aidhog
  *
+ * @author aidhog
  */
-public class XSDGYearMonth extends Datatype<GregorianCalendar>{
-	public static final Resource DT = XSD.GYEARMONTH;
-	private GregorianCalendar _cal;
-	
-	public XSDGYearMonth(String s) throws DatatypeParseException{
-		if(s==null || s.isEmpty())
-			throw new DatatypeParseException("Null value passed.",0);
-		
-		try{
-			_cal = ISO8601Parser.parseISO8601YearMonth(s);
-		} catch(DatatypeParseException e){
-			throw new DatatypeParseException(e.getMessage(), s, DT, e.getError());
-		}
-	}
-	
-	public GregorianCalendar getValue(){
-		return _cal;
-	}
+public class XSDGYearMonth extends Datatype<GregorianCalendar> {
+    public static final Resource DT = XSD.GYEARMONTH;
+    private GregorianCalendar _cal;
 
-	public String getCanonicalRepresentation() {
-		return ISO8601Parser.getCanonicalRepresentation(getValue(), true, true, false, false, true);
-	}
-	
-	public static void main(String args[]) throws DatatypeParseException{
-		XSDGYearMonth dt = new XSDGYearMonth("-1234-05");
-		System.err.println(dt.getCanonicalRepresentation());
-	}
+    public XSDGYearMonth(String s) throws DatatypeParseException {
+        if (s == null || s.isEmpty())
+            throw new DatatypeParseException("Null value passed.", 0);
+
+        try {
+            _cal = ISO8601Parser.parseISO8601YearMonth(s);
+        } catch (DatatypeParseException e) {
+            throw new DatatypeParseException(e.getMessage(), s, DT, e.getError());
+        }
+    }
+
+    public static void main(String args[]) throws DatatypeParseException {
+        XSDGYearMonth dt = new XSDGYearMonth("-1234-05");
+        System.err.println(dt.getCanonicalRepresentation());
+    }
+
+    public GregorianCalendar getValue() {
+        return _cal;
+    }
+
+    public String getCanonicalRepresentation() {
+        return ISO8601Parser.getCanonicalRepresentation(getValue(), true, true, false, false, true);
+    }
 }

@@ -40,6 +40,42 @@ public class UserItemCosine2 extends RecGraph {
 
     }
 
+    public static void main(String[] args) throws IOException {
+        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
+                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
+                mappedItemFile = "mapping/item.mapping";
+
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+        List<Map<String, String>> metricsForSplit = new ArrayList<>();
+        String completeResFile = resPath + File.separator + "UserItemCosineNorm" + File.separator + "metrics.complete";
+
+        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+            UserItemCosine2 jaccard = new UserItemCosine2(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
+                    propertyIndexDir, mappingList);
+            Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
+
+            String resFile = resPath + File.separator + "UserItemCosineNorm" + File.separator + "u" + numSplit + ".result";
+
+            EvaluateRecommendation.serializeRatings(ratings, resFile, -1);
+
+            String trecTestFile = testTrecPath + File.separator + "u" + numSplit + ".test";
+            String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                    + File.separator + "u" + numSplit + ".final";
+            EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+            metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+            currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+
+        }
+
+        EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, 5), completeResFile);
+
+
+    }
+
     private void getMapForMappedItems(List<MovieMapping> movieList) {
         // key: item-id - value: dbpedia uri
         idUriMap = new HashMap<>();
@@ -211,7 +247,6 @@ public class UserItemCosine2 extends RecGraph {
 
     }
 
-
     private void normalizeSimilarityScore(Map<String, Double> currUserSim, Double sumValue) {
         for (String entityID : currUserSim.keySet()) {
             currUserSim.put(entityID, currUserSim.get(entityID) / sumValue);
@@ -250,41 +285,5 @@ public class UserItemCosine2 extends RecGraph {
         }
 
         return allRecommendation;
-    }
-
-    public static void main(String[] args) throws IOException {
-        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
-                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
-                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
-                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
-                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
-                mappedItemFile = "mapping/item.mapping";
-
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        List<Map<String, String>> metricsForSplit = new ArrayList<>();
-        String completeResFile = resPath + File.separator + "UserItemCosineNorm" + File.separator + "metrics.complete";
-
-        for (int numSplit = 1; numSplit <= 5; numSplit++) {
-            UserItemCosine2 jaccard = new UserItemCosine2(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
-                    propertyIndexDir, mappingList);
-            Map<String, Set<Rating>> ratings = jaccard.runPageRank(new RequestStruct(0.85));
-
-            String resFile = resPath + File.separator + "UserItemCosineNorm" + File.separator + "u" + numSplit + ".result";
-
-            EvaluateRecommendation.serializeRatings(ratings, resFile, -1);
-
-            String trecTestFile = testTrecPath + File.separator + "u" + numSplit + ".test";
-            String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                    + File.separator + "u" + numSplit + ".final";
-            EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-            metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-            currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-
-        }
-
-        EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, 5), completeResFile);
-
-
     }
 }

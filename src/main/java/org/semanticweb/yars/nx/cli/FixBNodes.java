@@ -11,69 +11,69 @@ import java.io.*;
 import java.net.URISyntaxException;
 
 public class FixBNodes {
-	public static void main (String[] args) throws URISyntaxException, IOException{
-		Option inputO = new Option("i", "name of file to read, - for stdin");
-		inputO.setArgs(1);
-		
-		Option outputO = new Option("o", "name of file to write, - for stdout");
-		outputO.setArgs(1);
+    public static void main(String[] args) throws URISyntaxException, IOException {
+        Option inputO = new Option("i", "name of file to read, - for stdin");
+        inputO.setArgs(1);
 
-		Option helpO = new Option("h", "print help");
+        Option outputO = new Option("o", "name of file to write, - for stdout");
+        outputO.setArgs(1);
 
-		Options options = new Options();
-		options.addOption(inputO);
-		options.addOption(outputO);
-		options.addOption(helpO);
+        Option helpO = new Option("h", "print help");
 
-		CommandLineParser parser = new BasicParser();
-		CommandLine cmd = null;
+        Options options = new Options();
+        options.addOption(inputO);
+        options.addOption(outputO);
+        options.addOption(helpO);
 
-		try {
-			cmd = parser.parse(options, args);
-		} catch (ParseException e) {
-			System.err.println("***ERROR: " + e.getClass() + ": " + e.getMessage());
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("parameters:", options );
-			return;
-		}
-		
-		if (cmd.hasOption("h")) {
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("parameters:", options );
-			return;
-		}
+        CommandLineParser parser = new BasicParser();
+        CommandLine cmd = null;
 
-		InputStream in = System.in;
-		PrintStream out = System.out;
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.err.println("***ERROR: " + e.getClass() + ": " + e.getMessage());
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("parameters:", options);
+            return;
+        }
 
-		if (cmd.hasOption("i")) {
-			if (cmd.getOptionValue("i").equals("-")) {
-				in = System.in;
-			} else {
-				in = new FileInputStream(cmd.getOptionValue("i"));
-			}
-		}
-		
-		if (cmd.hasOption("o")) {
-			if (cmd.getOptionValue("o").equals("-")) {
-				out = System.out;
-			} else {
-				out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")));
-			}
-		}
-		
-		NxParser nxp = new NxParser(in,false);
-		
-		while (nxp.hasNext()) {
-			Node[] nx = nxp.next();
-			for (int i = 0; i < 4 ; i++) {
-				if (nx[i] instanceof Resource) {
-					nx[i] = new Resource(NxParser.escapeForNx(nx[i].toString()));
-				} else if (nx[i] instanceof BNode) {
-					nx[i] = new BNode(nx[i].toString().replace("x","x78").replace("-","x"));
-				}
-			}
-			out.println(Nodes.toN3(nx));
-		}
-	}
+        if (cmd.hasOption("h")) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("parameters:", options);
+            return;
+        }
+
+        InputStream in = System.in;
+        PrintStream out = System.out;
+
+        if (cmd.hasOption("i")) {
+            if (cmd.getOptionValue("i").equals("-")) {
+                in = System.in;
+            } else {
+                in = new FileInputStream(cmd.getOptionValue("i"));
+            }
+        }
+
+        if (cmd.hasOption("o")) {
+            if (cmd.getOptionValue("o").equals("-")) {
+                out = System.out;
+            } else {
+                out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")));
+            }
+        }
+
+        NxParser nxp = new NxParser(in, false);
+
+        while (nxp.hasNext()) {
+            Node[] nx = nxp.next();
+            for (int i = 0; i < 4; i++) {
+                if (nx[i] instanceof Resource) {
+                    nx[i] = new Resource(NxParser.escapeForNx(nx[i].toString()));
+                } else if (nx[i] instanceof BNode) {
+                    nx[i] = new BNode(nx[i].toString().replace("x", "x78").replace("-", "x"));
+                }
+            }
+            out.println(Nodes.toN3(nx));
+        }
+    }
 }

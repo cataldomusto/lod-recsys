@@ -14,24 +14,25 @@ import java.util.Vector;
  * Abstract class inherited by Count and ConnectivityMatrix and their Inverted forms
  */
 public abstract class FlatMatrix {
-    //array of vectors simulate jagged matrix required to hold the data
-    protected Vector[] CMat;
-
     //count of non empty rows
     public int rowCount;
-
-    //iterator for the rows of CMAt
-    private Iterator iter;
-
     //if last link added was unique true
     public boolean uniqueLink;
-
     //total links
     public int linksCount = 0;
+    //array of vectors simulate jagged matrix required to hold the data
+    protected Vector[] CMat;
+    //iterator for the rows of CMAt
+    private Iterator iter;
 
     //get number of rows in matrix, equivalent to number of nodes
     public int getRowCount() {
         return rowCount;
+    }
+
+    //set number of rows
+    public void setRowCount(int _rowCount) {
+        rowCount = _rowCount;
     }
 
     //get length of specified row
@@ -42,11 +43,6 @@ public abstract class FlatMatrix {
         if (row == null)
             return -1;
         return row.size();
-    }
-
-    //set number of rows
-    public void setRowCount(int _rowCount) {
-        rowCount = _rowCount;
     }
 
     //retrieve value from specified index

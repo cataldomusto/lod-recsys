@@ -5,38 +5,38 @@ import org.semanticweb.yars.nx.NodeComparator;
 
 import java.util.Iterator;
 
-public class FilterSubsequentDupesIterator implements Iterator<Node[]>{
-	Iterator<Node[]> in;
-	Node[] current = null;
-	
-	public FilterSubsequentDupesIterator(Iterator<Node[]> in){
-		this.in = in;
-		loadNext();
-	}
+public class FilterSubsequentDupesIterator implements Iterator<Node[]> {
+    Iterator<Node[]> in;
+    Node[] current = null;
 
-	public boolean hasNext() {
-		return current!=null;
-	}
+    public FilterSubsequentDupesIterator(Iterator<Node[]> in) {
+        this.in = in;
+        loadNext();
+    }
 
-	public Node[] next() {
-		Node[] next = current;
-		loadNext();
-		return next;
-	}
+    public boolean hasNext() {
+        return current != null;
+    }
 
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
-	
-	private void loadNext(){
-		Node[] last = current;
-		current = null;
+    public Node[] next() {
+        Node[] next = current;
+        loadNext();
+        return next;
+    }
 
-		while(in.hasNext() && current==null){
-			Node[] next = in.next();
-			if(last==null || !NodeComparator.NC.equals(next,last)){
-				current = next;
-			}
-		} 
-	}
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
+
+    private void loadNext() {
+        Node[] last = current;
+        current = null;
+
+        while (in.hasNext() && current == null) {
+            Node[] next = in.next();
+            if (last == null || !NodeComparator.NC.equals(next, last)) {
+                current = next;
+            }
+        }
+    }
 }

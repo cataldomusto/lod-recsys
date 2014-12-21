@@ -32,6 +32,19 @@ public class PropertiesCalculator {
         }
     }
 
+    private static String getMinDistanceItem(Map<String, Double> distanceArray) {
+        Pair<String, Double> currMin = new Pair<>("", Double.MAX_VALUE);
+
+        for (Map.Entry<String, Double> pair : distanceArray.entrySet()) {
+            if (pair.getValue() < currMin.value) {
+                currMin.value = pair.getValue();
+                currMin.key = pair.getKey();
+            }
+        }
+
+        return currMin.key;
+    }
+
     public SimilarityFunction getSimilarity() {
         return this.similarity;
     }
@@ -80,20 +93,6 @@ public class PropertiesCalculator {
         return mapper.get(getMinDistanceItem(distanceArray));
 
 
-    }
-
-
-    private static String getMinDistanceItem(Map<String, Double> distanceArray) {
-        Pair<String, Double> currMin = new Pair<>("", Double.MAX_VALUE);
-
-        for (Map.Entry<String, Double> pair : distanceArray.entrySet()) {
-            if (pair.getValue() < currMin.value) {
-                currMin.value = pair.getValue();
-                currMin.key = pair.getKey();
-            }
-        }
-
-        return currMin.key;
     }
 
 }

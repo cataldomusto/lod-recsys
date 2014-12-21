@@ -6,37 +6,36 @@ import org.semanticweb.yars.nx.Resource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
+
 /**
- * 
  * @author Tobias Kaefer
- *
  */
 public class Node2uriConvertingIterator implements Iterator<URI> {
-	private Iterator<Node[]> _nodesIt = null;
-	private int _placeInArray;
+    private Iterator<Node[]> _nodesIt = null;
+    private int _placeInArray;
 
-	public Node2uriConvertingIterator(Iterator<Node[]> nodesIt, int placeInArray) {
-		_nodesIt = nodesIt;
-		_placeInArray = placeInArray;
-	}
+    public Node2uriConvertingIterator(Iterator<Node[]> nodesIt, int placeInArray) {
+        _nodesIt = nodesIt;
+        _placeInArray = placeInArray;
+    }
 
-	public boolean hasNext() {
-		return _nodesIt.hasNext();
-	}
+    public boolean hasNext() {
+        return _nodesIt.hasNext();
+    }
 
-	public URI next() {
-		URI u = null;
-		try {
-			u = ((Resource) _nodesIt.next()[_placeInArray]).toURI();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		return u;
-	}
+    public URI next() {
+        URI u = null;
+        try {
+            u = ((Resource) _nodesIt.next()[_placeInArray]).toURI();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
-	public void remove() {
-		_nodesIt.remove();
-	}
+        return u;
+    }
+
+    public void remove() {
+        _nodesIt.remove();
+    }
 
 }

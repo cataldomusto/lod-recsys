@@ -30,7 +30,11 @@ public class RankingConsole {
     public LinksRank LR; //ranking methods
 
     public boolean qe = false;
+    public boolean weights = false;
+    public boolean quads = false;
+    public int _size;
 
+    //public Timer t;
     //defines whether a node is...
     //-1 not rankable
     //0 included in ranking but not returned in results
@@ -38,14 +42,6 @@ public class RankingConsole {
     //2 rankable context
     //3 rankable resource and context
     private int[] type;
-
-    public boolean weights = false;
-
-    public boolean quads = false;
-
-    //public Timer t;
-
-    public int _size;
 
     public RankingConsole(int size, boolean _qe) {
         _size = size;
@@ -65,10 +61,23 @@ public class RankingConsole {
         weightMatrix = new WeightsMatrix(size);
     }
 
+    public static void main(String args[]) {
+        RankingConsole rc = new RankingConsole(5, false);
+        rc.addLink("a", "b");
+        rc.addLink("b", "c");
+        rc.addLink("b", "d");
+        rc.addLink("c", "a");
+        rc.addLink("c", "b");
+        rc.addLink("e", "e");
+        rc.rank();
+        System.out.println(rc.LR.getSummation());
+        rc.LR.print();
+        System.out.println(rc.LR.iterationsDone + " " + rc.LR.l1residual);
+    }
+
     public void rank() {
         LR = new LinksRank(this);
     }
-
 
     //dumps an ordered list of results of the entire graph of the instance
     public TreeSet[] allResults() {
@@ -188,15 +197,9 @@ public class RankingConsole {
         return index;
     }
 
-    public int addNode(String node, int _type) {
-        int index = addNode(node);
-        type[index] = _type;
-        return index;
-    }
-
 	
 	/*
-	//print results in n3 format
+    //print results in n3 format
 	public void printN3Results(PrintWriter pw) throws IOException{
 		System.out.println("Ordering and printing resource results");
 		t.reset();
@@ -276,18 +279,10 @@ public class RankingConsole {
 	}
 	*/
 
-    public static void main(String args[]) {
-        RankingConsole rc = new RankingConsole(5, false);
-        rc.addLink("a", "b");
-        rc.addLink("b", "c");
-        rc.addLink("b", "d");
-        rc.addLink("c", "a");
-        rc.addLink("c", "b");
-        rc.addLink("e", "e");
-        rc.rank();
-        System.out.println(rc.LR.getSummation());
-        rc.LR.print();
-        System.out.println(rc.LR.iterationsDone + " " + rc.LR.l1residual);
+    public int addNode(String node, int _type) {
+        int index = addNode(node);
+        type[index] = _type;
+        return index;
     }
 }
 

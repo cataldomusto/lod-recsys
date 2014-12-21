@@ -7,81 +7,81 @@ import org.semanticweb.yars.nx.parser.NxParser;
 import java.io.*;
 
 public class CreateNtriples {
-	public static void main(String[] args) throws IOException{
-		Option inputO = new Option("i", "name of file to read, - for stdin");
-		inputO.setArgs(1);
-		
-		Option outputO = new Option("o", "name of file to write, - for stdout");
-		outputO.setArgs(1);
+    public static void main(String[] args) throws IOException {
+        Option inputO = new Option("i", "name of file to read, - for stdin");
+        inputO.setArgs(1);
 
-		Option strictO = new Option("s", "strict mode, will end program with parse exception");
+        Option outputO = new Option("o", "name of file to write, - for stdout");
+        outputO.setArgs(1);
 
-		Option helpO = new Option("h", "print help");
+        Option strictO = new Option("s", "strict mode, will end program with parse exception");
 
-		Options options = new Options();
-		options.addOption(inputO);
-		options.addOption(outputO);
-		options.addOption(strictO);
-		options.addOption(helpO);
+        Option helpO = new Option("h", "print help");
 
-		CommandLineParser parser = new BasicParser();
-		CommandLine cmd = null;
+        Options options = new Options();
+        options.addOption(inputO);
+        options.addOption(outputO);
+        options.addOption(strictO);
+        options.addOption(helpO);
 
-		try {
-			cmd = parser.parse(options, args);
-		} catch (ParseException e) {
-			System.err.println("***ERROR: " + e.getClass() + ": " + e.getMessage());
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("parameters:", options );
-			return;
-		}
-		
-		if (cmd.hasOption("h")) {
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("parameters:", options );
-			return;
-		}
+        CommandLineParser parser = new BasicParser();
+        CommandLine cmd = null;
 
-		InputStream in = System.in;
-		PrintStream out = System.out;
-		boolean strict = false;
-		
-		if (cmd.hasOption("i")) {
-			if (cmd.getOptionValue("i").equals("-")) {
-				in = System.in;
-			} else {
-				in = new FileInputStream(cmd.getOptionValue("i"));
-			}
-		}
-		
-		if (cmd.hasOption("o")) {
-			if (cmd.getOptionValue("o").equals("-")) {
-				out = System.out;
-			} else {
-				out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")));
-			}
-		}
-		
-		if (cmd.hasOption("strict")) {
-			strict = true;
-		}
-		
-		NxParser nqp = new NxParser(in,strict);
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.err.println("***ERROR: " + e.getClass() + ": " + e.getMessage());
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("parameters:", options);
+            return;
+        }
 
-		long count = 0;
-		
-		while(nqp.hasNext()){
-			Node[] nx = nqp.next();
-			count++;
+        if (cmd.hasOption("h")) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("parameters:", options);
+            return;
+        }
 
-			for(int i =0; i < 3; i++) {
-				out.print(nx[i].toN3()+" ");
-			}
-			out.println(".");
-		}
+        InputStream in = System.in;
+        PrintStream out = System.out;
+        boolean strict = false;
 
-		in.close();
+        if (cmd.hasOption("i")) {
+            if (cmd.getOptionValue("i").equals("-")) {
+                in = System.in;
+            } else {
+                in = new FileInputStream(cmd.getOptionValue("i"));
+            }
+        }
 
-		System.err.println("Processed  "+count+" statements");
-	}
+        if (cmd.hasOption("o")) {
+            if (cmd.getOptionValue("o").equals("-")) {
+                out = System.out;
+            } else {
+                out = new PrintStream(new FileOutputStream(cmd.getOptionValue("o")));
+            }
+        }
+
+        if (cmd.hasOption("strict")) {
+            strict = true;
+        }
+
+        NxParser nqp = new NxParser(in, strict);
+
+        long count = 0;
+
+        while (nqp.hasNext()) {
+            Node[] nx = nqp.next();
+            count++;
+
+            for (int i = 0; i < 3; i++) {
+                out.print(nx[i].toN3() + " ");
+            }
+            out.println(".");
+        }
+
+        in.close();
+
+        System.err.println("Processed  " + count + " statements");
+    }
 }
