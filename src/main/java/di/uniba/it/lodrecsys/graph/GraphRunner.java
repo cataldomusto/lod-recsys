@@ -49,33 +49,33 @@ public class GraphRunner {
                 LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + i + " level: " + level);
             }
 
-
-            for (int numRec : LoadProperties.LISTRECSIZES) {
-                File f = new File(LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
-                        "top_" + numRec);
-                f.mkdirs();
-                String completeResFile = LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
-                        "top_" + numRec + File.separator + "metrics.complete";
-                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-                    String trecTestFile = LoadProperties.TESTTRECPATH + File.separator + "u" + i + ".test";
-                    String resFile = LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
-                            "top_" + numRec + File.separator + "u" + i + ".results";
-
-                    EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
 //
-                    String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                            + File.separator + "u" + i + ".final";
-                    EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-                }
+//            for (int numRec : LoadProperties.LISTRECSIZES) {
+//                File f = new File(LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
+//                        "top_" + numRec);
+//                f.mkdirs();
+//                String completeResFile = LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
+//                        "top_" + numRec + File.separator + "metrics.complete";
+//                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+//                    String trecTestFile = LoadProperties.TESTTRECPATH + File.separator + "u" + i + ".test";
+//                    String resFile = LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
+//                            "top_" + numRec + File.separator + "u" + i + ".results";
 //
-                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
-                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
-                metricsForSplit.clear(); // evaluate for the next sparsity level
-
-
-            }
+//                    EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
+////
+//                    String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+//                            + File.separator + "u" + i + ".final";
+//                    EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+//                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+//                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+//                }
+////
+//                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
+//                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
+//                metricsForSplit.clear(); // evaluate for the next sparsity level
+//
+//
+//            }
 
             recommendationForSplits.clear();
         }

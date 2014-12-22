@@ -5,13 +5,17 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
+import di.uniba.it.lodrecsys.graph.featureSelection.JUNGSimRank;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
+import edu.uci.ics.jung.graph.util.Pair;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -34,30 +38,30 @@ public class UserItemProperty extends RecGraph {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
-                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
-                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
-                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
-                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
-                mappedItemFile = "mapping/item.mapping";
-
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        long meanTimeElapsed = 0, startTime;
-
-        for (int numSplit = 1; numSplit <= 5; numSplit++) {
-            startTime = System.nanoTime();
-            UserItemProperty graph = new UserItemProperty(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
-                    propertyIndexDir, mappingList);
-            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
-            meanTimeElapsed += (System.nanoTime() - startTime);
-        }
-
-        meanTimeElapsed /= 5;
-        currLogger.info("Total running time: " + meanTimeElapsed);
-
-    }
+//    public static void main(String[] args) throws IOException {
+//        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+//                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+//                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
+//                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+//                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+//                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
+//                mappedItemFile = "mapping/item.mapping";
+//
+//        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+//        long meanTimeElapsed = 0, startTime;
+//
+//        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+//            startTime = System.nanoTime();
+//            UserItemProperty graph = new UserItemProperty(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
+//                    propertyIndexDir, mappingList);
+//            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
+//            meanTimeElapsed += (System.nanoTime() - startTime);
+//        }
+//
+//        meanTimeElapsed /= 5;
+//        currLogger.info("Total running time: " + meanTimeElapsed);
+//
+//    }
 
     private void getMapForMappedItems(List<MovieMapping> movieList) {
         // key: item-id - value: dbpedia uri
@@ -72,6 +76,12 @@ public class UserItemProperty extends RecGraph {
 
     @Override
     public void generateGraph(RequestStruct requestStruct) throws IOException {
+
+        new File("./dot").mkdirs();
+        FileOutputStream fout = new FileOutputStream("./dot/graphComplete.dot");
+        PrintWriter out = new PrintWriter(fout);
+        out.println("graph dbpedia {");
+
         String trainingFileName = (String) requestStruct.params.get(0),
                 testFile = (String) requestStruct.params.get(1);
 
@@ -95,33 +105,79 @@ public class UserItemProperty extends RecGraph {
 
         for (String itemID : allItemsID) {
             String resourceURI = idUriMap.get(itemID);
-            if (resourceURI == null)
+            if (resourceURI == null) {
                 recGraph.addVertex(itemID);
+                out.println("\"" + itemID + "\" [shape=box];");
+            }
             else {
                 recGraph.addVertex(resourceURI);
                 addItemProperties(itemID, propManager, resourceURI);
+                out.println("\"" + itemID + "\" [shape=box];");
             }
         }
 
+        out.println();
 
         for (String userID : trainingPosNeg.keySet()) {
             int edgeCounter = 0;
 
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
                 String resourceURI = idUriMap.get(posItemID);
-                if (resourceURI == null)
+                if (resourceURI == null) {
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
-                else
+                    String s = "\"" + userID + "\" -- \"" + posItemID;
+                    s += "\" [label=\"" + userID+ "-" + edgeCounter + "\"];";
+                    out.println(s);
+
+                }else{
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, resourceURI);
+                    String s = "\"" + userID + "\" -- \"" + resourceURI;
+                    s += "\" [label=\"" + userID+ "-" + edgeCounter + "\"];";
+                    out.println(s);
+                }
                 edgeCounter++;
 
             }
 
         }
 
+        out.println("}");
+        out.close();
+        fout.close();
         currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
 
+        Map<Pair<String>, Float> simRank = JUNGSimRank.computeSimRank(this.recGraph);
+        JUNGSimRank.print(this.recGraph, simRank);
+
+        System.exit(1);
     }
+
+//    public static void printDot() throws IOException {
+//        new File("./dot").mkdirs();
+//        FileOutputStream fout = new FileOutputStream("./dot/graphComplete.dot");
+//        PrintWriter out = new PrintWriter(fout);
+//        out.println("graph dbpedia {");
+//
+//
+//        for (String f : recGraph.getVertices())
+//            out.println("\"" + f + "\" [shape=box];");
+//
+//        out.println();
+//
+//        Collection<String> edges = recGraph.getEdges();
+//        System.out.println(userID + "-" + edgeCounter + "U: " + userID + " " + posItemID);
+//
+//        for (Edge e : edges) {
+//            String s = "\"" + e.getSubject().getIdMovieLens() + "\" -- \"" + e.getObject().getTitle();
+//            s += "\" [label=\"" + e.getProperty().getIdProperty() + "\"];";
+//            out.println(s);
+//        }
+//
+//        out.println("}");
+//        out.close();
+//        fout.close();
+//    }
+
 
     private void addItemProperties(String itemID, PropertiesManager propManager, String resourceURI) {
         List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
@@ -130,9 +186,8 @@ public class UserItemProperty extends RecGraph {
         for (Statement stat : resProperties) {
             String object = stat.getObject().toString();
             recGraph.addEdge(itemID + "-prop" + i++, resourceURI, object);
+            System.out.println(itemID + "-prop" + (i++) + " " + resourceURI + " " + object);
         }
-
-
     }
 
     @Override
@@ -154,6 +209,7 @@ public class UserItemProperty extends RecGraph {
     }
 
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
+
         Set<Rating> allRecommendation = new TreeSet<>();
 
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);
