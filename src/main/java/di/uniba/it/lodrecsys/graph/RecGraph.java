@@ -2,7 +2,6 @@ package di.uniba.it.lodrecsys.graph;
 
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
-import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.util.logging.Logger;
 public abstract class RecGraph {
     protected static Logger currLogger = Logger.getLogger(RecGraph.class.getName());
 
-    protected Graph<String, String> recGraph;
+    protected UndirectedSparseMultigraph<String, Edge> recGraph;
 
     public RecGraph() {
         recGraph = new UndirectedSparseMultigraph<>();

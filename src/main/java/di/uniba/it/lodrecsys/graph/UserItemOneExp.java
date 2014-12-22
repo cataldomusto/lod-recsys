@@ -11,7 +11,9 @@ import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -28,36 +30,37 @@ public class UserItemOneExp extends RecGraph {
         try {
             getMapForMappedItems(mappedItems);
             generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
+            printDot("UserItemOneExp");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public static void main(String[] args) throws IOException {
-        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
-                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
-                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
-                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
-                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
-                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
-                mappedItemFile = "mapping/item.mapping";
-
-        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
-        long meanTimeElapsed = 0, startTime;
-
-        for (int numSplit = 1; numSplit <= 5; numSplit++) {
-            startTime = System.nanoTime();
-            UserItemOneExp graph = new UserItemOneExp(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
-                    propertyIndexDir, mappingList);
-            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
-            meanTimeElapsed += (System.nanoTime() - startTime);
-        }
-
-        meanTimeElapsed /= 5;
-        currLogger.info("Total running time: " + meanTimeElapsed);
-
-    }
+//    public static void main(String[] args) throws IOException {
+//        String trainPath = "/home/asuglia/thesis/dataset/ml-100k/definitive",
+//                testPath = "/home/asuglia/thesis/dataset/ml-100k/binarized",
+//                testTrecPath = "/home/asuglia/thesis/dataset/ml-100k/trec",
+//                resPath = "/home/asuglia/thesis/dataset/ml-100k/results",
+//                propertyIndexDir = "/home/asuglia/thesis/content_lodrecsys/movielens/stored_prop",
+//                tagmeDir = "/home/asuglia/thesis/content_lodrecsys/movielens/tagme",
+//                mappedItemFile = "mapping/item.mapping";
+//
+//        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(mappedItemFile);
+//        long meanTimeElapsed = 0, startTime;
+//
+//        for (int numSplit = 1; numSplit <= 5; numSplit++) {
+//            startTime = System.nanoTime();
+//            UserItemOneExp graph = new UserItemOneExp(testPath + File.separator + "u" + numSplit + ".base", testPath + File.separator + "u" + numSplit + ".test",
+//                    propertyIndexDir, mappingList);
+//            Map<String, Set<Rating>> ratings = graph.runPageRank(new RequestStruct(0.85));
+//            meanTimeElapsed += (System.nanoTime() - startTime);
+//        }
+//
+//        meanTimeElapsed /= 5;
+//        currLogger.info("Total running time: " + meanTimeElapsed);
+//
+//    }
 
     private void getMapForMappedItems(List<MovieMapping> movieList) {
         // key: item-id - value: dbpedia uri
@@ -72,6 +75,7 @@ public class UserItemOneExp extends RecGraph {
 
     @Override
     public void generateGraph(RequestStruct requestStruct) throws IOException {
+
         String trainingFileName = (String) requestStruct.params.get(0),
                 testFile = (String) requestStruct.params.get(1);
 
@@ -109,10 +113,14 @@ public class UserItemOneExp extends RecGraph {
 
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
                 String resourceURI = idUriMap.get(posItemID);
-                if (resourceURI == null)
-                    recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
-                else
-                    recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, resourceURI);
+                if (resourceURI == null) {
+
+                    Edge e = new Edge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
+                    recGraph.addEdge(e, e.getSubject(), e.getObject());
+                } else {
+                    Edge e = new Edge(userID + "-" + edgeCounter, "U:" + userID, resourceURI);
+                    recGraph.addEdge(e, e.getSubject(), e.getObject());
+                }
                 edgeCounter++;
 
             }
@@ -123,7 +131,30 @@ public class UserItemOneExp extends RecGraph {
 
     }
 
+    private void printDot(String name) throws IOException {
+        new File("./dot").mkdirs();
+        FileOutputStream fout = new FileOutputStream("./dot/graph" + name + ".dot");
+        PrintWriter out = new PrintWriter(fout);
+        out.println("graph " + name + " {");
+
+        for (String s : recGraph.getVertices()) {
+            out.println("\"" + s + "\" [shape=box];");
+        }
+        out.println();
+
+        for (Edge edge : recGraph.getEdges()) {
+            String ed = "\""+ edge.getSubject() + "\" -- \"" + edge.getObject();
+            ed += "\" [label=\""+ edge.getProperty()+ "\"];";
+            out.println(ed);
+        }
+
+        out.println("}");
+        out.close();
+        fout.close();
+    }
+
     private void addItemProperties(String itemID, PropertiesManager propManager, String resourceURI) {
+
         List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
         long i = 1;
 
@@ -132,15 +163,24 @@ public class UserItemOneExp extends RecGraph {
             List<Statement> objExpansionProp = propManager.getResourceProperties(object);
             int j = 0;
             for (Statement statExp : objExpansionProp) {
-                recGraph.addEdge(object + "-prop_one-" + j++, object, statExp.getObject().toString());
+                Edge e = new Edge(namePredicate(statExp) + "-prop_one-" + (j++),object,statExp.getObject().toString());
+                recGraph.addEdge(e,e.getSubject(),e.getObject());
             }
 
-            recGraph.addEdge(itemID + "-prop-" + i++, resourceURI, object);
+            Edge e = new Edge(namePredicate(stat), resourceURI, object);
+            recGraph.addEdge(e, e.getSubject(), e.getObject());
         }
-
 
     }
 
+    private String namePredicate(Statement stat){
+        return stat.getPredicate().toString().replace("http://dbpedia.org/resource/", "")
+                .replace("http://dbpedia.org/ontology/", "")
+                .replace("http://purl.org/dc/terms/", "")
+                .replace("http://dbpedia.org/property/", "")
+                .replace("http://dbpedia.org/resource/", "")
+                .replace(".", "_").replace(":", "_").replace(",", "_").replace("-", "_");
+    }
     @Override
     public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
         Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
@@ -150,7 +190,7 @@ public class UserItemOneExp extends RecGraph {
         // compute recommendation for all users
 
         for (String userID : testSet.keySet()) {
-            currLogger.info("Page rank for user: " + userID);
+//            currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);
             usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
@@ -163,7 +203,7 @@ public class UserItemOneExp extends RecGraph {
         Set<Rating> allRecommendation = new TreeSet<>();
 
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);
-        PageRankWithPriors<String, String> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
+        PageRankWithPriors<String, Edge> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
 
         priors.setMaxIterations(25);
         priors.evaluate();

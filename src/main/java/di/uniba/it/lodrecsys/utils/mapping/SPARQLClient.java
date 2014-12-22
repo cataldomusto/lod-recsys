@@ -193,7 +193,7 @@ public class SPARQLClient {
                         fixedURI + " " + proprVariable + " " + valueVariable +
                         " values " + proprVariable + "{" + formatPropertiesList(specificProp, true) + "} \n" +
                         "}";
-        currLogger.info(queryProp);
+//        currLogger.info(queryProp);
         Query query = QueryFactory.create(queryProp);
 
         QueryExecution qexec = null;
@@ -202,7 +202,7 @@ public class SPARQLClient {
 
             ResultSet resultSet = qexec.execSelect();
 
-            currLogger.info("Executed query!");
+//            currLogger.info("Executed query!");
 
             QuerySolution currSolution;
 
@@ -210,7 +210,6 @@ public class SPARQLClient {
             while (resultSet.hasNext()) {
                 currSolution = resultSet.nextSolution();
                 propManager.addSolution(currSolution, resourceURI);
-
 
             }
 
@@ -229,7 +228,7 @@ public class SPARQLClient {
 
     public Set<String> getURIProperties(String uri) {
         Set<String> propertiesURI = new TreeSet<>();
-        String fixedURI = "<" + uri + ">", queryProp = "select ?prop where {\n" +
+        String fixedURI = "<" + uri + ">", queryProp = "select distinct ?prop where {\n" +
                 fixedURI + " ?prop ?value\n" +
                 "}", proprVariable = "?prop";
 

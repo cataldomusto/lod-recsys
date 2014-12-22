@@ -3,6 +3,7 @@ package di.uniba.it.lodrecsys.utils.mapping;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.IOException;
@@ -14,8 +15,8 @@ import java.util.*;
  */
 public class MappingStats {
     public static void main(String[] args) throws IOException {
-        String ratingFile = "/home/asuglia/thesis/dataset/ml-100k/binarized/u%s.base",
-                mappingFile = "mapping/item.mapping";
+        String ratingFile = LoadProperties.RATINGFILE;
+        String mappingFile = LoadProperties.DBPEDIAMAPPING;
         int totalNumberOfUser = 943;
 
         List<MovieMapping> allItems = Utils.loadDBpediaMappingItems(mappingFile);

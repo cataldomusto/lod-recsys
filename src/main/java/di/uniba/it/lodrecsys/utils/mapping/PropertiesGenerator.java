@@ -28,16 +28,14 @@ public class PropertiesGenerator {
         Collection<String> expPropList = loadPropertiesURI(LoadProperties.CHOOSENPROP);
         Collection<String> missed = loadPropertiesURI(LoadProperties.MISSEDPROP);
 
-
         int i = 0;
 
         for (String mappedItem : missed) {
             try {
                 manager.start(true);
                 sparql.saveResourceProperties(URLDecoder.decode(mappedItem, "UTF-8"), expPropList, manager);
-
+                System.out.println("Film " + i + " finished");
                 i++;
-
                 manager.commitChanges();
             } finally {
 
@@ -102,11 +100,8 @@ public class PropertiesGenerator {
 
                 manager.commitChanges();
             } finally {
-
                 manager.closeManager();
             }
-
-
         }
     }
 
@@ -114,16 +109,13 @@ public class PropertiesGenerator {
     private static Collection<String> loadPropertiesURI(String fileName) {
         BufferedReader reader = null;
         Collection<String> listProp = new ArrayList<>();
-
         try {
             reader = new BufferedReader(new FileReader(fileName));
 
 
             while (reader.ready()) {
                 listProp.add(reader.readLine());
-
             }
-
 
         } catch (IOException e) {
             e.printStackTrace();

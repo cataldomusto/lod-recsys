@@ -6,7 +6,6 @@ import di.uniba.it.lodrecsys.entity.RequestStruct;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Factory class which generates instances for specific graph
@@ -19,72 +18,81 @@ public class GraphFactory {
         RequestStruct requestStruct = null;
 
         switch (specificModel) {
-            case "UserItemGraph":
-                graph = new UserItemGraph((String) params[0], (String) params[1]);
-                requestStruct = RequestStructFactory.create(specificModel);
-                break;
-            case "UserItemPriorGraph":
-                graph = new UserItemPriorGraph((String) params[0], (String) params[1]);
-                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
-                break;
+//            case "UserItemGraph":
+//                graph = new UserItemGraph((String) params[0], (String) params[1]);
+//                requestStruct = RequestStructFactory.create(specificModel);
+//                break;
+//            case "UserItemPriorGraph":
+//                graph = new UserItemPriorGraph((String) params[0], (String) params[1]);
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
+//
+//            case "UserItemProperty":
+//                graph = new UserItemProperty((String) params[0],
+//                        (String) params[1],
+//                        (String) params[3],
+//                        (List<MovieMapping>) params[4]);
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
+//
+//            case "UserItemPropTag":
+//                graph = new UserItemPropTag((String) params[0],
+//                        (String) params[1],
+//                        (String) params[3],
+//                        (List<MovieMapping>) params[4],
+//                        (Map<String, List<String>>) params[5]);
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
+//            case "UserItemTag":
+//                graph = new UserItemTag((String) params[0],
+//                        (String) params[1],
+//                        (List<MovieMapping>) params[4],
+//                        (Map<String, List<String>>) params[5]);
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
 
-            case "UserItemProperty":
-                graph = new UserItemProperty((String) params[0],
-                        (String) params[1],
-                        (String) params[3],
-                        (List<MovieMapping>) params[4]);
-                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
-                break;
-
-            case "UserItemPropTag":
-                graph = new UserItemPropTag((String) params[0],
-                        (String) params[1],
-                        (String) params[3],
-                        (List<MovieMapping>) params[4],
-                        (Map<String, List<String>>) params[5]);
-                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
-                break;
-            case "UserItemTag":
-                graph = new UserItemTag((String) params[0],
-                        (String) params[1],
-                        (List<MovieMapping>) params[4],
-                        (Map<String, List<String>>) params[5]);
-                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
-                break;
-
-            case "UserItemOneExp":
-                graph = new UserItemOneExp((String) params[0],
+            case "UserItemExpDBPedia":
+                graph = new UserItemExpDBPedia((String) params[0],
                         (String) params[1],
                         (String) params[3],
                         (List<MovieMapping>) params[4]
                 );
                 requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
                 break;
-            case "UserItemComplete":
-                graph = new UserItemComplete((String) params[0],
-                        (String) params[1],
-                        (String) params[3],
-                        (List<MovieMapping>) params[4],
-                        (Map<String, List<String>>) params[5]
-                );
-                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
-                break;
 
-            case "UserItemJaccardScore":
-                graph = new UserItemJaccardScore((String) params[0],
-                        (String) params[1],
-                        (String) params[3],
-                        (List<MovieMapping>) params[4]);
-                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
-                break;
-
-            case "UserItemJaccard":
-                graph = new UserItemJaccard((String) params[0],
-                        (String) params[1],
-                        (String) params[3],
-                        (List<MovieMapping>) params[4]);
-                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
-                break;
+//            case "UserItemOneExp":
+//                graph = new UserItemOneExp((String) params[0],
+//                        (String) params[1],
+//                        (String) params[3],
+//                        (List<MovieMapping>) params[4]
+//                );
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
+//            case "UserItemComplete":
+//                graph = new UserItemComplete((String) params[0],
+//                        (String) params[1],
+//                        (String) params[3],
+//                        (List<MovieMapping>) params[4],
+//                        (Map<String, List<String>>) params[5]
+//                );
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
+//
+//            case "UserItemJaccardScore":
+//                graph = new UserItemJaccardScore((String) params[0],
+//                        (String) params[1],
+//                        (String) params[3],
+//                        (List<MovieMapping>) params[4]);
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
+//
+//            case "UserItemJaccard":
+//                graph = new UserItemJaccard((String) params[0],
+//                        (String) params[1],
+//                        (String) params[3],
+//                        (List<MovieMapping>) params[4]);
+//                requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+//                break;
         }
 
         return new Pair<>(graph, requestStruct);

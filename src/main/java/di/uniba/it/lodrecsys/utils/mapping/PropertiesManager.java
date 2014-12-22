@@ -54,11 +54,9 @@ public class PropertiesManager {
     public void addSolution(QuerySolution currSolution, String subjectURI) {
         if (isWriteMode) {
             Resource currResource = datasetModel.createResource(subjectURI);
-
             Property prop = datasetModel.createProperty(currSolution.getResource("?prop").toString());
             Statement stat = datasetModel.createStatement(currResource, prop, currSolution.get("?value").toString());
             datasetModel.add(stat);
-
         }
     }
 
@@ -87,7 +85,6 @@ public class PropertiesManager {
      */
     public List<Statement> getResourceProperties(String resourceURI) {
         List<Statement> listStat = null;
-
         try {
             resourceURI = URLDecoder.decode(resourceURI, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -95,13 +92,11 @@ public class PropertiesManager {
         }
 
         listStat = new ArrayList<>();
-
         StmtIterator statIterator = datasetModel.getResource(resourceURI).listProperties();
 
         while (statIterator.hasNext()) {
             listStat.add(statIterator.nextStatement());
         }
-
 
         return listStat;
     }

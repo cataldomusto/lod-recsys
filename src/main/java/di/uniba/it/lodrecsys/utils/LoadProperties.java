@@ -24,6 +24,7 @@ public class LoadProperties {
     public static String ITEMFILE;
     public static String DBPEDIAITEMSFILE;
     public static String DBPEDIAMAPPING;
+    public static String RATINGFILE;
 
     static {
         Properties prop = new Properties();
@@ -43,14 +44,15 @@ public class LoadProperties {
 
             DBPEDIAITEMSFILE = prop.getProperty("dbpediaItemsFile");
             DBPEDIAMAPPING = prop.getProperty("dbpediaMapping");
+            RATINGFILE = prop.getProperty("ratingFile");
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        LISTRECSIZES = new int[]{5, 10, 15, 20};
-        NUMSPLIT = 5;
+        LISTRECSIZES = new int[]{5};
+        NUMSPLIT = 1;
         MASSPROB = 0.8;
     }
 }

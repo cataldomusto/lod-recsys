@@ -1,0 +1,17 @@
+http://dbpedia.org/ontology/abstract
+http://dbpedia.org/ontology/distributor
+http://dbpedia.org/ontology/musicComposer
+http://dbpedia.org/ontology/wikiPageExternalLink
+http://dbpedia.org/ontology/writer
+http://dbpedia.org/property/budget
+http://dbpedia.org/property/cinematography
+http://dbpedia.org/property/country
+http://dbpedia.org/property/director
+http://dbpedia.org/property/distributor
+http://dbpedia.org/property/gross
+http://dbpedia.org/property/language
+http://dbpedia.org/property/music
+http://dbpedia.org/property/producer
+http://dbpedia.org/property/starring
+http://purl.org/dc/terms/subject
+http://xmlns.com/foaf/0.1/isPrimaryTopicOf
