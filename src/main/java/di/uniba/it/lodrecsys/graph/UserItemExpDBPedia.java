@@ -108,8 +108,8 @@ public class UserItemExpDBPedia extends RecGraph {
     }
 
     private void printDot(String name) throws IOException {
-        new File("./dataset/ml-100k/dot").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./dataset/ml-100k/dot/graph" + name + ".dot");
+        new File("./datasets/ml-100k/dot").mkdirs();
+        FileOutputStream fout = new FileOutputStream("./datasets/ml-100k/dot/graph" + name + ".dot");
         PrintWriter out = new PrintWriter(fout);
         out.println("graph " + name + " {");
 
