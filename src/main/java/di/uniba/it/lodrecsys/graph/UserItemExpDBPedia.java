@@ -2,18 +2,22 @@ package di.uniba.it.lodrecsys.graph;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.hp.hpl.jena.rdf.model.Statement;
+import com.sun.xml.bind.v2.TODO;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
+import edu.uci.ics.jung.algorithms.scoring.PageRank;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
+import javafx.beans.binding.DoubleExpression;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -29,7 +33,8 @@ public class UserItemExpDBPedia extends RecGraph {
     public UserItemExpDBPedia(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) {
         try {
             getMapForMappedItems(mappedItems);
-            generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
+            generateGraphOnlyDBpedia(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
+//            generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
             printDot(this.getClass().getSimpleName());
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,10 +53,8 @@ public class UserItemExpDBPedia extends RecGraph {
         }
     }
 
-    @Override
-    public void generateGraph(RequestStruct requestStruct) throws IOException {
+    public void generateGraphOnlyDBpedia(RequestStruct requestStruct) throws IOException {
 
-        String films="";
         String trainingFileName = (String) requestStruct.params.get(0),
                 testFile = (String) requestStruct.params.get(1);
 
@@ -75,12 +78,47 @@ public class UserItemExpDBPedia extends RecGraph {
 
         for (String itemID : allItemsID) {
             String resourceURI = idUriMap.get(itemID);
-            if (resourceURI == null)
+            if (resourceURI != null) {
+                addItemPropertiesDBPedia(itemID, propManager, resourceURI);
+            }
+        }
+        currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
+    }
+
+
+    @Override
+    public void generateGraph(RequestStruct requestStruct) throws IOException {
+
+        String films = "";
+        String trainingFileName = (String) requestStruct.params.get(0),
+                testFile = (String) requestStruct.params.get(1);
+
+        PropertiesManager propManager = new PropertiesManager((String) requestStruct.params.get(2));
+        List<MovieMapping> mappedItemsList = (List<MovieMapping>) requestStruct.params.get(3);
+        getMapForMappedItems(mappedItemsList);
+
+
+        trainingPosNeg = Utils.loadPosNegRatingForEachUser(trainingFileName);
+        testSet = Utils.loadRatedItems(new File(testFile), false);
+        Set<String> allItemsID = new TreeSet<>();
+
+        for (Set<String> items : testSet.values()) {
+            allItemsID.addAll(items);
+        }
+
+        for (String userID : trainingPosNeg.keySet()) {
+            allItemsID.addAll(trainingPosNeg.get(userID).get(0));
+
+        }
+
+        for (String itemID : allItemsID) {
+            String resourceURI = idUriMap.get(itemID);
+            if (resourceURI == null) {
                 recGraph.addVertex(itemID);
-            else {
+            } else {
                 recGraph.addVertex(resourceURI);
                 addItemProperties(itemID, propManager, resourceURI);
-                films+=resourceURI+"\n";
+                films += resourceURI + "\n";
             }
         }
 
@@ -91,7 +129,6 @@ public class UserItemExpDBPedia extends RecGraph {
             for (String posItemID : trainingPosNeg.get(userID).get(0)) {
                 String resourceURI = idUriMap.get(posItemID);
                 if (resourceURI == null) {
-
                     Edge edge = new Edge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
                     recGraph.addEdge(edge, edge.getSubject(), edge.getObject());
                 } else {
@@ -119,8 +156,8 @@ public class UserItemExpDBPedia extends RecGraph {
         out.println();
 
         for (Edge edge : recGraph.getEdges()) {
-            String ed = "\""+ edge.getSubject() + "\" -- \"" + edge.getObject();
-            ed += "\" [label=\""+ edge.getProperty()+ "\"];";
+            String ed = "\"" + edge.getSubject() + "\" -- \"" + edge.getObject();
+            ed += "\" [label=\"" + edge.getProperty() + "\"];";
             out.println(ed);
         }
 
@@ -139,7 +176,19 @@ public class UserItemExpDBPedia extends RecGraph {
 
     }
 
-    private String namePredicate(Statement stat){
+    private void addItemPropertiesDBPedia(String itemID, PropertiesManager propManager, String resourceURI) {
+        List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
+        for (Statement stat : resProperties) {
+            String object = stat.getObject().toString();
+            Edge e = new Edge(namePredicate(stat), resourceURI, object);
+            recGraph.addVertex(e.getObject());
+            recGraph.addVertex(e.getSubject());
+            recGraph.addEdge(e, e.getSubject(), e.getObject());
+        }
+
+    }
+
+    private String namePredicate(Statement stat) {
         return stat.getPredicate().toString().replace("http://dbpedia.org/resource/", "")
                 .replace("http://dbpedia.org/ontology/", "")
                 .replace("http://purl.org/dc/terms/", "")
@@ -147,22 +196,92 @@ public class UserItemExpDBPedia extends RecGraph {
                 .replace("http://dbpedia.org/resource/", "")
                 .replace(".", "_").replace(":", "_").replace(",", "_").replace("-", "_");
     }
-    @Override
-    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
-        Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
 
-        double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
 
-        // compute recommendation for all users
+    public Map<String, Set<Rating>> runPageRankDBPEdia(RequestStruct requestParam) throws IOException {
 
-        for (String userID : testSet.keySet()) {
-            currLogger.info("Page rank for user: " + userID);
-            List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
-            Set<String> testItems = testSet.get(userID);
-            usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
+        FileOutputStream fout = new FileOutputStream("./rank");
+        PrintWriter out = new PrintWriter(fout);
+
+        Map<String, Set<Rating>> DBPEdiaRecommendation = new HashMap<>();
+        //TODO mapping double score - String
+        PageRank<String, Edge> pr = new PageRank<>(recGraph, 0.15);
+        pr.evaluate();
+        Set<String> sortedVerticesSet =
+                new TreeSet<>(recGraph.getVertices());
+
+//        Map<String,Double> stringMap = new TreeMap<>();
+
+        Map<Double, List<String>> stringMap = new TreeMap<>();
+        List<String> vertMap = new ArrayList<String>();
+        for (String v : sortedVerticesSet) {
+            double score = Math.log10(pr.getVertexScore(v));
+//            stringMap.put(v,score);
+            if (stringMap.containsKey(score))
+                stringMap.get(score).add(v);
+            else {
+                vertMap.add(v);
+                stringMap.put(score, vertMap);
+            }
+        }
+        for (Double d : stringMap.keySet()) {
+            out.println(d + "  " + stringMap.get(d));
+
+        }
+        out.close();
+        fout.close();
+
+        System.exit(1);
+
+//
+//            DBPEdiaRecommendation.put(userID, profileDBPedia(testItems, massProb));
+//        }
+
+        return DBPEdiaRecommendation;
+    }
+
+
+    private Set<Rating> profileDBPedia(Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
+        Set<Rating> allRecommendation = new TreeSet<>();
+
+        SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);
+        PageRankWithPriors<String, Edge> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
+
+        priors.setMaxIterations(25);
+        priors.evaluate();
+
+        for (String currItemID : testItems) {
+            String resourceURI = idUriMap.get(currItemID);
+            if (resourceURI == null)
+                allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(currItemID))));
+            else
+                allRecommendation.add(new Rating(currItemID, String.valueOf(priors.getVertexScore(resourceURI))));
         }
 
-        return usersRecommendation;
+        return allRecommendation;
+    }
+
+
+    @Override
+    public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) throws IOException {
+
+        return runPageRankDBPEdia(requestParam);
+
+
+//        Map<String, Set<Rating>> usersRecommendation = new HashMap<>();
+//
+//        double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
+//
+//        // compute recommendation for all users
+//
+//        for (String userID : testSet.keySet()) {
+//            currLogger.info("Page rank for user: " + userID);
+//            List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
+//            Set<String> testItems = testSet.get(userID);
+//            usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
+//        }
+//
+//        return usersRecommendation;
     }
 
     private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
