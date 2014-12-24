@@ -6,14 +6,12 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -34,7 +32,6 @@ public class UserItemExpDBPedia extends RecGraph {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void getMapForMappedItems(List<MovieMapping> movieList) {
@@ -64,6 +61,14 @@ public class UserItemExpDBPedia extends RecGraph {
         testSet = Utils.loadRatedItems(new File(testFile), false);
         Set<String> allItemsID = new TreeSet<>();
 
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(LoadProperties.CHOOSENPROP));
+        String prop;
+        ArrayList<String> propertiesChoosen = new ArrayList<>(40);
+        while ((prop = bufferedReader.readLine()) != null) {
+            propertiesChoosen.add(prop);
+        }
+        bufferedReader.close();
+
         for (Set<String> items : testSet.values()) {
             allItemsID.addAll(items);
         }
@@ -79,7 +84,7 @@ public class UserItemExpDBPedia extends RecGraph {
                 recGraph.addVertex(itemID);
             } else {
                 recGraph.addVertex(resourceURI);
-                addItemProperties(itemID, propManager, resourceURI);
+                addItemProperties(propertiesChoosen, propManager, resourceURI);
                 films += resourceURI + "\n";
             }
         }
@@ -128,23 +133,17 @@ public class UserItemExpDBPedia extends RecGraph {
         fout.close();
     }
 
-    private void addItemProperties(String itemID, PropertiesManager propManager, String resourceURI) {
+    private void addItemProperties(ArrayList<String> properties, PropertiesManager propManager, String resourceURI) throws IOException {
         List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
         for (Statement stat : resProperties) {
             String object = stat.getObject().toString();
-            Edge e = new Edge(namePredicate(stat), resourceURI, object);
-            recGraph.addEdge(e, e.getSubject(), e.getObject());
+            if (properties.contains(stat.getPredicate().toString())) {
+                Edge e = new Edge(stat.getPredicate().toString(), resourceURI, object);
+                recGraph.addEdge(e, e.getSubject(), e.getObject());
+            }
+
         }
 
-    }
-
-    private String namePredicate(Statement stat) {
-        return stat.getPredicate().toString().replace("http://dbpedia.org/resource/", "")
-                .replace("http://dbpedia.org/ontology/", "")
-                .replace("http://purl.org/dc/terms/", "")
-                .replace("http://dbpedia.org/property/", "")
-                .replace("http://dbpedia.org/resource/", "")
-                .replace(".", "_").replace(":", "_").replace(",", "_").replace("-", "_");
     }
 
     @Override
@@ -160,13 +159,13 @@ public class UserItemExpDBPedia extends RecGraph {
             currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);
-            usersRecommendation.put(userID, profileUser(userID, posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
+            usersRecommendation.put(userID, profileUser(posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
         }
 
         return usersRecommendation;
     }
 
-    private Set<Rating> profileUser(String userID, Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
+    private Set<Rating> profileUser(Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
         Set<Rating> allRecommendation = new TreeSet<>();
 
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);

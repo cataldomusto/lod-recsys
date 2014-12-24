@@ -32,9 +32,9 @@ public abstract class FS implements Serializable {
             recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
             ois.close();
             fis.close();
-            System.out.println("[INFO] Graph loaded.");
-            System.out.println("[INFO] Graph Vertices : " + recGraph.getVertices().size());
-            System.out.println("[INFO] Graph Edges : " + recGraph.getEdges().size());
+            System.out.println("[INFO] Graph Complete loaded.");
+            System.out.println("[INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
+            System.out.println("[INFO] Graph Complete Edges : " + recGraph.getEdges().size());
             System.out.println("----------------------------------------------------");
         } catch (FileNotFoundException e) {
             recGraph = new UndirectedSparseMultigraph<>();
@@ -42,9 +42,9 @@ public abstract class FS implements Serializable {
             generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
             printDot(this.getClass().getSimpleName());
             save();
-            System.out.println("[INFO] Graph builded.");
-            System.out.println("[INFO] Graph Vertices : " + recGraph.getVertices().size());
-            System.out.println("[INFO] Graph Edges : " + recGraph.getEdges().size());
+            System.out.println("[INFO] Graph Complete builded.");
+            System.out.println("[INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
+            System.out.println("[INFO] Graph Complete Edges : " + recGraph.getEdges().size());
             System.out.println("----------------------------------------------------");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -118,7 +118,7 @@ public abstract class FS implements Serializable {
 
         for (Edge edge : recGraph.getEdges()) {
             String ed = "\"" + edge.getSubject() + "\" -- \"" + edge.getObject();
-            ed += "\" [label=\"" + edge.getProperty() + "\"];";
+            ed += "\" [label=\"" + namePredicate(edge.getProperty()) + "\"];";
             out.println(ed);
         }
 
@@ -131,15 +131,15 @@ public abstract class FS implements Serializable {
         List<Statement> resProperties = propManager.getResourceProperties(resourceURI);
         for (Statement stat : resProperties) {
             String object = stat.getObject().toString();
-            Edge e = new Edge(namePredicate(stat), resourceURI, object);
+            Edge e = new Edge(stat.getPredicate().toString(), resourceURI, object);
             recGraph.addVertex(e.getObject());
             recGraph.addVertex(e.getSubject());
             recGraph.addEdge(e, e.getSubject(), e.getObject());
         }
     }
 
-    private String namePredicate(Statement stat) {
-        return stat.getPredicate().toString().replace("http://dbpedia.org/resource/", "")
+    private String namePredicate(String prop) {
+        return prop.replace("http://dbpedia.org/resource/", "")
                 .replace("http://dbpedia.org/ontology/", "")
                 .replace("http://purl.org/dc/terms/", "")
                 .replace("http://dbpedia.org/property/", "")

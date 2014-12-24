@@ -8,7 +8,7 @@ import java.util.Properties;
  * Created by di.uniba.it.lodrecsys.graph.featureSelection on 21/12/14.
  */
 public class LoadProperties {
-    public static final String FILTER = "YES";
+    public static String FILTERTYPE;
     public static String TRAINPATH;
     public static String TESTPATH;
     public static String TESTTRECPATH;
@@ -26,6 +26,7 @@ public class LoadProperties {
     public static String DBPEDIAITEMSFILE;
     public static String DBPEDIAMAPPING;
     public static String RATINGFILE;
+    public static String NUMFILTER;
 
     static {
         Properties prop = new Properties();
@@ -46,7 +47,8 @@ public class LoadProperties {
             DBPEDIAITEMSFILE = prop.getProperty("dbpediaItemsFile");
             DBPEDIAMAPPING = prop.getProperty("dbpediaMapping");
             RATINGFILE = prop.getProperty("ratingFile");
-
+            FILTERTYPE = prop.getProperty("filterType");
+            NUMFILTER = prop.getProperty("numFilter");
 
         } catch (IOException e) {
             e.printStackTrace();

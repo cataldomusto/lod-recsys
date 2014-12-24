@@ -1,6 +1,5 @@
 package di.uniba.it.lodrecsys.graph;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.Rating;
@@ -41,11 +40,9 @@ public class GraphRunner {
                         "u" + i + ".base",
                         testFile = LoadProperties.TESTPATH + File.separator + "u" + i + ".test";
 
-                Pair<RecGraph, RequestStruct> recGraphComplete = GraphFactory.createGraph(LoadProperties.FILTER, trainFile,
-                        testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
+                GraphFactory.createGraph(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
-                System.exit(1);
-                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(LoadProperties.FILTER, LoadProperties.METHOD, trainFile,
+                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(LoadProperties.METHOD, trainFile,
                         testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
                 RecGraph userItemGraph = pair.key;
                 RequestStruct requestStruct = pair.value;

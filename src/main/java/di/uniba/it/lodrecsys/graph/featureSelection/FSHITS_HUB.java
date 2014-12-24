@@ -14,9 +14,9 @@ import java.util.*;
 /**
  * Created by simo on 24/12/14.
  */
-public class FSPageRank extends FS {
+public class FSHITS_HUB extends FS {
 
-    public FSPageRank(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
+    public FSHITS_HUB(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
         super(trainingFileName, testFile, proprIndexDir, mappedItems);
     }
 
@@ -25,11 +25,11 @@ public class FSPageRank extends FS {
         PrintWriter out1 = new PrintWriter(fout1);
 
         new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/PageRank");
+        FileOutputStream fout = new FileOutputStream("./mapping/FS/HITS_HUB");
         PrintWriter out = new PrintWriter(fout);
 
-        // Compute PageRank
-        edu.uci.ics.jung.algorithms.scoring.PageRank<String, Edge> pr = new edu.uci.ics.jung.algorithms.scoring.PageRank<>(recGraph, 0.15);
+        // Compute HITS
+        edu.uci.ics.jung.algorithms.scoring.HITS<String, Edge> pr = new edu.uci.ics.jung.algorithms.scoring.HITS<>(recGraph, 0.15);
         pr.evaluate();
 
         Set<VertexPageRank> sortedVerticesSet =
@@ -40,7 +40,7 @@ public class FSPageRank extends FS {
             Collection<Edge> inEd = recGraph.getIncidentEdges(vert);
             for (Edge edge : inEd)
                 if (edge.getObject().equals(vert)) {
-                    VertexPageRank ver = new VertexPageRank(edge.getProperty(), pr.getVertexScore(vert));
+                    VertexPageRank ver = new VertexPageRank(edge.getProperty(), pr.getVertexScore(vert).hub);
                     sortedVerticesSet.add(ver);
                 }
         }
@@ -68,7 +68,7 @@ public class FSPageRank extends FS {
         out1.close();
         fout1.close();
 
-        System.out.println("[INFO] Feature Selection with pagerank Completed.");
+        System.out.println("[INFO] Feature Selection with HITS score: hub Completed.");
     }
 
 }

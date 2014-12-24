@@ -4,7 +4,7 @@ package di.uniba.it.lodrecsys.graph;
  * Created by simo on 23/12/14.
  */
 public class VertexPageRank implements Comparable<VertexPageRank> {
-    private String resourceURI;
+    private String property;
     private double score;
 
     @Override
@@ -14,8 +14,7 @@ public class VertexPageRank implements Comparable<VertexPageRank> {
 
         VertexPageRank that = (VertexPageRank) o;
 
-        if (Double.compare(that.score, score) != 0) return false;
-        if (!resourceURI.equals(that.resourceURI)) return false;
+        if (!getProperty().equals(that.getProperty())) return false;
 
         return true;
     }
@@ -24,18 +23,18 @@ public class VertexPageRank implements Comparable<VertexPageRank> {
     public int hashCode() {
         int result;
         long temp;
-        result = resourceURI.hashCode();
+        result = property.hashCode();
         temp = Double.doubleToLongBits(score);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
-    public String getResourceURI() {
-        return resourceURI;
+    public String getProperty() {
+        return property;
     }
 
-    public void setResourceURI(String resourceURI) {
-        this.resourceURI = resourceURI;
+    public void setProperty(String property) {
+        this.property = property;
     }
 
     public double getScore() {
@@ -46,16 +45,17 @@ public class VertexPageRank implements Comparable<VertexPageRank> {
         this.score = score;
     }
 
-    public VertexPageRank(String resourceURI, double score) {
-        this.resourceURI = resourceURI;
+    public VertexPageRank(String property, double score) {
+        this.property = property;
         this.score = score;
     }
 
     @Override
     public int compareTo(VertexPageRank o) {
-        if (this.getScore() > o.getScore())
+
+        if (Double.compare(this.getScore(), o.getScore()) > 0)
             return -1;
-        if (this.getScore() < o.getScore())
+        if (Double.compare(this.getScore(), o.getScore()) < 0)
             return 1;
         return 0;
     }
