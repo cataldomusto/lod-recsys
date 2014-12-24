@@ -3,6 +3,7 @@ package di.uniba.it.lodrecsys.graph;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
+import di.uniba.it.lodrecsys.graph.featureSelection.FS;
 import di.uniba.it.lodrecsys.graph.featureSelection.FSPageRank;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class GraphFactory {
         RequestStruct requestStruct = null;
 
         if(filter.equals("YES")){
-            FSPageRank graphFS = new FSPageRank((String) params[0],
+            FS graphFS = new FSPageRank((String) params[0],
                     (String) params[1],
                     (String) params[3],
                     (List<MovieMapping>) params[4]
