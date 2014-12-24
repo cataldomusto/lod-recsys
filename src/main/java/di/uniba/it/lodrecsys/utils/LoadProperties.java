@@ -8,6 +8,7 @@ import java.util.Properties;
  * Created by di.uniba.it.lodrecsys.graph.featureSelection on 21/12/14.
  */
 public class LoadProperties {
+    public static final String FILTER = "YES";
     public static String TRAINPATH;
     public static String TESTPATH;
     public static String TESTTRECPATH;

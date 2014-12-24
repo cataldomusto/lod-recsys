@@ -3,6 +3,7 @@ package di.uniba.it.lodrecsys.graph;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
+import di.uniba.it.lodrecsys.graph.featureSelection.FSPageRank;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,9 +14,37 @@ import java.util.List;
  */
 public class GraphFactory {
 
-    public static Pair<RecGraph, RequestStruct> create(String specificModel, Object... params) throws IOException {
+    public static Pair<RecGraph, RequestStruct> createGraph(String filter, Object... params) throws IOException {
         RecGraph graph = null;
         RequestStruct requestStruct = null;
+
+        if(filter.equals("YES")){
+            FSPageRank graphFS = new FSPageRank((String) params[0],
+                    (String) params[1],
+                    (String) params[3],
+                    (List<MovieMapping>) params[4]
+            );
+            requestStruct = new RequestStruct((double) params[2]);
+        }
+
+        return new Pair<>(graph, requestStruct);
+
+
+    }
+
+
+    public static Pair<RecGraph, RequestStruct> create(String filter, String specificModel, Object... params) throws IOException {
+        RecGraph graph = null;
+        RequestStruct requestStruct = null;
+
+        if(filter.equals("YES")){
+            FSPageRank graphFS = new FSPageRank((String) params[0],
+                    (String) params[1],
+                    (String) params[3],
+                    (List<MovieMapping>) params[4]
+            );
+            requestStruct = RequestStructFactory.create(specificModel, (double) params[2]);
+        }
 
         switch (specificModel) {
 //            case "UserItemGraph":

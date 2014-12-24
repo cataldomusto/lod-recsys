@@ -41,7 +41,11 @@ public class GraphRunner {
                         "u" + i + ".base",
                         testFile = LoadProperties.TESTPATH + File.separator + "u" + i + ".test";
 
-                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(LoadProperties.METHOD, trainFile,
+                Pair<RecGraph, RequestStruct> recGraphComplete = GraphFactory.createGraph(LoadProperties.FILTER, trainFile,
+                        testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
+
+                System.exit(1);
+                Pair<RecGraph, RequestStruct> pair = GraphFactory.create(LoadProperties.FILTER, LoadProperties.METHOD, trainFile,
                         testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
                 RecGraph userItemGraph = pair.key;
                 RequestStruct requestStruct = pair.value;
