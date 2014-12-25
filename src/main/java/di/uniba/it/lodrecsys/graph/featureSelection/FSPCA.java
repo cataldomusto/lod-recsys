@@ -30,7 +30,7 @@ public class FSPCA extends FS {
         PrintWriter out = new PrintWriter(fout);
 
         GraphToMatrix.convertARFF(recGraph);
-
+        GraphToMatrix.convertARFFADJ(recGraph);
 
         System.exit(1);
 
