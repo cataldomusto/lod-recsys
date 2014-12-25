@@ -8,5 +8,4 @@ bin/
 *.dot
 target/**
 dataset/**
-serialized/**
 ./idea
