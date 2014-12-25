@@ -84,7 +84,8 @@ public class GraphToMatrix {
                     if (matrixGraph[i][j] != null)
                         vals[j] = data.attribute(j).addStringValue(matrixGraph[i][j]);
                     else
-                        vals[j] = data.attribute(j).addStringValue("null");
+                        //vals[j] = data.attribute(j).addStringValue("null");
+                        vals[j] = Instance.missingValue();
                 }
                 // add
                 data.add(new Instance(1.0, vals));
@@ -94,8 +95,7 @@ public class GraphToMatrix {
             out.close();
             fout.close();
             System.out.println("Arff created");
-        }
-        System.out.println("Arff exist");
+        } else System.out.println("Arff exist");
 
     }
 }
