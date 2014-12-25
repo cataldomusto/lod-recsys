@@ -2,7 +2,7 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.graph.Edge;
-import di.uniba.it.lodrecsys.graph.VertexPageRank;
+import di.uniba.it.lodrecsys.graph.VertexScored;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.File;
@@ -32,7 +32,7 @@ public class FSPageRank extends FS {
         edu.uci.ics.jung.algorithms.scoring.PageRank<String, Edge> pr = new edu.uci.ics.jung.algorithms.scoring.PageRank<>(recGraph, 0.15);
         pr.evaluate();
 
-        Set<VertexPageRank> sortedVerticesSet =
+        Set<VertexScored> sortedVerticesSet =
                 new TreeSet<>();
 
         //Locate Object of triple and put into TreeSet
@@ -40,24 +40,24 @@ public class FSPageRank extends FS {
             Collection<Edge> inEd = recGraph.getIncidentEdges(vert);
             for (Edge edge : inEd)
                 if (edge.getObject().equals(vert)) {
-                    VertexPageRank ver = new VertexPageRank(edge.getProperty(), pr.getVertexScore(vert));
+                    VertexScored ver = new VertexScored(edge.getProperty(), pr.getVertexScore(vert));
                     sortedVerticesSet.add(ver);
                 }
         }
 
         //Insert VertexPageRank (property, score) into Array
-        ArrayList<VertexPageRank> arrayList = new ArrayList<>(15);
-        for (VertexPageRank vertexPageRank : sortedVerticesSet) {
-            if (!arrayList.contains(vertexPageRank))
-                arrayList.add(vertexPageRank);
+        ArrayList<VertexScored> arrayList = new ArrayList<>(15);
+        for (VertexScored vertexScored : sortedVerticesSet) {
+            if (!arrayList.contains(vertexScored))
+                arrayList.add(vertexScored);
         }
 
         //Select first NUMFILTER properties
         int i = 0;
-        for (VertexPageRank vertexPageRank : arrayList) {
-            out.println(vertexPageRank.getScore() + " " + vertexPageRank.getProperty());
+        for (VertexScored vertexScored : arrayList) {
+            out.println(vertexScored.getScore() + " " + vertexScored.getProperty());
             if (i < Integer.parseInt(LoadProperties.NUMFILTER)) {
-                out1.println(vertexPageRank.getProperty());
+                out1.println(vertexScored.getProperty());
                 i++;
             }
         }

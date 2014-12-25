@@ -3,7 +3,7 @@ package di.uniba.it.lodrecsys.graph;
 /**
  * Created by simo on 23/12/14.
  */
-public class VertexPageRank implements Comparable<VertexPageRank> {
+public class VertexScored implements Comparable<VertexScored> {
     private String property;
     private double score;
 
@@ -12,7 +12,7 @@ public class VertexPageRank implements Comparable<VertexPageRank> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        VertexPageRank that = (VertexPageRank) o;
+        VertexScored that = (VertexScored) o;
 
         if (!getProperty().equals(that.getProperty())) return false;
 
@@ -45,13 +45,13 @@ public class VertexPageRank implements Comparable<VertexPageRank> {
         this.score = score;
     }
 
-    public VertexPageRank(String property, double score) {
+    public VertexScored(String property, double score) {
         this.property = property;
         this.score = score;
     }
 
     @Override
-    public int compareTo(VertexPageRank o) {
+    public int compareTo(VertexScored o) {
 
         if (Double.compare(this.getScore(), o.getScore()) > 0)
             return -1;

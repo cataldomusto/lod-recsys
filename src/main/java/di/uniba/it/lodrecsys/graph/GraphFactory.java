@@ -3,10 +3,7 @@ package di.uniba.it.lodrecsys.graph;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
-import di.uniba.it.lodrecsys.graph.featureSelection.FS;
-import di.uniba.it.lodrecsys.graph.featureSelection.FSHITS_AUTHORITY;
-import di.uniba.it.lodrecsys.graph.featureSelection.FSHITS_HUB;
-import di.uniba.it.lodrecsys.graph.featureSelection.FSPageRank;
+import di.uniba.it.lodrecsys.graph.featureSelection.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +33,14 @@ public class GraphFactory {
         }
         if (type.equals("FSHITS_HUB")) {
             FS graphFS = new FSHITS_HUB((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        }
+        if (type.equals("FSPCA")) {
+            FS graphFS = new FSPCA((String) params[0],
                     (String) params[1],
                     (String) params[2],
                     (List<MovieMapping>) params[3]

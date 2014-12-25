@@ -3,6 +3,7 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.graph.VertexScored;
+import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.File;
@@ -14,9 +15,9 @@ import java.util.*;
 /**
  * Created by simo on 24/12/14.
  */
-public class FSHITS_AUTHORITY extends FS {
+public class FSPCA extends FS {
 
-    public FSHITS_AUTHORITY(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
+    public FSPCA(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
         super(trainingFileName, testFile, proprIndexDir, mappedItems);
     }
 
@@ -25,12 +26,13 @@ public class FSHITS_AUTHORITY extends FS {
         PrintWriter out1 = new PrintWriter(fout1);
 
         new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/HITS_AUTHORITY");
+        FileOutputStream fout = new FileOutputStream("./mapping/FS/FSPCA");
         PrintWriter out = new PrintWriter(fout);
 
-        // Compute HITS
-        edu.uci.ics.jung.algorithms.scoring.HITS<String, Edge> pr = new edu.uci.ics.jung.algorithms.scoring.HITS<>(recGraph, 0.15);
-        pr.evaluate();
+        GraphToMatrix.convertARFF(recGraph);
+
+
+        System.exit(1);
 
         Set<VertexScored> sortedVerticesSet =
                 new TreeSet<>();
@@ -40,12 +42,13 @@ public class FSHITS_AUTHORITY extends FS {
             Collection<Edge> inEd = recGraph.getIncidentEdges(vert);
             for (Edge edge : inEd)
                 if (edge.getObject().equals(vert)) {
-                    VertexScored ver = new VertexScored(edge.getProperty(), pr.getVertexScore(vert).authority);
+                    VertexScored ver = new VertexScored(edge.getProperty(), 0.0);
                     sortedVerticesSet.add(ver);
                 }
         }
 
-        //Insert VertexPageRank (property, score) into Array
+        //Insert VertexScored
+        // (property, score) into Array
         ArrayList<VertexScored> arrayList = new ArrayList<>(15);
         for (VertexScored vertexScored : sortedVerticesSet) {
             if (!arrayList.contains(vertexScored))
@@ -68,7 +71,7 @@ public class FSHITS_AUTHORITY extends FS {
         out1.close();
         fout1.close();
 
-        System.out.println("[INFO] Feature Selection with HITS score: authority Completed.");
+        System.out.println("[INFO] Feature Selection with PCA Completed.");
     }
 
 }
