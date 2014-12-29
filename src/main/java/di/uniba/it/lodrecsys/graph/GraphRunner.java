@@ -6,7 +6,6 @@ import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
-import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
@@ -41,11 +40,15 @@ public class GraphRunner {
                         "u" + i + ".base",
                         testFile = LoadProperties.TESTPATH + File.separator + "u" + i + ".test";
 
+//                Excecute all algorithm of feature selection
+//                GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
+
+//                Create Graph to filter
                 GraphFactory.createGraph(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
                 System.exit(1);
 
-
+//               Create Graph with subset of feature
                 Pair<RecGraph, RequestStruct> pair = GraphFactory.create(LoadProperties.METHOD, trainFile,
                         testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
                 RecGraph userItemGraph = pair.key;

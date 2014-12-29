@@ -7,6 +7,11 @@ public class VertexScored implements Comparable<VertexScored> {
     private String property;
     private double score;
 
+    public VertexScored(String property, double score) {
+        this.property = property;
+        this.score = score;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,11 +47,6 @@ public class VertexScored implements Comparable<VertexScored> {
     }
 
     public void setScore(double score) {
-        this.score = score;
-    }
-
-    public VertexScored(String property, double score) {
-        this.property = property;
         this.score = score;
     }
 

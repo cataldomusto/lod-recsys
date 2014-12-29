@@ -68,7 +68,7 @@ public class FSHITS_AUTHORITY extends FS {
         out1.close();
         fout1.close();
 
-        System.out.println("[INFO] Feature Selection with HITS score: authority Completed.");
+        System.out.println(new Date() + " [INFO] Feature Selection with HITS score: authority Completed.");
     }
 
 }

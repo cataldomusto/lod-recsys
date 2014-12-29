@@ -28,6 +28,7 @@ public class LoadProperties {
     public static String RATINGFILE;
     public static String NUMFILTER;
     public static String EVALWEKA;
+    public static String[] LISTEVALWEKA;
 
     static {
         Properties prop = new Properties();
@@ -57,6 +58,7 @@ public class LoadProperties {
         }
 
         LISTRECSIZES = new int[]{5};
+        LISTEVALWEKA = new String[]{"GainRatioAttributeEval", "SVMAttributeEval", "ReliefFAttributeEval", "ChiSquaredAttributeEval", "FilteredAttributeEval", "PCA"};
         NUMSPLIT = 1;
         MASSPROB = 0.8;
     }

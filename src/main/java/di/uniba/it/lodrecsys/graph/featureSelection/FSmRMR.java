@@ -10,6 +10,7 @@ import weka.core.converters.ArffLoader;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class FSmRMR extends FS {
         PrintWriter out1 = new PrintWriter(fout1);
 
         new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/FSmRMR");
+        FileOutputStream fout = new FileOutputStream("./mapping/FS/mRMR");
         PrintWriter out = new PrintWriter(fout);
 
         GraphToMatrix.convertARFFADJ(recGraph);
@@ -74,7 +75,7 @@ public class FSmRMR extends FS {
         out1.close();
         fout1.close();
 
-        System.out.println("[INFO] Feature Selection with mRMR Completed.");
+        System.out.println(new Date() + " [INFO] Feature Selection with mRMR Completed.");
     }
 
 }

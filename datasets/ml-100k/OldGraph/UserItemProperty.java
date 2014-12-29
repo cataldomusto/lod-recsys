@@ -106,8 +106,7 @@ public class UserItemProperty extends RecGraph {
             if (resourceURI == null) {
                 recGraph.addVertex(itemID);
                 out.println("\"" + itemID + "\" [shape=box];");
-            }
-            else {
+            } else {
                 recGraph.addVertex(resourceURI);
                 addItemProperties(itemID, propManager, resourceURI);
                 out.println("\"" + itemID + "\" [shape=box];");
@@ -124,13 +123,13 @@ public class UserItemProperty extends RecGraph {
                 if (resourceURI == null) {
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
                     String s = "\"" + userID + "\" -- \"" + posItemID;
-                    s += "\" [label=\"" + userID+ "-" + edgeCounter + "\"];";
+                    s += "\" [label=\"" + userID + "-" + edgeCounter + "\"];";
                     out.println(s);
 
-                }else{
+                } else {
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, resourceURI);
                     String s = "\"" + userID + "\" -- \"" + resourceURI;
-                    s += "\" [label=\"" + userID+ "-" + edgeCounter + "\"];";
+                    s += "\" [label=\"" + userID + "-" + edgeCounter + "\"];";
                     out.println(s);
                 }
                 edgeCounter++;

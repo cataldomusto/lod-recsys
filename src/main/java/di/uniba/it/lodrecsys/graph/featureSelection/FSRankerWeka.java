@@ -3,13 +3,13 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
-import en_deep.mlprocess.computation.mRMR;
 import weka.attributeSelection.*;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ public class FSRankerWeka extends FS {
         PrintWriter out1 = new PrintWriter(fout1);
 
         new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/FSRanker" + evalName);
+        FileOutputStream fout = new FileOutputStream("./mapping/FS/Ranker" + evalName);
         PrintWriter out = new PrintWriter(fout);
 
         GraphToMatrix.convertARFFADJ(recGraph);
@@ -110,7 +110,7 @@ public class FSRankerWeka extends FS {
         out1.close();
         fout1.close();
 
-        System.out.println("[INFO] Feature Selection with Weka " + evalName + " Completed.");
+        System.out.println(new Date() + " [INFO] Feature Selection with Weka " + evalName + " Completed.");
     }
 
 }

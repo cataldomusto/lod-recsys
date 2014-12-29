@@ -15,6 +15,43 @@ import java.util.List;
  */
 public class GraphFactory {
 
+    public static void createAllFeatureSelection(Object... params) throws IOException {
+        FS graphFS = new FSPageRank((String) params[0],
+                (String) params[1],
+                (String) params[2],
+                (List<MovieMapping>) params[3]
+        );
+        graphFS.run();
+
+        graphFS = new FSHITS_AUTHORITY((String) params[0],
+                (String) params[1],
+                (String) params[2],
+                (List<MovieMapping>) params[3]
+        );
+        graphFS.run();
+        graphFS = new FSHITS_HUB((String) params[0],
+                (String) params[1],
+                (String) params[2],
+                (List<MovieMapping>) params[3]
+        );
+        graphFS.run();
+        graphFS = new FSmRMR((String) params[0],
+                (String) params[1],
+                (String) params[2],
+                (List<MovieMapping>) params[3]
+        );
+        graphFS.run();
+        for (String s : LoadProperties.LISTEVALWEKA) {
+            graphFS = new FSRankerWeka((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3], s
+            );
+            graphFS.run();
+        }
+
+    }
+
     public static void createGraph(String type, Object... params) throws IOException {
         if (type.equals("FSPageRank")) {
             FS graphFS = new FSPageRank((String) params[0],

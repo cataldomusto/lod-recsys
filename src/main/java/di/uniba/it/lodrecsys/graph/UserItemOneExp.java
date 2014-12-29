@@ -143,8 +143,8 @@ public class UserItemOneExp extends RecGraph {
         out.println();
 
         for (Edge edge : recGraph.getEdges()) {
-            String ed = "\""+ edge.getSubject() + "\" -- \"" + edge.getObject();
-            ed += "\" [label=\""+ edge.getProperty()+ "\"];";
+            String ed = "\"" + edge.getSubject() + "\" -- \"" + edge.getObject();
+            ed += "\" [label=\"" + edge.getProperty() + "\"];";
             out.println(ed);
         }
 
@@ -163,8 +163,8 @@ public class UserItemOneExp extends RecGraph {
             List<Statement> objExpansionProp = propManager.getResourceProperties(object);
             int j = 0;
             for (Statement statExp : objExpansionProp) {
-                Edge e = new Edge(namePredicate(statExp) + "-prop_one-" + (j++),object,statExp.getObject().toString());
-                recGraph.addEdge(e,e.getSubject(),e.getObject());
+                Edge e = new Edge(namePredicate(statExp) + "-prop_one-" + (j++), object, statExp.getObject().toString());
+                recGraph.addEdge(e, e.getSubject(), e.getObject());
             }
 
             Edge e = new Edge(namePredicate(stat), resourceURI, object);
@@ -173,7 +173,7 @@ public class UserItemOneExp extends RecGraph {
 
     }
 
-    private String namePredicate(Statement stat){
+    private String namePredicate(Statement stat) {
         return stat.getPredicate().toString().replace("http://dbpedia.org/resource/", "")
                 .replace("http://dbpedia.org/ontology/", "")
                 .replace("http://purl.org/dc/terms/", "")
@@ -181,6 +181,7 @@ public class UserItemOneExp extends RecGraph {
                 .replace("http://dbpedia.org/resource/", "")
                 .replace(".", "_").replace(":", "_").replace(",", "_").replace("-", "_");
     }
+
     @Override
     public Map<String, Set<Rating>> runPageRank(RequestStruct requestParam) {
         Map<String, Set<Rating>> usersRecommendation = new HashMap<>();

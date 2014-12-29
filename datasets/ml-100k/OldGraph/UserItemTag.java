@@ -110,8 +110,7 @@ public class UserItemTag extends RecGraph {
                 String resourceURI = idUriMap.get(posItemID);
                 if (resourceURI == null) {
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, posItemID);
-                }
-                else
+                } else
                     recGraph.addEdge(userID + "-" + edgeCounter, "U:" + userID, resourceURI);
                 edgeCounter++;
 

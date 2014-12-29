@@ -6,7 +6,6 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.graph.RecGraph;
-import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
@@ -33,9 +32,9 @@ public abstract class FS implements Serializable {
             recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
             ois.close();
             fis.close();
-            System.out.println("[INFO] Graph Complete loaded.");
-            System.out.println("[INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
-            System.out.println("[INFO] Graph Complete Edges : " + recGraph.getEdges().size());
+            System.out.println(new Date() + " [INFO] Graph Complete loaded.");
+            System.out.println(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
+            System.out.println(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
             System.out.println("----------------------------------------------------");
 
         } catch (FileNotFoundException e) {
@@ -44,9 +43,9 @@ public abstract class FS implements Serializable {
             generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
             printDot(this.getClass().getSimpleName());
             save();
-            System.out.println("[INFO] Graph Complete builded.");
-            System.out.println("[INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
-            System.out.println("[INFO] Graph Complete Edges : " + recGraph.getEdges().size());
+            System.out.println(new Date() + " [INFO] Graph Complete builded.");
+            System.out.println(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
+            System.out.println(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
             System.out.println("----------------------------------------------------");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
