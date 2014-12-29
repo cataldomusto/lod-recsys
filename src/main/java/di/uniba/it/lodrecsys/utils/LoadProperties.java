@@ -72,6 +72,7 @@ public class LoadProperties {
                 "FilteredAttributeEval",
                 "PCA",
                 "InfoGainAttributeEval"
+//                "CorrelationAttributeEval"
         };
         NUMSPLIT = 1;
         MASSPROB = 0.8;
