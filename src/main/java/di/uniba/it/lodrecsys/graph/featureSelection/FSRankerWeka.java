@@ -69,6 +69,9 @@ public class FSRankerWeka extends FS {
             case "LatentSemanticAnalysis":
                 eval = new LatentSemanticAnalysis();
                 break;
+            case "SymmetricalUncertAttributeEval":
+                eval = new SymmetricalUncertAttributeEval();
+                break;
 //            case "CorrelationAttributeEval":                   // Usage weka-dev 3.7.11
 //                eval = new CorrelationAttributeEval();
 //                break;
