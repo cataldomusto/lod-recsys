@@ -45,7 +45,6 @@
             <version>2.1</version>
         </dependency>
 
-
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
@@ -75,11 +74,13 @@
             <artifactId>jung-api</artifactId>
             <version>2.0.1</version>
         </dependency>
+
         <dependency>
             <groupId>net.sf.jung</groupId>
             <artifactId>jung-algorithms</artifactId>
             <version>2.0.1</version>
         </dependency>
+
         <dependency>
             <groupId>net.sf.jung</groupId>
             <artifactId>jung-graph-impl</artifactId>
@@ -121,24 +122,15 @@
             <artifactId>boilerpipe</artifactId>
             <version>1.1.0</version>
         </dependency>
-
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
             <version>1.9.13</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.yammer.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>2.0.0-RC0</version>
+        </dependency>
     </dependencies>
-
-
-    <distributionManagement>
-        <repository>
-            <id>nxparser-repo</id>
-            <url>svn:https://nxparser.googlecode.com/svn/repository</url>
-        </repository>
-        <snapshotRepository>
-            <id>nxparser-snapshots</id>
-            <url>svn:https://nxparser.googlecode.com/svn/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

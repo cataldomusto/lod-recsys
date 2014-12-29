@@ -104,24 +104,26 @@ public class GraphToMatrix {
             String[][] matrixGraph = convertAdjacent(recGraph);
 
             FastVector atts;
-            FastVector attsRel;
             FastVector attVals;
-            FastVector attValsRel;
             Instances data;
-            Instances dataRel;
             double[] vals;
-            double[] valsRel;
 
             // 1. set up attributes
             atts = new FastVector();
-            // - string
-            atts.addElement(new Attribute("Node", (FastVector) null));
+
+            // - nominal class
+            attVals = new FastVector();
+            for (int i = 1; i < matrixGraph.length; i++)
+                attVals.addElement(matrixGraph[i][0]);
+            atts.addElement(new Attribute("class", attVals));
+
+            // - string attributes
             for (String s : getProperties().keySet()) {
                 atts.addElement(new Attribute(s));
             }
 
             // 2. create Instances object
-            data = new Instances("MyRelation", atts, 0);
+            data = new Instances("LODGraph", atts, 0);
 
             for (int i = 1; i < matrixGraph.length; i++) {
 
@@ -129,7 +131,7 @@ public class GraphToMatrix {
                 // first instance
                 vals = new double[data.numAttributes()];
 
-                vals[0] = data.attribute(0).addStringValue(matrixGraph[i][0]);
+                vals[0] = data.attribute(0).indexOfValue(matrixGraph[i][0]);
                 for (int j = 1; j < data.numAttributes(); j++) {
                     if (matrixGraph[i][j] != null)
                         vals[j] = Double.parseDouble(matrixGraph[i][j]);
@@ -144,62 +146,8 @@ public class GraphToMatrix {
             out.println(data);
             out.close();
             fout.close();
-            System.out.println("Arff created");
-        } else System.out.println("Arff exist");
-
-    }
-
-
-    public static void convertARFF(UndirectedGraph<String, Edge> recGraph) throws IOException {
-
-        if (!new File("./serialized/graph.arff").exists()) {
-            FileOutputStream fout = new FileOutputStream("./serialized/graph.arff");
-            PrintWriter out = new PrintWriter(fout);
-
-            String[][] matrixGraph = convert(recGraph);
-
-            FastVector atts;
-            FastVector attsRel;
-            FastVector attVals;
-            FastVector attValsRel;
-            Instances data;
-            Instances dataRel;
-            double[] vals;
-            double[] valsRel;
-
-            // 1. set up attributes
-            atts = new FastVector();
-            // - string
-            atts.addElement(new Attribute("Node", (FastVector) null));
-            for (String s : getProperties().keySet()) {
-                atts.addElement(new Attribute(s, (FastVector) null));
-            }
-
-            // 2. create Instances object
-            data = new Instances("MyRelation", atts, 0);
-
-            for (int i = 1; i < matrixGraph.length; i++) {
-
-                // 3. fill with data
-                // first instance
-                vals = new double[data.numAttributes()];
-
-                for (int j = 0; j < data.numAttributes(); j++) {
-                    if (matrixGraph[i][j] != null)
-                        vals[j] = data.attribute(j).addStringValue(matrixGraph[i][j]);
-                    else
-                        //vals[j] = data.attribute(j).addStringValue("null");
-                        vals[j] = Instance.missingValue();
-                }
-                // add
-                data.add(new Instance(1.0, vals));
-            }
-            // 4. output data
-            out.println(data);
-            out.close();
-            fout.close();
-            System.out.println("Arff created");
-        } else System.out.println("Arff exist");
+            System.out.println("[INFO] Arff created from graph.");
+        } else System.out.println("[INFO] Arff already created.");
 
     }
 }

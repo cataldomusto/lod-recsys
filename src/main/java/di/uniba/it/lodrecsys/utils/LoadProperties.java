@@ -27,6 +27,7 @@ public class LoadProperties {
     public static String DBPEDIAMAPPING;
     public static String RATINGFILE;
     public static String NUMFILTER;
+    public static String EVALWEKA;
 
     static {
         Properties prop = new Properties();
@@ -49,6 +50,7 @@ public class LoadProperties {
             RATINGFILE = prop.getProperty("ratingFile");
             FILTERTYPE = prop.getProperty("filterType");
             NUMFILTER = prop.getProperty("numFilter");
+            EVALWEKA = prop.getProperty("evalWeka");
 
         } catch (IOException e) {
             e.printStackTrace();

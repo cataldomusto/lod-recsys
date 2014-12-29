@@ -5,12 +5,10 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
-import di.uniba.it.lodrecsys.graph.featureSelection.JUNGSimRank;
 import di.uniba.it.lodrecsys.graph.scorer.SimpleVertexTransformer;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
-import edu.uci.ics.jung.graph.util.Pair;
 
 import java.io.File;
 import java.io.FileOutputStream;

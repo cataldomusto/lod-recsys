@@ -4,6 +4,7 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.featureSelection.*;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class GraphFactory {
 
     public static void createGraph(String type, Object... params) throws IOException {
-        if (type.equals("pagerank")) {
+        if (type.equals("FSPageRank")) {
             FS graphFS = new FSPageRank((String) params[0],
                     (String) params[1],
                     (String) params[2],
@@ -39,11 +40,11 @@ public class GraphFactory {
             );
             graphFS.run();
         }
-        if (type.equals("FSPCA")) {
-            FS graphFS = new FSPCA((String) params[0],
+        if (type.equals("FSRankerWeka")) {
+            FS graphFS = new FSRankerWeka((String) params[0],
                     (String) params[1],
                     (String) params[2],
-                    (List<MovieMapping>) params[3]
+                    (List<MovieMapping>) params[3], LoadProperties.EVALWEKA
             );
             graphFS.run();
         }
