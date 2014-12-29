@@ -13,7 +13,22 @@
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
+    <!--<repositories>-->
+    <!--<repository>-->
+    <!--<id>javaml</id>-->
+    <!--<name>Java Machine Learning</name>-->
+    <!--<url>https://maven.ifi.uzh.ch/maven2/content/groups/public</url>-->
+    <!--<layout>default</layout>-->
+    <!--</repository>-->
+    <!--</repositories>-->
+
     <dependencies>
+        <!--<dependency>-->
+        <!--<groupId>javaml</groupId>-->
+        <!--<artifactId>javaml</artifactId>-->
+        <!--<version>0.1.7</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
