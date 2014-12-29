@@ -3,11 +3,13 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
+import en_deep.mlprocess.computation.mRMR;
 import weka.attributeSelection.*;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +54,11 @@ public class FSRankerWeka extends FS {
             case "ChiSquaredAttributeEval":
                 eval = new ChiSquaredAttributeEval();
                 break;
+            case "FilteredAttributeEval":
+                eval = new FilteredAttributeEval();
+                break;
+            case "PCA":
+                eval = new PrincipalComponents();
         }
         Ranker ranker = new Ranker();
         ranker.setNumToSelect(-1);
@@ -81,12 +88,15 @@ public class FSRankerWeka extends FS {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int[] ranking = new int[indices.length - 1];
-        System.arraycopy(indices, 0, ranking, 0, indices.length - 1);
+        ArrayList<Integer> rank = new ArrayList<>(indices.length - 1);
+        for (int indice : indices) {
+            if (indice != 0)
+                rank.add(indice);
+        }
 
         //Select first NUMFILTER properties
         int i = 0;
-        for (int indice : ranking) {
+        for (int indice : rank) {
             out.println(data.attribute(indice).toString().split(" ")[1]);
             if (i < Integer.parseInt(LoadProperties.NUMFILTER)) {
                 out1.println(data.attribute(indice).toString().split(" ")[1]);
@@ -101,7 +111,6 @@ public class FSRankerWeka extends FS {
         fout1.close();
 
         System.out.println("[INFO] Feature Selection with Weka " + evalName + " Completed.");
-        System.exit(1);
     }
 
 }

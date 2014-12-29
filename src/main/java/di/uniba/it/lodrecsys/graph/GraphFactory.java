@@ -40,6 +40,14 @@ public class GraphFactory {
             );
             graphFS.run();
         }
+        if (type.equals("FSmRMR")) {
+            FS graphFS = new FSmRMR((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        }
         if (type.equals("FSRankerWeka")) {
             FS graphFS = new FSRankerWeka((String) params[0],
                     (String) params[1],

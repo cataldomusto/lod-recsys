@@ -8,4 +8,5 @@ bin/
 *.dot
 target/**
 dataset/**
+mapping/**
 ./idea

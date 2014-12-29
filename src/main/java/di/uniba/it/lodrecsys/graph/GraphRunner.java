@@ -43,6 +43,9 @@ public class GraphRunner {
 
                 GraphFactory.createGraph(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
+                System.exit(1);
+
+
                 Pair<RecGraph, RequestStruct> pair = GraphFactory.create(LoadProperties.METHOD, trainFile,
                         testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
                 RecGraph userItemGraph = pair.key;
