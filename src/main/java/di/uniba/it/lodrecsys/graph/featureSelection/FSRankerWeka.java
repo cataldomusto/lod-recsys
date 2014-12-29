@@ -42,6 +42,9 @@ public class FSRankerWeka extends FS {
         AttributeSelection attributeSelection = new AttributeSelection();
         ASEvaluation eval = null;
         switch (evalName) {
+            case "InfoGainAttributeEval":
+                eval = new InfoGainAttributeEval();
+                break;
             case "GainRatioAttributeEval":
                 eval = new GainRatioAttributeEval();
                 break;
@@ -59,6 +62,13 @@ public class FSRankerWeka extends FS {
                 break;
             case "PCA":
                 eval = new PrincipalComponents();
+                break;
+            case "OneRAttributeEval":
+                eval = new OneRAttributeEval();
+                break;
+            case "LatentSemanticAnalysis":
+                eval = new LatentSemanticAnalysis();
+                break;
         }
         Ranker ranker = new Ranker();
         ranker.setNumToSelect(-1);

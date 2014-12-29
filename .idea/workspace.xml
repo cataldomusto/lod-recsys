@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a85efba9-89f7-4e65-854b-3979a345b79a" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/javaml-0.1.7.zip" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properties/my.properties" afterPath="$PROJECT_DIR$/properties/my.properties" />
     </list>
     <list id="b46f002f-0a37-49d3-8bed-51698f949b70" name="Failed commit: Default" comment="Fix" />
     <ignored path="lodrecsys.iws" />
@@ -75,17 +75,17 @@
         <entry file="file://$PROJECT_DIR$/properties/my.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="456">
-              <caret line="1" column="31" selection-start-line="1" selection-start-column="31" selection-end-line="1" selection-end-column="31" />
+              <caret line="2" column="33" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FSRankerWeka.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FSRankerWeka.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1988" max-vertical-offset="2318">
-              <caret line="110" column="22" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.05757576" vertical-offset="798" max-vertical-offset="2508">
+              <caret line="43" column="39" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -93,11 +93,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.533528" vertical-offset="2507" max-vertical-offset="3097">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2507" max-vertical-offset="3097">
               <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoadProperties.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1152" max-vertical-offset="1577">
+              <caret line="73" column="38" selection-start-line="73" selection-start-column="38" selection-end-line="73" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -180,18 +190,18 @@
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/Utils.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexerReader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphRunner.java" />
-        <option value="$PROJECT_DIR$/properties/my.properties" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSHITS_AUTHORITY.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSHITS_HUB.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSmRMR.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FS.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/GraphToMatrix.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSPageRank.java" />
-        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/properties/my.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java" />
       </list>
     </option>
   </component>
@@ -968,12 +978,12 @@
       <workItem from="1419527838200" duration="3777000" />
       <workItem from="1419588789838" duration="5694000" />
       <workItem from="1419846387765" duration="21170000" />
-      <workItem from="1419871202295" duration="3871000" />
+      <workItem from="1419871202295" duration="4748000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="184277000" />
+    <option name="totallyTimeSpent" value="185154000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1014,7 +1024,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3908046" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21752267" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21752267" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33497536" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1358,14 +1368,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/properties/my.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="456">
-          <caret line="1" column="31" selection-start-line="1" selection-start-column="31" selection-end-line="1" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSHITS_HUB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1159" max-vertical-offset="1349">
@@ -1410,14 +1412,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36666667" vertical-offset="981" max-vertical-offset="1311">
-          <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSHITS_AUTHORITY.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.8060606" vertical-offset="233" max-vertical-offset="1349">
@@ -1446,21 +1440,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1988" max-vertical-offset="2318">
-          <caret line="110" column="22" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="2507" max-vertical-offset="3097">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.533528" vertical-offset="2507" max-vertical-offset="3097">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1152" max-vertical-offset="1577">
+          <caret line="73" column="38" selection-start-line="73" selection-start-column="38" selection-end-line="73" selection-end-column="38" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/properties/my.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="456">
+          <caret line="2" column="33" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.05757576" vertical-offset="798" max-vertical-offset="2508">
+          <caret line="43" column="39" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

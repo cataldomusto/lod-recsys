@@ -57,8 +57,22 @@ public class LoadProperties {
             e.printStackTrace();
         }
 
-        LISTRECSIZES = new int[]{5};
-        LISTEVALWEKA = new String[]{"GainRatioAttributeEval", "SVMAttributeEval", "ReliefFAttributeEval", "ChiSquaredAttributeEval", "FilteredAttributeEval", "PCA"};
+        LISTRECSIZES = new int[]{
+                5,
+                10
+        };
+
+        LISTEVALWEKA = new String[]{
+                "LatentSemanticAnalysis",
+                "OneRAttributeEval",
+                "GainRatioAttributeEval",
+                "SVMAttributeEval",
+                "ReliefFAttributeEval",
+                "ChiSquaredAttributeEval",
+                "FilteredAttributeEval",
+                "PCA",
+                "InfoGainAttributeEval"
+        };
         NUMSPLIT = 1;
         MASSPROB = 0.8;
     }
