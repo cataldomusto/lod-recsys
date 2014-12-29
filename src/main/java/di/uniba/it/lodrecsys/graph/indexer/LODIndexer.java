@@ -52,7 +52,7 @@ public class LODIndexer {
 
         try {
             Directory d = FSDirectory.open(new File("lod_index"));
-            IndexWriterConfig indexConfig = new IndexWriterConfig(Version.LUCENE_47, new WhitespaceAnalyzer(Version.LUCENE_47));
+            IndexWriterConfig indexConfig = new IndexWriterConfig(Version.LUCENE_46, new WhitespaceAnalyzer(Version.LUCENE_46));
             writer = new IndexWriter(d, indexConfig);
 
             for (String userID : usersProfile.keySet()) {

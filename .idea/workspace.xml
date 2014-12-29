@@ -2,227 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a85efba9-89f7-4e65-854b-3979a345b79a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/ml-process.276.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mapping/FS/FSRankerChiSquaredAttributeEval" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mapping/FS/FSRankerGainRatioAttributeEval" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mapping/FS/FSRankerReliefFAttributeEval" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mapping/FS/FSRankerSVMAttributeEval" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mapping/FS/FSPCA" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/serialized/graph.arff" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSPCA.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/JUNGSimRank.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/SimRank.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/WebGraph.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/ConnectivityMatrix.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/FlatMatrix.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/LinksRank.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/NamesHashTable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/NamesVector.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/Pair.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/QuadraticExtrapolation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/RankingConsole.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/RankingConsoleFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/RankingIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/Timer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/WeightsMatrix.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Context.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Graph.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/GraphNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Obj.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Subj.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/BNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/BooleanLiteral.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/DateLiteral.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/DateTimeLiteral.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Literal.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Node.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/NodeComparator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Nodes.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/NumericLiteral.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Quad.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Resource.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Triple.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Unbound.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/Variable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/clean/Cleaner.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/clean/HTMLTextExtractor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/CheckSorted.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Clean.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/CleanXML.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/CreateFiles.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/CreateNtriples.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/CreateQuad.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/CreateRDFXML.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/CreateSQL.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/FixBNodes.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/FixBNodes2.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/GetNSs.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/GetPlds.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/GetTBox.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/GetURIs.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Head.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Main.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/MergeSort.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Parse.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/ParseRDFXML.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Patch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/PickLabels.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Reorder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Sample.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Sort.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/Split.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/factory/DOMConfigFileHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/cli/voiD.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/Datatype.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/DatatypeFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/DatatypeParseException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/UnsupportedDatatypeException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/XMLRegex.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/XSDDatatypeMap.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/binary/XSDBase64Binary.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/binary/XSDHexBinary.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/bool/XSDBoolean.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/ISO8601Parser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDDate.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDDateTime.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDDateTimeStamp.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDGDay.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDGMonth.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDGMonthDay.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDGYear.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDGYearMonth.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/datetime/XSDTime.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDByte.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDDecimal.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDDouble.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDFloat.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDInt.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDInteger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDLong.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDNegativeInteger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDNonNegativeInteger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDNonPositiveInteger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDPositiveInteger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDShort.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDUnsignedByte.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDUnsignedInt.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDUnsignedLong.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/numeric/XSDUnsignedShort.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/string/XSDLanguage.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/string/XSDNCName.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/string/XSDNMToken.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/string/XSDName.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/string/XSDNormalisedString.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/string/XSDString.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/string/XSDToken.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/uri/XSDAnyURI.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/dt/xml/RDFXMLLiteral.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/file/FileInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/file/NxGzInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/file/NxInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/file/RDFXMLGzInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/file/RDFXMLInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/filter/FilterIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/filter/NodeFilter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/hash/HashLibrary.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/mem/LowMemorySniffer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/mem/MemoryManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/DC.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/DCTERMS.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/FOAF.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/GEO.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/HTTP.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/HTTPHEADER.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/MC.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/Namespace.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/OWL.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/RDF.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/RDFS.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/RSS.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/SIOC.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/SKOS.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/VCARD.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/VOID.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/XHTML.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/XSD.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/namespace/YARS2.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/parser/BNodeHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/parser/Callback.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/parser/NqParser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/parser/NxParser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/parser/ParseException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/reorder/ReorderIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/sort/MergeSortIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/sort/SortIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/nx/util/NxUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/Analyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/Count.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/CountNodeTypeAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/CountNodeTypeHashAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/CountStmtAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/DefaultAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/DistributionAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/DistributionArrayAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/InputAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/NodeTransformer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/Statistics.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/VoiD.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/stats/output/ToVoid.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/tld/Tld.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/tld/TldManager.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/tld/URIHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/tld/tld.dat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/AppendIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/Array.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackBlockingQueue.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackContextSet.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackCount.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackNQOutputStream.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackNxAppender.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackNxBufferedWriter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackNxOutputStream.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackRDFXMLOutputStream.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackSet.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CallbackTicks.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/Callbacks.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CheckLengthIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/CheckSortedIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/FilterSubsequentDupesIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/FlyweightNodeIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/IteratorObjectPair.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/LRUMapCache.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/LRUSetCache.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/Node2uriConvertingIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/NodesToNodeArrayIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/PeekingIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/PleaseCloseTheDoorWhenYouLeaveIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/ResetableCollectionIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/ResetableFileIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/ResetableIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/SideCallbackIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/SniffIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/TicksIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/thread/BlockingQueueIterator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/thread/CallbackBlockingQueue.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/thread/ConsumerProducerThread.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/thread/ConsumerThread.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars/util/thread/ProducerThread.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars2/rdfxml/ParserThread.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars2/rdfxml/PrintCallBack.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars2/rdfxml/RDFXMLParser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars2/rdfxml/RDFXMLParserBase.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/semanticweb/yars2/rdfxml/XMLRegex.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphFactory.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/GraphToMatrix.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/GraphToMatrix.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/LoadProperties.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_6_4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_6_4.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mapping/FS/PageRank" afterPath="$PROJECT_DIR$/mapping/FS/PageRank" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/ml-100k/OldGraph/UserItemProperty.java" afterPath="$PROJECT_DIR$/datasets/ml-100k/OldGraph/UserItemProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mapping/choosen_prop" afterPath="$PROJECT_DIR$/mapping/choosen_prop" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serialized/graphAD.arff" afterPath="$PROJECT_DIR$/serialized/graphAD.arff" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexerReader.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexerReader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/Utils.java" afterPath="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/Utils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lodrecsys.iml" afterPath="$PROJECT_DIR$/lodrecsys.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properties/my.properties" afterPath="$PROJECT_DIR$/properties/my.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -323,27 +106,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphToMatrix.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/GraphToMatrix.java">
+      <file leaf-file-name="FS.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1296" max-vertical-offset="1653">
-              <caret line="149" column="63" selection-start-line="149" selection-start-column="63" selection-end-line="149" selection-end-column="63" />
+            <state vertical-scroll-proportion="0.74848485" vertical-offset="114" max-vertical-offset="2090">
+              <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getProperties#0;class#GraphToMatrix#0" expanded="false" />
-                <element signature="method#convert#0;class#GraphToMatrix#0" expanded="false" />
-                <element signature="method#convertAdjacent#0;class#GraphToMatrix#0" expanded="false" />
+                <element signature="method#save#0;class#FS#0" expanded="false" />
+                <element signature="method#getMapForMappedItems#0;class#FS#0" expanded="false" />
+                <element signature="method#printDot#0;class#FS#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.569697" vertical-offset="2368" max-vertical-offset="2698">
-              <caret line="80" column="4" selection-start-line="80" selection-start-column="4" selection-end-line="80" selection-end-column="4" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -386,9 +158,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemGraphHITS.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/semanticweb/jars2/reconrank/runtime/graph/Graph.java" />
-        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/mapping/MovieMappingGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/eval/EvaluateRecommendation.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/SimRankStack.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/UserItemProperty.java" />
@@ -436,6 +205,9 @@
         <option value="$PROJECT_DIR$/properties/my.properties" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/GraphFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/GraphToMatrix.java" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/Utils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexerReader.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
@@ -640,6 +412,40 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="GraphFactory.java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lodrecsys" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="recsysthesis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lodrecsys" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graph" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indexer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1167,12 +973,12 @@
       <workItem from="1419524122617" duration="580000" />
       <workItem from="1419527838200" duration="3777000" />
       <workItem from="1419588789838" duration="5694000" />
-      <workItem from="1419846387765" duration="13685000" />
+      <workItem from="1419846387765" duration="15124000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="172921000" />
+    <option name="totallyTimeSpent" value="174360000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1464,13 +1270,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/ArffTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16909622" vertical-offset="474" max-vertical-offset="2185">
-          <caret line="31" column="47" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mapping/FS/HITS_HUB">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1235">
@@ -1491,18 +1290,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="399" max-vertical-offset="1767">
           <caret line="43" column="35" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.469697" vertical-offset="1760" max-vertical-offset="2090">
-          <caret line="28" column="11" selection-start-line="28" selection-start-column="11" selection-end-line="28" selection-end-column="11" />
-          <folding>
-            <element signature="method#save#0;class#FS#0" expanded="false" />
-            <element signature="method#getMapForMappedItems#0;class#FS#0" expanded="false" />
-            <element signature="method#printDot#0;class#FS#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1548,19 +1335,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/ArffTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="2147">
-          <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.33246753" vertical-offset="1202" max-vertical-offset="2185">
+          <caret line="73" column="32" selection-start-line="73" selection-start-column="32" selection-end-line="73" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30645162" vertical-offset="532" max-vertical-offset="1691">
+          <caret line="54" column="125" selection-start-line="54" selection-start-column="125" selection-end-line="54" selection-end-column="125" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/indexer/LODIndexerReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28494623" vertical-offset="1262" max-vertical-offset="1634">
+          <caret line="87" column="64" selection-start-line="87" selection-start-column="64" selection-end-line="87" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4909091" vertical-offset="857" max-vertical-offset="2812">
+          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/GraphToMatrix.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1296" max-vertical-offset="1653">
+        <state vertical-scroll-proportion="0.5060606" vertical-offset="1296" max-vertical-offset="1653">
           <caret line="149" column="63" selection-start-line="149" selection-start-column="63" selection-end-line="149" selection-end-column="63" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1571,11 +1380,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FSRankerWeka.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.569697" vertical-offset="2368" max-vertical-offset="2698">
-          <caret line="80" column="4" selection-start-line="80" selection-start-column="4" selection-end-line="80" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="2147">
+          <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/utils/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.027272727" vertical-offset="3866" max-vertical-offset="13965">
+          <caret line="221" column="9" selection-start-line="221" selection-start-column="9" selection-end-line="221" selection-end-column="9" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/di/uniba/it/lodrecsys/graph/featureSelection/FS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74848485" vertical-offset="114" max-vertical-offset="2090">
+          <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+          <folding>
+            <element signature="method#save#0;class#FS#0" expanded="false" />
+            <element signature="method#getMapForMappedItems#0;class#FS#0" expanded="false" />
+            <element signature="method#printDot#0;class#FS#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

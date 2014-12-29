@@ -226,7 +226,7 @@ public class Utils {
 
 
     public static Set<String> tokenizeString(String longString) {
-        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_47, CharArraySet.EMPTY_SET);
+        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46, CharArraySet.EMPTY_SET);
         Set<String> stringTokens = new TreeSet<>();
 
         try {

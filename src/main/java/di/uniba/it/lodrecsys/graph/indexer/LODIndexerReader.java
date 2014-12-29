@@ -61,7 +61,7 @@ public class LODIndexerReader {
         if (currField == null)
             currField = document.getField("item_id");
 
-        TokenStream stream = currField.tokenStream(new WhitespaceAnalyzer(Version.LUCENE_47));
+        TokenStream stream = currField.tokenStream(new WhitespaceAnalyzer(Version.LUCENE_46));
 
         stream.reset();
         String entityID = null;
@@ -85,7 +85,7 @@ public class LODIndexerReader {
 
     private Query getUserProfileQuery(int docNum) throws IOException {
         MoreLikeThis mlt = new MoreLikeThis(indexSearcher.getIndexReader());
-        mlt.setAnalyzer(new WhitespaceAnalyzer(Version.LUCENE_47));
+        mlt.setAnalyzer(new WhitespaceAnalyzer(Version.LUCENE_46));
         mlt.setFieldNames(new String[]{"content"});
 
         return mlt.like(docNum);
