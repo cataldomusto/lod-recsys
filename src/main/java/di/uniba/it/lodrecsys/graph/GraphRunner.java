@@ -44,7 +44,7 @@ public class GraphRunner {
 //                ExEecute all algorithm of feature selection
                 GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
-                //GraphFactory.existingFile();
+                GraphFactory.subsetProp();
 
 //                Create Graph to filter
 //                GraphFactory.createSubsetFeature(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);

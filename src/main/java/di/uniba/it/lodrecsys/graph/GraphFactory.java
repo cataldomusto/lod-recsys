@@ -80,7 +80,7 @@ public class GraphFactory {
         }
     }
 
-    public static void existingFile() throws IOException {
+    public static void subsetProp() throws IOException {
         FileOutputStream fout = new FileOutputStream("./mapping/choosen_prop");
         PrintWriter out = new PrintWriter(fout);
         String fileName;
