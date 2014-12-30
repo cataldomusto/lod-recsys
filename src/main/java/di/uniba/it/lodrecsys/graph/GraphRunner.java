@@ -46,7 +46,7 @@ public class GraphRunner {
 
 
 //                Create Graph to filter
-                GraphFactory.createSubsetFeature(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
+//                GraphFactory.createSubsetFeature(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
                 //Copy n-properties to graph
                 GraphFactory.subsetProp();

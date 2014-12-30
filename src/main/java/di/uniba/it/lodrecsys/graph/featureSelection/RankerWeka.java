@@ -42,32 +42,41 @@ public class RankerWeka extends FS {
         switch (evalName) {
             case "InfoGainAttributeEval":
                 eval = new InfoGainAttributeEval();
-                ((InfoGainAttributeEval) eval).setBinarizeNumericAttributes(true);
+                ((InfoGainAttributeEval) eval).setBinarizeNumericAttributes(true);    // BinarizeNumericAttributes
                 break;
+
             case "GainRatioAttributeEval":
                 eval = new GainRatioAttributeEval();
                 break;
+
             case "SVMAttributeEval":
                 eval = new SVMAttributeEval();
                 break;
+
             case "ReliefFAttributeEval":
                 eval = new ReliefFAttributeEval();
                 break;
+
             case "ChiSquaredAttributeEval":
                 eval = new ChiSquaredAttributeEval();
                 break;
+
             case "FilteredAttributeEval":
                 eval = new FilteredAttributeEval();
                 break;
+
             case "PCA":
                 eval = new PrincipalComponents();
                 break;
+
             case "OneRAttributeEval":
                 eval = new OneRAttributeEval();
                 break;
+
             case "LatentSemanticAnalysis":
                 eval = new LatentSemanticAnalysis();
                 break;
+
             case "SymmetricalUncertAttributeEval":
                 eval = new SymmetricalUncertAttributeEval();
                 break;

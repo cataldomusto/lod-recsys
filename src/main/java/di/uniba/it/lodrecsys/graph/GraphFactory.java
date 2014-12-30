@@ -82,11 +82,14 @@ public class GraphFactory {
     public static void subsetProp() throws IOException {
         FileOutputStream fout = new FileOutputStream("./mapping/choosen_prop");
         PrintWriter out = new PrintWriter(fout);
-        String fileName;
-        if (FILTERTYPE.equals("RankerWeka"))
+        String fileName, filter;
+        if (FILTERTYPE.equals("RankerWeka")) {
             fileName = "./mapping/FS/" + FILTERTYPE + EVALWEKA;
-        else
+            filter = "Weka Ranker and " + EVALWEKA;
+        } else {
             fileName = "./mapping/FS/" + FILTERTYPE;
+            filter = FILTERTYPE;
+        }
 
         List<String> ranks = Files.readAllLines(Paths.get(fileName),
                 Charset.defaultCharset());
@@ -95,12 +98,17 @@ public class GraphFactory {
 
         out.close();
         fout.close();
+        System.out.println("\n" + new Date() + " [INFO] Feature Subset with " + filter + " loaded.");
     }
 
     public static void createSubsetFeature(String type, Object... params) throws IOException {
-        System.out.println("***************************************************");
-        System.out.println("***      Feature Selection with " + type);
-        System.out.println("***************************************************");
+
+        System.out.println("***********************************************************************");
+        if (type.equals("RankerWeka"))
+            System.out.println("***      Feature Selection with Weka Ranker " + EVALWEKA);
+        else
+            System.out.println("***      Feature Selection with " + type);
+        System.out.println("***********************************************************************");
         FS graphFS;
         switch (type) {
             case "PageRank":
