@@ -83,28 +83,23 @@ public class GraphFactory {
         FileOutputStream fout = new FileOutputStream("./mapping/choosen_prop");
         PrintWriter out = new PrintWriter(fout);
         String fileName;
-        if (FILTERTYPE.equals("RankerWeka")) {
+        if (FILTERTYPE.equals("RankerWeka"))
             fileName = "./mapping/FS/" + FILTERTYPE + EVALWEKA;
-            List<String> ranks = Files.readAllLines(Paths.get(fileName),
-                    Charset.defaultCharset());
-
-            for (int i = 0; i < Integer.parseInt(NUMFILTER); i++)
-                out.println(ranks.get(i));
-
-        } else {
+        else
             fileName = "./mapping/FS/" + FILTERTYPE;
-            List<String> ranks = Files.readAllLines(Paths.get(fileName),
-                    Charset.defaultCharset());
-            for (int i = 0; i < Integer.parseInt(NUMFILTER); i++)
-                out.println(ranks.get(i).split(" ")[1]);
-        }
+
+        List<String> ranks = Files.readAllLines(Paths.get(fileName),
+                Charset.defaultCharset());
+        for (int i = 0; i < Integer.parseInt(NUMFILTER); i++)
+            out.println(ranks.get(i).split(" ")[1]);
+
         out.close();
         fout.close();
     }
 
     public static void createSubsetFeature(String type, Object... params) throws IOException {
         System.out.println("***************************************************");
-        System.out.println("         Feature Selection with " + type);
+        System.out.println("***      Feature Selection with " + type);
         System.out.println("***************************************************");
         FS graphFS;
         switch (type) {

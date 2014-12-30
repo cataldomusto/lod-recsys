@@ -135,10 +135,10 @@ public class GraphToMatrix {
                 vals[0] = data.attribute(0).indexOfValue(matrixGraph[i][0]);
                 for (int j = 1; j < data.numAttributes(); j++) {
                     if (matrixGraph[i][j] != null)
-                        vals[j] = Double.parseDouble(matrixGraph[i][j]);
+                        vals[j] = Integer.parseInt(matrixGraph[i][j]);
                     else
                         //vals[j] = data.attribute(j).addStringValue("null");
-                        vals[j] = Instance.missingValue();
+                        vals[j] = Integer.parseInt("0");
                 }
                 // add
                 data.add(new Instance(1.0, vals));

@@ -1,6 +1,7 @@
 package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
+import di.uniba.it.lodrecsys.graph.VertexScored;
 import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import weka.attributeSelection.*;
 import weka.core.Instances;
@@ -41,6 +42,7 @@ public class RankerWeka extends FS {
         switch (evalName) {
             case "InfoGainAttributeEval":
                 eval = new InfoGainAttributeEval();
+                ((InfoGainAttributeEval) eval).setBinarizeNumericAttributes(true);
                 break;
             case "GainRatioAttributeEval":
                 eval = new GainRatioAttributeEval();
@@ -75,46 +77,57 @@ public class RankerWeka extends FS {
         }
         Ranker ranker = new Ranker();
         ranker.setNumToSelect(-1);
+        ranker.setGenerateRanking(true);
         attributeSelection.setEvaluator(eval);
         attributeSelection.setSearch(ranker);
 
-//        Map<Attribute, Double> infogainscores = new HashMap<>();
-//        for (int i = 0; i < data.numAttributes(); i++) {
-//            Attribute t_attr = data.attribute(i);
-//            double infogain = 0;
-//            try {
-//                infogain = eval.evaluateAttribute(i);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            infogainscores.put(t_attr, infogain);
-//        }
         try {
             attributeSelection.SelectAttributes(data);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // obtain the attribute indices that were selected
-        int[] indices = new int[0];
+
+        double[][] s = new double[0][];
         try {
-            indices = attributeSelection.selectedAttributes();
+            s = attributeSelection.rankedAttributes();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayList<Integer> rank = new ArrayList<>(indices.length - 1);
-        for (int indice : indices) {
-            if (indice != 0)
-                rank.add(indice);
+
+        List<VertexScored> rank = new ArrayList<>(s.length);
+        for (double[] value : s) {
+            VertexScored scored = new VertexScored(data.attribute((int) (value[0])).toString().split(" ")[1], value[1]);
+            rank.add(scored);
         }
 
-        for (int indice : rank)
-            out.println(data.attribute(indice).toString().split(" ")[1]);
+        for (VertexScored vertexScored : rank)
+            out.println(vertexScored.getScore() + " " + vertexScored.getProperty());
 
         out.close();
         fout.close();
 
+
+//        // obtain the attribute indices that were selected
+//        int[] indices = new int[0];
+//        try {
+//            indices = attributeSelection.selectedAttributes();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        ArrayList<Integer> rank = new ArrayList<>(indices.length - 1);
+//        for (int indice : indices) {
+//            if (indice != 0)
+//                rank.add(indice);
+//        }
+//
+//        for (int indice : rank)
+//            out.println(data.attribute(indice).toString().split(" ")[1]);
+//
+//        out.close();
+//        fout.close();
+
         System.out.println(new Date() + " [INFO] Feature Selection with Weka Ranker " + evalName + " Completed.");
-        System.out.println("---------------------------------------------------");
+        System.out.println("----------------------------------------------------");
     }
 
 }
