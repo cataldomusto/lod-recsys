@@ -3,7 +3,6 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.graph.VertexScored;
-import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +20,7 @@ public class PageRank extends FS {
     }
 
     public void run() throws IOException {
+        System.out.println(new Date() + " [INFO] Feature Selection with PageRank inizialized.");
         new File("./mapping/FS").mkdirs();
         FileOutputStream fout = new FileOutputStream("./mapping/FS/PageRank");
         PrintWriter out = new PrintWriter(fout);
@@ -55,7 +55,8 @@ public class PageRank extends FS {
         out.close();
         fout.close();
 
-        System.out.println(new Date() + " [INFO] Feature Selection with " + LoadProperties.FILTERTYPE + " Completed.");
+        System.out.println(new Date() + " [INFO] Feature Selection with PageRank Completed.");
+        System.out.println("---------------------------------------------------");
     }
 
 }

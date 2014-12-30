@@ -2,7 +2,6 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.GraphToMatrix;
-import di.uniba.it.lodrecsys.utils.LoadProperties;
 import weka.attributeSelection.*;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
@@ -24,6 +23,7 @@ public class RankerWeka extends FS {
     }
 
     public void run() throws IOException {
+        System.out.println(new Date() + " [INFO] Feature Selection with Weka Ranker " + evalName + " inizialized.");
         new File("./mapping/FS").mkdirs();
         FileOutputStream fout = new FileOutputStream("./mapping/FS/RankerWeka" + evalName);
         PrintWriter out = new PrintWriter(fout);
@@ -114,6 +114,7 @@ public class RankerWeka extends FS {
         fout.close();
 
         System.out.println(new Date() + " [INFO] Feature Selection with Weka Ranker " + evalName + " Completed.");
+        System.out.println("---------------------------------------------------");
     }
 
 }

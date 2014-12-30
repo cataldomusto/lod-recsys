@@ -3,7 +3,6 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.graph.VertexScored;
-import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +20,7 @@ public class HITS_HUB extends FS {
     }
 
     public void run() throws IOException {
+        System.out.println(new Date() + " [INFO] Feature Selection with HITS score: hub inizialized.");
         new File("./mapping/FS").mkdirs();
         FileOutputStream fout = new FileOutputStream("./mapping/FS/HITS_HUB");
         PrintWriter out = new PrintWriter(fout);
@@ -56,6 +56,7 @@ public class HITS_HUB extends FS {
         fout.close();
 
         System.out.println(new Date() + " [INFO] Feature Selection with HITS score: hub Completed.");
+        System.out.println("---------------------------------------------------");
     }
 
 }

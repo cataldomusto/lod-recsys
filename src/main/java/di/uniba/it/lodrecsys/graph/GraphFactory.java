@@ -24,6 +24,10 @@ import static di.uniba.it.lodrecsys.utils.LoadProperties.*;
 public class GraphFactory {
 
     public static void createAllFeatureSelection(Object... params) throws IOException {
+
+        System.out.println("***************************************************");
+        System.out.println("***             Feature Selection               ***");
+        System.out.println("***************************************************");
         FS graphFS;
         if (!new File("./mapping/FS/PageRank").exists()) {
             graphFS = new PageRank((String) params[0],
@@ -35,7 +39,6 @@ public class GraphFactory {
         } else
             System.out.println(new Date() + " [INFO] Feature Selection with PageRank already created.");
 
-        System.out.println("----------------------------------------------------");
         if (!new File("./mapping/FS/HITS_AUTHORITY").exists()) {
             graphFS = new HITS_AUTHORITY((String) params[0],
                     (String) params[1],
@@ -45,7 +48,6 @@ public class GraphFactory {
             graphFS.run();
         } else
             System.out.println(new Date() + " [INFO] Feature Selection with HITS score: authority already created.");
-        System.out.println("----------------------------------------------------");
         if (!new File("./mapping/FS/HITS_HUB").exists()) {
             graphFS = new HITS_HUB((String) params[0],
                     (String) params[1],
@@ -55,7 +57,6 @@ public class GraphFactory {
             graphFS.run();
         } else
             System.out.println(new Date() + " [INFO] Feature Selection with HITS score: hub already created.");
-        System.out.println("----------------------------------------------------");
         if (!new File("./mapping/FS/MRMR").exists()) {
             graphFS = new MRMR((String) params[0],
                     (String) params[1],
@@ -65,7 +66,6 @@ public class GraphFactory {
             graphFS.run();
         } else
             System.out.println(new Date() + " [INFO] Feature Selection with mRMR already created.");
-        System.out.println("----------------------------------------------------");
         for (String s : LISTEVALWEKA) {
             if (!new File("./mapping/FS/RankerWeka" + s).exists()) {
                 graphFS = new RankerWeka((String) params[0],
@@ -76,7 +76,6 @@ public class GraphFactory {
                 graphFS.run();
             } else
                 System.out.println(new Date() + " [INFO] Feature Selection with Ranker and " + s + " already created.");
-            System.out.println("----------------------------------------------------");
         }
     }
 
@@ -104,6 +103,9 @@ public class GraphFactory {
     }
 
     public static void createSubsetFeature(String type, Object... params) throws IOException {
+        System.out.println("***************************************************");
+        System.out.println("         Feature Selection with " + type);
+        System.out.println("***************************************************");
         FS graphFS;
         switch (type) {
             case "PageRank":
@@ -169,6 +171,10 @@ public class GraphFactory {
     }
 
     public static Pair<RecGraph, RequestStruct> create(String specificModel, Object... params) throws IOException {
+
+        System.out.println("***************************************************");
+        System.out.println("***    Recommender with pagerank algorithm      ***");
+        System.out.println("***************************************************");
         RecGraph graph = null;
         RequestStruct requestStruct = null;
 

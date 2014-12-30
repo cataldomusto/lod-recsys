@@ -26,6 +26,8 @@ public abstract class FS implements Serializable {
     private Map<String, String> idUriMap;
 
     public FS(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
+        System.out.println();
+        System.out.println("--- Loading or building graph complete...");
         try {
             FileInputStream fis = new FileInputStream("./serialized/graphComplete.bin");
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -35,7 +37,7 @@ public abstract class FS implements Serializable {
             System.out.println(new Date() + " [INFO] Graph Complete loaded.");
             System.out.println(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
             System.out.println(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
-            System.out.println("----------------------------------------------------");
+            System.out.println("-----------------------------------------------------");
 
         } catch (FileNotFoundException e) {
             recGraph = new UndirectedSparseMultigraph<>();
@@ -46,7 +48,7 @@ public abstract class FS implements Serializable {
             System.out.println(new Date() + " [INFO] Graph Complete builded.");
             System.out.println(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
             System.out.println(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
-            System.out.println("----------------------------------------------------");
+            System.out.println("-----------------------------------------------------");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
