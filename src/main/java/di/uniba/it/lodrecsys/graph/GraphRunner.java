@@ -51,8 +51,6 @@ public class GraphRunner {
                 //Copy n-properties to graph
                 GraphFactory.subsetProp();
 
-                System.exit(1);
-
 //               Create Graph with subset of feature
                 Pair<RecGraph, RequestStruct> pair = GraphFactory.create(LoadProperties.METHOD, trainFile,
                         testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
@@ -65,15 +63,26 @@ public class GraphRunner {
 
 
             for (int numRec : LoadProperties.LISTRECSIZES) {
-                File f = new File(LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
-                        "top_" + numRec);
+                String namePath;
+                if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+                    namePath = LoadProperties.RESPATH + File.separator +
+                            LoadProperties.METHOD + File.separator +
+                            LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                            level + File.separator +
+                            "top_" + numRec;
+                else
+                    namePath = LoadProperties.RESPATH + File.separator +
+                            LoadProperties.METHOD + File.separator +
+                            LoadProperties.FILTERTYPE + File.separator +
+                            level + File.separator +
+                            "top_" + numRec;
+
+                File f = new File(namePath);
                 f.mkdirs();
-                String completeResFile = LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
-                        "top_" + numRec + File.separator + "metrics.complete";
+                String completeResFile = namePath + File.separator + "metrics.complete";
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
                     String trecTestFile = LoadProperties.TESTTRECPATH + File.separator + "u" + i + ".test";
-                    String resFile = LoadProperties.RESPATH + File.separator + LoadProperties.METHOD + File.separator + level + File.separator +
-                            "top_" + numRec + File.separator + "u" + i + ".results";
+                    String resFile = namePath + File.separator + "u" + i + ".results";
 
                     EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
 

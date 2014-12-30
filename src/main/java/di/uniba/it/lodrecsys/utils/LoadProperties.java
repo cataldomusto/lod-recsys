@@ -59,7 +59,9 @@ public class LoadProperties {
 
         LISTRECSIZES = new int[]{
                 5,
-                10
+                10,
+                15,
+                20
         };
 
         LISTEVALWEKA = new String[]{
@@ -75,7 +77,7 @@ public class LoadProperties {
                 "SymmetricalUncertAttributeEval"
 //                "CorrelationAttributeEval"
         };
-        NUMSPLIT = 1;
+        NUMSPLIT = 5;
         MASSPROB = 0.8;
     }
 }

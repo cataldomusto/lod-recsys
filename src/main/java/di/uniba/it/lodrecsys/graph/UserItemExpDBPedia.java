@@ -156,7 +156,7 @@ public class UserItemExpDBPedia extends RecGraph {
         // compute recommendation for all users
 
         for (String userID : testSet.keySet()) {
-            currLogger.info("Page rank for user: " + userID);
+//            currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);
             usersRecommendation.put(userID, profileUser(posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
