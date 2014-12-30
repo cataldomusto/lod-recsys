@@ -14,22 +14,19 @@ import java.util.*;
 /**
  * Created by simo on 24/12/14.
  */
-public class FSPageRank extends FS {
+public class HITS_AUTHORITY extends FS {
 
-    public FSPageRank(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
+    public HITS_AUTHORITY(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
         super(trainingFileName, testFile, proprIndexDir, mappedItems);
     }
 
     public void run() throws IOException {
-        FileOutputStream fout1 = new FileOutputStream("./mapping/choosen_prop");
-        PrintWriter out1 = new PrintWriter(fout1);
-
         new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/PageRank");
+        FileOutputStream fout = new FileOutputStream("./mapping/FS/HITS_AUTHORITY");
         PrintWriter out = new PrintWriter(fout);
 
-        // Compute PageRank
-        edu.uci.ics.jung.algorithms.scoring.PageRank<String, Edge> pr = new edu.uci.ics.jung.algorithms.scoring.PageRank<>(recGraph, 0.15);
+        // Compute HITS
+        edu.uci.ics.jung.algorithms.scoring.HITS<String, Edge> pr = new edu.uci.ics.jung.algorithms.scoring.HITS<>(recGraph, 0.15);
         pr.evaluate();
 
         Set<VertexScored> sortedVerticesSet =
@@ -40,7 +37,7 @@ public class FSPageRank extends FS {
             Collection<Edge> inEd = recGraph.getIncidentEdges(vert);
             for (Edge edge : inEd)
                 if (edge.getObject().equals(vert)) {
-                    VertexScored ver = new VertexScored(edge.getProperty(), pr.getVertexScore(vert));
+                    VertexScored ver = new VertexScored(edge.getProperty(), pr.getVertexScore(vert).authority);
                     sortedVerticesSet.add(ver);
                 }
         }
@@ -52,23 +49,13 @@ public class FSPageRank extends FS {
                 arrayList.add(vertexScored);
         }
 
-        //Select first NUMFILTER properties
-        int i = 0;
-        for (VertexScored vertexScored : arrayList) {
+        for (VertexScored vertexScored : arrayList)
             out.println(vertexScored.getScore() + " " + vertexScored.getProperty());
-            if (i < Integer.parseInt(LoadProperties.NUMFILTER)) {
-                out1.println(vertexScored.getProperty());
-                i++;
-            }
-        }
 
         out.close();
         fout.close();
 
-        out1.close();
-        fout1.close();
-
-        System.out.println(new Date() + " [INFO] Feature Selection with pagerank Completed.");
+        System.out.println(new Date() + " [INFO] Feature Selection with HITS score: authority Completed.");
     }
 
 }

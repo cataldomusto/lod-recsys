@@ -16,18 +16,15 @@ import java.util.List;
 /**
  * Created by simo on 24/12/14.
  */
-public class FSmRMR extends FS {
+public class MRMR extends FS {
 
-    public FSmRMR(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
+    public MRMR(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
         super(trainingFileName, testFile, proprIndexDir, mappedItems);
     }
 
     public void run() throws IOException {
-        FileOutputStream fout1 = new FileOutputStream("./mapping/choosen_prop");
-        PrintWriter out1 = new PrintWriter(fout1);
-
         new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/mRMR");
+        FileOutputStream fout = new FileOutputStream("./mapping/FS/MRMR");
         PrintWriter out = new PrintWriter(fout);
 
         GraphToMatrix.convertARFFADJ(recGraph);
@@ -38,7 +35,7 @@ public class FSmRMR extends FS {
         Instances data = arff.getData();
         data.setClassIndex(0);
 
-        mRMR a = new mRMR();
+        en_deep.mlprocess.computation.mRMR a = new en_deep.mlprocess.computation.mRMR();
         a.setNumToSelect(-1);
         try {
             a.buildEvaluator(data);
@@ -59,21 +56,11 @@ public class FSmRMR extends FS {
             rank.add(scored);
         }
 
-        //Select first NUMFILTER properties
-        int i = 0;
-        for (VertexScored vertexScored : rank) {
+        for (VertexScored vertexScored : rank)
             out.println(vertexScored.getScore() + " " + vertexScored.getProperty());
-            if (i < Integer.parseInt(LoadProperties.NUMFILTER)) {
-                out1.println(vertexScored.getProperty());
-                i++;
-            }
-        }
 
         out.close();
         fout.close();
-
-        out1.close();
-        fout1.close();
 
         System.out.println(new Date() + " [INFO] Feature Selection with mRMR Completed.");
     }

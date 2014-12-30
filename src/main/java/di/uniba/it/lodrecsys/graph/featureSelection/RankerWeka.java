@@ -15,20 +15,17 @@ import java.util.List;
 /**
  * Created by simo on 24/12/14.
  */
-public class FSRankerWeka extends FS {
+public class RankerWeka extends FS {
     private String evalName;
 
-    public FSRankerWeka(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems, String evalWeka) throws IOException {
+    public RankerWeka(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems, String evalWeka) throws IOException {
         super(trainingFileName, testFile, proprIndexDir, mappedItems);
         evalName = evalWeka;
     }
 
     public void run() throws IOException {
-        FileOutputStream fout1 = new FileOutputStream("./mapping/choosen_prop");
-        PrintWriter out1 = new PrintWriter(fout1);
-
         new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/Ranker" + evalName);
+        FileOutputStream fout = new FileOutputStream("./mapping/FS/RankerWeka" + evalName);
         PrintWriter out = new PrintWriter(fout);
 
         GraphToMatrix.convertARFFADJ(recGraph);
@@ -110,23 +107,13 @@ public class FSRankerWeka extends FS {
                 rank.add(indice);
         }
 
-        //Select first NUMFILTER properties
-        int i = 0;
-        for (int indice : rank) {
+        for (int indice : rank)
             out.println(data.attribute(indice).toString().split(" ")[1]);
-            if (i < Integer.parseInt(LoadProperties.NUMFILTER)) {
-                out1.println(data.attribute(indice).toString().split(" ")[1]);
-                i++;
-            }
-        }
 
         out.close();
         fout.close();
 
-        out1.close();
-        fout1.close();
-
-        System.out.println(new Date() + " [INFO] Feature Selection with Weka " + evalName + " Completed.");
+        System.out.println(new Date() + " [INFO] Feature Selection with Weka Ranker " + evalName + " Completed.");
     }
 
 }

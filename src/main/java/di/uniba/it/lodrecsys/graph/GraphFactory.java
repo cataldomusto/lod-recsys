@@ -4,10 +4,18 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.featureSelection.*;
-import di.uniba.it.lodrecsys.utils.LoadProperties;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
+
+import static di.uniba.it.lodrecsys.utils.LoadProperties.*;
 
 /**
  * Factory class which generates instances for specific graph
@@ -16,82 +24,147 @@ import java.util.List;
 public class GraphFactory {
 
     public static void createAllFeatureSelection(Object... params) throws IOException {
-        FS graphFS = new FSPageRank((String) params[0],
-                (String) params[1],
-                (String) params[2],
-                (List<MovieMapping>) params[3]
-        );
-        graphFS.run();
-
-        graphFS = new FSHITS_AUTHORITY((String) params[0],
-                (String) params[1],
-                (String) params[2],
-                (List<MovieMapping>) params[3]
-        );
-        graphFS.run();
-        graphFS = new FSHITS_HUB((String) params[0],
-                (String) params[1],
-                (String) params[2],
-                (List<MovieMapping>) params[3]
-        );
-        graphFS.run();
-        graphFS = new FSmRMR((String) params[0],
-                (String) params[1],
-                (String) params[2],
-                (List<MovieMapping>) params[3]
-        );
-        graphFS.run();
-        for (String s : LoadProperties.LISTEVALWEKA) {
-            graphFS = new FSRankerWeka((String) params[0],
+        FS graphFS;
+        if (!new File("./mapping/FS/PageRank").exists()) {
+            graphFS = new PageRank((String) params[0],
                     (String) params[1],
                     (String) params[2],
-                    (List<MovieMapping>) params[3], s
+                    (List<MovieMapping>) params[3]
             );
             graphFS.run();
-        }
+        } else
+            System.out.println(new Date() + " [INFO] Feature Selection with PageRank already created.");
 
+        System.out.println("----------------------------------------------------");
+        if (!new File("./mapping/FS/HITS_AUTHORITY").exists()) {
+            graphFS = new HITS_AUTHORITY((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        } else
+            System.out.println(new Date() + " [INFO] Feature Selection with HITS score: authority already created.");
+        System.out.println("----------------------------------------------------");
+        if (!new File("./mapping/FS/HITS_HUB").exists()) {
+            graphFS = new HITS_HUB((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        } else
+            System.out.println(new Date() + " [INFO] Feature Selection with HITS score: hub already created.");
+        System.out.println("----------------------------------------------------");
+        if (!new File("./mapping/FS/MRMR").exists()) {
+            graphFS = new MRMR((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        } else
+            System.out.println(new Date() + " [INFO] Feature Selection with mRMR already created.");
+        System.out.println("----------------------------------------------------");
+        for (String s : LISTEVALWEKA) {
+            if (!new File("./mapping/FS/RankerWeka" + s).exists()) {
+                graphFS = new RankerWeka((String) params[0],
+                        (String) params[1],
+                        (String) params[2],
+                        (List<MovieMapping>) params[3], s
+                );
+                graphFS.run();
+            } else
+                System.out.println(new Date() + " [INFO] Feature Selection with Ranker and " + s + " already created.");
+            System.out.println("----------------------------------------------------");
+        }
     }
 
-    public static void createGraph(String type, Object... params) throws IOException {
-        if (type.equals("FSPageRank")) {
-            FS graphFS = new FSPageRank((String) params[0],
-                    (String) params[1],
-                    (String) params[2],
-                    (List<MovieMapping>) params[3]
-            );
-            graphFS.run();
+    public static void existingFile() throws IOException {
+        FileOutputStream fout = new FileOutputStream("./mapping/choosen_prop");
+        PrintWriter out = new PrintWriter(fout);
+        String fileName;
+        if (FILTERTYPE.equals("RankerWeka")) {
+            fileName = "./mapping/FS/" + FILTERTYPE + EVALWEKA;
+            List<String> ranks = Files.readAllLines(Paths.get(fileName),
+                    Charset.defaultCharset());
+
+            for (int i = 0; i < Integer.parseInt(NUMFILTER); i++)
+                out.println(ranks.get(i));
+
+        } else {
+            fileName = "./mapping/FS/" + FILTERTYPE;
+            List<String> ranks = Files.readAllLines(Paths.get(fileName),
+                    Charset.defaultCharset());
+            for (int i = 0; i < Integer.parseInt(NUMFILTER); i++)
+                out.println(ranks.get(i).split(" ")[1]);
         }
-        if (type.equals("FSHITS_AUTHORITY")) {
-            FS graphFS = new FSHITS_AUTHORITY((String) params[0],
-                    (String) params[1],
-                    (String) params[2],
-                    (List<MovieMapping>) params[3]
-            );
-            graphFS.run();
-        }
-        if (type.equals("FSHITS_HUB")) {
-            FS graphFS = new FSHITS_HUB((String) params[0],
-                    (String) params[1],
-                    (String) params[2],
-                    (List<MovieMapping>) params[3]
-            );
-            graphFS.run();
-        }
-        if (type.equals("FSmRMR")) {
-            FS graphFS = new FSmRMR((String) params[0],
-                    (String) params[1],
-                    (String) params[2],
-                    (List<MovieMapping>) params[3]
-            );
-            graphFS.run();
-        }
-        if (type.equals("FSRankerWeka")) {
-            FS graphFS = new FSRankerWeka((String) params[0],
-                    (String) params[1],
-                    (String) params[2],
-                    (List<MovieMapping>) params[3], LoadProperties.EVALWEKA
-            );
-            graphFS.run();
+        out.close();
+        fout.close();
+    }
+
+    public static void createSubsetFeature(String type, Object... params) throws IOException {
+        FS graphFS;
+        switch (type) {
+            case "PageRank":
+                if (!new File("./mapping/FS/" + type).exists()) {
+                    graphFS = new PageRank((String) params[0],
+                            (String) params[1],
+                            (String) params[2],
+                            (List<MovieMapping>) params[3]
+                    );
+                    graphFS.run();
+                } else
+                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                break;
+
+            case "HITS_AUTHORITY":
+                if (!new File("./mapping/FS/" + type).exists()) {
+                    graphFS = new HITS_AUTHORITY((String) params[0],
+                            (String) params[1],
+                            (String) params[2],
+                            (List<MovieMapping>) params[3]
+                    );
+                    graphFS.run();
+                } else
+                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                break;
+
+            case "HITS_HUB":
+                if (!new File("./mapping/FS/" + type).exists()) {
+                    graphFS = new HITS_HUB((String) params[0],
+                            (String) params[1],
+                            (String) params[2],
+                            (List<MovieMapping>) params[3]
+                    );
+                    graphFS.run();
+                } else
+                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                break;
+
+            case "MRMR":
+                if (!new File("./mapping/FS/" + type).exists()) {
+                    graphFS = new MRMR((String) params[0],
+                            (String) params[1],
+                            (String) params[2],
+                            (List<MovieMapping>) params[3]
+                    );
+                    graphFS.run();
+                } else
+                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                break;
+
+            case "RankerWeka":
+                if (!new File("./mapping/FS/" + type + EVALWEKA).exists()) {
+                    graphFS = new RankerWeka((String) params[0],
+                            (String) params[1],
+                            (String) params[2],
+                            (List<MovieMapping>) params[3], EVALWEKA
+                    );
+                    graphFS.run();
+                } else
+                    System.out.println(new Date() + " [INFO] Feature Selection with Ranker and " + EVALWEKA + " already created.");
+                break;
         }
     }
 

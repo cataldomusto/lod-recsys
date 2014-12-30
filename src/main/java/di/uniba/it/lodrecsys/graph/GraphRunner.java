@@ -40,11 +40,14 @@ public class GraphRunner {
                         "u" + i + ".base",
                         testFile = LoadProperties.TESTPATH + File.separator + "u" + i + ".test";
 
-//                Excecute all algorithm of feature selection
-//                GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
+
+//                ExEecute all algorithm of feature selection
+                GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
+
+                //GraphFactory.existingFile();
 
 //                Create Graph to filter
-                GraphFactory.createGraph(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
+//                GraphFactory.createSubsetFeature(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
                 System.exit(1);
 
