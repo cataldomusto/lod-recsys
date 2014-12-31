@@ -175,9 +175,6 @@ public class GraphFactory {
 
     public static Pair<RecGraph, RequestStruct> create(String specificModel, Object... params) throws IOException {
 
-        System.out.println("***************************************************");
-        System.out.println("***    Recommender with pagerank algorithm      ***");
-        System.out.println("***************************************************");
         RecGraph graph = null;
         RequestStruct requestStruct = null;
 

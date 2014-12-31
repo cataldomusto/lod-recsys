@@ -32,6 +32,10 @@ public class GraphRunner {
 
                 featureSelection(trainFile, testFile);
 
+                System.out.println("***************************************************");
+                System.out.println("***    Recommender with pagerank algorithm      ***");
+                System.out.println("***************************************************");
+                System.out.println();
                 System.out.println(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
 
                 recommendations(trainFile, testFile);
