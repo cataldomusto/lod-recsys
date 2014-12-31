@@ -1,0 +1,64 @@
+***************************************************
+***************************************************
+***             Feature Selection               ***
+***             Feature Selection               ***
+***************************************************
+***************************************************
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with PageRank already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with PageRank already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with HITS score: authority already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with HITS score: authority already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with HITS score: hub already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with HITS score: hub already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with mRMR already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with mRMR already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and LatentSemanticAnalysis already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and OneRAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and LatentSemanticAnalysis already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and GainRatioAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and OneRAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and SVMAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and ReliefFAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and GainRatioAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and ChiSquaredAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and SVMAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and FilteredAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and ReliefFAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and PCA already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and ChiSquaredAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and InfoGainAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and FilteredAttributeEval already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and PCA already created.
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and SymmetricalUncertAttributeEval already created.
+***********************************************************************
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and InfoGainAttributeEval already created.
+***      Feature Selection with PageRank
+***********************************************************************
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with Ranker and SymmetricalUncertAttributeEval already created.
+***********************************************************************
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with PageRank already created.
+***      Feature Selection with PageRank
+***********************************************************************
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Selection with PageRank already created.
+
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Subset with PageRank loaded.
+
+Wed Dec 31 23:20:54 CET 2014 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+***    Recommender with pagerank algorithm      ***
+
+***************************************************
+Wed Dec 31 23:20:54 CET 2014 [INFO] Inizialized computing recommendations for split #1 level: given_50 ...
+
+Wed Dec 31 23:20:54 CET 2014 [INFO] Inizialized computing recommendations for split #1 level: given_all ...
+Wed Dec 31 23:20:58 CET 2014 [INFO] Graph Filtered builded.
+Wed Dec 31 23:20:58 CET 2014 [INFO] Graph Filtered Vertices : 10874
+Wed Dec 31 23:20:58 CET 2014 [INFO] Graph Filtered Edges : 86424
+-----------------------------------------------------
+Wed Dec 31 23:20:58 CET 2014 [INFO] Graph Filtered builded.
+Wed Dec 31 23:20:58 CET 2014 [INFO] Graph Filtered Vertices : 10932
+Wed Dec 31 23:20:58 CET 2014 [INFO] Graph Filtered Edges : 110203
+-----------------------------------------------------

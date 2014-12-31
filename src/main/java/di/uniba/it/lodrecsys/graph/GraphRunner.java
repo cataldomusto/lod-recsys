@@ -1,12 +1,13 @@
 package di.uniba.it.lodrecsys.graph;
 
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
-import di.uniba.it.lodrecsys.utils.LoadProperties;
 
-import java.io.*;
-import java.util.Date;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import static di.uniba.it.lodrecsys.graph.RecommenderSys.*;
+import static di.uniba.it.lodrecsys.graph.RecommenderSys.loadValue;
 
 /**
  * Starts all the graph-based experiments and evaluate them
@@ -18,34 +19,8 @@ public class GraphRunner {
 
         loadValue();
 
-        for (SparsityLevel level : SparsityLevel.values()) {
-
-            for (int numSplit = 1; numSplit <= LoadProperties.NUMSPLIT; numSplit++) {
-
-                String trainFile = LoadProperties.TRAINPATH + File.separator +
-                        level + File.separator +
-                        "u" + numSplit + ".base";
-
-                String testFile = LoadProperties.TESTPATH + File.separator +
-                        "u" + numSplit + ".test";
-
-                featureSelection(trainFile, testFile);
-
-                savefileLog("***************************************************");
-                savefileLog("***    Recommender with pagerank algorithm      ***");
-                savefileLog("***************************************************");
-                savefileLog("");
-                savefileLog(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
-
-                recommendations(trainFile, testFile);
-                //        LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + numSplit + " level: " + level);
-                savefileLog(new Date() + " [INFO] Computed recommendations for split #" + numSplit + " level: " + level);
-                savefileLog("-----------------------------------------------------");
-
-            }
-
-            evaluator(level);
-        }
+        for (SparsityLevel level : SparsityLevel.values())
+            new RecommenderSys(level.toString()).start();
 
     }
 
@@ -55,6 +30,6 @@ public class GraphRunner {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(s);
+//        System.out.println(s);
     }
 }

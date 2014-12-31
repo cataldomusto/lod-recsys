@@ -9,8 +9,8 @@ public enum SparsityLevel {
 //    TEN(10);
 //    TWENTY(20),
 //    THIRTY(30);
-    FIFTY(50);
-//    ALL(1);
+    FIFTY(50),
+    ALL(1);
 
     private final int id;
 

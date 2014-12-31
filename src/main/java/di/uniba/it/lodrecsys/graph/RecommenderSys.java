@@ -5,22 +5,28 @@ import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.Rating;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
-import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
+
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
 
 /**
  * Created by simo on 31/12/14.
  */
-public class RecommenderSys {
+public class RecommenderSys extends Thread {
+
+    String level;
+
+    public RecommenderSys(String s) {
+        super(s);
+        level = s;
+    }
+
     private static Logger LOGGERGRAPHRUNNER = Logger.getLogger(GraphRunner.class.getName());
     private static List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
     private static List<Map<String, String>> metricsForSplit = new ArrayList<>();
@@ -54,7 +60,7 @@ public class RecommenderSys {
         recommendationForSplits.add(userItemGraph.runPageRank(requestStruct));
     }
 
-    public static void evaluator(SparsityLevel level) throws IOException {
+    public static void evaluator(String level) throws IOException {
         for (int numRec : LoadProperties.LISTRECSIZES) {
             String namePath;
             if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
@@ -94,4 +100,48 @@ public class RecommenderSys {
         recommendationForSplits.clear();
     }
 
+    @Override
+    public void run() {
+        for (int numSplit = 1; numSplit <= LoadProperties.NUMSPLIT; numSplit++) {
+
+//            SplitThread e = new SplitThread(level, numSplit);
+//            e.start();
+//            while (e.isAlive()){
+//            }
+
+            String trainFile = LoadProperties.TRAINPATH + File.separator +
+                    level + File.separator +
+                    "u" + numSplit + ".base";
+
+            String testFile = LoadProperties.TESTPATH + File.separator +
+                    "u" + numSplit + ".test";
+
+            try {
+                featureSelection(trainFile, testFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            savefileLog("***************************************************");
+            savefileLog("***    Recommender with pagerank algorithm      ***");
+            savefileLog("***************************************************");
+            savefileLog("");
+            savefileLog(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
+
+            try {
+                recommendations(trainFile, testFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //        LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + numSplit + " level: " + level);
+            savefileLog(new Date() + " [INFO] Computed recommendations for split #" + numSplit + " level: " + level);
+            savefileLog("-----------------------------------------------------");
+        }
+
+        try {
+            evaluator(level);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
