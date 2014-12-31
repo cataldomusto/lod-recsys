@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+
 /**
  * Created by simo on 25/12/14.
  */
@@ -147,8 +149,8 @@ public class GraphToMatrix {
             out.println(data);
             out.close();
             fout.close();
-            System.out.println(new Date() + " [INFO] ARFF created from graph.");
-        } else System.out.println(new Date() + " [INFO] ARFF already created.");
+            savefileLog(new Date() + " [INFO] ARFF created from graph.");
+        } else savefileLog(new Date() + " [INFO] ARFF already created.");
 
     }
 }

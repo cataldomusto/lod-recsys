@@ -10,6 +10,8 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+
 /**
  * Created by asuglia on 4/4/14.
  * Modded by Simone Rutigliano
@@ -138,7 +140,7 @@ public class EvaluateRecommendation {
      * @param trecResultFile   filename of the results produced by trec_eval
      */
     public static void savePerUserTrec(String goldStandardFile, String resultFile, String trecResultFile) {
-        System.out.println(goldStandardFile);
+        savefileLog(goldStandardFile);
         String trecEvalCommand = PATHTREC + "trec_eval -q -m all_trec " + goldStandardFile + " " + resultFile;
         CmdExecutor.executeCommandAndPrintLinux(trecEvalCommand, trecResultFile);
         logger.info(trecEvalCommand);

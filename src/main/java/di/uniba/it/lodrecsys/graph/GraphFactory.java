@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
 import static di.uniba.it.lodrecsys.utils.LoadProperties.*;
 
 /**
@@ -25,9 +26,9 @@ public class GraphFactory {
 
     public static void createAllFeatureSelection(Object... params) throws IOException {
 
-        System.out.println("***************************************************");
-        System.out.println("***             Feature Selection               ***");
-        System.out.println("***************************************************");
+        savefileLog("***************************************************");
+        savefileLog("***             Feature Selection               ***");
+        savefileLog("***************************************************");
         FS graphFS;
         if (!new File("./mapping/FS/PageRank").exists()) {
             graphFS = new PageRank((String) params[0],
@@ -37,7 +38,7 @@ public class GraphFactory {
             );
             graphFS.run();
         } else
-            System.out.println(new Date() + " [INFO] Feature Selection with PageRank already created.");
+            savefileLog(new Date() + " [INFO] Feature Selection with PageRank already created.");
 
         if (!new File("./mapping/FS/HITS_AUTHORITY").exists()) {
             graphFS = new HITS_AUTHORITY((String) params[0],
@@ -47,7 +48,7 @@ public class GraphFactory {
             );
             graphFS.run();
         } else
-            System.out.println(new Date() + " [INFO] Feature Selection with HITS score: authority already created.");
+            savefileLog(new Date() + " [INFO] Feature Selection with HITS score: authority already created.");
         if (!new File("./mapping/FS/HITS_HUB").exists()) {
             graphFS = new HITS_HUB((String) params[0],
                     (String) params[1],
@@ -56,7 +57,7 @@ public class GraphFactory {
             );
             graphFS.run();
         } else
-            System.out.println(new Date() + " [INFO] Feature Selection with HITS score: hub already created.");
+            savefileLog(new Date() + " [INFO] Feature Selection with HITS score: hub already created.");
         if (!new File("./mapping/FS/MRMR").exists()) {
             graphFS = new MRMR((String) params[0],
                     (String) params[1],
@@ -65,7 +66,7 @@ public class GraphFactory {
             );
             graphFS.run();
         } else
-            System.out.println(new Date() + " [INFO] Feature Selection with mRMR already created.");
+            savefileLog(new Date() + " [INFO] Feature Selection with mRMR already created.");
         for (String s : LISTEVALWEKA) {
             if (!new File("./mapping/FS/RankerWeka" + s).exists()) {
                 graphFS = new RankerWeka((String) params[0],
@@ -75,7 +76,7 @@ public class GraphFactory {
                 );
                 graphFS.run();
             } else
-                System.out.println(new Date() + " [INFO] Feature Selection with Ranker and " + s + " already created.");
+                savefileLog(new Date() + " [INFO] Feature Selection with Ranker and " + s + " already created.");
         }
     }
 
@@ -98,17 +99,17 @@ public class GraphFactory {
 
         out.close();
         fout.close();
-        System.out.println("\n" + new Date() + " [INFO] Feature Subset with " + filter + " loaded.");
+        savefileLog("\n" + new Date() + " [INFO] Feature Subset with " + filter + " loaded.");
     }
 
     public static void createSubsetFeature(String type, Object... params) throws IOException {
 
-        System.out.println("***********************************************************************");
+        savefileLog("***********************************************************************");
         if (type.equals("RankerWeka"))
-            System.out.println("***      Feature Selection with Weka Ranker " + EVALWEKA);
+            savefileLog("***      Feature Selection with Weka Ranker " + EVALWEKA);
         else
-            System.out.println("***      Feature Selection with " + type);
-        System.out.println("***********************************************************************");
+            savefileLog("***      Feature Selection with " + type);
+        savefileLog("***********************************************************************");
         FS graphFS;
         switch (type) {
             case "PageRank":
@@ -120,7 +121,7 @@ public class GraphFactory {
                     );
                     graphFS.run();
                 } else
-                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                    savefileLog(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
                 break;
 
             case "HITS_AUTHORITY":
@@ -132,7 +133,7 @@ public class GraphFactory {
                     );
                     graphFS.run();
                 } else
-                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                    savefileLog(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
                 break;
 
             case "HITS_HUB":
@@ -144,7 +145,7 @@ public class GraphFactory {
                     );
                     graphFS.run();
                 } else
-                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                    savefileLog(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
                 break;
 
             case "MRMR":
@@ -156,7 +157,7 @@ public class GraphFactory {
                     );
                     graphFS.run();
                 } else
-                    System.out.println(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                    savefileLog(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
                 break;
 
             case "RankerWeka":
@@ -168,7 +169,7 @@ public class GraphFactory {
                     );
                     graphFS.run();
                 } else
-                    System.out.println(new Date() + " [INFO] Feature Selection with Ranker and " + EVALWEKA + " already created.");
+                    savefileLog(new Date() + " [INFO] Feature Selection with Ranker and " + EVALWEKA + " already created.");
                 break;
         }
     }

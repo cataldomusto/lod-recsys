@@ -14,6 +14,8 @@ import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
 import java.io.*;
 import java.util.*;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+
 /**
  * Class which represents the user-item-lod
  * configuration
@@ -107,10 +109,10 @@ public class UserItemExpDBPedia extends RecGraph {
             }
 
         }
-        System.out.println(new Date() + " [INFO] Graph Filtered builded.");
-        System.out.println(new Date() + " [INFO] Graph Filtered Vertices : " + recGraph.getVertexCount());
-        System.out.println(new Date() + " [INFO] Graph Filtered Edges : " + recGraph.getEdgeCount());
-        System.out.println("-----------------------------------------------------");
+        savefileLog(new Date() + " [INFO] Graph Filtered builded.");
+        savefileLog(new Date() + " [INFO] Graph Filtered Vertices : " + recGraph.getVertexCount());
+        savefileLog(new Date() + " [INFO] Graph Filtered Edges : " + recGraph.getEdgeCount());
+        savefileLog("-----------------------------------------------------");
 //        currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
     }
 
@@ -170,13 +172,13 @@ public class UserItemExpDBPedia extends RecGraph {
             int seventyfivePercent = Math.round(totUser * 75) / 100;
 
             if (i == onePercent)
-                System.out.println(new Date() + " [INFO] Recommended users: 1%");
+                savefileLog(new Date() + " [INFO] Recommended users: 1%");
             if (i == twentyfivePercent)
-                System.out.println(new Date() + " [INFO] Recommended users: 25%");
+                savefileLog(new Date() + " [INFO] Recommended users: 25%");
             if (i == fiftyPercent)
-                System.out.println(new Date() + " [INFO] Recommended users: 50%");
+                savefileLog(new Date() + " [INFO] Recommended users: 50%");
             if (i == seventyfivePercent)
-                System.out.println(new Date() + " [INFO] Recommended users: 75%");
+                savefileLog(new Date() + " [INFO] Recommended users: 75%");
 
 //            currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);

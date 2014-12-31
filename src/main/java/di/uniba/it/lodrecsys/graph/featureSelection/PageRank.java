@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+
 /**
  * Created by simo on 24/12/14.
  */
@@ -20,7 +22,7 @@ public class PageRank extends FS {
     }
 
     public void run() throws IOException {
-        System.out.println(new Date() + " [INFO] Feature Selection with PageRank inizialized.");
+        savefileLog(new Date() + " [INFO] Feature Selection with PageRank inizialized.");
         new File("./mapping/FS").mkdirs();
         FileOutputStream fout = new FileOutputStream("./mapping/FS/PageRank");
         PrintWriter out = new PrintWriter(fout);
@@ -55,8 +57,8 @@ public class PageRank extends FS {
         out.close();
         fout.close();
 
-        System.out.println(new Date() + " [INFO] Feature Selection with PageRank Completed.");
-        System.out.println("---------------------------------------------------");
+        savefileLog(new Date() + " [INFO] Feature Selection with PageRank Completed.");
+        savefileLog("---------------------------------------------------");
     }
 
 }

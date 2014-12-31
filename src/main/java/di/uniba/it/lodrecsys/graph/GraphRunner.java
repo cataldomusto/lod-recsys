@@ -3,8 +3,7 @@ package di.uniba.it.lodrecsys.graph;
 import di.uniba.it.lodrecsys.eval.SparsityLevel;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 
 import static di.uniba.it.lodrecsys.graph.RecommenderSys.*;
@@ -32,21 +31,30 @@ public class GraphRunner {
 
                 featureSelection(trainFile, testFile);
 
-                System.out.println("***************************************************");
-                System.out.println("***    Recommender with pagerank algorithm      ***");
-                System.out.println("***************************************************");
-                System.out.println();
-                System.out.println(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
+                savefileLog("***************************************************");
+                savefileLog("***    Recommender with pagerank algorithm      ***");
+                savefileLog("***************************************************");
+                savefileLog("");
+                savefileLog(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
 
                 recommendations(trainFile, testFile);
                 //        LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + numSplit + " level: " + level);
-                System.out.println(new Date() + " [INFO] Computed recommendations for split #" + numSplit + " level: " + level);
-                System.out.println("-----------------------------------------------------");
+                savefileLog(new Date() + " [INFO] Computed recommendations for split #" + numSplit + " level: " + level);
+                savefileLog("-----------------------------------------------------");
 
             }
 
             evaluator(level);
         }
 
+    }
+
+    public static void savefileLog(String s) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./sperimentazione", true)))) {
+            out.println(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(s);
     }
 }

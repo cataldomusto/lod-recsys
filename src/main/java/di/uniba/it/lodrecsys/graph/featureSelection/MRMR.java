@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+
 /**
  * Created by simo on 24/12/14.
  */
@@ -21,7 +23,7 @@ public class MRMR extends FS {
     }
 
     public void run() throws IOException {
-        System.out.println(new Date() + " [INFO] Feature Selection with mRMR inizialized.");
+        savefileLog(new Date() + " [INFO] Feature Selection with mRMR inizialized.");
 
         new File("./mapping/FS").mkdirs();
         FileOutputStream fout = new FileOutputStream("./mapping/FS/MRMR");
@@ -62,8 +64,8 @@ public class MRMR extends FS {
         out.close();
         fout.close();
 
-        System.out.println(new Date() + " [INFO] Feature Selection with mRMR Completed.");
-        System.out.println("---------------------------------------------------");
+        savefileLog(new Date() + " [INFO] Feature Selection with mRMR Completed.");
+        savefileLog("---------------------------------------------------");
     }
 
 }

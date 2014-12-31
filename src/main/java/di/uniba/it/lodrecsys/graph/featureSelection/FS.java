@@ -14,6 +14,8 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+
 /**
  * Created by simo on 24/12/14.
  */
@@ -26,18 +28,18 @@ public abstract class FS implements Serializable {
     private Map<String, String> idUriMap;
 
     public FS(String trainingFileName, String testFile, String proprIndexDir, List<MovieMapping> mappedItems) throws IOException {
-        System.out.println();
-        System.out.println("--- Loading or building graph complete...");
+        savefileLog("");
+        savefileLog("--- Loading or building graph complete...");
         try {
             FileInputStream fis = new FileInputStream("./serialized/graphComplete.bin");
             ObjectInputStream ois = new ObjectInputStream(fis);
             recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
             ois.close();
             fis.close();
-            System.out.println(new Date() + " [INFO] Graph Complete loaded.");
-            System.out.println(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
-            System.out.println(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
-            System.out.println("-----------------------------------------------------");
+            savefileLog(new Date() + " [INFO] Graph Complete loaded.");
+            savefileLog(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
+            savefileLog(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
+            savefileLog("-----------------------------------------------------");
 
         } catch (FileNotFoundException e) {
             recGraph = new UndirectedSparseMultigraph<>();
@@ -45,10 +47,10 @@ public abstract class FS implements Serializable {
             generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
             printDot(this.getClass().getSimpleName());
             save();
-            System.out.println(new Date() + " [INFO] Graph Complete builded.");
-            System.out.println(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
-            System.out.println(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
-            System.out.println("-----------------------------------------------------");
+            savefileLog(new Date() + " [INFO] Graph Complete builded.");
+            savefileLog(new Date() + " [INFO] Graph Complete Vertices : " + recGraph.getVertices().size());
+            savefileLog(new Date() + " [INFO] Graph Complete Edges : " + recGraph.getEdges().size());
+            savefileLog("-----------------------------------------------------");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
