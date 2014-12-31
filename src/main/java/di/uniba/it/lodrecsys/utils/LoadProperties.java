@@ -77,7 +77,7 @@ public class LoadProperties {
                 "SymmetricalUncertAttributeEval"
 //                "CorrelationAttributeEval"
         };
-        NUMSPLIT = 5;
+        NUMSPLIT = 1;
         MASSPROB = 0.8;
     }
 }

@@ -15,7 +15,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Class which represents the user-item-lod-lodexp
+ * Class which represents the user-item-lod
  * configuration
  */
 public class UserItemExpDBPedia extends RecGraph {
@@ -107,8 +107,11 @@ public class UserItemExpDBPedia extends RecGraph {
             }
 
         }
-
-        currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
+        System.out.println(new Date() + " [INFO] Graph Filtered builded.");
+        System.out.println(new Date() + " [INFO] Graph Filtered Vertices : " + recGraph.getVertexCount());
+        System.out.println(new Date() + " [INFO] Graph Filtered Edges : " + recGraph.getEdgeCount());
+        System.out.println("-----------------------------------------------------");
+//        currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
     }
 
     private void printDot(String name) throws IOException {
@@ -154,8 +157,27 @@ public class UserItemExpDBPedia extends RecGraph {
         double massProb = (double) requestParam.params.get(0); // max proportion of positive items for user
 
         // compute recommendation for all users
+        float totUser = testSet.size();
+        float i = 0;
 
         for (String userID : testSet.keySet()) {
+
+            i++;
+
+            int onePercent = Math.round(totUser * 1) / 100;
+            int twentyfivePercent = Math.round(totUser * 25) / 100;
+            int fiftyPercent = Math.round(totUser * 50) / 100;
+            int seventyfivePercent = Math.round(totUser * 75) / 100;
+
+            if (i == onePercent)
+                System.out.println(new Date() + " [INFO] Recommended users: 1%");
+            if (i == twentyfivePercent)
+                System.out.println(new Date() + " [INFO] Recommended users: 25%");
+            if (i == fiftyPercent)
+                System.out.println(new Date() + " [INFO] Recommended users: 50%");
+            if (i == seventyfivePercent)
+                System.out.println(new Date() + " [INFO] Recommended users: 75%");
+
 //            currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);
