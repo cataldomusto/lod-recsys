@@ -1,0 +1,185 @@
+***************************************************
+***             Feature Selection               ***
+***************************************************
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with PageRank already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with HITS score: authority already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with HITS score: hub already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with mRMR already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and LatentSemanticAnalysis already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and OneRAttributeEval already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and GainRatioAttributeEval already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and SVMAttributeEval already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and ReliefFAttributeEval already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and ChiSquaredAttributeEval already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and FilteredAttributeEval already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and PCA already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and InfoGainAttributeEval already created.
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with Ranker and SymmetricalUncertAttributeEval already created.
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Thu Jan 01 14:53:03 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Thu Jan 01 14:53:03 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_all ...
+Thu Jan 01 14:53:05 CET 2015 [INFO] Graph Filtered builded.
+Thu Jan 01 14:53:05 CET 2015 [INFO] Graph Filtered Vertices : 10932
+Thu Jan 01 14:53:05 CET 2015 [INFO] Graph Filtered Edges : 110203
+-----------------------------------------------------
+Thu Jan 01 14:53:17 CET 2015 [INFO] Recommended users: 1%
+Thu Jan 01 14:59:42 CET 2015 [INFO] Recommended users: 25%
+Thu Jan 01 15:06:24 CET 2015 [INFO] Recommended users: 50%
+Thu Jan 01 15:13:06 CET 2015 [INFO] Recommended users: 75%
+Thu Jan 01 15:19:51 CET 2015 [INFO] Computed recommendations for split #1 level: given_all
+-----------------------------------------------------
+***************************************************
+***             Feature Selection               ***
+***************************************************
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with PageRank already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with HITS score: authority already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with HITS score: hub already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with mRMR already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and LatentSemanticAnalysis already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and OneRAttributeEval already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and GainRatioAttributeEval already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and SVMAttributeEval already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and ReliefFAttributeEval already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and ChiSquaredAttributeEval already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and FilteredAttributeEval already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and PCA already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and InfoGainAttributeEval already created.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with Ranker and SymmetricalUncertAttributeEval already created.
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Thu Jan 01 15:19:51 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Thu Jan 01 15:19:51 CET 2015 [INFO] Inizialized computing recommendations for split #2 level: given_all ...
+Thu Jan 01 15:19:51 CET 2015 [INFO] Graph Filtered builded.
+Thu Jan 01 15:19:51 CET 2015 [INFO] Graph Filtered Vertices : 10723
+Thu Jan 01 15:19:51 CET 2015 [INFO] Graph Filtered Edges : 108461
+-----------------------------------------------------
+Thu Jan 01 15:20:09 CET 2015 [INFO] Recommended users: 1%
+Thu Jan 01 15:29:07 CET 2015 [INFO] Recommended users: 25%
+Thu Jan 01 15:38:28 CET 2015 [INFO] Recommended users: 50%
+Thu Jan 01 15:48:06 CET 2015 [INFO] Recommended users: 75%
+Thu Jan 01 15:57:51 CET 2015 [INFO] Computed recommendations for split #2 level: given_all
+-----------------------------------------------------
+***************************************************
+***             Feature Selection               ***
+***************************************************
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with PageRank already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with HITS score: authority already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with HITS score: hub already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with mRMR already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and LatentSemanticAnalysis already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and OneRAttributeEval already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and GainRatioAttributeEval already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and SVMAttributeEval already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and ReliefFAttributeEval already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and ChiSquaredAttributeEval already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and FilteredAttributeEval already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and PCA already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and InfoGainAttributeEval already created.
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with Ranker and SymmetricalUncertAttributeEval already created.
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Thu Jan 01 15:57:51 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Thu Jan 01 15:57:51 CET 2015 [INFO] Inizialized computing recommendations for split #3 level: given_all ...
+Thu Jan 01 15:57:52 CET 2015 [INFO] Graph Filtered builded.
+Thu Jan 01 15:57:52 CET 2015 [INFO] Graph Filtered Vertices : 10789
+Thu Jan 01 15:57:52 CET 2015 [INFO] Graph Filtered Edges : 109257
+-----------------------------------------------------
+Thu Jan 01 15:58:17 CET 2015 [INFO] Recommended users: 1%
+Thu Jan 01 16:10:20 CET 2015 [INFO] Recommended users: 25%
+Thu Jan 01 16:22:56 CET 2015 [INFO] Recommended users: 50%
+Thu Jan 01 16:35:39 CET 2015 [INFO] Recommended users: 75%
+Thu Jan 01 16:48:40 CET 2015 [INFO] Computed recommendations for split #3 level: given_all
+-----------------------------------------------------
+***************************************************
+***             Feature Selection               ***
+***************************************************
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with PageRank already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with HITS score: authority already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with HITS score: hub already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with mRMR already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and LatentSemanticAnalysis already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and OneRAttributeEval already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and GainRatioAttributeEval already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and SVMAttributeEval already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and ReliefFAttributeEval already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and ChiSquaredAttributeEval already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and FilteredAttributeEval already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and PCA already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and InfoGainAttributeEval already created.
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with Ranker and SymmetricalUncertAttributeEval already created.
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Thu Jan 01 16:48:40 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Thu Jan 01 16:48:40 CET 2015 [INFO] Inizialized computing recommendations for split #4 level: given_all ...
+Thu Jan 01 16:48:41 CET 2015 [INFO] Graph Filtered builded.
+Thu Jan 01 16:48:41 CET 2015 [INFO] Graph Filtered Vertices : 10737
+Thu Jan 01 16:48:41 CET 2015 [INFO] Graph Filtered Edges : 108970
+-----------------------------------------------------
+Thu Jan 01 16:49:09 CET 2015 [INFO] Recommended users: 1%
+Thu Jan 01 17:02:03 CET 2015 [INFO] Recommended users: 25%
+Thu Jan 01 17:15:17 CET 2015 [INFO] Recommended users: 50%
+Thu Jan 01 17:28:30 CET 2015 [INFO] Recommended users: 75%
+Thu Jan 01 17:41:47 CET 2015 [INFO] Computed recommendations for split #4 level: given_all
+-----------------------------------------------------
+***************************************************
+***             Feature Selection               ***
+***************************************************
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with PageRank already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with HITS score: authority already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with HITS score: hub already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with mRMR already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and LatentSemanticAnalysis already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and OneRAttributeEval already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and GainRatioAttributeEval already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and SVMAttributeEval already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and ReliefFAttributeEval already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and ChiSquaredAttributeEval already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and FilteredAttributeEval already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and PCA already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and InfoGainAttributeEval already created.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with Ranker and SymmetricalUncertAttributeEval already created.
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Thu Jan 01 17:41:47 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Thu Jan 01 17:41:47 CET 2015 [INFO] Inizialized computing recommendations for split #5 level: given_all ...
+Thu Jan 01 17:41:47 CET 2015 [INFO] Graph Filtered builded.
+Thu Jan 01 17:41:47 CET 2015 [INFO] Graph Filtered Vertices : 10741
+Thu Jan 01 17:41:47 CET 2015 [INFO] Graph Filtered Edges : 108884
+-----------------------------------------------------
+Thu Jan 01 17:42:14 CET 2015 [INFO] Recommended users: 1%
