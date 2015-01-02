@@ -40,6 +40,8 @@ public class GraphRunner {
                     e.printStackTrace();
                 }
 
+                System.exit(1);
+
                 savefileLog("***************************************************");
                 savefileLog("***    Recommender with pagerank algorithm      ***");
                 savefileLog("***************************************************");
