@@ -1,0 +1,38 @@
+#!/usr/bin/python
+
+import sys
+import os
+import subprocess
+from time import gmtime, strftime, localtime
+from datetime import datetime
+
+if not os.path.exists("./summaries/"):
+	os.makedirs("./summaries/")
+for given in os.listdir("."):
+	if "given" in given: 
+		#for top in os.listdir(given):
+		#with open("./summaries/"+given+".summary", "a") as myfile:
+    	#		myfile.write("\nResult "+top+"\n")
+		#cmd = "cat ./"+given+"/"+top+"/"+"metrics.complete"
+		#cmd += " >> ./summaries/"+given+".summary"
+		#subprocess.call(cmd, shell=True)
+		with open("./summaries/"+given+".summary", "a") as myfile:
+    			myfile.write("\nResult Top 5 \n")
+		cmd = "cat ./"+given+"/top_5/"+"metrics.complete"
+		cmd += " >> ./summaries/"+given+".summary"
+		subprocess.call(cmd, shell=True)
+		with open("./summaries/"+given+".summary", "a") as myfile:
+    			myfile.write("\nResult Top 10 \n")
+		cmd = "cat ./"+given+"/top_10/"+"metrics.complete"
+		cmd += " >> ./summaries/"+given+".summary"
+		subprocess.call(cmd, shell=True)
+		with open("./summaries/"+given+".summary", "a") as myfile:
+    			myfile.write("\nResult Top 15 \n")
+		cmd = "cat ./"+given+"/top_15/"+"metrics.complete"
+		cmd += " >> ./summaries/"+given+".summary"
+		subprocess.call(cmd, shell=True)
+		with open("./summaries/"+given+".summary", "a") as myfile:
+    			myfile.write("\nResult Top 20 \n")
+		cmd = "cat ./"+given+"/top_20/"+"metrics.complete"
+		cmd += " >> ./summaries/"+given+".summary"
+		subprocess.call(cmd, shell=True)
