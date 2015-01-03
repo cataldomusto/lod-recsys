@@ -157,7 +157,7 @@ public class RecommenderSys extends Thread implements Serializable {
 
             }
             recommendationForSplits.clear();
-            delSerRec(level);
+//            delSerRec(level);
         } catch (ClassNotFoundException e) {
         } catch (IOException e) {
             System.err.println("Evaluate not executed.");
