@@ -35,7 +35,7 @@ public class RecommenderSys extends Thread {
 
     public static void loadValue() throws IOException {
         mappingList = Utils.loadDBpediaMappedItems(LoadProperties.MAPPEDITEMFILE);
-        tagmeConcepts = Utils.loadTAGmeConceptsForItems(LoadProperties.TAGMEDIR);
+//        tagmeConcepts = Utils.loadTAGmeConceptsForItems(LoadProperties.TAGMEDIR);
     }
 
     public static void featureSelection(String trainFile, String testFile) throws IOException {
