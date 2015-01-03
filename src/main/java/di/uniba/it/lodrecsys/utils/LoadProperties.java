@@ -61,7 +61,9 @@ public class LoadProperties {
                 5,
                 10,
                 15,
-                20
+                20,
+                30,
+                50
         };
 
         LISTEVALWEKA = new String[]{

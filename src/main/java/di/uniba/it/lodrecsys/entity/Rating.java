@@ -1,13 +1,15 @@
 package di.uniba.it.lodrecsys.entity;
 
 
+import java.io.Serializable;
+
 /**
  * Class that stores the score associated to each item
  * by the recommender. When inserted in a ordered data structure
  * will be automatically ordered decreasing order due to
  * the specific *compareTo* implementation.
  */
-public class Rating implements Comparable<Rating> {
+public class Rating implements Comparable<Rating>, Serializable {
     private String itemID;
     private String rating;
 

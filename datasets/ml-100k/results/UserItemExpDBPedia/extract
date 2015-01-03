@@ -38,3 +38,14 @@ for alg in os.listdir("."):
 		        cmd = "cat ./"+alg+"/"+given+"/top_20/"+"metrics.complete"
 		        cmd += " >> ./"+alg+"/summaries/"+given+".summary"
 		        subprocess.call(cmd, shell=True)
+		        with open("./"+alg+"/summaries/"+given+".summary", "a") as myfile:
+            			myfile.write("\nResult Top 30 \n")
+		        cmd = "cat ./"+alg+"/"+given+"/top_30/"+"metrics.complete"
+		        cmd += " >> ./"+alg+"/summaries/"+given+".summary"
+		        subprocess.call(cmd, shell=True)
+		        with open("./"+alg+"/summaries/"+given+".summary", "a") as myfile:
+            			myfile.write("\nResult Top 50 \n")
+		        cmd = "cat ./"+alg+"/"+given+"/top_50/"+"metrics.complete"
+		        cmd += " >> ./"+alg+"/summaries/"+given+".summary"
+		        subprocess.call(cmd, shell=True)
+

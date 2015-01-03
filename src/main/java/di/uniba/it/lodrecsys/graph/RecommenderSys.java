@@ -8,8 +8,7 @@ import di.uniba.it.lodrecsys.eval.EvaluateRecommendation;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -18,7 +17,7 @@ import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
 /**
  * Created by simo on 31/12/14.
  */
-public class RecommenderSys extends Thread {
+public class RecommenderSys extends Thread implements Serializable {
 
     String level;
 
@@ -60,7 +59,64 @@ public class RecommenderSys extends Thread {
         recommendationForSplits.add(userItemGraph.runPageRank(requestStruct));
     }
 
-    public static void evaluator(String level) throws IOException {
+    public static void saveRec(String level) throws IOException {
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                    level;
+        else
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + File.separator +
+                    level;
+        new File("./" + dir).mkdirs();
+        FileOutputStream fos = new FileOutputStream("./" + dir + "/recommendationForSplits.bin");
+        ObjectOutputStream o = new ObjectOutputStream(fos);
+        o.writeObject(recommendationForSplits);
+        o.close();
+        fos.close();
+    }
+
+    public static void loadRec(String level) throws IOException, ClassNotFoundException {
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                    level;
+        else
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + File.separator +
+                    level;
+        FileInputStream fis = new FileInputStream("./" + dir + "/recommendationForSplits.bin");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        recommendationForSplits = (List<Map<String, Set<Rating>>>) ois.readObject();
+        ois.close();
+        fis.close();
+    }
+
+    private static void delSerRec(String level) {
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                    level;
+        else
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + File.separator +
+                    level;
+        File serRec = new File("./" + dir + "/recommendationForSplits.bin");
+        if (serRec.exists())
+            serRec.delete();
+    }
+
+    public static void evaluator(String level) throws IOException, ClassNotFoundException {
+        loadRec(level);
         for (int numRec : LoadProperties.LISTRECSIZES) {
             String namePath;
             if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
@@ -98,6 +154,7 @@ public class RecommenderSys extends Thread {
 
         }
         recommendationForSplits.clear();
+        delSerRec(level);
     }
 
     @Override
@@ -139,8 +196,15 @@ public class RecommenderSys extends Thread {
         }
 
         try {
+            saveRec(level);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             evaluator(level);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
