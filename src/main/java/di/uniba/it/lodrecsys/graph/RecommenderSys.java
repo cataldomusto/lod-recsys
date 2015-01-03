@@ -12,6 +12,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static di.uniba.it.lodrecsys.graph.GraphRunner.cleanfileLog;
 import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
 
 /**
@@ -33,6 +34,7 @@ public class RecommenderSys extends Thread implements Serializable {
     private static Map<String, List<String>> tagmeConcepts;
 
     public static void loadValue() throws IOException {
+        cleanfileLog();
         mappingList = Utils.loadDBpediaMappedItems(LoadProperties.MAPPEDITEMFILE);
 //        tagmeConcepts = Utils.loadTAGmeConceptsForItems(LoadProperties.TAGMEDIR);
     }
@@ -115,46 +117,51 @@ public class RecommenderSys extends Thread implements Serializable {
             serRec.delete();
     }
 
-    public static void evaluator(String level) throws IOException, ClassNotFoundException {
-        loadRec(level);
-        for (int numRec : LoadProperties.LISTRECSIZES) {
-            String namePath;
-            if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-                namePath = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
-                        level + File.separator +
-                        "top_" + numRec;
-            else
-                namePath = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + File.separator +
-                        level + File.separator +
-                        "top_" + numRec;
+    public static void evaluator(String level) {
+        try {
+            loadRec(level);
+            for (int numRec : LoadProperties.LISTRECSIZES) {
+                String namePath;
+                if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+                    namePath = LoadProperties.RESPATH + File.separator +
+                            LoadProperties.METHOD + File.separator +
+                            LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                            level + File.separator +
+                            "top_" + numRec;
+                else
+                    namePath = LoadProperties.RESPATH + File.separator +
+                            LoadProperties.METHOD + File.separator +
+                            LoadProperties.FILTERTYPE + File.separator +
+                            level + File.separator +
+                            "top_" + numRec;
 
-            File f = new File(namePath);
-            f.mkdirs();
-            String completeResFile = namePath + File.separator + "metrics.complete";
-            for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-                String trecTestFile = LoadProperties.TESTTRECPATH + File.separator + "u" + i + ".test";
-                String resFile = namePath + File.separator + "u" + i + ".results";
+                File f = new File(namePath);
+                f.mkdirs();
+                String completeResFile = namePath + File.separator + "metrics.complete";
+                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                    String trecTestFile = LoadProperties.TESTTRECPATH + File.separator + "u" + i + ".test";
+                    String resFile = namePath + File.separator + "u" + i + ".results";
 
-                EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
+                    EvaluateRecommendation.serializeRatings(recommendationForSplits.get(i - 1), resFile, numRec);
 
-                String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
-                        + File.separator + "u" + i + ".final";
-                EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-                metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-                LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                    String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
+                            + File.separator + "u" + i + ".final";
+                    EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
+                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                }
+
+                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
+                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
+                metricsForSplit.clear(); // evaluate for the next sparsity level
+
             }
-
-            LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
-            EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
-            metricsForSplit.clear(); // evaluate for the next sparsity level
-
+            recommendationForSplits.clear();
+            delSerRec(level);
+        } catch (ClassNotFoundException e) {
+        } catch (IOException e) {
+            System.err.println("Evaluate not executed.");
         }
-        recommendationForSplits.clear();
-        delSerRec(level);
     }
 
     @Override
@@ -200,12 +207,6 @@ public class RecommenderSys extends Thread implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            evaluator(level);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        evaluator(level);
     }
 }

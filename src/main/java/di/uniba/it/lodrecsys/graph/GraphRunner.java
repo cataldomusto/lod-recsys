@@ -20,60 +20,59 @@ public class GraphRunner {
 
         for (SparsityLevel level : SparsityLevel.values()) {
 //            new RecommenderSys(level.toString()).start();
-//            for (int numSplit = 1; numSplit <= LoadProperties.NUMSPLIT; numSplit++) {
-//
-////            SplitThread e = new SplitThread(level, numSplit);
-////            e.start();
-////            while (e.isAlive()){
-////            }
-//
-//                String trainFile = LoadProperties.TRAINPATH + File.separator +
-//                        level + File.separator +
-//                        "u" + numSplit + ".base";
-//
-//                String testFile = LoadProperties.TESTPATH + File.separator +
-//                        "u" + numSplit + ".test";
-//
-//                try {
-//                    featureSelection(trainFile, testFile);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                savefileLog("***************************************************");
-//                savefileLog("***    Recommender with pagerank algorithm      ***");
-//                savefileLog("***************************************************");
-//                savefileLog("");
-//                savefileLog(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
-//
-//                try {
-//                    recommendations(trainFile, testFile);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                //        LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + numSplit + " level: " + level);
-//                savefileLog(new Date() + " [INFO] Computed recommendations for split #" + numSplit + " level: " + level);
-//                savefileLog("-----------------------------------------------------");
+            for (int numSplit = 1; numSplit <= LoadProperties.NUMSPLIT; numSplit++) {
+
+//            SplitThread e = new SplitThread(level, numSplit);
+//            e.start();
+//            while (e.isAlive()){
 //            }
-//
-//            try {
-//                saveRec(level.toString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            try {
-                evaluator(level.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+
+                String trainFile = LoadProperties.TRAINPATH + File.separator +
+                        level + File.separator +
+                        "u" + numSplit + ".base";
+
+                String testFile = LoadProperties.TESTPATH + File.separator +
+                        "u" + numSplit + ".test";
+
+                try {
+                    featureSelection(trainFile, testFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                savefileLog("***************************************************");
+                savefileLog("***    Recommender with pagerank algorithm      ***");
+                savefileLog("***************************************************");
+                savefileLog("");
+                savefileLog(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
+
+                try {
+                    recommendations(trainFile, testFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //        LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + numSplit + " level: " + level);
+                savefileLog(new Date() + " [INFO] Computed recommendations for split #" + numSplit + " level: " + level);
+                savefileLog("-----------------------------------------------------");
             }
 
+            try {
+                saveRec(level.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            evaluator(level.toString());
         }
     }
 
+    public static void cleanfileLog(){
+//        new File("./datasets/ml-100k/results/UserItemExpDBPedia/"+LoadProperties.FILTERTYPE+"/log/").mkdirs();
+        new File("./datasets/ml-100k/results/UserItemExpDBPedia/"+LoadProperties.FILTERTYPE+"/log/sperimentazione").delete();
+    }
+
     public static void savefileLog(String s) {
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./sperimentazione", true)))) {
+        new File("./datasets/ml-100k/results/UserItemExpDBPedia/"+LoadProperties.FILTERTYPE+"/log/").mkdirs();
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./datasets/ml-100k/results/UserItemExpDBPedia/"+LoadProperties.FILTERTYPE+"/log/sperimentazione", true)))) {
             out.println(s);
         } catch (IOException e) {
             e.printStackTrace();
