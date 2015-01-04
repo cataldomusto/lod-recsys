@@ -29,11 +29,11 @@
         <!--<version>0.1.7</version>-->
         <!--</dependency>-->
 
-        <!--<dependency>-->
-            <!--<groupId>com.google.guava</groupId>-->
-            <!--<artifactId>guava</artifactId>-->
-            <!--<version>17.0</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>17.0</version>
+        </dependency>
 
         <!--<dependency>-->
             <!--<groupId>org.apache.mahout</groupId>-->
@@ -131,33 +131,33 @@
             <version>3.3</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.googlecode.json-simple</groupId>-->
-            <!--<artifactId>json-simple</artifactId>-->
-            <!--<version>1.1.1</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
         <dependency>
             <groupId>de.l3s.boilerpipe</groupId>
             <artifactId>boilerpipe</artifactId>
             <version>1.1.0</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>net.sourceforge.nekohtml</groupId>-->
-            <!--<artifactId>nekohtml</artifactId>-->
-            <!--<version>1.9.13</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.13</version>
+        </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.apache.pig</groupId>-->
-            <!--<artifactId>pig</artifactId>-->
-            <!--<version>0.14.0</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.pig</groupId>
+            <artifactId>pig</artifactId>
+            <version>0.14.0</version>
+        </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.yammer.metrics</groupId>-->
-            <!--<artifactId>metrics-core</artifactId>-->
-            <!--<version>2.0.0-RC0</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.yammer.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>2.0.0-RC0</version>
+        </dependency>
     </dependencies>
 </project>

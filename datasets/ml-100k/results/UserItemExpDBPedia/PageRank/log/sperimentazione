@@ -1,0 +1,126 @@
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Sun Jan 04 12:35:34 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Sun Jan 04 12:35:34 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Sun Jan 04 12:35:34 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_5 ...
+Sun Jan 04 12:35:37 CET 2015 [INFO] Graph Filtered builded.
+Sun Jan 04 12:35:37 CET 2015 [INFO] Graph Filtered Vertices : 10825
+Sun Jan 04 12:35:37 CET 2015 [INFO] Graph Filtered Edges : 70328
+-----------------------------------------------------
+Sun Jan 04 12:35:43 CET 2015 [INFO] Recommended users: 1%
+Sun Jan 04 12:38:57 CET 2015 [INFO] Recommended users: 25%
+Sun Jan 04 12:42:18 CET 2015 [INFO] Recommended users: 50%
+Sun Jan 04 12:45:39 CET 2015 [INFO] Recommended users: 75%
+Sun Jan 04 12:49:01 CET 2015 [INFO] Computed recommendations for split #1 level: given_5
+-----------------------------------------------------
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Sun Jan 04 12:49:02 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Sun Jan 04 12:49:02 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Sun Jan 04 12:49:02 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_10 ...
+Sun Jan 04 12:49:02 CET 2015 [INFO] Graph Filtered builded.
+Sun Jan 04 12:49:02 CET 2015 [INFO] Graph Filtered Vertices : 10813
+Sun Jan 04 12:49:02 CET 2015 [INFO] Graph Filtered Edges : 73382
+-----------------------------------------------------
+Sun Jan 04 12:49:08 CET 2015 [INFO] Recommended users: 1%
+Sun Jan 04 12:52:25 CET 2015 [INFO] Recommended users: 25%
+Sun Jan 04 12:55:50 CET 2015 [INFO] Recommended users: 50%
+Sun Jan 04 12:59:15 CET 2015 [INFO] Recommended users: 75%
+Sun Jan 04 13:02:42 CET 2015 [INFO] Computed recommendations for split #1 level: given_10
+-----------------------------------------------------
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Sun Jan 04 13:02:43 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Sun Jan 04 13:02:43 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Sun Jan 04 13:02:43 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_20 ...
+Sun Jan 04 13:02:43 CET 2015 [INFO] Graph Filtered builded.
+Sun Jan 04 13:02:43 CET 2015 [INFO] Graph Filtered Vertices : 10822
+Sun Jan 04 13:02:43 CET 2015 [INFO] Graph Filtered Edges : 78427
+-----------------------------------------------------
+Sun Jan 04 13:02:49 CET 2015 [INFO] Recommended users: 1%
+Sun Jan 04 13:06:21 CET 2015 [INFO] Recommended users: 25%
+Sun Jan 04 13:10:03 CET 2015 [INFO] Recommended users: 50%
+Sun Jan 04 13:13:45 CET 2015 [INFO] Recommended users: 75%
+Sun Jan 04 13:17:28 CET 2015 [INFO] Computed recommendations for split #1 level: given_20
+-----------------------------------------------------
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Sun Jan 04 13:17:28 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Sun Jan 04 13:17:28 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Sun Jan 04 13:17:28 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_30 ...
+Sun Jan 04 13:17:29 CET 2015 [INFO] Graph Filtered builded.
+Sun Jan 04 13:17:29 CET 2015 [INFO] Graph Filtered Vertices : 10862
+Sun Jan 04 13:17:29 CET 2015 [INFO] Graph Filtered Edges : 81916
+-----------------------------------------------------
+Sun Jan 04 13:17:35 CET 2015 [INFO] Recommended users: 1%
+Sun Jan 04 13:21:16 CET 2015 [INFO] Recommended users: 25%
+Sun Jan 04 13:25:06 CET 2015 [INFO] Recommended users: 50%
+Sun Jan 04 13:28:56 CET 2015 [INFO] Recommended users: 75%
+Sun Jan 04 13:32:47 CET 2015 [INFO] Computed recommendations for split #1 level: given_30
+-----------------------------------------------------
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Sun Jan 04 13:32:48 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Sun Jan 04 13:32:48 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Sun Jan 04 13:32:48 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_50 ...
+Sun Jan 04 13:32:48 CET 2015 [INFO] Graph Filtered builded.
+Sun Jan 04 13:32:48 CET 2015 [INFO] Graph Filtered Vertices : 10874
+Sun Jan 04 13:32:48 CET 2015 [INFO] Graph Filtered Edges : 86424
+-----------------------------------------------------
+Sun Jan 04 13:32:55 CET 2015 [INFO] Recommended users: 1%
+Sun Jan 04 13:36:51 CET 2015 [INFO] Recommended users: 25%
+Sun Jan 04 13:40:57 CET 2015 [INFO] Recommended users: 50%
+Sun Jan 04 13:45:01 CET 2015 [INFO] Recommended users: 75%
+Sun Jan 04 13:49:08 CET 2015 [INFO] Computed recommendations for split #1 level: given_50
+-----------------------------------------------------
+***********************************************************************
+***      Feature Selection with PageRank
+***********************************************************************
+Sun Jan 04 13:49:09 CET 2015 [INFO] Feature Selection with PageRank already created.
+
+Sun Jan 04 13:49:09 CET 2015 [INFO] Feature Subset with PageRank loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Sun Jan 04 13:49:09 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_all ...
+Sun Jan 04 13:49:10 CET 2015 [INFO] Graph Filtered builded.
+Sun Jan 04 13:49:10 CET 2015 [INFO] Graph Filtered Vertices : 10932
+Sun Jan 04 13:49:10 CET 2015 [INFO] Graph Filtered Edges : 110203
+-----------------------------------------------------
+Sun Jan 04 13:49:18 CET 2015 [INFO] Recommended users: 1%
+Sun Jan 04 13:54:17 CET 2015 [INFO] Recommended users: 25%
+Sun Jan 04 13:59:30 CET 2015 [INFO] Recommended users: 50%
+Sun Jan 04 14:04:43 CET 2015 [INFO] Recommended users: 75%
+Sun Jan 04 14:10:00 CET 2015 [INFO] Computed recommendations for split #1 level: given_all
+-----------------------------------------------------
