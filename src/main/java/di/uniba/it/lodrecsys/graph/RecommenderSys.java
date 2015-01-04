@@ -42,7 +42,7 @@ public class RecommenderSys extends Thread implements Serializable {
     public static void featureSelection(String trainFile, String testFile) throws IOException {
 
 //      Execute all algorithm of feature selection
-        GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
+//        GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
 //      Create Graph to filter
         GraphFactory.createSubsetFeature(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);

@@ -77,6 +77,6 @@ public class GraphRunner {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(s);
+//        System.out.println(s);
     }
 }
