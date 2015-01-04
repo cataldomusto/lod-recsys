@@ -92,3 +92,5 @@ set_recall            	all	0.3072
 set_map               	all	0.2102
 set_F                 	all	0.3520
 num_nonrel_judged_ret 	all	723
+P_50                  	all	0.0665
+recall_50             	all	0.3072

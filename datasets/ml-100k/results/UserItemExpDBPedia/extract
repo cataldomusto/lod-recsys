@@ -7,7 +7,7 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 
 for alg in os.listdir("."):
-    if not "extract" in alg: 
+    if "MRMR" in alg: 
         if not os.path.exists("./"+alg+"/summaries/"):
 	        os.makedirs("./"+alg+"/summaries/")
         for given in os.listdir("./"+alg):

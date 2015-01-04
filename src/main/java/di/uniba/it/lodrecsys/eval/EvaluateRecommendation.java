@@ -155,9 +155,22 @@ public class EvaluateRecommendation {
      * @param trecResultFile   filename of the results produced by trec_eval
      */
     public static void saveTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
+        String resTemp = trecResultFile + "Temp";
         String trecEvalCommand = PATHTREC + "trec_eval -m all_trec " + goldStandardFile + " " + resultFile;
-
         CmdExecutor.executeCommandAndPrint(trecEvalCommand, trecResultFile);
+
+        trecEvalCommand = PATHTREC + "trec_eval -m P.50 " + goldStandardFile + " " + resultFile;
+        CmdExecutor.executeCommandAndPrint(trecEvalCommand, resTemp);
+
+        CmdExecutor.executeCommand("cat " + resTemp + " >> " + trecResultFile, false);
+        new File(resTemp).delete();
+
+        trecEvalCommand = PATHTREC + "trec_eval -m recall.50 " + goldStandardFile + " " + resultFile;
+        CmdExecutor.executeCommandAndPrint(trecEvalCommand, resTemp);
+
+        CmdExecutor.executeCommand("cat " + resTemp + " >> " + trecResultFile, false);
+        new File(resTemp).delete();
+
         logger.info(trecEvalCommand);
     }
 
@@ -205,12 +218,12 @@ public class EvaluateRecommendation {
 
     /**
      * Computes F1-measure for all the cut-off levels defined
-     * which are: 5, 10, 15, 20
+     * which are: 5, 10, 15, 20, 30, 50
      *
      * @param measures the metrics' map that will be updated with f1-measures
      */
     private static void evalF1Measure(Map<String, Float> measures) {
-        int[] cutoffLevels = new int[]{5, 10, 15, 20};
+        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
         String precisionString = "P", recallString = "recall", fMeasureString = "F1";
 
         for (int cutoff : cutoffLevels) {
@@ -232,10 +245,10 @@ public class EvaluateRecommendation {
      */
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
-        String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
-                "recall_15", "recall_20"},
-                completeMetrics = {"P_5", "P_10", "P_15", "P_20", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "F1_5", "F1_10", "F1_15", "F1_20"};
+        String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
+                "recall_15", "recall_20", "recall_30", "recall_50"},
+                completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
