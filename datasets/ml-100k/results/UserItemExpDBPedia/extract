@@ -2,15 +2,17 @@
 
 import sys
 import os
+import shutil
 import subprocess
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-sperim=["PageRank17","PageRank17prop3split"]
+sperim=["MRMR50prop3split","MRMR30prop2split","PageRank17prop3split"]
 for alg in os.listdir("."):
     if alg in sperim:
-        if not os.path.exists("./"+alg+"/summaries/"):
-	        os.makedirs("./"+alg+"/summaries/")
+        if os.path.exists("./"+alg+"/summaries/"):
+	        shutil.rmtree("./"+alg+"/summaries/")
+        os.makedirs("./"+alg+"/summaries/")
         for given in os.listdir("./"+alg):
 	        if "given" in given: 
 		        #for top in os.listdir(given):
@@ -50,7 +52,7 @@ for alg in os.listdir("."):
 		        cmd += " >> ./"+alg+"/summaries/"+given+".summary"
 		        subprocess.call(cmd, shell=True)    
 
-        metrics=["P","recall","F1"]
+        metrics=["F1"]
         for metric in metrics:
             valor=["5","10","15","20","30","50"]
             for elem in valor:

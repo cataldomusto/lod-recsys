@@ -128,7 +128,7 @@ public class RecommenderSys implements Serializable {
         try {
             loadRec(level);
             for (int numRec : LoadProperties.LISTRECSIZES) {
-                String namePath = dir + "top_" + numRec;
+                String namePath = dir + File.separator + "top_" + numRec;
 
                 File f = new File(namePath);
                 f.mkdirs();

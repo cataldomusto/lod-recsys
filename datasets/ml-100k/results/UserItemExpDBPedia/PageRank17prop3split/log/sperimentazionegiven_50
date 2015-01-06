@@ -1,0 +1,45 @@
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Tue Jan 06 16:30:56 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_50 ...
+Tue Jan 06 16:31:01 CET 2015 [INFO] Graph Filtered builded.
+Tue Jan 06 16:31:01 CET 2015 [INFO] Graph Filtered Vertices : 10874
+Tue Jan 06 16:31:01 CET 2015 [INFO] Graph Filtered Edges : 86424
+-----------------------------------------------------
+Tue Jan 06 16:31:13 CET 2015 [INFO] Recommended users: 1%
+Tue Jan 06 16:37:17 CET 2015 [INFO] Recommended users: 25%
+Tue Jan 06 16:43:13 CET 2015 [INFO] Recommended users: 50%
+Tue Jan 06 16:49:22 CET 2015 [INFO] Recommended users: 75%
+Tue Jan 06 16:55:27 CET 2015 [INFO] Computed recommendations for split #1 level: given_50
+-----------------------------------------------------
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Tue Jan 06 16:55:27 CET 2015 [INFO] Inizialized computing recommendations for split #2 level: given_50 ...
+Tue Jan 06 16:55:28 CET 2015 [INFO] Graph Filtered builded.
+Tue Jan 06 16:55:28 CET 2015 [INFO] Graph Filtered Vertices : 10584
+Tue Jan 06 16:55:28 CET 2015 [INFO] Graph Filtered Edges : 84040
+-----------------------------------------------------
+Tue Jan 06 16:55:43 CET 2015 [INFO] Recommended users: 1%
+Tue Jan 06 17:04:36 CET 2015 [INFO] Recommended users: 25%
+Tue Jan 06 17:13:34 CET 2015 [INFO] Recommended users: 50%
+Tue Jan 06 17:22:23 CET 2015 [INFO] Recommended users: 75%
+Tue Jan 06 17:31:02 CET 2015 [INFO] Computed recommendations for split #2 level: given_50
+-----------------------------------------------------
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Tue Jan 06 17:31:02 CET 2015 [INFO] Inizialized computing recommendations for split #3 level: given_50 ...
+Tue Jan 06 17:31:03 CET 2015 [INFO] Graph Filtered builded.
+Tue Jan 06 17:31:03 CET 2015 [INFO] Graph Filtered Vertices : 10685
+Tue Jan 06 17:31:03 CET 2015 [INFO] Graph Filtered Edges : 84709
+-----------------------------------------------------
+Tue Jan 06 17:31:28 CET 2015 [INFO] Recommended users: 1%
+Tue Jan 06 17:42:43 CET 2015 [INFO] Recommended users: 25%
+Tue Jan 06 17:54:40 CET 2015 [INFO] Recommended users: 50%
+Tue Jan 06 18:07:05 CET 2015 [INFO] Recommended users: 75%
+Tue Jan 06 18:18:26 CET 2015 [INFO] Computed recommendations for split #3 level: given_50
+-----------------------------------------------------
