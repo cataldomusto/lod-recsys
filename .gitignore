@@ -10,3 +10,4 @@ target/**
 dataset/**
 mapping/**
 ./idea
+*.jar

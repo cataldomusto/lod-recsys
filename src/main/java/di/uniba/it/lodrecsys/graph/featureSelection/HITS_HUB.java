@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
  * Created by simo on 24/12/14.

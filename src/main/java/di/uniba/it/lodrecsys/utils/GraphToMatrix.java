@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
  * Created by simo on 25/12/14.

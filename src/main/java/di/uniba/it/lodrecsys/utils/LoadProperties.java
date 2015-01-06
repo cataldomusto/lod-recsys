@@ -52,6 +52,7 @@ public class LoadProperties {
             FILTERTYPE = prop.getProperty("filterType");
             NUMFILTER = prop.getProperty("numFilter");
             EVALWEKA = prop.getProperty("evalWeka");
+            NUMSPLIT = Integer.parseInt(prop.getProperty("numSplit"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,7 +80,6 @@ public class LoadProperties {
                 "SymmetricalUncertAttributeEval"
 //                "CorrelationAttributeEval"
         };
-        NUMSPLIT = 1;
         MASSPROB = 0.8;
     }
 }

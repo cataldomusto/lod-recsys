@@ -1,0 +1,63 @@
+***********************************************************************
+***      Feature Selection with MRMR
+***********************************************************************
+Tue Jan 06 10:02:42 CET 2015 [INFO] Feature Selection with MRMR already created.
+
+Tue Jan 06 10:02:42 CET 2015 [INFO] Feature Subset with MRMR loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Tue Jan 06 10:02:42 CET 2015 [INFO] Inizialized computing recommendations for split #1 level: given_5 ...
+Tue Jan 06 10:02:44 CET 2015 [INFO] Graph Filtered builded.
+Tue Jan 06 10:02:44 CET 2015 [INFO] Graph Filtered Vertices : 46858
+Tue Jan 06 10:02:44 CET 2015 [INFO] Graph Filtered Edges : 111846
+-----------------------------------------------------
+Tue Jan 06 10:02:58 CET 2015 [INFO] Recommended users: 1%
+Tue Jan 06 10:11:17 CET 2015 [INFO] Recommended users: 25%
+Tue Jan 06 10:20:03 CET 2015 [INFO] Recommended users: 50%
+Tue Jan 06 10:29:01 CET 2015 [INFO] Recommended users: 75%
+Tue Jan 06 10:37:48 CET 2015 [INFO] Computed recommendations for split #1 level: given_5
+-----------------------------------------------------
+***********************************************************************
+***      Feature Selection with MRMR
+***********************************************************************
+Tue Jan 06 10:37:48 CET 2015 [INFO] Feature Selection with MRMR already created.
+
+Tue Jan 06 10:37:48 CET 2015 [INFO] Feature Subset with MRMR loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Tue Jan 06 10:37:48 CET 2015 [INFO] Inizialized computing recommendations for split #2 level: given_5 ...
+Tue Jan 06 10:37:48 CET 2015 [INFO] Graph Filtered builded.
+Tue Jan 06 10:37:48 CET 2015 [INFO] Graph Filtered Vertices : 44520
+Tue Jan 06 10:37:48 CET 2015 [INFO] Graph Filtered Edges : 106000
+-----------------------------------------------------
+Tue Jan 06 10:38:09 CET 2015 [INFO] Recommended users: 1%
+Tue Jan 06 10:49:02 CET 2015 [INFO] Recommended users: 25%
+Tue Jan 06 11:00:41 CET 2015 [INFO] Recommended users: 50%
+Tue Jan 06 11:12:18 CET 2015 [INFO] Recommended users: 75%
+Tue Jan 06 11:24:01 CET 2015 [INFO] Computed recommendations for split #2 level: given_5
+-----------------------------------------------------
+***********************************************************************
+***      Feature Selection with MRMR
+***********************************************************************
+Tue Jan 06 11:24:01 CET 2015 [INFO] Feature Selection with MRMR already created.
+
+Tue Jan 06 11:24:01 CET 2015 [INFO] Feature Subset with MRMR loaded.
+***************************************************
+***    Recommender with pagerank algorithm      ***
+***************************************************
+
+Tue Jan 06 11:24:01 CET 2015 [INFO] Inizialized computing recommendations for split #3 level: given_5 ...
+Tue Jan 06 11:24:02 CET 2015 [INFO] Graph Filtered builded.
+Tue Jan 06 11:24:02 CET 2015 [INFO] Graph Filtered Vertices : 44393
+Tue Jan 06 11:24:02 CET 2015 [INFO] Graph Filtered Edges : 105762
+-----------------------------------------------------
+Tue Jan 06 11:24:34 CET 2015 [INFO] Recommended users: 1%
+Tue Jan 06 11:40:13 CET 2015 [INFO] Recommended users: 25%
+Tue Jan 06 11:56:48 CET 2015 [INFO] Recommended users: 50%
+Tue Jan 06 12:13:41 CET 2015 [INFO] Recommended users: 75%
+Tue Jan 06 12:30:22 CET 2015 [INFO] Computed recommendations for split #3 level: given_5
+-----------------------------------------------------

@@ -9,23 +9,18 @@ import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
-import static di.uniba.it.lodrecsys.graph.GraphRunner.cleanfileLog;
-import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+import static di.uniba.it.lodrecsys.graph.GraphRecRun.cleanfileLog;
 
 /**
  * Created by simo on 31/12/14.
  */
-public class RecommenderSys extends Thread implements Serializable {
-
-    String level;
-
-    public RecommenderSys(String s) {
-        super(s);
-        level = s;
-    }
+public class RecommenderSys implements Serializable {
 
     private static Logger LOGGERGRAPHRUNNER = Logger.getLogger(GraphRunner.class.getName());
     private static List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
@@ -66,12 +61,12 @@ public class RecommenderSys extends Thread implements Serializable {
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
             dir = LoadProperties.RESPATH + File.separator +
                     LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
                     level;
         else
             dir = LoadProperties.RESPATH + File.separator +
                     LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
                     level;
         new File("./" + dir).mkdirs();
         FileOutputStream fos = new FileOutputStream("./" + dir + "/recommendationForSplits.bin");
@@ -79,6 +74,7 @@ public class RecommenderSys extends Thread implements Serializable {
         o.writeObject(recommendationForSplits);
         o.close();
         fos.close();
+        recommendationForSplits.clear();
     }
 
     public static void loadRec(String level) throws IOException, ClassNotFoundException {
@@ -86,12 +82,12 @@ public class RecommenderSys extends Thread implements Serializable {
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
             dir = LoadProperties.RESPATH + File.separator +
                     LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
                     level;
         else
             dir = LoadProperties.RESPATH + File.separator +
                     LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
                     level;
         FileInputStream fis = new FileInputStream("./" + dir + "/recommendationForSplits.bin");
         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -105,12 +101,12 @@ public class RecommenderSys extends Thread implements Serializable {
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
             dir = LoadProperties.RESPATH + File.separator +
                     LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
                     level;
         else
             dir = LoadProperties.RESPATH + File.separator +
                     LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
                     level;
         File serRec = new File("./" + dir + "/recommendationForSplits.bin");
         if (serRec.exists())
@@ -118,22 +114,21 @@ public class RecommenderSys extends Thread implements Serializable {
     }
 
     public static void evaluator(String level) {
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
+        else
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
         try {
             loadRec(level);
             for (int numRec : LoadProperties.LISTRECSIZES) {
-                String namePath;
-                if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-                    namePath = LoadProperties.RESPATH + File.separator +
-                            LoadProperties.METHOD + File.separator +
-                            LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + File.separator +
-                            level + File.separator +
-                            "top_" + numRec;
-                else
-                    namePath = LoadProperties.RESPATH + File.separator +
-                            LoadProperties.METHOD + File.separator +
-                            LoadProperties.FILTERTYPE + File.separator +
-                            level + File.separator +
-                            "top_" + numRec;
+                String namePath = dir + "top_" + numRec;
 
                 File f = new File(namePath);
                 f.mkdirs();
@@ -162,51 +157,5 @@ public class RecommenderSys extends Thread implements Serializable {
         } catch (IOException e) {
             System.err.println("Evaluate not executed.");
         }
-    }
-
-    @Override
-    public void run() {
-        for (int numSplit = 1; numSplit <= LoadProperties.NUMSPLIT; numSplit++) {
-
-//            SplitThread e = new SplitThread(level, numSplit);
-//            e.start();
-//            while (e.isAlive()){
-//            }
-
-            String trainFile = LoadProperties.TRAINPATH + File.separator +
-                    level + File.separator +
-                    "u" + numSplit + ".base";
-
-            String testFile = LoadProperties.TESTPATH + File.separator +
-                    "u" + numSplit + ".test";
-
-            try {
-                featureSelection(trainFile, testFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            savefileLog("***************************************************");
-            savefileLog("***    Recommender with pagerank algorithm      ***");
-            savefileLog("***************************************************");
-            savefileLog("");
-            savefileLog(new Date() + " [INFO] Inizialized computing recommendations for split #" + numSplit + " level: " + level + " ...");
-
-            try {
-                recommendations(trainFile, testFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //        LOGGERGRAPHRUNNER.info("Computed recommendations for split #" + numSplit + " level: " + level);
-            savefileLog(new Date() + " [INFO] Computed recommendations for split #" + numSplit + " level: " + level);
-            savefileLog("-----------------------------------------------------");
-        }
-
-        try {
-            saveRec(level);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        evaluator(level);
     }
 }

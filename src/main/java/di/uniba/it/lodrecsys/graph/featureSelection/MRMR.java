@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
  * Created by simo on 24/12/14.

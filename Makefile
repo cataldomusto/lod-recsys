@@ -1,3 +1,26 @@
+feature:
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun
+
+recommendation1:
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20
+
+recommendation: recommendation1
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all 
+
+evaluation:
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all
+
+recsys: feature recommendation evaluation
+
 all: prepare
 
 prepare: clean compile test package

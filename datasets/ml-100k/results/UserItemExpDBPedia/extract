@@ -6,8 +6,9 @@ import subprocess
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
+sperim=["PageRank17","PageRank17prop3split"]
 for alg in os.listdir("."):
-    if "MRMR" in alg: 
+    if alg in sperim:
         if not os.path.exists("./"+alg+"/summaries/"):
 	        os.makedirs("./"+alg+"/summaries/")
         for given in os.listdir("./"+alg):

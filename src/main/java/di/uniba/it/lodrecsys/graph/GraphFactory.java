@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
-import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 import static di.uniba.it.lodrecsys.utils.LoadProperties.*;
 
 /**

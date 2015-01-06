@@ -14,7 +14,7 @@ import edu.uci.ics.jung.algorithms.scoring.PageRankWithPriors;
 import java.io.*;
 import java.util.*;
 
-import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
  * Class which represents the user-item-lod

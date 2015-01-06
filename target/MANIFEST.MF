@@ -1,5 +1,36 @@
 Manifest-Version: 1.0
 Built-By: simo
+Class-Path: lib/guava-17.0.jar lib/httpclient-4.3.4.jar lib/httpcore-4
+ .3.2.jar lib/commons-logging-1.1.3.jar lib/commons-codec-1.6.jar lib/
+ combinatoricslib-2.1.jar lib/weka-stable-3.6.11.jar lib/java-cup-0.11
+ a.jar lib/lucene-core-4.7.2.jar lib/lucene-analyzers-common-4.7.2.jar
+  lib/lucene-queryparser-4.7.2.jar lib/lucene-queries-4.7.2.jar lib/lu
+ cene-sandbox-4.7.2.jar lib/lucene-spellchecker-3.6.2.jar lib/lucene-a
+ nalyzers-3.6.2.jar lib/jung-api-2.0.1.jar lib/collections-generic-4.0
+ 1.jar lib/jung-algorithms-2.0.1.jar lib/colt-1.2.0.jar lib/concurrent
+ -1.3.4.jar lib/jung-graph-impl-2.0.1.jar lib/apache-jena-libs-2.11.2.
+ pom lib/jena-tdb-1.0.2.jar lib/jena-arq-2.11.2.jar lib/jsonld-java-0.
+ 4.jar lib/jackson-core-2.3.3.jar lib/jackson-databind-2.3.3.jar lib/j
+ ackson-annotations-2.3.0.jar lib/httpclient-cache-4.2.6.jar lib/jcl-o
+ ver-slf4j-1.7.6.jar lib/jena-core-2.11.2.jar lib/jena-iri-1.0.2.jar l
+ ib/slf4j-api-1.7.6.jar lib/slf4j-log4j12-1.7.6.jar lib/log4j-1.2.17.j
+ ar lib/liblinear-1.94.jar lib/junit-4.11.jar lib/hamcrest-core-1.3.ja
+ r lib/commons-math3-3.3.jar lib/json-simple-1.1.1.jar lib/boilerpipe-
+ 1.1.0.jar lib/nekohtml-1.9.13.jar lib/xercesImpl-2.9.1.jar lib/xml-ap
+ is-1.3.04.jar lib/pig-0.14.0.jar lib/commons-cli-1.2.jar lib/xmlenc-0
+ .52.jar lib/commons-httpclient-3.1.jar lib/commons-net-1.4.1.jar lib/
+ jetty-6.1.26.jar lib/servlet-api-2.5-20081211.jar lib/jetty-util-6.1.
+ 26.jar lib/jasper-runtime-5.5.12.jar lib/jasper-compiler-5.5.12.jar l
+ ib/jsp-api-2.1-6.1.14.jar lib/jsp-2.1-6.1.14.jar lib/core-3.1.1.jar l
+ ib/ant-1.6.5.jar lib/commons-el-1.0.jar lib/jets3t-0.7.1.jar lib/serv
+ let-api-2.5-6.1.14.jar lib/kfs-0.3.jar lib/hsqldb-1.8.0.10.jar lib/or
+ o-2.0.8.jar lib/jline-1.0.jar lib/ST4-4.0.4.jar lib/antlr-runtime-3.4
+ .jar lib/stringtemplate-3.2.1.jar lib/antlr-2.7.7.jar lib/automaton-1
+ .11-8.jar lib/jackson-mapper-asl-1.8.8.jar lib/jackson-core-asl-1.8.8
+ .jar lib/joda-time-2.1.jar lib/avro-1.7.4.jar lib/paranamer-2.3.jar l
+ ib/snappy-java-1.0.4.1.jar lib/commons-compress-1.4.1.jar lib/xz-1.0.
+ jar lib/metrics-core-2.0.0-RC0.jar
 Created-By: IntelliJ IDEA
 Build-Jdk: 1.8.0_25
+Main-Class: di.uniba.it.lodrecsys.graph.GraphRunner
 

@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static di.uniba.it.lodrecsys.graph.GraphRunner.savefileLog;
+import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
  * Created by asuglia on 4/4/14.
