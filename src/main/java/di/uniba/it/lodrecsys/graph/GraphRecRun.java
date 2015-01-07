@@ -14,9 +14,16 @@ public class GraphRecRun {
 
     private static String level;
 
+    //java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 MRMR 30
+
     public static void main(String[] args) throws IOException {
 
         level = args[0];
+        LoadProperties.FILTERTYPE = args[1];
+        LoadProperties.NUMFILTER = args[2];
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            LoadProperties.EVALWEKA = args[3];
+
         loadValue();
 
         System.out.println(new Date() + "[INFO] Recommendation " + level + " Started.");

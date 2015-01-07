@@ -13,8 +13,16 @@ import static di.uniba.it.lodrecsys.graph.RecommenderSys.loadValue;
 /**
  * Created by simo on 06/01/15.
  */
+
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun MRMR 30
+
 public class GraphFSRun {
     public static void main(String[] args) throws IOException {
+
+        LoadProperties.FILTERTYPE = args[0];
+        LoadProperties.NUMFILTER = args[1];
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            LoadProperties.EVALWEKA = args[2];
 
         System.out.println(new Date() + "[INFO] Feature Started.");
 

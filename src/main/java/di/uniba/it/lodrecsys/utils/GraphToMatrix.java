@@ -120,9 +120,12 @@ public class GraphToMatrix {
                 attVals.addElement(matrixGraph[i][0]);
             atts.addElement(new Attribute("class", attVals));
 
+            attVals = new FastVector();
+            attVals.addElement("1");
+            attVals.addElement("0");
             // - string attributes
             for (String s : getProperties().keySet()) {
-                atts.addElement(new Attribute(s));
+                atts.addElement(new Attribute(s, attVals));
             }
 
             // 2. create Instances object
