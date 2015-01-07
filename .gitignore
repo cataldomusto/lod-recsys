@@ -11,3 +11,4 @@ dataset/**
 mapping/**
 ./idea
 *.jar
+datasets/ml-100k/results/UserItemExpDBPedia/**

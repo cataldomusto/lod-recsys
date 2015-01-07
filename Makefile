@@ -1,15 +1,15 @@
 feature:
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun PageRank 30
 
 recommendation1:
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 &
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 &
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20
 
-recommendation: recommendation1
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 &
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 &
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all 
+recommendation:
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 PageRank 30 &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 PageRank 30 &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all PageRank 30 
 
 evaluation:
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 PageRank 30
