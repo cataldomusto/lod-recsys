@@ -63,13 +63,34 @@ public class GraphRecRun {
     }
 
     public static void cleanfileLog() {
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
+        else
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
 //        new File("./datasets/ml-100k/results/UserItemExpDBPedia/"+LoadProperties.FILTERTYPE+"/log/").mkdirs();
-        new File("./datasets/ml-100k/results/UserItemExpDBPedia/" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split/log/sperimentazione" + level).delete();
+        new File(dir+"/log/sperimentazione" + level).delete();
     }
 
     public static void savefileLog(String s) {
-        new File("./datasets/ml-100k/results/UserItemExpDBPedia/" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split/log/").mkdirs();
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./datasets/ml-100k/results/UserItemExpDBPedia/" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split/log/sperimentazione" + level, true)))) {
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+        else
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+        System.out.println(dir);
+        new File(dir+"/log/").mkdirs();
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(dir+"/log/sperimentazione" + level, true)))) {
             out.println(s);
         } catch (IOException e) {
             e.printStackTrace();

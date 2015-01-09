@@ -7,7 +7,7 @@ import subprocess
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-sperim=["PageRank30prop5split"]
+sperim=["MRMR17prop5split","PageRank17prop5split"]
 for alg in os.listdir("."):
     if alg in sperim:
         if os.path.exists("./"+alg+"/summaries/"):
