@@ -88,7 +88,6 @@ public class GraphRecRun {
             dir = LoadProperties.RESPATH + File.separator +
                     LoadProperties.METHOD + File.separator +
                     LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
-        System.out.println(dir);
         new File(dir+"/log/").mkdirs();
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(dir+"/log/sperimentazione" + level, true)))) {
             out.println(s);
