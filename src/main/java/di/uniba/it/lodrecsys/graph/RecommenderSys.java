@@ -37,7 +37,7 @@ public class RecommenderSys implements Serializable {
     public static void featureSelection(String trainFile, String testFile) throws IOException {
 
 //      Execute all algorithm of feature selection
-//        GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
+        GraphFactory.createAllFeatureSelection(trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
 
 //      Create Graph to filter
         GraphFactory.createSubsetFeature(LoadProperties.FILTERTYPE, trainFile, testFile, LoadProperties.PROPERTYINDEXDIR, mappingList);
@@ -58,16 +58,28 @@ public class RecommenderSys implements Serializable {
 
     public static void saveRec(String level) throws IOException {
         String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
-        else
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
+        switch (LoadProperties.FILTERTYPE) {
+            case "RankerWeka":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            default:
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+
+        }
+
         new File("./" + dir).mkdirs();
         FileOutputStream fos = new FileOutputStream("./" + dir + "/recommendationForSplits.bin");
         ObjectOutputStream o = new ObjectOutputStream(fos);
@@ -79,16 +91,27 @@ public class RecommenderSys implements Serializable {
 
     public static void loadRec(String level) throws IOException, ClassNotFoundException {
         String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
-        else
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
+        switch (LoadProperties.FILTERTYPE) {
+            case "RankerWeka":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            default:
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+
+        }
         FileInputStream fis = new FileInputStream("./" + dir + "/recommendationForSplits.bin");
         ObjectInputStream ois = new ObjectInputStream(fis);
         recommendationForSplits = (List<Map<String, Set<Rating>>>) ois.readObject();
@@ -98,16 +121,27 @@ public class RecommenderSys implements Serializable {
 
     private static void delSerRec(String level) {
         String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
-        else
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
+        switch (LoadProperties.FILTERTYPE) {
+            case "RankerWeka":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            default:
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+
+        }
         File serRec = new File("./" + dir + "/recommendationForSplits.bin");
         if (serRec.exists())
             serRec.delete();
@@ -115,16 +149,27 @@ public class RecommenderSys implements Serializable {
 
     public static void evaluator(String level) {
         String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
-        else
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
+        switch (LoadProperties.FILTERTYPE) {
+            case "RankerWeka":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            default:
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+
+        }
         try {
             loadRec(level);
             for (int numRec : LoadProperties.LISTRECSIZES) {

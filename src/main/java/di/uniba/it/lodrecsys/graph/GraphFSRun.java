@@ -15,12 +15,15 @@ import static di.uniba.it.lodrecsys.graph.RecommenderSys.loadValue;
  */
 
 //java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun MRMR 30
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun CFSubsetEval
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun RankerWeka 30 PCA
 
 public class GraphFSRun {
     public static void main(String[] args) throws IOException {
 
         LoadProperties.FILTERTYPE = args[0];
-        LoadProperties.NUMFILTER = args[1];
+        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval"))
+            LoadProperties.NUMFILTER = args[1];
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
             LoadProperties.EVALWEKA = args[2];
 

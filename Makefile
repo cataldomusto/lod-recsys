@@ -1,23 +1,23 @@
 feature:
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 17 InfoGainAttributeEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
 
 recommendation1:
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 RankerWeka 17 InfoGainAttributeEval &
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 RankerWeka 17 InfoGainAttributeEval &
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20 RankerWeka 17 InfoGainAttributeEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 CFSubsetEval &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20 CFSubsetEval
 
-recommendation:
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 RankerWeka 17 InfoGainAttributeEval &
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 RankerWeka 17 InfoGainAttributeEval &
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all RankerWeka 17 InfoGainAttributeEval
+recommendation: recommendation1
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 CFSubsetEval &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 CFSubsetEval &
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all CFSubsetEval
 
 evaluation:
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 RankerWeka 17 InfoGainAttributeEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 RankerWeka 17 InfoGainAttributeEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 RankerWeka 17 InfoGainAttributeEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 RankerWeka 17 InfoGainAttributeEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 RankerWeka 17 InfoGainAttributeEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all RankerWeka 17 InfoGainAttributeEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 CFSubsetEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 CFSubsetEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 CFSubsetEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 CFSubsetEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 CFSubsetEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all CFSubsetEval
 
 recsys: feature recommendation evaluation
 

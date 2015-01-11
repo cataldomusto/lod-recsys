@@ -20,7 +20,8 @@ public class GraphRecRun {
 
         level = args[0];
         LoadProperties.FILTERTYPE = args[1];
-        LoadProperties.NUMFILTER = args[2];
+        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval"))
+            LoadProperties.NUMFILTER = args[2];
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
             LoadProperties.EVALWEKA = args[3];
 
@@ -64,32 +65,50 @@ public class GraphRecRun {
 
     public static void cleanfileLog() {
         String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
-        else
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                    level;
+        switch (LoadProperties.FILTERTYPE) {
+            case "RankerWeka":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+            case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+            default:
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+        }
 //        new File("./datasets/ml-100k/results/UserItemExpDBPedia/"+LoadProperties.FILTERTYPE+"/log/").mkdirs();
-        new File(dir+"/log/sperimentazione" + level).delete();
+        new File(dir + "/log/sperimentazione" + level).delete();
     }
 
     public static void savefileLog(String s) {
         String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
-        else
-            dir = LoadProperties.RESPATH + File.separator +
-                    LoadProperties.METHOD + File.separator +
-                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
-        new File(dir+"/log/").mkdirs();
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(dir+"/log/sperimentazione" + level, true)))) {
+        switch (LoadProperties.FILTERTYPE) {
+            case "RankerWeka":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+            case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+            default:
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+
+        }
+
+        new File(dir + "/log/").mkdirs();
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(dir + "/log/sperimentazione" + level, true)))) {
             out.println(s);
         } catch (IOException e) {
             e.printStackTrace();

@@ -19,8 +19,8 @@ public class GraphEvalRun {
 
         String level = args[0];
         LoadProperties.FILTERTYPE = args[1];
-        LoadProperties.NUMFILTER = args[2];
-
+        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval"))
+            LoadProperties.NUMFILTER = args[2];
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
             LoadProperties.EVALWEKA = args[3];
 

@@ -66,7 +66,16 @@ public class GraphFactory {
             );
             graphFS.run();
         } else
-            savefileLog(new Date() + " [INFO] Feature Selection with mRMR already created.");
+            savefileLog(new Date() + " [INFO] Feature Selection with MRMR already created.");
+        if (!new File("./mapping/FS/CFSubsetEval").exists()) {
+            graphFS = new CFSubsetEvalWeka((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        } else
+            savefileLog(new Date() + " [INFO] Feature Selection with CFSubsetEval already created.");
         for (String s : LISTEVALWEKA) {
             if (!new File("./mapping/FS/RankerWeka" + s).exists()) {
                 graphFS = new RankerWeka((String) params[0],
@@ -94,9 +103,14 @@ public class GraphFactory {
 
         List<String> ranks = Files.readAllLines(Paths.get(fileName),
                 Charset.defaultCharset());
-        for (int i = 0; i < Integer.parseInt(NUMFILTER); i++)
-            out.println(ranks.get(i).split(" ")[1]);
 
+        if (FILTERTYPE.equals("CFSubsetEval")) {
+            for (String rank : ranks)
+                out.println(rank.split(" ")[1]);
+        } else {
+            for (int i = 0; i < Integer.parseInt(NUMFILTER); i++)
+                out.println(ranks.get(i).split(" ")[1]);
+        }
         out.close();
         fout.close();
         savefileLog("\n" + new Date() + " [INFO] Feature Subset with " + filter + " loaded.");
@@ -158,6 +172,18 @@ public class GraphFactory {
                     graphFS.run();
                 } else
                     savefileLog(new Date() + " [INFO] Feature Selection with " + FILTERTYPE + " already created.");
+                break;
+
+            case "CFSubsetEval":
+                if (!new File("./mapping/FS/CFSubsetEval").exists()) {
+                    graphFS = new CFSubsetEvalWeka((String) params[0],
+                            (String) params[1],
+                            (String) params[2],
+                            (List<MovieMapping>) params[3]
+                    );
+                    graphFS.run();
+                } else
+                    savefileLog(new Date() + " [INFO] Feature Selection with CFSubsetEval already created.");
                 break;
 
             case "RankerWeka":
