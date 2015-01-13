@@ -42,50 +42,38 @@ public class RankerWeka extends FS {
         AttributeSelection attributeSelection = new AttributeSelection();
         ASEvaluation eval = null;
         switch (evalName) {
+
+            case "ChiSquaredAttributeEval":
+                eval = new ChiSquaredAttributeEval();
+                break;
+
             case "InfoGainAttributeEval":
                 eval = new InfoGainAttributeEval();
-                ((InfoGainAttributeEval) eval).setBinarizeNumericAttributes(true);    // BinarizeNumericAttributes
+//                ((InfoGainAttributeEval) eval).setBinarizeNumericAttributes(true);    // BinarizeNumericAttributes
                 break;
 
             case "GainRatioAttributeEval":
                 eval = new GainRatioAttributeEval();
                 break;
 
-            case "SVMAttributeEval":
-                eval = new SVMAttributeEval();
-                break;
-
-            case "ReliefFAttributeEval":
-                eval = new ReliefFAttributeEval();
-                break;
-
-            case "ChiSquaredAttributeEval":
-                eval = new ChiSquaredAttributeEval();
-                break;
-
-            case "FilteredAttributeEval":
-                eval = new FilteredAttributeEval();
+            case "LatentSemanticAnalysis":
+                eval = new LatentSemanticAnalysis();
                 break;
 
             case "PCA":
                 eval = new PrincipalComponents();
                 break;
 
-            case "OneRAttributeEval":
-                eval = new OneRAttributeEval();
+            case "ReliefFAttributeEval":
+                eval = new ReliefFAttributeEval();
                 break;
 
-            case "LatentSemanticAnalysis":
-                eval = new LatentSemanticAnalysis();
+            case "SVMAttributeEval":
+                eval = new SVMAttributeEval();
                 break;
 
-            case "SymmetricalUncertAttributeEval":
-                eval = new SymmetricalUncertAttributeEval();
-                break;
-//            case "CorrelationAttributeEval":                   // Usage weka-dev 3.7.11
-//                eval = new CorrelationAttributeEval();
-//                break;
         }
+
         Ranker ranker = new Ranker();
         ranker.setNumToSelect(-1);
         ranker.setGenerateRanking(true);
@@ -111,9 +99,10 @@ public class RankerWeka extends FS {
             rank.add(scored);
         }
 
-        for (VertexScored vertexScored : rank)
-            out.println(vertexScored.getScore() + " " + vertexScored.getProperty());
-
+        for (VertexScored vertexScored : rank) {
+            if (!vertexScored.getProperty().equals("class"))
+                out.println(vertexScored.getScore() + " " + vertexScored.getProperty());
+        }
         out.close();
         fout.close();
 

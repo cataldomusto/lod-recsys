@@ -12,12 +12,12 @@ recommendation: recommendation1
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all CFSubsetEval
 
 evaluation:
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 CFSubsetEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 CFSubsetEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 CFSubsetEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 CFSubsetEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 CFSubsetEval
-	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all CFSubsetEval
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 PageRank 5
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 PageRank 5 
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 PageRank 5 
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 PageRank 5 
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 PageRank 5 
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all PageRank 5 
 
 recsys: feature recommendation evaluation
 
