@@ -1,0 +1,163 @@
+#!/usr/bin/python
+
+import time
+import subprocess
+
+#mrmr                       10
+#InfoGainAttributeEval	    10    30 50
+#ReliefFAttributeEval	    10 17    50
+
+#ChiSquaredAttributeEval	10 17 30 50
+#GainRatioAttributeEval 	10 17 30 50
+#PCA	                    10 17 30 50(Non ci sono 50 feature)
+#SVMAttributeEval           10 17 30 50
+
+#feature:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
+
+#recommendation1:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20 CFSubsetEval
+
+#recommendation: recommendation1
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all CFSubsetEval
+
+#evaluation:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 PageRank 5
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all PageRank 5 
+
+#evaluationCF:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all RankerWeka 11 LatentSemanticAnalysis
+
+allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","PCA","SVMAttributeEval"]
+
+param=3
+cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+#allalg=["ChiSquaredAttributeEval"]
+topN=["10" ,"17", "30", "50"]
+givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+
+cmdExecFS=[]
+cmdExecLOGFS=[]
+
+cmdExecREC=[]
+cmdExecLOGREC=[]
+
+cmdExecEV=[]
+cmdExecLOGEV=[]
+
+for alg in allalg:
+    for top in topN:
+#       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 11 LatentSemanticAnalysis"
+        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka "+top+" "+ alg
+        cmdLOG = "java -cp GraphFSRun RankerWeka "+top+" "+ alg
+        cmdExecFS.append(cmd)
+        cmdExecLOGFS.append(cmdLOG)
+#        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
+
+        for given in givenN:
+#               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 RankerWeka 11 PCA &"
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" RankerWeka "+top+" "+alg+" &"
+            cmdLOG = "java -cp GraphRecRun "+given+" RankerWeka "+top+" "+alg+" &"
+            cmdExecREC.append(cmd)
+            cmdExecLOGREC.append(cmdLOG)
+
+        for given in givenN:
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" RankerWeka "+top+" "+alg
+            cmdLOG = "java -cp GraphEvalRun "+given+" RankerWeka "+top+" "+alg
+            cmdExecEV.append(cmd)
+            cmdExecLOGEV.append(cmdLOG)
+
+# Execute cmd parallel Feature
+
+while (len(cmdExecFS)>1):
+    numThread = subprocess.check_output(cmdThread,shell=True)
+    val= int(numThread)-1
+
+    for aa in range(0,param-val):
+        subprocess.call(cmdExecFS[aa], shell=True)
+        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
+
+    for a in range(0,param-val):
+        del cmdExecFS[0]
+        del cmdExecLOGFS[0]
+
+numThread =subprocess.check_output(cmdThread,shell=True)
+val=int(numThread)-1
+
+while (val >= param):
+    numThread =subprocess.check_output(cmdThread,shell=True)
+    val=int(numThread)-1
+
+print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[0] +"\n"
+subprocess.call(cmdExecFS[0], shell=True)
+cmdExecFS=[]
+cmdExecLOGFS=[]
+print "Fine FS"
+
+## Execute cmd parallel Recommendation
+while (len(cmdExecREC)>1):
+    numThread = subprocess.check_output(cmdThread,shell=True)
+    val= int(numThread)-1
+
+    for aa in range(0,param-val):
+#        subprocess.call(cmdExecREC[aa], shell=True)
+        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
+
+    for a in range(0,param-val):
+        del cmdExecREC[0]
+        del cmdExecLOGREC[0]
+
+if (len(cmdExecREC)!=0):
+    numThread =subprocess.check_output(cmdThread,shell=True)
+    val=int(numThread)-1
+
+    while (val >= param):
+        numThread =subprocess.check_output(cmdThread,shell=True)
+        val=int(numThread)-1
+
+    print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[0] +"\n"
+    #subprocess.call(cmdExecREC[0], shell=True)
+    cmdExecREC=[]
+    cmdExecLOGREC=[]
+print "Fine Rec"
+
+# Execute cmd parallel Eval
+
+while (len(cmdExecEV)>1):
+    numThread = subprocess.check_output(cmdThread,shell=True)
+    val= int(numThread)-1
+
+    for aa in range(0,param-val):
+#        subprocess.call(cmdExecEV[aa], shell=True)
+        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
+
+    for a in range(0,param-val):
+        del cmdExecEV[0]
+        del cmdExecLOGEV[0]
+
+if (len(cmdExecREC)!=0):
+    numThread =subprocess.check_output(cmdThread,shell=True)
+    val=int(numThread)-1
+
+    while (val >= param):
+        numThread =subprocess.check_output(cmdThread,shell=True)
+        val=int(numThread)-1
+
+    print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
+    #subprocess.call(cmdExecEV[0], shell=True)
+    cmdExecEV=[]
+    cmdExecLOGEV=[]
+print "Fine EV"
