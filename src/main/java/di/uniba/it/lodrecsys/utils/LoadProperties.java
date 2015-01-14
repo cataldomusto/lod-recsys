@@ -68,17 +68,13 @@ public class LoadProperties {
         };
 
         LISTEVALWEKA = new String[]{
-                "LatentSemanticAnalysis",
-                "OneRAttributeEval",
-                "GainRatioAttributeEval",
-                "SVMAttributeEval",
-                "ReliefFAttributeEval",
                 "ChiSquaredAttributeEval",
-                "FilteredAttributeEval",
-                "PCA",
                 "InfoGainAttributeEval",
-                "SymmetricalUncertAttributeEval"
-//                "CorrelationAttributeEval"
+                "GainRatioAttributeEval",
+                "LatentSemanticAnalysis",
+                "PCA",
+                "ReliefFAttributeEval",
+                "SVMAttributeEval"
         };
         MASSPROB = 0.8;
     }

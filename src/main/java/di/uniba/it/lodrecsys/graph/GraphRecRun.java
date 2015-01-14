@@ -29,7 +29,7 @@ public class GraphRecRun {
             fileProp += args[3];
         }
 
-        LoadProperties.CHOOSENPROP = "./mapping/choosen_prop" + fileProp;
+        LoadProperties.CHOOSENPROP = "./mapping/choosen_prop/choosen_prop" + fileProp;
 
         if (!new File(LoadProperties.CHOOSENPROP).exists())
             GraphFactory.subsetProp();

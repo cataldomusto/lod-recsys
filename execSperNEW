@@ -12,36 +12,7 @@ import subprocess
 #PCA	                    10 17 30 50(Non ci sono 50 feature)
 #SVMAttributeEval           10 17 30 50
 
-#feature:
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
-
-#recommendation1:
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 CFSubsetEval &
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20 CFSubsetEval
-
-#recommendation: recommendation1
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 CFSubsetEval &
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 CFSubsetEval &
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all CFSubsetEval
-
-#evaluation:
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 PageRank 5
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 PageRank 5 
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 PageRank 5 
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 PageRank 5 
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 PageRank 5 
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all PageRank 5 
-
-#evaluationCF:
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 RankerWeka 11 LatentSemanticAnalysis
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 RankerWeka 11 LatentSemanticAnalysis
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 RankerWeka 11 LatentSemanticAnalysis
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 RankerWeka 11 LatentSemanticAnalysis
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 RankerWeka 11 LatentSemanticAnalysis
-#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all RankerWeka 11 LatentSemanticAnalysis
-
-allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","PCA","SVMAttributeEval"]
+allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
 
 param=3
 cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
@@ -161,3 +132,32 @@ if (len(cmdExecREC)!=0):
     cmdExecEV=[]
     cmdExecLOGEV=[]
 print "Fine EV"
+
+#feature:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
+
+#recommendation1:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20 CFSubsetEval
+
+#recommendation: recommendation1
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 CFSubsetEval &
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all CFSubsetEval
+
+#evaluation:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 PageRank 5
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 PageRank 5 
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all PageRank 5 
+
+#evaluationCF:
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 RankerWeka 11 LatentSemanticAnalysis
+#	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all RankerWeka 11 LatentSemanticAnalysis
