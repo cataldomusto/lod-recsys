@@ -19,11 +19,20 @@ public class GraphRecRun {
     public static void main(String[] args) throws IOException {
 
         level = args[0];
-        LoadProperties.FILTERTYPE = args[1];
-        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval"))
+        String fileProp = LoadProperties.FILTERTYPE = args[1];
+        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
             LoadProperties.NUMFILTER = args[2];
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            fileProp += args[2];
+        }
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
             LoadProperties.EVALWEKA = args[3];
+            fileProp += args[3];
+        }
+
+        LoadProperties.CHOOSENPROP = "./mapping/choosen_prop" + fileProp;
+
+        if (!new File(LoadProperties.CHOOSENPROP).exists())
+            GraphFactory.subsetProp();
 
         loadValue();
 

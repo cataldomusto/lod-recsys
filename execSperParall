@@ -1,0 +1,30 @@
+#!/usr/bin/python
+
+import subprocess
+
+param=3
+i=["given_10","given_20","given_30","given_5","given_50","given_all"]
+
+while (len(i)>1):
+    cmd1 ="ps aux | grep \'java -jar test.jar\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+    cy =subprocess.check_output(cmd1,shell=True)
+    val=int(cy)-1
+    for aa in range(0,param-val):
+        cmd = "java -jar test.jar "+i[aa]+" &"
+        print cmd
+        subprocess.call(cmd, shell=True)
+    for a in range(0,param-val):
+        del i[0]
+cmd1 ="ps aux | grep \'java -jar test.jar\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+cy =subprocess.check_output(cmd1,shell=True)
+val=int(cy)-1
+while (val >= param):
+    cmd1 ="ps aux | grep \'java -jar test.jar\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+    cy =subprocess.check_output(cmd1,shell=True)
+    val=int(cy)-1
+cmd = "java -jar test.jar "+i[0]+" &"
+subprocess.call(cmd, shell=True)
+i=[]
+print "Fine"
+
+#out = subprocess.check_output("ps aux | grep \'java\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' | grep \'GraphRecRun\'| wc -l", shell=True)

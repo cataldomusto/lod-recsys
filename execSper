@@ -1,15 +1,16 @@
 #!/usr/bin/python
 
 import time
+import subprocess
 
-#mrmr 10
-#InfoGain	10 30 50
-#ReliefF	10 17 50
+#mrmr                       10
+#InfoGainAttributeEval	    10    30 50
+#ReliefFAttributeEval	    10 17    50
 
-#ChiSquared	10 17 30 50
-#GainRatio	10 17 30 50
-#PCA	    10 17 30 50
-#SVM        10 17 30 50
+#ChiSquaredAttributeEval	10 17 30 50
+#GainRatioAttributeEval 	10 17 30 50
+#PCA	                    10 17 30 50
+#SVMAttributeEval           10 17 30 50
 
 #feature:
 #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
@@ -51,7 +52,8 @@ import time
 #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 RankerWeka 11 LatentSemanticAnalysis
 #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all RankerWeka 11 LatentSemanticAnalysis
 
-allalg=["ChiSquared","GainRatio","PCA","SVM"]
+#allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","PCA","SVMAttributeEval"]
+allalg=["ChiSquaredAttributeEval"]
 topN=["10" ,"17", "30", "50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 for alg in allalg:
@@ -60,7 +62,7 @@ for alg in allalg:
 #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 11 LatentSemanticAnalysis"
         cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka "+top+" "+ alg
         cmdLOG = "java -cp GraphFSRun RankerWeka "+top+" "+ alg
-#        subprocess.call(cmd, shell=True)
+        subprocess.call(cmd, shell=True)
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
 
         print "\n Rec \n"
@@ -70,16 +72,16 @@ for alg in allalg:
                 cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" RankerWeka "+top+" "+alg+" &"
                 cmdLOG = "java -cp GraphRecRun "+given+" RankerWeka "+top+" "+alg+" &"
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG
-#                subprocess.call(cmd, shell=True)
+                subprocess.call(cmd, shell=True)
             else:
                 cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" RankerWeka "+top+" "+alg
                 cmdLOG = "java -cp GraphRecRun "+given+" RankerWeka "+top+" "+alg
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG
-#                subprocess.call(cmd, shell=True)
+                subprocess.call(cmd, shell=True)
 
         print "\n Eval \n"
         for given in givenN:
             cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" RankerWeka "+top+" "+alg
             cmdLOG = "java -cp GraphEvalRun "+given+" RankerWeka "+top+" "+alg
+            subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG
-

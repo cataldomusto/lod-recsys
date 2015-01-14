@@ -19,13 +19,21 @@ import static di.uniba.it.lodrecsys.graph.RecommenderSys.loadValue;
 //java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun RankerWeka 30 PCA
 
 public class GraphFSRun {
+
     public static void main(String[] args) throws IOException {
 
-        LoadProperties.FILTERTYPE = args[0];
-        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval"))
+        String fileProp = LoadProperties.FILTERTYPE = args[0];
+        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
             LoadProperties.NUMFILTER = args[1];
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            fileProp += args[1];
+        }
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
             LoadProperties.EVALWEKA = args[2];
+            fileProp += args[2];
+        }
+
+        LoadProperties.CHOOSENPROP = "./mapping/choosen_prop" + fileProp;
+        new File(LoadProperties.CHOOSENPROP).createNewFile();
 
         System.out.println(new Date() + "[INFO] Feature Started.");
 

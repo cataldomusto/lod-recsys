@@ -4,6 +4,7 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Pair;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.featureSelection.*;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -90,7 +91,7 @@ public class GraphFactory {
     }
 
     public static void subsetProp() throws IOException {
-        FileOutputStream fout = new FileOutputStream("./mapping/choosen_prop");
+        FileOutputStream fout = new FileOutputStream(LoadProperties.CHOOSENPROP);
         PrintWriter out = new PrintWriter(fout);
         String fileName, filter;
         if (FILTERTYPE.equals("RankerWeka")) {
