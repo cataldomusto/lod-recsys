@@ -101,7 +101,7 @@ print "Fine FS"
 while (len(cmdExecREC)>1):
     numThread = subprocess.check_output(cmdThread,shell=True)
     val= int(numThread)-1
-    if ((param-val) < len(cmdExecFS)):
+    if ((param-val) < len(cmdExecREC)):
         for aa in range(0,param-val):
             subprocess.call(cmdExecREC[aa], shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
