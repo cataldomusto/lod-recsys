@@ -19,8 +19,10 @@ from datetime import datetime
 #SVMAttributeEval           10 17 30 50
 
 param=3
-allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
-topN=["10" ,"17", "30", "50"]
+allalg=["GainRatioAttributeEval"]
+#allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
+#topN=["10" ,"17", "30", "50"]
+topN=["10" ,"17"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
@@ -64,28 +66,57 @@ for alg in allalg:
 while (len(cmdExecFS)>1):
     numThread = subprocess.check_output(cmdThread,shell=True)
     val= int(numThread)-1
+    if ((param-val) < len(cmdExecFS)):
+        for aa in range(0,param-val):
+#            subprocess.call(cmdExecFS[aa], shell=True)
+            print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
 
-    for aa in range(0,param-val):
-        subprocess.call(cmdExecFS[aa], shell=True)
-        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
+        for a in range(0,param-val):
+            del cmdExecFS[0]
+            del cmdExecLOGFS[0]
+    else:
+        for aa in range(0,len(cmdExecFS)):
+#            subprocess.call(cmdExecFS[aa], shell=True)
+            print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
 
-    for a in range(0,param-val):
-        del cmdExecFS[0]
-        del cmdExecLOGFS[0]
+        for a in range(0,len(cmdExecFS)):
+            del cmdExecFS[0]
+            del cmdExecLOGFS[0]
+
+if (len(cmdExecFS)!=0):
+    numThread =subprocess.check_output(cmdThread,shell=True)
+    val=int(numThread)-1
+
+    while (val >= param):
+        numThread =subprocess.check_output(cmdThread,shell=True)
+        val=int(numThread)-1
+
+    print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[0] +"\n"
+#    subprocess.call(cmdExecFS[0], shell=True)
+    cmdExecREC=[]
+    cmdExecLOGREC=[]
 print "Fine FS"
 
 ## Execute cmd parallel Recommendation
 while (len(cmdExecREC)>1):
     numThread = subprocess.check_output(cmdThread,shell=True)
     val= int(numThread)-1
+    if ((param-val) < len(cmdExecFS)):
+        for aa in range(0,param-val):
+#            subprocess.call(cmdExecREC[aa], shell=True)
+            print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
-    for aa in range(0,param-val):
-#        subprocess.call(cmdExecREC[aa], shell=True)
-        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
+        for a in range(0,param-val):
+            del cmdExecREC[0]
+            del cmdExecLOGREC[0]
+    else:
+        for aa in range(0,len(cmdExecREC)):
+#            subprocess.call(cmdExecREC[aa], shell=True)
+            print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
-    for a in range(0,param-val):
-        del cmdExecREC[0]
-        del cmdExecLOGREC[0]
+        for a in range(0,len(cmdExecREC)):
+            del cmdExecREC[0]
+            del cmdExecLOGREC[0]
 
 if (len(cmdExecREC)!=0):
     numThread =subprocess.check_output(cmdThread,shell=True)
@@ -96,7 +127,7 @@ if (len(cmdExecREC)!=0):
         val=int(numThread)-1
 
     print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[0] +"\n"
-    #subprocess.call(cmdExecREC[0], shell=True)
+#    subprocess.call(cmdExecREC[0], shell=True)
     cmdExecREC=[]
     cmdExecLOGREC=[]
 print "Fine Rec"
@@ -108,7 +139,7 @@ while (len(cmdExecEV)>1):
     val= int(numThread)-1
 
     for aa in range(0,param-val):
-#        subprocess.call(cmdExecEV[aa], shell=True)
+        subprocess.call(cmdExecEV[aa], shell=True)
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
     for a in range(0,param-val):
@@ -124,7 +155,7 @@ if (len(cmdExecREC)!=0):
         val=int(numThread)-1
 
     print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-    #subprocess.call(cmdExecEV[0], shell=True)
+    subprocess.call(cmdExecEV[0], shell=True)
     cmdExecEV=[]
     cmdExecLOGEV=[]
 print "Fine EV"
