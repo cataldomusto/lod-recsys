@@ -2,6 +2,12 @@
 
 import time
 import subprocess
+import sys
+import os
+import shutil
+from time import gmtime, strftime, localtime
+from datetime import datetime
+
 
 #mrmr                       10
 #InfoGainAttributeEval	    10    30 50
@@ -12,13 +18,12 @@ import subprocess
 #PCA	                    10 17 30 50(Non ci sono 50 feature)
 #SVMAttributeEval           10 17 30 50
 
-allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
-
 param=3
-cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
-#allalg=["ChiSquaredAttributeEval"]
+allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
 topN=["10" ,"17", "30", "50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+
+cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
 cmdExecFS=[]
 cmdExecLOGFS=[]
@@ -29,6 +34,8 @@ cmdExecLOGREC=[]
 cmdExecEV=[]
 cmdExecLOGEV=[]
 
+extractVal=[]
+
 for alg in allalg:
     for top in topN:
 #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 11 LatentSemanticAnalysis"
@@ -36,6 +43,7 @@ for alg in allalg:
         cmdLOG = "java -cp GraphFSRun RankerWeka "+top+" "+ alg
         cmdExecFS.append(cmd)
         cmdExecLOGFS.append(cmdLOG)
+        extractVal.append("RankerWeka"+alg+top+"prop5split")
 #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
 
         for given in givenN:
@@ -64,18 +72,6 @@ while (len(cmdExecFS)>1):
     for a in range(0,param-val):
         del cmdExecFS[0]
         del cmdExecLOGFS[0]
-
-numThread =subprocess.check_output(cmdThread,shell=True)
-val=int(numThread)-1
-
-while (val >= param):
-    numThread =subprocess.check_output(cmdThread,shell=True)
-    val=int(numThread)-1
-
-print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[0] +"\n"
-subprocess.call(cmdExecFS[0], shell=True)
-cmdExecFS=[]
-cmdExecLOGFS=[]
 print "Fine FS"
 
 ## Execute cmd parallel Recommendation
@@ -132,6 +128,69 @@ if (len(cmdExecREC)!=0):
     cmdExecEV=[]
     cmdExecLOGEV=[]
 print "Fine EV"
+
+#Extraction values
+
+dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+for alg in os.listdir(dire):
+    if alg in extractVal:
+        if os.path.exists(dire+alg+"/summaries/"):
+	        shutil.rmtree(dire+alg+"/summaries/")
+        os.makedirs(dire+alg+"/summaries/")
+        for given in os.listdir(dire+alg):
+	        if "given" in given: 
+		        with open(dire+alg+"/summaries/"+given+".summary", "a") as myfile:
+            			myfile.write("\nResult Top 50 \n")
+		        cmd = "cat "+dire+alg+"/"+given+"/top_50/"+"metrics.complete"
+		        cmd += " >> "+dire+alg+"/summaries/"+given+".summary"
+		        subprocess.call(cmd, shell=True)    
+
+        metrics=["F1"]
+        for metric in metrics:
+            valor=["5","10","15","20","30","50"]
+            for elem in valor:
+                cmd = "grep \""+metric+"_"+elem+"=\" "+dire+alg+"/summaries/*.summary >> "+dire+alg+"/summaries/res"+metric+elem+".sum1"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\ "+dire+alg+"/summaries/given_\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum1"
+                subprocess.call(cmd, shell=True)
+                cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sum1 | awk 'BEGIN { FS = \"given_\"};{ print $2 }'| uniq > "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum1"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\.summary:"+metric+"_"+elem+"=\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\all\\100\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\ 0.\\ 0,\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\5 0\\005 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\10 0\\010 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\20 0\\020 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\30 0\\030 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\50 0\\050 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\100 0\\100 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sort "+dire+alg+"/summaries/res"+metric+elem+".sum > "+dire+alg+"/summaries/result"+metric+elem
+                subprocess.call(cmd, shell=True)
+                cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\005 \\5 \ ' "+dire+alg+"/summaries/result"+metric+elem
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\010 \\10 \ ' "+dire+alg+"/summaries/result"+metric+elem
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\020 \\20 \ ' "+dire+alg+"/summaries/result"+metric+elem
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\030 \\30 \ ' "+dire+alg+"/summaries/result"+metric+elem
+                subprocess.call(cmd, shell=True)
+                cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
+                subprocess.call(cmd, shell=True)
+        print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
+print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
 
 #feature:
 #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
