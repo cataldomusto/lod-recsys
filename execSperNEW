@@ -19,7 +19,8 @@ from datetime import datetime
 #SVMAttributeEval           10 17 30 50
 
 param=3
-allalg=["GainRatioAttributeEval"]
+allalg=["MRMR"]
+allalgWEKA=["SVMAttributeEval"]
 #allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
 #topN=["10" ,"17", "30", "50"]
 topN=["10" ,"17"]
@@ -38,7 +39,7 @@ cmdExecLOGEV=[]
 
 extractVal=[]
 
-for alg in allalg:
+for alg in allalgWEKA:
     for top in topN:
 #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 11 LatentSemanticAnalysis"
         cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka "+top+" "+ alg
@@ -58,6 +59,29 @@ for alg in allalg:
         for given in givenN:
             cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" RankerWeka "+top+" "+alg
             cmdLOG = "java -cp GraphEvalRun "+given+" RankerWeka "+top+" "+alg
+            cmdExecEV.append(cmd)
+            cmdExecLOGEV.append(cmdLOG)
+
+for alg in allalg:
+    for top in topN:
+#       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun MRMR 11"
+        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun "+ alg+" "+top
+        cmdLOG = "java -cp GraphFSRun "+ alg+" "+top
+        cmdExecFS.append(cmd)
+        cmdExecLOGFS.append(cmdLOG)
+        extractVal.append(alg+top+"prop5split")
+#        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
+
+        for given in givenN:
+#               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 MRMR 11 &"
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" "+ alg+" "+top+" &"
+            cmdLOG = "java -cp GraphRecRun "+given+" "+ alg+" "+top+" &"
+            cmdExecREC.append(cmd)
+            cmdExecLOGREC.append(cmdLOG)
+
+        for given in givenN:
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+top
+            cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top
             cmdExecEV.append(cmd)
             cmdExecLOGEV.append(cmdLOG)
 
@@ -93,8 +117,8 @@ if (len(cmdExecFS)!=0):
 
     print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[0] +"\n"
     subprocess.call(cmdExecFS[0], shell=True)
-    cmdExecREC=[]
-    cmdExecLOGREC=[]
+    cmdExecFS=[]
+    cmdExecLOGFS=[]
 print "Fine FS"
 
 ## Execute cmd parallel Recommendation
@@ -103,7 +127,7 @@ while (len(cmdExecREC)>1):
     val= int(numThread)-1
     if ((param-val) < len(cmdExecREC)):
         for aa in range(0,param-val):
-            subprocess.call(cmdExecREC[aa], shell=True)
+#            subprocess.call(cmdExecREC[aa], shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
         for a in range(0,param-val):
@@ -111,7 +135,7 @@ while (len(cmdExecREC)>1):
             del cmdExecLOGREC[0]
     else:
         for aa in range(0,len(cmdExecREC)):
-            subprocess.call(cmdExecREC[aa], shell=True)
+#            subprocess.call(cmdExecREC[aa], shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
         for a in range(0,len(cmdExecREC)):
@@ -127,7 +151,7 @@ if (len(cmdExecREC)!=0):
         val=int(numThread)-1
 
     print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[0] +"\n"
-    subprocess.call(cmdExecREC[0], shell=True)
+#    subprocess.call(cmdExecREC[0], shell=True)
     cmdExecREC=[]
     cmdExecLOGREC=[]
 print "Fine Rec"
@@ -140,7 +164,7 @@ while (len(cmdExecEV)>1):
     
     if ((param-val) < len(cmdExecEV)):
         for aa in range(0,param-val):
-            subprocess.call(cmdExecEV[aa], shell=True)
+#            subprocess.call(cmdExecEV[aa], shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
         for a in range(0,param-val):
@@ -148,7 +172,7 @@ while (len(cmdExecEV)>1):
             del cmdExecLOGEV[0]
     else:
         for aa in range(0,len(cmdExecEV)):
-            subprocess.call(cmdExecEV[aa], shell=True)
+#            subprocess.call(cmdExecEV[aa], shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
         for a in range(0,len(cmdExecEV)):
@@ -164,7 +188,7 @@ if (len(cmdExecEV)!=0):
         val=int(numThread)-1
 
     print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-    subprocess.call(cmdExecEV[0], shell=True)
+#    subprocess.call(cmdExecEV[0], shell=True)
     cmdExecEV=[]
     cmdExecLOGEV=[]
 print "Fine EV"
