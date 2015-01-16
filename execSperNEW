@@ -154,7 +154,13 @@ if (len(cmdExecREC)!=0):
 #    subprocess.call(cmdExecREC[0], shell=True)
     cmdExecREC=[]
     cmdExecLOGREC=[]
-print "Fine Rec"
+
+numThread = subprocess.check_output(cmdThread,shell=True)
+val= int(numThread)-1
+while (val>0):
+    numThread = subprocess.check_output(cmdThread,shell=True)
+    val= int(numThread)-1
+print time.strftime("%Y-%m-%d %H:%M")+" Fine Rec"
 
 # Execute cmd parallel Eval
 

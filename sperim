@@ -1,0 +1,24 @@
+#!/usr/bin/python
+
+import modSperim
+
+#mrmr                       10
+#InfoGainAttributeEval	    10    30 50
+#ReliefFAttributeEval	    10 17    50
+
+#ChiSquaredAttributeEval	10 17 30 50
+#GainRatioAttributeEval 	10 17 30 50
+#PCA	                    10 17 30 50(Non ci sono 50 feature)
+#SVMAttributeEval           10 17 30 50
+
+param=3
+allalg=["MRMR"]
+allalgWEKA=["SVMAttributeEval"]
+#allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
+#topN=["10" ,"17", "30", "50"]
+topN=["10" ,"17"]
+givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+
+cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+
+modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread)
