@@ -106,7 +106,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
         val= int(numThread)-1
         if ((param-val) < len(cmdExecREC)):
             for aa in range(0,param-val):
-    #            subprocess.call(cmdExecREC[aa], shell=True)
+                subprocess.call(cmdExecREC[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
             for a in range(0,param-val):
@@ -114,7 +114,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
                 del cmdExecLOGREC[0]
         else:
             for aa in range(0,len(cmdExecREC)):
-    #            subprocess.call(cmdExecREC[aa], shell=True)
+                subprocess.call(cmdExecREC[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
             for a in range(0,len(cmdExecREC)):
@@ -130,7 +130,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[0] +"\n"
-    #    subprocess.call(cmdExecREC[0], shell=True)
+        subprocess.call(cmdExecREC[0], shell=True)
         cmdExecREC=[]
         cmdExecLOGREC=[]
 
@@ -149,7 +149,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
         
         if ((param-val) < len(cmdExecEV)):
             for aa in range(0,param-val):
-    #            subprocess.call(cmdExecEV[aa], shell=True)
+                subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,param-val):
@@ -157,7 +157,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
                 del cmdExecLOGEV[0]
         else:
             for aa in range(0,len(cmdExecEV)):
-    #            subprocess.call(cmdExecEV[aa], shell=True)
+                subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,len(cmdExecEV)):
@@ -173,7 +173,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-    #    subprocess.call(cmdExecEV[0], shell=True)
+        subprocess.call(cmdExecEV[0], shell=True)
         cmdExecEV=[]
         cmdExecLOGEV=[]
     print "Fine EV"
