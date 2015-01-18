@@ -192,7 +192,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
                 			myfile.write("\nResult Top 50 \n")
 		            cmd = "cat "+dire+alg+"/"+given+"/top_50/"+"metrics.complete"
 		            cmd += " >> "+dire+alg+"/summaries/"+given+".summary"
-		            subprocess.call(cmd, shell=True)    
+    	            subprocess.call(cmd, shell=True)    
 
             metrics=["F1"]
             for metric in metrics:
@@ -238,6 +238,12 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
                     subprocess.call(cmd, shell=True)
                     cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
                     subprocess.call(cmd, shell=True)
+                    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }'| uniq >> "+dire+alg+"/summaries/FTemp"
+                    subprocess.call(cmd, shell=True)
+            cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/FTemp > "+dire+alg+"/summaries/FSum"
+            subprocess.call(cmd, shell=True)
+            cmd ="rm "+dire+alg+"/summaries/FTemp"
+            subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
 

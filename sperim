@@ -2,23 +2,23 @@
 
 import modSperim
 
-#mrmr                       10
-#InfoGainAttributeEval	    10    30 50
-#ReliefFAttributeEval	    10 17    50
+#mrmr                       
+#InfoGainAttributeEval	         
+#ReliefFAttributeEval	     17    
 
 #ChiSquaredAttributeEval	
-#GainRatioAttributeEval 	10 17 30 50
-#PCA	                    10 17 30 50(Non ci sono 50 feature)
-#SVMAttributeEval                    50
+#GainRatioAttributeEval 	 17 30 
+#PCA	                    17 30 50(Non ci sono 50 feature)
+#SVMAttributeEval                    
 
 cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
-param=6
-allalg=["MRMR"]
-allalgWEKA=["InfoGainAttributeEval","ReliefFAttributeEval","GainRatioAttributeEval","PCA"]
+param=2
+allalg=[]
+allalgWEKA=["SVMAttributeEval"]
 #allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
 #topN=["10" ,"17", "30", "50"]
-topN=["10"]
+topN=["50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 

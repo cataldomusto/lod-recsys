@@ -37,8 +37,8 @@ public class GraphEvalRun {
 
         System.out.println(new Date() + "[INFO] Evaluation " + level + " Completed.");
 
-        if (new File(LoadProperties.CHOOSENPROP).exists())
-            new File(LoadProperties.CHOOSENPROP).delete();
+//        if (new File(LoadProperties.CHOOSENPROP).exists())
+//            new File(LoadProperties.CHOOSENPROP).delete();
     }
 }
 
