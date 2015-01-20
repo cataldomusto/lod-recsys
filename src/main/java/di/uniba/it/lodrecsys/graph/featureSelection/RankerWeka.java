@@ -58,10 +58,12 @@ public class RankerWeka extends FS {
 
             case "LatentSemanticAnalysis":
                 eval = new LatentSemanticAnalysis();
+                ((LatentSemanticAnalysis) eval).setRank(0.99999);
                 break;
 
             case "PCA":
                 eval = new PrincipalComponents();
+                ((PrincipalComponents) eval).setVarianceCovered(0.9999);
                 break;
 
             case "ReliefFAttributeEval":

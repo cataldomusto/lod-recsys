@@ -37,6 +37,7 @@ public class GraphRecRun {
         loadValue();
 
         System.out.println(new Date() + "[INFO] Recommendation " + level + " Started.");
+        long startTime = System.currentTimeMillis();
 
 //        for (SparsityLevel level : SparsityLevel.values()) {
         for (int numSplit = 1; numSplit <= LoadProperties.NUMSPLIT; numSplit++) {
@@ -70,6 +71,9 @@ public class GraphRecRun {
             e.printStackTrace();
         }
         System.out.println(new Date() + "[INFO] Recommendation " + level + " Completed.");
+        long endTime = System.currentTimeMillis();
+        float minutes = (endTime - startTime) / (float)(1000 * 60);
+        savefileLog("[INFO] Recommendation " + level + " Completed in " + Math.round(minutes));
     }
 
     public static void cleanfileLog() {
