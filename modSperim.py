@@ -149,7 +149,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
         
         if ((param-val) < len(cmdExecEV)):
             for aa in range(0,param-val):
-                subprocess.call(cmdExecEV[aa], shell=True)
+                # subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,param-val):
@@ -157,7 +157,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
                 del cmdExecLOGEV[0]
         else:
             for aa in range(0,len(cmdExecEV)):
-                subprocess.call(cmdExecEV[aa], shell=True)
+                # subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,len(cmdExecEV)):
@@ -173,7 +173,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-        subprocess.call(cmdExecEV[0], shell=True)
+        # subprocess.call(cmdExecEV[0], shell=True)
         cmdExecEV=[]
         cmdExecLOGEV=[]
     print "Fine EV"
@@ -246,6 +246,15 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
             subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
+     
+    for alg in allalg:
+        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg
+        print cmd
+        subprocess.call(cmd, shell=True)
+        dire="./datasets/ml-100k/results/UserItemExpDBPedia/"+alg+"/CSV/"
+        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+        subprocess.call(cmd, shell=True)
+    print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 
     #feature:
     #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval

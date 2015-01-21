@@ -1,0 +1,11 @@
+#!/usr/bin/env Rscript
+args <- commandArgs(trailingOnly = TRUE)
+sink(args[2])
+temp = list.files(path = args[1], pattern="*.csv",full.names=TRUE)
+for (j in 1:length(temp)) {
+    mydata=read.csv(temp[j]) 
+    print(temp[j])    
+    print(mydata)
+    print(kruskal.test(mydata))
+}
+
