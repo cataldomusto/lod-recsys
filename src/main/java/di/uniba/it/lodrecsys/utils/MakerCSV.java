@@ -2,6 +2,7 @@ package di.uniba.it.lodrecsys.utils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -32,6 +33,24 @@ public class MakerCSV {
         return map;
     }
 
+
+    private static HashMap<Integer, ArrayList<String>> loadbaseline() {
+        HashMap<Integer, ArrayList<String>> map = new HashMap<>(6);
+        ArrayList<String> val = new ArrayList<>(
+                Arrays.asList("0.4596", "0.4622", "0.4722", "0.4765", "0.4803", "0.4973"));
+        map.put(F[0], val);
+        val = new ArrayList<>(
+                Arrays.asList("0.5392", "0.5431", "0.5509", "0.5548", "0.5590", "0.5747"));
+        map.put(F[1], val);
+        val = new ArrayList<>(
+                Arrays.asList("0.5381", "0.5418", "0.5482", "0.5519", "0.5566", "0.5702"));
+        map.put(F[2], val);
+        val = new ArrayList<>(
+                Arrays.asList("0.5197", "0.5228", "0.5272", "0.5301", "0.5342", "0.5468"));
+        map.put(F[3], val);
+        return map;
+    }
+
     /*
     @args PageRank
      */
@@ -39,6 +58,8 @@ public class MakerCSV {
         String alg = args[0];
 
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "/CSV/").mkdirs();
+
+//        HashMap<Integer, ArrayList<String>> baseline = loadbaseline();
 
         HashMap<Integer, ArrayList<String>> top10 = loadtop(0, alg);
         HashMap<Integer, ArrayList<String>> top17 = loadtop(1, alg);
@@ -48,6 +69,9 @@ public class MakerCSV {
         for (int i1 = 0; i1 < F.length; i1++) {
             String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "/CSV/F" + F[i1] + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+
+//            out.append("baseline,");
+
             for (int i = 0; i < TOP.length - 1; i++) {
                 out.append(alg + TOP[i] + ",");
             }
@@ -61,6 +85,7 @@ public class MakerCSV {
             String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "/CSV/F" + F[sparsity] + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
+//            ArrayList<String> baseStrings = baseline.get(F[sparsity]);
             ArrayList<String> sparsitytop10 = top10.get(F[sparsity]);
             ArrayList<String> sparsitytop17 = top17.get(F[sparsity]);
             ArrayList<String> sparsitytop30 = top30.get(F[sparsity]);
@@ -68,9 +93,10 @@ public class MakerCSV {
 
             for (int i = 0; i < sparsitytop10.size(); i++) {
                 out.append(sparsitytop10.get(i) + "," + sparsitytop17.get(i) + "," + sparsitytop30.get(i) + "," + sparsitytop50.get(i) + "\n");
+//                out.append(baseStrings.get(i) + "," + sparsitytop10.get(i) + "," + sparsitytop17.get(i) + "," + sparsitytop30.get(i) + "," + sparsitytop50.get(i) + "\n");
             }
             out.close();
         }
-        System.out.println("Finished "+ alg);
+        System.out.println("Finished " + alg);
     }
 }
