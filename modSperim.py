@@ -251,7 +251,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
         cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg
         print cmd
         subprocess.call(cmd, shell=True)
-        dire="./datasets/ml-100k/results/UserItemExpDBPedia/"+alg+"/CSV/"
+        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+alg+"/"
         cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
         subprocess.call(cmd, shell=True)
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."

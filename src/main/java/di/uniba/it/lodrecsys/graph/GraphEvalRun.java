@@ -2,7 +2,6 @@ package di.uniba.it.lodrecsys.graph;
 
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 

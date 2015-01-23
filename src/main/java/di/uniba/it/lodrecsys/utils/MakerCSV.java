@@ -1,5 +1,7 @@
 package di.uniba.it.lodrecsys.utils;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,13 +55,22 @@ public class MakerCSV {
 
     /*
     @args PageRank
+    Parameter 2 : Boolean(baseline yes no)
      */
     public static void main(String[] args) throws IOException {
         String alg = args[0];
+        boolean base;
+        if (args.length == 2)
+            if (args[1].contains("baseline"))
+                base = true;
+            else
+                base = false;
+        else base = false;
 
-        new File("./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "/CSV/").mkdirs();
+        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + alg + "/"));
+        new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + alg + "/").mkdirs();
 
-//        HashMap<Integer, ArrayList<String>> baseline = loadbaseline();
+        HashMap<Integer, ArrayList<String>> baseline = loadbaseline();
 
         HashMap<Integer, ArrayList<String>> top10 = loadtop(0, alg);
         HashMap<Integer, ArrayList<String>> top17 = loadtop(1, alg);
@@ -67,10 +78,11 @@ public class MakerCSV {
         HashMap<Integer, ArrayList<String>> top50 = loadtop(3, alg);
 
         for (int i1 = 0; i1 < F.length; i1++) {
-            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "/CSV/F" + F[i1] + ".csv";
+            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + alg + "/F" + F[i1] + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
-//            out.append("baseline,");
+            if (base)
+                out.append("baseline,");
 
             for (int i = 0; i < TOP.length - 1; i++) {
                 out.append(alg + TOP[i] + ",");
@@ -82,18 +94,20 @@ public class MakerCSV {
 
         for (int sparsity = 0; sparsity < F.length; sparsity++) {
 
-            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "/CSV/F" + F[sparsity] + ".csv";
+            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + alg + "/F" + F[sparsity] + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
-//            ArrayList<String> baseStrings = baseline.get(F[sparsity]);
+            ArrayList<String> baseStrings = baseline.get(F[sparsity]);
             ArrayList<String> sparsitytop10 = top10.get(F[sparsity]);
             ArrayList<String> sparsitytop17 = top17.get(F[sparsity]);
             ArrayList<String> sparsitytop30 = top30.get(F[sparsity]);
             ArrayList<String> sparsitytop50 = top50.get(F[sparsity]);
 
             for (int i = 0; i < sparsitytop10.size(); i++) {
-                out.append(sparsitytop10.get(i) + "," + sparsitytop17.get(i) + "," + sparsitytop30.get(i) + "," + sparsitytop50.get(i) + "\n");
-//                out.append(baseStrings.get(i) + "," + sparsitytop10.get(i) + "," + sparsitytop17.get(i) + "," + sparsitytop30.get(i) + "," + sparsitytop50.get(i) + "\n");
+                if (!base)
+                    out.append(sparsitytop10.get(i)).append(",").append(sparsitytop17.get(i)).append(",").append(sparsitytop30.get(i)).append(",").append(sparsitytop50.get(i)).append("\n");
+                else
+                    out.append(baseStrings.get(i)).append(",").append(sparsitytop10.get(i)).append(",").append(sparsitytop17.get(i)).append(",").append(sparsitytop30.get(i)).append(",").append(sparsitytop50.get(i)).append("\n");
             }
             out.close();
         }
