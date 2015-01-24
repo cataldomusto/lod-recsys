@@ -188,10 +188,10 @@ public class RecommenderSys implements Serializable {
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+//                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
                 }
 
-                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
+//                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
                 EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
                 metricsForSplit.clear(); // evaluate for the next sparsity level
 

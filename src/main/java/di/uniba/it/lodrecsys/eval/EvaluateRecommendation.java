@@ -143,7 +143,7 @@ public class EvaluateRecommendation {
         savefileLog(goldStandardFile);
         String trecEvalCommand = PATHTREC + "trec_eval -q -m all_trec " + goldStandardFile + " " + resultFile;
         CmdExecutor.executeCommandAndPrintLinux(trecEvalCommand, trecResultFile);
-        logger.info(trecEvalCommand);
+//        logger.info(trecEvalCommand);
     }
 
     /**
@@ -171,7 +171,7 @@ public class EvaluateRecommendation {
         CmdExecutor.executeCommand("cat " + resTemp + " >> " + trecResultFile, false);
         new File(resTemp).delete();
 
-        logger.info(trecEvalCommand);
+//        logger.info(trecEvalCommand);
     }
 
     /**
@@ -188,7 +188,7 @@ public class EvaluateRecommendation {
 
         try {
             parser = new CSVParser(new FileReader(trecEvalFile), CSVFormat.TDF);
-            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
             for (CSVRecord rec : parser.getRecords()) {
                 trecMetrics.put(rec.get(0), rec.get(2));
             }
@@ -246,9 +246,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50"},
+                "recall_15", "recall_20", "recall_30", "recall_50","ndcg_cut_5","ndcg_cut_10","ndcg_cut_15","ndcg_cut_20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50","ndcg_cut_5","ndcg_cut_10","ndcg_cut_15","ndcg_cut_20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
@@ -262,7 +262,7 @@ public class EvaluateRecommendation {
         evalF1Measure(averageRes);
 
         for (String measure : completeMetrics) {
-            results.append(measure).append("=").append(averageRes.get(measure)).append("\n");
+            results.append(measure.replace("_cut_","_")).append("=").append(averageRes.get(measure)).append("\n");
         }
 
         return results.toString();

@@ -149,7 +149,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
         
         if ((param-val) < len(cmdExecEV)):
             for aa in range(0,param-val):
-                # subprocess.call(cmdExecEV[aa], shell=True)
+#                subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,param-val):
@@ -157,7 +157,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
                 del cmdExecLOGEV[0]
         else:
             for aa in range(0,len(cmdExecEV)):
-                # subprocess.call(cmdExecEV[aa], shell=True)
+#                subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,len(cmdExecEV)):
@@ -173,7 +173,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-        # subprocess.call(cmdExecEV[0], shell=True)
+#        subprocess.call(cmdExecEV[0], shell=True)
         cmdExecEV=[]
         cmdExecLOGEV=[]
     print "Fine EV"
@@ -194,9 +194,9 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
 		            cmd += " >> "+dire+alg+"/summaries/"+given+".summary"
     	            subprocess.call(cmd, shell=True)    
 
-            metrics=["F1"]
+            metrics=["F1","ndcg"]
             for metric in metrics:
-                valor=["5","10","15","20","30","50"]
+                valor=["5","10","15","20"]
                 for elem in valor:
                     cmd = "grep \""+metric+"_"+elem+"=\" "+dire+alg+"/summaries/*.summary >> "+dire+alg+"/summaries/res"+metric+elem+".sum1"
                     subprocess.call(cmd, shell=True)
@@ -238,20 +238,29 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
                     subprocess.call(cmd, shell=True)
                     cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
                     subprocess.call(cmd, shell=True)
-                    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }'| uniq >> "+dire+alg+"/summaries/FTemp"
+                    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }'| uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
                     subprocess.call(cmd, shell=True)
-            cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/FTemp > "+dire+alg+"/summaries/FSum"
+            cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+metric+"Sum"
+            print cmd
             subprocess.call(cmd, shell=True)
-            cmd ="rm "+dire+alg+"/summaries/FTemp"
+            cmd ="rm "+dire+alg+"/summaries/"+metric+"Temp"
             subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
      
     for alg in allalg:
-        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg
+        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
         print cmd
         subprocess.call(cmd, shell=True)
-        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+alg+"/"
+        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/"+alg+"/"
+        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+        subprocess.call(cmd, shell=True)
+    
+    for alg in allalgWEKA:
+        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric+" baseline"
+        print cmd
+        subprocess.call(cmd, shell=True)
+        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/RankerWeka"+alg+"/"
         cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
         subprocess.call(cmd, shell=True)
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
