@@ -194,77 +194,83 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
 		            cmd += " >> "+dire+alg+"/summaries/"+given+".summary"
     	            subprocess.call(cmd, shell=True)    
 
-            metrics=["F1","ndcg"]
+            metrics=["ndcg","F1"]
+            print metrics
             for metric in metrics:
                 valor=["5","10","15","20"]
                 for elem in valor:
-                    cmd = "grep \""+metric+"_"+elem+"=\" "+dire+alg+"/summaries/*.summary >> "+dire+alg+"/summaries/res"+metric+elem+".sum1"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\ "+dire+alg+"/summaries/given_\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum1"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sum1 | awk 'BEGIN { FS = \"given_\"};{ print $2 }'| uniq > "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum1"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\.summary:"+metric+"_"+elem+"=\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\all\\100\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\ 0.\\ 0,\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\5 0\\005 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\10 0\\010 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\20 0\\020 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\30 0\\030 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\50 0\\050 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\100 0\\100 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sort "+dire+alg+"/summaries/res"+metric+elem+".sum > "+dire+alg+"/summaries/result"+metric+elem
-                    subprocess.call(cmd, shell=True)
-                    cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum"
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\005 \\5 \ ' "+dire+alg+"/summaries/result"+metric+elem
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\010 \\10 \ ' "+dire+alg+"/summaries/result"+metric+elem
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\020 \\20 \ ' "+dire+alg+"/summaries/result"+metric+elem
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\030 \\30 \ ' "+dire+alg+"/summaries/result"+metric+elem
-                    subprocess.call(cmd, shell=True)
-                    cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
-                    subprocess.call(cmd, shell=True)
-                    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }'| uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
-                    subprocess.call(cmd, shell=True)
-            cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+metric+"Sum"
-            print cmd
-            subprocess.call(cmd, shell=True)
-            cmd ="rm "+dire+alg+"/summaries/"+metric+"Temp"
-            subprocess.call(cmd, shell=True)
+                    extractResult(metric,elem,dire,alg)
+                cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+metric+"Sum"
+                subprocess.call(cmd, shell=True)
+                cmd ="rm "+dire+alg+"/summaries/"+metric+"Temp"
+                subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
-     
-    for alg in allalg:
-        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
-        print cmd
-        subprocess.call(cmd, shell=True)
-        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/"+alg+"/"
-        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
-        subprocess.call(cmd, shell=True)
     
-    for alg in allalgWEKA:
-        cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric+" baseline"
-        print cmd
-        subprocess.call(cmd, shell=True)
-        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/RankerWeka"+alg+"/"
-        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
-        subprocess.call(cmd, shell=True)
+    for metric in metrics: 
+        for alg in allalg:
+#            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric
+            print cmd
+            subprocess.call(cmd, shell=True)
+            dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/"+alg+"/"
+            cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+            subprocess.call(cmd, shell=True)
+        
+        for alg in allalgWEKA:
+#            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric+" baseline"
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric
+            print cmd
+            subprocess.call(cmd, shell=True)
+            dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/RankerWeka"+alg+"/"
+            cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+            subprocess.call(cmd, shell=True)
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 
+
+def extractResult(metric,elem,dire,alg):
+    cmd = "grep \""+metric+"_"+elem+"=\" "+dire+alg+"/summaries/*.summary >> "+dire+alg+"/summaries/res"+metric+elem+".sum1"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\ "+dire+alg+"/summaries/given_\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum1"
+    subprocess.call(cmd, shell=True)
+    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sum1 | awk 'BEGIN { FS = \"given_\"};{ print $2 }'| uniq > "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum1"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\.summary:"+metric+"_"+elem+"=\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\all\\100\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\ 0.\\ 0,\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\5 0\\005 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\10 0\\010 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\20 0\\020 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\30 0\\030 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\50 0\\050 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\100 0\\100 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sort "+dire+alg+"/summaries/res"+metric+elem+".sum > "+dire+alg+"/summaries/result"+metric+elem
+    subprocess.call(cmd, shell=True)
+    cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\005 \\5 \ ' "+dire+alg+"/summaries/result"+metric+elem
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\010 \\10 \ ' "+dire+alg+"/summaries/result"+metric+elem
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\020 \\20 \ ' "+dire+alg+"/summaries/result"+metric+elem
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\030 \\30 \ ' "+dire+alg+"/summaries/result"+metric+elem
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
+    subprocess.call(cmd, shell=True)
+    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }'| uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
+    subprocess.call(cmd, shell=True)
     #feature:
     #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
 
