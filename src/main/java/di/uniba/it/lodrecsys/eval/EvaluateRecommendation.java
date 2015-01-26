@@ -275,9 +275,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20"},
+                "recall_15", "recall_20", "recall_30", "recall_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20","P-IA@5","P-IA@10","P-IA@20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20","P-IA@5","P-IA@10","P-IA@20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {

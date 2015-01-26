@@ -62,7 +62,8 @@ public class MakerCSV {
         String alg = args[0];
         String metric = args[1];
 
-        if (metric.contains("alpha-nDCG"))
+        System.out.println(metric);
+        if (metric.contains("alpha-nDCG") || metric.contains("P-IA"))
             MetricsLevel = new int[]{5, 10, 20};
         else
             MetricsLevel = new int[]{5, 10, 15, 20};

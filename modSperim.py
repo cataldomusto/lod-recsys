@@ -149,16 +149,16 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
         
         if ((param-val) < len(cmdExecEV)):
             for aa in range(0,param-val):
-                subprocess.call(cmdExecEV[aa], shell=True)
-#                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
+#                subprocess.call(cmdExecEV[aa], shell=True)
+                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,param-val):
                 del cmdExecEV[0]
                 del cmdExecLOGEV[0]
         else:
             for aa in range(0,len(cmdExecEV)):
-                subprocess.call(cmdExecEV[aa], shell=True)
-#                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
+#                subprocess.call(cmdExecEV[aa], shell=True)
+                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,len(cmdExecEV)):
                 del cmdExecEV[0]
@@ -173,7 +173,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             val=int(numThread)-1
 
 #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-        subprocess.call(cmdExecEV[0], shell=True)
+#        subprocess.call(cmdExecEV[0], shell=True)
         cmdExecEV=[]
         cmdExecLOGEV=[]
     print "Fine EV"
@@ -195,7 +195,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
     	            subprocess.call(cmd, shell=True)    
 
             for metric in metrics:
-                if metric == 'alpha-nDCG':
+                if metric == 'alpha-nDCG' or metric == 'P-IA':
                     valor=["5","10","20"]
                 else:
                     valor=["5","10","15","20"]
@@ -208,6 +208,15 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
     
+    for metric in metrics: 
+        for alg in allalg:
+            cmd="rm -r ./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+            subprocess.call(cmd, shell=True)
+        
+        for alg in allalgWEKA:
+            cmd="rm -r ./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+            subprocess.call(cmd, shell=True)
+
     for metric in metrics: 
         for alg in allalg:
 #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
