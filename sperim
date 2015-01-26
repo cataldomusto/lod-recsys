@@ -19,6 +19,6 @@ allalgWEKA=["ChiSquaredAttributeEval"]
 #allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
 topN=["10","17","30","50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+metrics=["alpha-nDCG","F1"]
 
-
-modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread)
+modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics)

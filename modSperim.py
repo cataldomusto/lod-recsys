@@ -7,7 +7,7 @@ import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
+def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
     cmdExecFS=[]
     cmdExecLOGFS=[]
 
@@ -149,16 +149,16 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
         
         if ((param-val) < len(cmdExecEV)):
             for aa in range(0,param-val):
-#                subprocess.call(cmdExecEV[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
+                subprocess.call(cmdExecEV[aa], shell=True)
+#                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,param-val):
                 del cmdExecEV[0]
                 del cmdExecLOGEV[0]
         else:
             for aa in range(0,len(cmdExecEV)):
-#                subprocess.call(cmdExecEV[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
+                subprocess.call(cmdExecEV[aa], shell=True)
+#                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,len(cmdExecEV)):
                 del cmdExecEV[0]
@@ -172,8 +172,8 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
             numThread =subprocess.check_output(cmdThread,shell=True)
             val=int(numThread)-1
 
-        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-#        subprocess.call(cmdExecEV[0], shell=True)
+#        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
+        subprocess.call(cmdExecEV[0], shell=True)
         cmdExecEV=[]
         cmdExecLOGEV=[]
     print "Fine EV"
@@ -194,10 +194,11 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread):
 		            cmd += " >> "+dire+alg+"/summaries/"+given+".summary"
     	            subprocess.call(cmd, shell=True)    
 
-            metrics=["ndcg","F1"]
-            print metrics
             for metric in metrics:
-                valor=["5","10","15","20"]
+                if metric == 'alpha-nDCG':
+                    valor=["5","10","20"]
+                else:
+                    valor=["5","10","15","20"]
                 for elem in valor:
                     extractResult(metric,elem,dire,alg)
                 cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+metric+"Sum"

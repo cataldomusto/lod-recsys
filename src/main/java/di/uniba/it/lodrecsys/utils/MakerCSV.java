@@ -35,20 +35,21 @@ public class MakerCSV {
     }
 
 
-    private static HashMap<Integer, ArrayList<String>> loadbaseline() {
+    private static HashMap<Integer, ArrayList<String>> loadbaselineF1() {
+        int[] MetricsLevelF1 = new int[]{5, 10, 15, 20};
         HashMap<Integer, ArrayList<String>> map = new HashMap<>(6);
         ArrayList<String> val = new ArrayList<>(
                 Arrays.asList("0.4596", "0.4622", "0.4722", "0.4765", "0.4803", "0.4973"));
-        map.put(MetricsLevel[0], val);
+        map.put(MetricsLevelF1[0], val);
         val = new ArrayList<>(
                 Arrays.asList("0.5392", "0.5431", "0.5509", "0.5548", "0.5590", "0.5747"));
-        map.put(MetricsLevel[1], val);
+        map.put(MetricsLevelF1[1], val);
         val = new ArrayList<>(
                 Arrays.asList("0.5381", "0.5418", "0.5482", "0.5519", "0.5566", "0.5702"));
-        map.put(MetricsLevel[2], val);
+        map.put(MetricsLevelF1[2], val);
         val = new ArrayList<>(
                 Arrays.asList("0.5197", "0.5228", "0.5272", "0.5301", "0.5342", "0.5468"));
-        map.put(MetricsLevel[3], val);
+        map.put(MetricsLevelF1[3], val);
         return map;
     }
 
@@ -61,9 +62,14 @@ public class MakerCSV {
         String alg = args[0];
         String metric = args[1];
 
+        if (metric.contains("alpha-nDCG"))
+            MetricsLevel = new int[]{5, 10, 20};
+        else
+            MetricsLevel = new int[]{5, 10, 15, 20};
+
         boolean base;
         if (args.length == 3)
-            if (args[2].contains("baseline"))
+            if (metric.contains("F1") && args[2].contains("baseline"))
                 base = true;
             else
                 base = false;
@@ -72,7 +78,7 @@ public class MakerCSV {
         FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV" + metric + "/" + alg + "/"));
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV" + metric + "/" + alg + "/").mkdirs();
 
-        HashMap<Integer, ArrayList<String>> baseline = loadbaseline();
+        HashMap<Integer, ArrayList<String>> baseline = loadbaselineF1();
 
         HashMap<Integer, ArrayList<String>> top10 = loadtop(0, alg, metric);
         HashMap<Integer, ArrayList<String>> top17 = loadtop(1, alg, metric);

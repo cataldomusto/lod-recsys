@@ -7,6 +7,9 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -95,11 +98,7 @@ public class EvaluateRecommendation {
 
                     writer.println(trecLine);
                 }
-
-
             }
-
-
         } catch (IOException ex) {
             throw new IOException(ex);
         } finally {
@@ -147,6 +146,30 @@ public class EvaluateRecommendation {
     }
 
     /**
+     * Executes the ndeval tool to evaluate the produced results
+     * and saves them in a file
+     *
+     * @param goldStandardFile filename of the test file in trec_eval format
+     * @param resultFile       filename of the results file in trec_eval format
+     * @param trecResultFile   filename of the results produced by trec_eval
+     */
+    public static void saveTrecNdevalResult(String goldStandardFile, String resultFile, String trecResultFile) {
+        String resTemp = trecResultFile + "2";
+        String trecEvalCommand = PATHTREC + "ndeval " + goldStandardFile + " " + resultFile+" >> "+trecResultFile+"Temp1";
+        CmdExecutor.executeCommand(trecEvalCommand, false);
+
+        String cmdMod = "head -1 "+trecResultFile + "Temp1 > "+resTemp;
+        CmdExecutor.executeCommand(cmdMod, false);
+
+        cmdMod = "tail -1 "+trecResultFile + "Temp1 >> "+resTemp;
+        CmdExecutor.executeCommand(cmdMod, false);
+
+        new File(trecResultFile + "Temp1").delete();
+
+//        logger.info(trecEvalCommand);
+    }
+
+    /**
      * Executes the trec_eval tool to evaluate the produced results
      * and saves them in a file
      *
@@ -171,6 +194,7 @@ public class EvaluateRecommendation {
         CmdExecutor.executeCommand("cat " + resTemp + " >> " + trecResultFile, false);
         new File(resTemp).delete();
 
+        saveTrecNdevalResult(goldStandardFile,resultFile,trecResultFile);
 //        logger.info(trecEvalCommand);
     }
 
@@ -191,6 +215,13 @@ public class EvaluateRecommendation {
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
             for (CSVRecord rec : parser.getRecords()) {
                 trecMetrics.put(rec.get(0), rec.get(2));
+            }
+
+            parser = new CSVParser(new FileReader(trecEvalFile+"2"), CSVFormat.newFormat(','));
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+            List<CSVRecord> records = parser.getRecords();
+            for (int i = 0; i < records.get(0).size(); i++) {
+                trecMetrics.put(records.get(0).get(i), records.get(1).get(i));
             }
 
             return trecMetrics;
@@ -232,8 +263,6 @@ public class EvaluateRecommendation {
 
             measures.put(fMeasureString + "_" + cutoff, getF1(measures.get(currPrecision), measures.get(currRecall)));
         }
-
-
     }
 
     /**
@@ -246,9 +275,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50","ndcg_cut_5","ndcg_cut_10","ndcg_cut_15","ndcg_cut_20"},
+                "recall_15", "recall_20", "recall_30", "recall_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50","ndcg_cut_5","ndcg_cut_10","ndcg_cut_15","ndcg_cut_20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
@@ -262,7 +291,7 @@ public class EvaluateRecommendation {
         evalF1Measure(averageRes);
 
         for (String measure : completeMetrics) {
-            results.append(measure.replace("_cut_","_")).append("=").append(averageRes.get(measure)).append("\n");
+            results.append(measure.replace("@","_")).append("=").append(averageRes.get(measure)).append("\n");
         }
 
         return results.toString();
