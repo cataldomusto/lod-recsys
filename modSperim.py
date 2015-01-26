@@ -214,7 +214,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric
             print cmd
             subprocess.call(cmd, shell=True)
-            dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/"+alg+"/"
+            dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
             cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
             subprocess.call(cmd, shell=True)
         
@@ -223,7 +223,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric
             print cmd
             subprocess.call(cmd, shell=True)
-            dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV"+metric+"/RankerWeka"+alg+"/"
+            dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/RankerWeka"+alg+"/"
             cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
             subprocess.call(cmd, shell=True)
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
