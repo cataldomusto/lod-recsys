@@ -62,7 +62,6 @@ public class MakerCSV {
         String alg = args[0];
         String metric = args[1];
 
-        System.out.println(metric);
         if (metric.contains("alpha-nDCG") || metric.contains("P-IA"))
             MetricsLevel = new int[]{5, 10, 20};
         else
@@ -76,7 +75,7 @@ public class MakerCSV {
                 base = false;
         else base = false;
 
-        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV" + metric + "/" + alg + "/"));
+        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/"));
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/").mkdirs();
 
         HashMap<Integer, ArrayList<String>> baseline = loadbaselineF1();

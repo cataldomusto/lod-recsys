@@ -208,14 +208,14 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
     
-    for metric in metrics: 
-        for alg in allalg:
-            cmd="rm -r ./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
-            subprocess.call(cmd, shell=True)
-        
-        for alg in allalgWEKA:
-            cmd="rm -r ./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
-            subprocess.call(cmd, shell=True)
+#    for metric in metrics: 
+#        for alg in allalg:
+#            cmd="rm -r ./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+#            subprocess.call(cmd, shell=True)
+#        
+#        for alg in allalgWEKA:
+#            cmd="rm -r ./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+#            subprocess.call(cmd, shell=True)
 
     for metric in metrics: 
         for alg in allalg:
