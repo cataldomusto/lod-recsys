@@ -8,6 +8,7 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 
 def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
+    
     cmdExecFS=[]
     cmdExecLOGFS=[]
 
@@ -18,6 +19,23 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
     cmdExecLOGEV=[]
 
     extractVal=[]
+    
+    init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV)
+    
+    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param)
+
+    recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param)
+
+    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param)
+
+    createSummaries(extractVal, metrics)
+    
+    createCSV(metrics, allalg, allalgWEKA)
+
+    print time.strftime("%Y-%m-%d %H:%M") + " Finished."
+
+
+def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV):
     for alg in allalgWEKA:
         for top in topN:
     #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 11 LatentSemanticAnalysis"
@@ -63,15 +81,16 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
                 cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top
                 cmdExecEV.append(cmd)
                 cmdExecLOGEV.append(cmdLOG)
-    
-    # Execute cmd parallel Feature
+    print time.strftime("%Y-%m-%d %H:%M") + " Init finished. \n"
 
+##   Execute cmd parallel Feature
+def featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param):
     while (len(cmdExecFS)>1):
         numThread = subprocess.check_output(cmdThread,shell=True)
         val= int(numThread)-1
         if ((param-val) < len(cmdExecFS)):
             for aa in range(0,param-val):
-                # subprocess.call(cmdExecFS[aa], shell=True)
+                subprocess.call(cmdExecFS[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
 
             for a in range(0,param-val):
@@ -79,7 +98,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
                 del cmdExecLOGFS[0]
         else:
             for aa in range(0,len(cmdExecFS)):
-                # subprocess.call(cmdExecFS[aa], shell=True)
+                subprocess.call(cmdExecFS[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
 
             for a in range(0,len(cmdExecFS)):
@@ -95,18 +114,19 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[0] +"\n"
-        # subprocess.call(cmdExecFS[0], shell=True)
+        subprocess.call(cmdExecFS[0], shell=True)
         cmdExecFS=[]
         cmdExecLOGFS=[]
     print "Fine FS"
 
-    ## Execute cmd parallel Recommendation
+##   Execute cmd parallel Recommendation
+def recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param):
     while (len(cmdExecREC)>1):
         numThread = subprocess.check_output(cmdThread,shell=True)
         val= int(numThread)-1
         if ((param-val) < len(cmdExecREC)):
             for aa in range(0,param-val):
-                # subprocess.call(cmdExecREC[aa], shell=True)
+                subprocess.call(cmdExecREC[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
             for a in range(0,param-val):
@@ -114,7 +134,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
                 del cmdExecLOGREC[0]
         else:
             for aa in range(0,len(cmdExecREC)):
-                # subprocess.call(cmdExecREC[aa], shell=True)
+                subprocess.call(cmdExecREC[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
 
             for a in range(0,len(cmdExecREC)):
@@ -130,7 +150,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[0] +"\n"
-        # subprocess.call(cmdExecREC[0], shell=True)
+        subprocess.call(cmdExecREC[0], shell=True)
         cmdExecREC=[]
         cmdExecLOGREC=[]
 
@@ -141,15 +161,16 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
         val= int(numThread)-1
     print time.strftime("%Y-%m-%d %H:%M")+" Fine Rec"
 
-    # Execute cmd parallel Eval
 
+##   Execute cmd parallel Eval
+def evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param):
     while (len(cmdExecEV)>1):
         numThread = subprocess.check_output(cmdThread,shell=True)
         val= int(numThread)-1
         
         if ((param-val) < len(cmdExecEV)):
             for aa in range(0,param-val):
-#                subprocess.call(cmdExecEV[aa], shell=True)
+                subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,param-val):
@@ -157,7 +178,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
                 del cmdExecLOGEV[0]
         else:
             for aa in range(0,len(cmdExecEV)):
-#                subprocess.call(cmdExecEV[aa], shell=True)
+                subprocess.call(cmdExecEV[aa], shell=True)
                 print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
 
             for a in range(0,len(cmdExecEV)):
@@ -173,13 +194,13 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             val=int(numThread)-1
 
 #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-#        subprocess.call(cmdExecEV[0], shell=True)
+        subprocess.call(cmdExecEV[0], shell=True)
         cmdExecEV=[]
         cmdExecLOGEV=[]
     print "Fine EV"
 
-    #Extraction values
-
+##   Extraction values
+def createSummaries(extractVal, metrics):
     dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
     for alg in os.listdir(dire):
         if alg in extractVal:
@@ -208,6 +229,8 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
 
+##   CreateCSV to execute Kruskal-wallis test
+def createCSV(metrics, allalg, allalgWEKA):
     for metric in metrics: 
         for alg in allalg:
 #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
@@ -226,9 +249,8 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
             dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/RankerWeka"+alg+"/"
             cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
             subprocess.call(cmd, shell=True)
-    print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 
-
+##   Extract result from file
 def extractResult(metric,elem,dire,alg):
     cmd = "grep \""+metric+"_"+elem+"=\" "+dire+alg+"/summaries/*.summary >> "+dire+alg+"/summaries/res"+metric+elem+".sum1"
     subprocess.call(cmd, shell=True)
@@ -272,31 +294,3 @@ def extractResult(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }'| uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
     subprocess.call(cmd, shell=True)
-    #feature:
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
-
-    #recommendation1:
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_10 CFSubsetEval &
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_20 CFSubsetEval
-
-    #recommendation: recommendation1
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_30 CFSubsetEval &
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_50 CFSubsetEval &
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_all CFSubsetEval
-
-    #evaluation:
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 PageRank 5
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 PageRank 5 
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 PageRank 5 
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 PageRank 5 
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 PageRank 5 
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all PageRank 5 
-
-    #evaluationCF:
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 RankerWeka 11 LatentSemanticAnalysis
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_10 RankerWeka 11 LatentSemanticAnalysis
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_20 RankerWeka 11 LatentSemanticAnalysis
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_30 RankerWeka 11 LatentSemanticAnalysis
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_50 RankerWeka 11 LatentSemanticAnalysis
-    #	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_all RankerWeka 11 LatentSemanticAnalysis

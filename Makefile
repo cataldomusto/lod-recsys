@@ -1,3 +1,14 @@
+sperimentation:
+	./sperim
+
+serverSperimentation:
+	nohup ./sperim &
+
+deleteFile:
+	rm -r -f datasets/ml-100k/results/UserItemExpDBPedia/PageRank*
+	rm -r -f datasets/ml-100k/results/UserItemExpDBPedia/MRMR*
+	rm -r -f datasets/ml-100k/results/UserItemExpDBPedia/RankerWeka*
+
 feature:
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
 
