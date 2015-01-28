@@ -1,7 +1,12 @@
 package di.uniba.it.lodrecsys.eval;
 
+import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.Rating;
+import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.utils.CmdExecutor;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
+import di.uniba.it.lodrecsys.utils.Utils;
+import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -25,6 +30,171 @@ public class EvaluateRecommendation {
 
     private static Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
+    private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
+        String dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(Paths.get(dir),
+                    Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String, HashMap<String, Integer>> mappingFilmPropCount = new HashMap<>(numRec);
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream("./serialized/graphComplete.bin");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(fis);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        UndirectedSparseMultigraph<String, Edge> recGraph = null;
+        try {
+            recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert recGraph != null;
+        Collection<Edge> recGraphEdges = recGraph.getEdges();
+
+        for (Edge s : recGraphEdges) {
+            mappingFilmPropCount.put(s.getSubject(), new HashMap<String, Integer>());
+        }
+
+//        String film = "http://dbpedia.org/resource/Shall_We_Dance%3F_(1996_film)";
+        for (String film : mappingFilmPropCount.keySet()) {
+            HashMap<String, Integer> mappingPropCount = new HashMap<>(lines.size());
+
+            for (String line : lines) {
+                mappingPropCount.put(line, 0);
+            }
+
+            Collection<Edge> propsFilm = recGraph.getIncidentEdges(film);
+            for (Edge edge : propsFilm) {
+                if (edge.getSubject().equals(film)) {
+                    if (lines.contains(edge.getProperty())) {
+                        int v = mappingPropCount.get(edge.getProperty());
+                        v++;
+                        mappingPropCount.put(edge.getProperty(), v);
+                    }
+                }
+            }
+            mappingFilmPropCount.put(film, mappingPropCount);
+        }
+        return mappingFilmPropCount;
+    }
+
+    private static String uriByID(String id, HashMap<String, HashMap<String, Integer>> mapFilmCountProp) {
+        try {
+            MovieMapping movieMapping = Utils.findMovieMappingbyId(id);
+            if (movieMapping != null && mapFilmCountProp.containsKey(movieMapping.getDbpediaURI()))
+                return movieMapping.getDbpediaURI();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static double ildmetric(Map<String, Set<Rating>> recommendationList, int numRec, HashMap<String, HashMap<String, Integer>> mapFilmCountProp) throws IOException {
+
+//        String userID = "446";
+        ArrayList<Double> ildAllUser = new ArrayList<>();
+        for (String userID : recommendationList.keySet()) {
+            ArrayList<String> itemRec = new ArrayList<>(numRec);
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+                String uri = uriByID(rate.getItemID(), mapFilmCountProp);
+                if (uri != null) {
+                    itemRec.add(uri);
+                    i++;
+                }
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec)
+                    break;
+            }
+
+            double similarityTot = 1f;
+            for (int i1 = 0; i1 < itemRec.size() - 1; i1++) {
+                for (int j = i1 + 1; j < itemRec.size(); j++) {
+                    double val = cosSimMetric(mapFilmCountProp.get(itemRec.get(i1)), mapFilmCountProp.get(itemRec.get(j)));
+                    if (val != 0.0) {
+//                            System.out.println(moviemapped.getDbpediaURI() + " " + moviemapped1.getDbpediaURI() + " "+ val);
+                        similarityTot = similarityTot * val;
+                    }
+                }
+            }
+
+            double ildUser = 1 - similarityTot;
+//            System.out.println(userID + " Dis: " + ildUser);
+            ildAllUser.add(ildUser);
+        }
+        double avg = 0;
+        for (Double aDouble : ildAllUser) {
+            avg += aDouble;
+        }
+        avg = avg / ildAllUser.size();
+        return avg;
+    }
+
+    private static double cosSimMetric(HashMap<String, Integer> film1, HashMap<String, Integer> film2) {
+
+        ArrayList<Integer> valuesFilm1 = new ArrayList<>();
+        for (String s : film1.keySet()) {
+            valuesFilm1.add(film1.get(s));
+        }
+
+        ArrayList<Integer> valuesFilm2 = new ArrayList<>();
+        for (String s : film2.keySet()) {
+            valuesFilm2.add(film2.get(s));
+        }
+
+        double num = 0;
+        for (int i = 0; i < valuesFilm1.size(); i++) {
+            num += valuesFilm1.get(i) * valuesFilm2.get(i);
+        }
+
+        int sumA = 0;
+        ArrayList<Integer> valuesFilm1quad = new ArrayList<>();
+        for (Integer value : valuesFilm1) {
+            valuesFilm1quad.add((int) Math.pow(value, 2.0));
+            sumA += (int) Math.pow(value, 2.0);
+        }
+        int sumB = 0;
+        ArrayList<Integer> valuesFilm2quad = new ArrayList<>();
+        for (Integer value : valuesFilm2) {
+            valuesFilm2quad.add((int) Math.pow(value, 2.0));
+            sumB += (int) Math.pow(value, 2.0);
+        }
+
+        double denA = Math.sqrt(sumA);
+        double denB = Math.sqrt(sumB);
+        double den = denA * denB;
+        if (den != 0)
+            return num / den;
+        else
+            return 0.0;
+    }
+
+    public static void evalILDMeasure(Map<String, Set<Rating>> recommendationList, String resFile, int numRec) {
+
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile, true)))) {
+            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = loadPropFilm(numRec);
+            double avgMeasure = ildmetric(recommendationList, numRec, mapFilmCountProp);
+//            out.println("Diversity@" + numRec + "  " + avgMeasure + "\n");
+            System.out.println("Diversity@" + numRec + "  " + avgMeasure + "\n");
+        } catch (IOException e) {
+        }
+    }
+
     /**
      * Serializes a specific number of recommendation for each user according to
      * the TREC evaluation file format
@@ -35,6 +205,7 @@ public class EvaluateRecommendation {
      * @throws IOException unable to write the result file
      */
     public static void serializeRatings(Map<String, Set<Rating>> recommendationList, String resFile, int numRec) throws IOException {
+
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(resFile));
@@ -155,13 +326,13 @@ public class EvaluateRecommendation {
      */
     public static void saveTrecNdevalResult(String goldStandardFile, String resultFile, String trecResultFile) {
         String resTemp = trecResultFile + "2";
-        String trecEvalCommand = PATHTREC + "ndeval " + goldStandardFile + " " + resultFile+" >> "+trecResultFile+"Temp1";
+        String trecEvalCommand = PATHTREC + "ndeval " + goldStandardFile + " " + resultFile + " >> " + trecResultFile + "Temp1";
         CmdExecutor.executeCommand(trecEvalCommand, false);
 
-        String cmdMod = "head -1 "+trecResultFile + "Temp1 > "+resTemp;
+        String cmdMod = "head -1 " + trecResultFile + "Temp1 > " + resTemp;
         CmdExecutor.executeCommand(cmdMod, false);
 
-        cmdMod = "tail -1 "+trecResultFile + "Temp1 >> "+resTemp;
+        cmdMod = "tail -1 " + trecResultFile + "Temp1 >> " + resTemp;
         CmdExecutor.executeCommand(cmdMod, false);
 
         new File(trecResultFile + "Temp1").delete();
@@ -194,7 +365,8 @@ public class EvaluateRecommendation {
         CmdExecutor.executeCommand("cat " + resTemp + " >> " + trecResultFile, false);
         new File(resTemp).delete();
 
-        saveTrecNdevalResult(goldStandardFile,resultFile,trecResultFile);
+        saveTrecNdevalResult(goldStandardFile, resultFile, trecResultFile);
+
 //        logger.info(trecEvalCommand);
     }
 
@@ -217,7 +389,7 @@ public class EvaluateRecommendation {
                 trecMetrics.put(rec.get(0), rec.get(2));
             }
 
-            parser = new CSVParser(new FileReader(trecEvalFile+"2"), CSVFormat.newFormat(','));
+            parser = new CSVParser(new FileReader(trecEvalFile + "2"), CSVFormat.newFormat(','));
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
             List<CSVRecord> records = parser.getRecords();
             for (int i = 0; i < records.get(0).size(); i++) {
@@ -275,9 +447,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20","P-IA@5","P-IA@10","P-IA@20"},
+                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50","alpha-nDCG@5","alpha-nDCG@10","alpha-nDCG@20","P-IA@5","P-IA@10","P-IA@20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
@@ -290,8 +462,9 @@ public class EvaluateRecommendation {
 
         evalF1Measure(averageRes);
 
+
         for (String measure : completeMetrics) {
-            results.append(measure.replace("@","_")).append("=").append(averageRes.get(measure)).append("\n");
+            results.append(measure.replace("@", "_")).append("=").append(averageRes.get(measure)).append("\n");
         }
 
         return results.toString();

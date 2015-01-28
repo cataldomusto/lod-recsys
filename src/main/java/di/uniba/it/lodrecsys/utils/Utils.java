@@ -321,6 +321,14 @@ public class Utils {
     }
 
 
+    public static MovieMapping findMovieMappingbyId(String id) throws IOException {
+        List<MovieMapping> mappingList = Utils.loadDBpediaMappedItems(LoadProperties.MAPPEDITEMFILE);
+        for (MovieMapping movieMapping : mappingList)
+            if (movieMapping.getItemID().equals(id) && movieMapping.getDbpediaURI() != null)
+                return movieMapping;
+        return null;
+    }
+
     /**
      * Loads only really mapped DBpedia resources
      *

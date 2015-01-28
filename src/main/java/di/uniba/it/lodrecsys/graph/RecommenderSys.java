@@ -188,6 +188,8 @@ public class RecommenderSys implements Serializable {
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+
+                    EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), trecResultFinal, numRec);
 //                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
                 }
 
