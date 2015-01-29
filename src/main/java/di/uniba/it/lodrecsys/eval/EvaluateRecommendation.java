@@ -184,13 +184,37 @@ public class EvaluateRecommendation {
             return 0.0;
     }
 
-    public static void evalILDMeasure(Map<String, Set<Rating>> recommendationList, String resFile, int numRec) {
+    public static ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount() {
+        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+        ArrayList<HashMap<String, HashMap<String, Integer>>> arrayList = new ArrayList<>(cutoffLevels.length);
+        for (int cutoffLevel : cutoffLevels) {
+            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = loadPropFilm(cutoffLevel);
+            arrayList.add(mapFilmCountProp);
+        }
+        return arrayList;
+    }
 
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile, true)))) {
-            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = loadPropFilm(numRec);
-            double avgMeasure = ildmetric(recommendationList, numRec, mapFilmCountProp);
-//            out.println("Diversity@" + numRec + "  " + avgMeasure + "\n");
-            System.out.println("Diversity@" + numRec + "  " + avgMeasure + "\n");
+    public static String evalILDMeasure(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
+        String measures = "";
+        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+        for (int i = 0; i < cutoffLevels.length; i++) {
+            int cutoffLevel = cutoffLevels[i];
+            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
+            double avgMeasure = 0;
+            try {
+                avgMeasure = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            measures += "Diversity_" + cutoffLevel + "," + avgMeasure + "\n";
+//            System.out.println("Diversity_" + cutoffLevel + "," + avgMeasure);
+        }
+        return measures.substring(0, measures.length() - 1);
+    }
+
+    public static void saveEvalILDMeasure(String ild, String resFile) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile + "3", true)))) {
+            out.println(ild);
         } catch (IOException e) {
         }
     }
@@ -396,6 +420,12 @@ public class EvaluateRecommendation {
                 trecMetrics.put(records.get(0).get(i), records.get(1).get(i));
             }
 
+            parser = new CSVParser(new FileReader(trecEvalFile + "3"), CSVFormat.newFormat(','));
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+            for (CSVRecord rec : parser.getRecords()) {
+                trecMetrics.put(rec.get(0), rec.get(1));
+            }
+
             return trecMetrics;
         } catch (IOException e) {
             throw e;
@@ -447,17 +477,19 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20"},
+                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
             float currMetricsTot = 0f;
             for (Map<String, String> map : metricsValuesForSplit) {
-                currMetricsTot += Float.parseFloat(map.get(measure));
+                if (map.containsKey(measure))
+                    currMetricsTot += Float.parseFloat(map.get(measure));
             }
-            averageRes.put(measure, currMetricsTot / numberOfSplit);
+            if (currMetricsTot != 0f)
+                averageRes.put(measure, currMetricsTot / numberOfSplit);
         }
 
         evalF1Measure(averageRes);
