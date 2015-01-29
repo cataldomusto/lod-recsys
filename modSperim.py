@@ -22,11 +22,11 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
     
     init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV)
     
-    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param)
+#    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param)
 
 #    recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param)
 
-    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param)
+#    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param)
 
     createSummaries(extractVal, metrics)
     
@@ -292,5 +292,5 @@ def extractResult(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
     subprocess.call(cmd, shell=True)
-    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }'| uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
+    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' >> "+dire+alg+"/summaries/"+metric+"Temp"
     subprocess.call(cmd, shell=True)
