@@ -31,7 +31,11 @@ public class EvaluateRecommendation {
     private static Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
     private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
-        String dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER+LoadProperties.EVALWEKA;
+        else
+            dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
         List<String> lines = null;
         try {
             lines = Files.readAllLines(Paths.get(dir),
