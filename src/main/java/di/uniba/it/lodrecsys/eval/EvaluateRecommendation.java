@@ -201,6 +201,80 @@ public class EvaluateRecommendation {
         return arrayList;
     }
 
+    public static String evalMSIMeasure(Map<String, Set<Rating>> recommendationList) {
+        String measures = "";
+        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+        for (int i = 0; i < cutoffLevels.length; i++) {
+            int cutoffLevel = cutoffLevels[i];
+
+            double avgMeasure = 0.0;
+            try {
+                avgMeasure = msimetric(recommendationList, cutoffLevel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            measures += "Novelty_" + cutoffLevel + "," + avgMeasure + "\n";
+//            System.out.println("Novelty_" + cutoffLevel + "," + avgMeasure);
+        }
+        return measures.substring(0, measures.length() - 1);
+    }
+
+    private static double msimetric(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
+
+        HashMap<String, Double> allRecID = new HashMap<>(1400);
+        double max = 1.0;
+        for (String userID : recommendationList.keySet()) {
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+                if (!allRecID.containsKey(rate.getItemID()))
+                    allRecID.put(rate.getItemID(), 1.0);
+                else {
+                    double value = allRecID.get(rate.getItemID());
+                    value++;
+                    if (value > max)
+                        max = value;
+                    allRecID.put(rate.getItemID(), value);
+                }
+                i++;
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec)
+                    break;
+            }
+        }
+
+        for (String s : allRecID.keySet()) {
+            double prop = allRecID.get(s) / max;
+            allRecID.put(s, prop);
+        }
+
+        //        String userID = "446";
+        ArrayList<Double> msiUsers = new ArrayList<>();
+        for (String userID : recommendationList.keySet()) {
+            double noveltyM = 0.0;
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+                noveltyM += allRecID.get(rate.getItemID());
+                i++;
+
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec) {
+                    break;
+                }
+            }
+
+            double noveltyAVG = noveltyM / ((double) numRec);
+            msiUsers.add(noveltyAVG);
+        }
+        double avg = 0.0;
+        for (Double aDouble : msiUsers) {
+            avg += aDouble;
+        }
+        avg = avg / msiUsers.size();
+        return avg;
+    }
+
     public static String evalILDMeasure(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
         String measures = "";
         int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
@@ -222,6 +296,13 @@ public class EvaluateRecommendation {
     public static void saveEvalILDMeasure(String ild, String resFile) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile + "3", true)))) {
             out.println(ild);
+        } catch (IOException e) {
+        }
+    }
+
+    public static void saveEvalMSIMeasure(String msi, String resFile) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile + "4", true)))) {
+            out.println(msi);
         } catch (IOException e) {
         }
     }
@@ -420,14 +501,23 @@ public class EvaluateRecommendation {
                 trecMetrics.put(rec.get(0), rec.get(2));
             }
 
-            parser = new CSVParser(new FileReader(trecEvalFile + "2"), CSVFormat.newFormat(','));
-//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
-            List<CSVRecord> records = parser.getRecords();
-            for (int i = 0; i < records.get(0).size(); i++) {
-                trecMetrics.put(records.get(0).get(i), records.get(1).get(i));
-            }
+            // ndeval loading
+//            parser = new CSVParser(new FileReader(trecEvalFile + "2"), CSVFormat.newFormat(','));
+////            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+//            List<CSVRecord> records = parser.getRecords();
+//            for (int i = 0; i < records.get(0).size(); i++) {
+//                trecMetrics.put(records.get(0).get(i), records.get(1).get(i));
+//            }
 
-            parser = new CSVParser(new FileReader(trecEvalFile + "3"), CSVFormat.newFormat(','));
+            // Diversity loading
+//            parser = new CSVParser(new FileReader(trecEvalFile + "3"), CSVFormat.newFormat(','));
+////            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+//            for (CSVRecord rec : parser.getRecords()) {
+//                trecMetrics.put(rec.get(0), rec.get(1));
+//            }
+
+            // Novelty loading
+            parser = new CSVParser(new FileReader(trecEvalFile + "4"), CSVFormat.newFormat(','));
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
             for (CSVRecord rec : parser.getRecords()) {
                 trecMetrics.put(rec.get(0), rec.get(1));
@@ -484,9 +574,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20"},
+                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20","Novelty_5","Novelty_10","Novelty_15","Novelty_20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20","Novelty_5","Novelty_10","Novelty_15","Novelty_20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
