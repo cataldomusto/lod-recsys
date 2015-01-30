@@ -22,11 +22,11 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
     
     init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV)
     
-#    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param)
+    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param)
 
 #    recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param)
 
-#    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param)
+    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param)
 
     createSummaries(extractVal, metrics)
     

@@ -33,7 +33,7 @@ public class EvaluateRecommendation {
     private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
         String dir;
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
-            dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER+LoadProperties.EVALWEKA;
+            dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
         else
             dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
         List<String> lines = null;
@@ -126,19 +126,22 @@ public class EvaluateRecommendation {
                     break;
             }
 
-            double similarityTot = 1f;
+            double similarityTot = 0f;
+            int nRec = 1;
             for (int i1 = 0; i1 < itemRec.size() - 1; i1++) {
                 for (int j = i1 + 1; j < itemRec.size(); j++) {
                     double val = cosSimMetric(mapFilmCountProp.get(itemRec.get(i1)), mapFilmCountProp.get(itemRec.get(j)));
                     if (val != 0.0) {
-//                            System.out.println(moviemapped.getDbpediaURI() + " " + moviemapped1.getDbpediaURI() + " "+ val);
-                        similarityTot = similarityTot * val;
+                        nRec++;
+//                        System.out.println(itemRec.get(i1) + " " + itemRec.get(j) + " " + val);
+                        similarityTot = similarityTot + val;
                     }
                 }
             }
 
-            double ildUser = 1 - similarityTot;
-//            System.out.println(userID + " Dis: " + ildUser);
+            double simAVG = similarityTot / nRec;
+
+            double ildUser = 1 - simAVG;
             ildAllUser.add(ildUser);
         }
         double avg = 0;

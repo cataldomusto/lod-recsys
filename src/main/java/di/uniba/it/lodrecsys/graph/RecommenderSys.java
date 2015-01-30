@@ -175,6 +175,7 @@ public class RecommenderSys implements Serializable {
             ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
             ArrayList<String> diversityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
             for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+//                System.out.println("Split "+i);
                 diversityMeasure.add(EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp));
             }
 
