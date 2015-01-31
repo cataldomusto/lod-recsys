@@ -109,7 +109,7 @@ public class EvaluateRecommendation {
 
     private static double ildmetric(Map<String, Set<Rating>> recommendationList, int numRec, HashMap<String, HashMap<String, Integer>> mapFilmCountProp) throws IOException {
 
-//        String userID = "446";
+//        String userID = "184";
         ArrayList<Double> ildAllUser = new ArrayList<>();
         for (String userID : recommendationList.keySet()) {
             ArrayList<String> itemRec = new ArrayList<>(numRec);
@@ -118,6 +118,7 @@ public class EvaluateRecommendation {
             for (Rating rate : recommendationListForUser) {
                 String uri = uriByID(rate.getItemID(), mapFilmCountProp);
                 if (uri != null) {
+//                    System.out.println("userID " + userID + " : Film " + uri);
                     itemRec.add(uri);
                     i++;
                 }
@@ -126,22 +127,29 @@ public class EvaluateRecommendation {
                     break;
             }
 
+//            System.out.println("-----------------");
             double similarityTot = 0f;
-            int nRec = 1;
+            int nRec = 0;
             for (int i1 = 0; i1 < itemRec.size() - 1; i1++) {
                 for (int j = i1 + 1; j < itemRec.size(); j++) {
+//                    System.out.println(itemRec.get(i1) + " " + itemRec.get(j));
                     double val = cosSimMetric(mapFilmCountProp.get(itemRec.get(i1)), mapFilmCountProp.get(itemRec.get(j)));
                     if (val != 0.0) {
                         nRec++;
-//                        System.out.println(itemRec.get(i1) + " " + itemRec.get(j) + " " + val);
+//                        System.out.println("cosSim(" + itemRec.get(i1) + " " + itemRec.get(j) + ") = " + val);
                         similarityTot = similarityTot + val;
                     }
                 }
             }
-
-            double simAVG = similarityTot / nRec;
-
+//            System.out.println("-----------------");
+//            System.out.println("SimTot = " + similarityTot);
+//            System.out.println("nRec = " + nRec);
+            double simAVG = 0;
+            if (nRec != 0)
+                simAVG = similarityTot / nRec;
+//            System.out.println("SimAVG = " + simAVG);
             double ildUser = 1 - simAVG;
+//            System.out.println("Diversity = 1 - " + simAVG + " = " + ildUser);
             ildAllUser.add(ildUser);
         }
         double avg = 0;
@@ -157,17 +165,25 @@ public class EvaluateRecommendation {
         ArrayList<Integer> valuesFilm1 = new ArrayList<>();
         for (String s : film1.keySet()) {
             valuesFilm1.add(film1.get(s));
+//            System.out.println("Prop: "+ s + " Val: "+film1.get(s));
         }
+
+//        System.out.println("----------------");
 
         ArrayList<Integer> valuesFilm2 = new ArrayList<>();
         for (String s : film2.keySet()) {
             valuesFilm2.add(film2.get(s));
+//            System.out.println("Prop: "+ s + " Val: "+film2.get(s));
         }
+
+//        System.out.println("----------------");
 
         double num = 0;
         for (int i = 0; i < valuesFilm1.size(); i++) {
             num += valuesFilm1.get(i) * valuesFilm2.get(i);
         }
+
+//        System.out.println("Numeratore : " + num);
 
         int sumA = 0;
         ArrayList<Integer> valuesFilm1quad = new ArrayList<>();
@@ -185,9 +201,11 @@ public class EvaluateRecommendation {
         double denA = Math.sqrt(sumA);
         double denB = Math.sqrt(sumB);
         double den = denA * denB;
-        if (den != 0)
+//        System.out.println("Denominatore : " + denA +" * " + denB +" = "+den);
+        if (den != 0) {
+//            System.out.println("CosSim : " + num + " / " + den + " = " + num / den);
             return num / den;
-        else
+        } else
             return 0.0;
     }
 
@@ -219,6 +237,7 @@ public class EvaluateRecommendation {
         return measures.substring(0, measures.length() - 1);
     }
 
+    // TODO Modify
     private static double msimetric(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
 
         HashMap<String, Double> allRecID = new HashMap<>(1400);
@@ -255,7 +274,7 @@ public class EvaluateRecommendation {
             Set<Rating> recommendationListForUser = recommendationList.get(userID);
             int i = 0;
             for (Rating rate : recommendationListForUser) {
-                noveltyM += allRecID.get(rate.getItemID());
+                noveltyM += (Math.log(allRecID.get(rate.getItemID())) / Math.log(2));
                 i++;
 
                 // prints only numRec recommendation on file
@@ -263,8 +282,7 @@ public class EvaluateRecommendation {
                     break;
                 }
             }
-
-            double noveltyAVG = noveltyM / ((double) numRec);
+            double noveltyAVG = -(noveltyM) / ((double) numRec);
             msiUsers.add(noveltyAVG);
         }
         double avg = 0.0;
@@ -495,32 +513,41 @@ public class EvaluateRecommendation {
         Map<String, String> trecMetrics = new HashMap<>();
 
         try {
-            parser = new CSVParser(new FileReader(trecEvalFile), CSVFormat.TDF);
+            // trec_eval loading
+            if (new File(trecEvalFile).exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile), CSVFormat.TDF);
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
-            for (CSVRecord rec : parser.getRecords()) {
-                trecMetrics.put(rec.get(0), rec.get(2));
+                for (CSVRecord rec : parser.getRecords()) {
+                    trecMetrics.put(rec.get(0), rec.get(2));
+                }
             }
 
             // ndeval loading
-//            parser = new CSVParser(new FileReader(trecEvalFile + "2"), CSVFormat.newFormat(','));
-////            logger.info("Loading trec eval metrics from: " + trecEvalFile);
-//            List<CSVRecord> records = parser.getRecords();
-//            for (int i = 0; i < records.get(0).size(); i++) {
-//                trecMetrics.put(records.get(0).get(i), records.get(1).get(i));
-//            }
+            if (new File(trecEvalFile + "2").exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile + "2"), CSVFormat.newFormat(','));
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+                List<CSVRecord> records = parser.getRecords();
+                for (int i = 0; i < records.get(0).size(); i++) {
+                    trecMetrics.put(records.get(0).get(i), records.get(1).get(i));
+                }
+            }
 
             // Diversity loading
-//            parser = new CSVParser(new FileReader(trecEvalFile + "3"), CSVFormat.newFormat(','));
-////            logger.info("Loading trec eval metrics from: " + trecEvalFile);
-//            for (CSVRecord rec : parser.getRecords()) {
-//                trecMetrics.put(rec.get(0), rec.get(1));
-//            }
+            if (new File(trecEvalFile + "3").exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile + "3"), CSVFormat.newFormat(','));
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+                for (CSVRecord rec : parser.getRecords()) {
+                    trecMetrics.put(rec.get(0), rec.get(1));
+                }
+            }
 
             // Novelty loading
-            parser = new CSVParser(new FileReader(trecEvalFile + "4"), CSVFormat.newFormat(','));
+            if (new File(trecEvalFile + "4").exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile + "4"), CSVFormat.newFormat(','));
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
-            for (CSVRecord rec : parser.getRecords()) {
-                trecMetrics.put(rec.get(0), rec.get(1));
+                for (CSVRecord rec : parser.getRecords()) {
+                    trecMetrics.put(rec.get(0), rec.get(1));
+                }
             }
 
             return trecMetrics;
@@ -574,9 +601,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20","Novelty_5","Novelty_10","Novelty_15","Novelty_20"},
+                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20","Novelty_5","Novelty_10","Novelty_15","Novelty_20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {

@@ -292,5 +292,5 @@ def extractResult(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
     subprocess.call(cmd, shell=True)
-    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' >> "+dire+alg+"/summaries/"+metric+"Temp"
+    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' | uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
     subprocess.call(cmd, shell=True)
