@@ -9,17 +9,21 @@ import modSperim
 #ChiSquaredAttributeEval	
 #GainRatioAttributeEval 
 #PCA	                    
-#SVMAttributeEval                    
+#SVMAttributeEval          
 
-cmdThread="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+
+cmdThreadRec="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+
+cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
 param=6
-allalg=["PageRank"]
-allalgWEKA=[]
+allalg=["PageRank","MRMR"]
+allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","SVMAttributeEval","PCA","ReliefFAttributeEval"]
 #allalg=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval"]
-topN=["10"]
-#topN=["10","17","30","50"]
+#topN=["10"]
+topN=["10","17","30","50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 #metrics=["alpha-nDCG","F1","P-IA"]
-metrics=["F1","Novelty","Diversity"]
-modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics)
+metrics=["F1","Diversity"]
+modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics)

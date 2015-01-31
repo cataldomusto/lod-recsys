@@ -7,7 +7,7 @@ import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
+def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmdThreadEval, metrics):
     
     cmdExecFS=[]
     cmdExecLOGFS=[]
@@ -22,11 +22,11 @@ def sperim(allalg, allalgWEKA, topN, givenN, param, cmdThread, metrics):
     
     init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV)
     
-    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param)
+    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param)
 
-#    recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param)
+#    recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param)
 
-    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param)
+    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param)
 
     createSummaries(extractVal, metrics)
     
@@ -54,8 +54,8 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdExecLOGREC.append(cmdLOG)
 
             for given in givenN:
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" RankerWeka "+top+" "+alg
-                cmdLOG = "java -cp GraphEvalRun "+given+" RankerWeka "+top+" "+alg
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" RankerWeka "+top+" "+alg+" &"
+                cmdLOG = "java -cp GraphEvalRun "+given+" RankerWeka "+top+" "+alg+" &"
                 cmdExecEV.append(cmd)
                 cmdExecLOGEV.append(cmdLOG)
 
@@ -77,16 +77,16 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdExecLOGREC.append(cmdLOG)
 
             for given in givenN:
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+top
-                cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+top+" &"
+                cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top+" &"
                 cmdExecEV.append(cmd)
                 cmdExecLOGEV.append(cmdLOG)
     print time.strftime("%Y-%m-%d %H:%M") + " Init finished. \n"
 
 ##   Execute cmd parallel Feature
-def featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param):
+def featureProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param):
     while (len(cmdExecFS)>1):
-        numThread = subprocess.check_output(cmdThread,shell=True)
+        numThread = subprocess.check_output(cmdThreadFS,shell=True)
         val= int(numThread)-1
         if ((param-val) < len(cmdExecFS)):
             for aa in range(0,param-val):
@@ -106,11 +106,11 @@ def featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param):
                 del cmdExecLOGFS[0]
 
     if (len(cmdExecFS)!=0):
-        numThread =subprocess.check_output(cmdThread,shell=True)
+        numThread =subprocess.check_output(cmdThreadFS,shell=True)
         val=int(numThread)-1
 
         while (val >= param):
-            numThread =subprocess.check_output(cmdThread,shell=True)
+            numThread =subprocess.check_output(cmdThreadFS,shell=True)
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[0] +"\n"
@@ -120,9 +120,9 @@ def featureProcess(cmdExecFS, cmdExecLOGFS, cmdThread, param):
     print "Fine FS"
 
 ##   Execute cmd parallel Recommendation
-def recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param):
+def recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param):
     while (len(cmdExecREC)>1):
-        numThread = subprocess.check_output(cmdThread,shell=True)
+        numThread = subprocess.check_output(cmdThreadRec,shell=True)
         val= int(numThread)-1
         if ((param-val) < len(cmdExecREC)):
             for aa in range(0,param-val):
@@ -142,11 +142,11 @@ def recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param):
                 del cmdExecLOGREC[0]
 
     if (len(cmdExecREC)!=0):
-        numThread =subprocess.check_output(cmdThread,shell=True)
+        numThread =subprocess.check_output(cmdThreadRec,shell=True)
         val=int(numThread)-1
 
         while (val >= param):
-            numThread =subprocess.check_output(cmdThread,shell=True)
+            numThread =subprocess.check_output(cmdThreadRec,shell=True)
             val=int(numThread)-1
 
         print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[0] +"\n"
@@ -154,18 +154,18 @@ def recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThread, param):
         cmdExecREC=[]
         cmdExecLOGREC=[]
 
-    numThread = subprocess.check_output(cmdThread,shell=True)
+    numThread = subprocess.check_output(cmdThreadRec,shell=True)
     val= int(numThread)-1
     while (val>0):
-        numThread = subprocess.check_output(cmdThread,shell=True)
+        numThread = subprocess.check_output(cmdThreadRec,shell=True)
         val= int(numThread)-1
     print time.strftime("%Y-%m-%d %H:%M")+" Fine Rec"
 
 
 ##   Execute cmd parallel Eval
-def evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param):
+def evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param):
     while (len(cmdExecEV)>1):
-        numThread = subprocess.check_output(cmdThread,shell=True)
+        numThread = subprocess.check_output(cmdThreadEval,shell=True)
         val= int(numThread)-1
         
         if ((param-val) < len(cmdExecEV)):
@@ -186,11 +186,11 @@ def evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThread, param):
                 del cmdExecLOGEV[0]
 
     if (len(cmdExecEV)!=0):
-        numThread =subprocess.check_output(cmdThread,shell=True)
+        numThread =subprocess.check_output(cmdThreadEval,shell=True)
         val=int(numThread)-1
 
         while (val >= param):
-            numThread =subprocess.check_output(cmdThread,shell=True)
+            numThread =subprocess.check_output(cmdThreadEval,shell=True)
             val=int(numThread)-1
 
 #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
