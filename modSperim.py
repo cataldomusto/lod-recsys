@@ -57,8 +57,11 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdExecLOGREC.append(cmdLOG)
 
             for given in givenN:
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" RankerWeka "+top+" "+alg+" &"
-                cmdLOG = "java -cp GraphEvalRun "+given+" RankerWeka "+top+" "+alg+" &"
+                metricString=""
+                for metric in metrics:
+                    metricString +=metric + " "
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" RankerWeka "+top+" "+alg+"  "+metricString+" &"
+                cmdLOG = "java -cp GraphEvalRun "+given+" RankerWeka "+top+" "+alg+" "+metricString+" &"
                 cmdExecEV.append(cmd)
                 cmdExecLOGEV.append(cmdLOG)
 
@@ -134,6 +137,7 @@ def parallelProcess(cmdExec, cmdExecLOG, cmdThread, param, typeProcess):
 ##   Extraction values
 def createSummaries(extractVal, metrics):
     dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+    cmd=""
     for alg in os.listdir(dire):
         if alg in extractVal:
             if os.path.exists(dire+alg+"/summaries/"):
