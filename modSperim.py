@@ -22,11 +22,14 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
     
     init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV)
     
-    featureProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param)
+#    feature process
+    parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
 
-#    recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param)
-
-    evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param)
+#    recommendation Process
+#    parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
+    
+#    evaluation Process
+    parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
     createSummaries(extractVal, metrics)
     
@@ -83,121 +86,47 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdExecLOGEV.append(cmdLOG)
     print time.strftime("%Y-%m-%d %H:%M") + " Init finished. \n"
 
-##   Execute cmd parallel Feature
-def featureProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param):
-    while (len(cmdExecFS)>1):
-        numThread = subprocess.check_output(cmdThreadFS,shell=True)
+def parallelProcess(cmdExec, cmdExecLOG, cmdThread, param, typeProcess):
+    print time.strftime("%Y-%m-%d %H:%M") + " "+typeProcess + " started. \n"
+    while (len(cmdExec)>1):
+        numThread = subprocess.check_output(cmdThread,shell=True)
         val= int(numThread)-1
-        if ((param-val) < len(cmdExecFS)):
+        if ((param-val) < len(cmdExec)):
             for aa in range(0,param-val):
-                subprocess.call(cmdExecFS[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
+                subprocess.call(cmdExec[aa], shell=True)
+                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOG[aa] +"\n"
 
             for a in range(0,param-val):
-                del cmdExecFS[0]
-                del cmdExecLOGFS[0]
+                del cmdExec[0]
+                del cmdExecLOG[0]
         else:
-            for aa in range(0,len(cmdExecFS)):
-                subprocess.call(cmdExecFS[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[aa] +"\n"
+            for aa in range(0,len(cmdExec)):
+                subprocess.call(cmdExec[aa], shell=True)
+                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOG[aa] +"\n"
 
-            for a in range(0,len(cmdExecFS)):
-                del cmdExecFS[0]
-                del cmdExecLOGFS[0]
+            for a in range(0,len(cmdExec)):
+                del cmdExec[0]
+                del cmdExecLOG[0]
 
-    if (len(cmdExecFS)!=0):
-        numThread =subprocess.check_output(cmdThreadFS,shell=True)
+    if (len(cmdExec)!=0):
+        numThread =subprocess.check_output(cmdThread,shell=True)
         val=int(numThread)-1
 
         while (val >= param):
-            numThread =subprocess.check_output(cmdThreadFS,shell=True)
+            numThread =subprocess.check_output(cmdThread,shell=True)
             val=int(numThread)-1
 
-        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGFS[0] +"\n"
-        subprocess.call(cmdExecFS[0], shell=True)
-        cmdExecFS=[]
-        cmdExecLOGFS=[]
-    print "Fine FS"
+        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOG[0] +"\n"
+        subprocess.call(cmdExec[0], shell=True)
+        cmdExec=[]
+        cmdExecLOG=[]
 
-##   Execute cmd parallel Recommendation
-def recommendationProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param):
-    while (len(cmdExecREC)>1):
-        numThread = subprocess.check_output(cmdThreadRec,shell=True)
-        val= int(numThread)-1
-        if ((param-val) < len(cmdExecREC)):
-            for aa in range(0,param-val):
-                subprocess.call(cmdExecREC[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
-
-            for a in range(0,param-val):
-                del cmdExecREC[0]
-                del cmdExecLOGREC[0]
-        else:
-            for aa in range(0,len(cmdExecREC)):
-                subprocess.call(cmdExecREC[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[aa] +"\n"
-
-            for a in range(0,len(cmdExecREC)):
-                del cmdExecREC[0]
-                del cmdExecLOGREC[0]
-
-    if (len(cmdExecREC)!=0):
-        numThread =subprocess.check_output(cmdThreadRec,shell=True)
-        val=int(numThread)-1
-
-        while (val >= param):
-            numThread =subprocess.check_output(cmdThreadRec,shell=True)
-            val=int(numThread)-1
-
-        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGREC[0] +"\n"
-        subprocess.call(cmdExecREC[0], shell=True)
-        cmdExecREC=[]
-        cmdExecLOGREC=[]
-
-    numThread = subprocess.check_output(cmdThreadRec,shell=True)
+    numThread = subprocess.check_output(cmdThread,shell=True)
     val= int(numThread)-1
     while (val>0):
-        numThread = subprocess.check_output(cmdThreadRec,shell=True)
+        numThread = subprocess.check_output(cmdThread,shell=True)
         val= int(numThread)-1
-    print time.strftime("%Y-%m-%d %H:%M")+" Fine Rec"
-
-
-##   Execute cmd parallel Eval
-def evaluationProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param):
-    while (len(cmdExecEV)>1):
-        numThread = subprocess.check_output(cmdThreadEval,shell=True)
-        val= int(numThread)-1
-        
-        if ((param-val) < len(cmdExecEV)):
-            for aa in range(0,param-val):
-                subprocess.call(cmdExecEV[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
-
-            for a in range(0,param-val):
-                del cmdExecEV[0]
-                del cmdExecLOGEV[0]
-        else:
-            for aa in range(0,len(cmdExecEV)):
-                subprocess.call(cmdExecEV[aa], shell=True)
-                print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[aa] +"\n"
-
-            for a in range(0,len(cmdExecEV)):
-                del cmdExecEV[0]
-                del cmdExecLOGEV[0]
-
-    if (len(cmdExecEV)!=0):
-        numThread =subprocess.check_output(cmdThreadEval,shell=True)
-        val=int(numThread)-1
-
-        while (val >= param):
-            numThread =subprocess.check_output(cmdThreadEval,shell=True)
-            val=int(numThread)-1
-
-#        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdExecLOGEV[0] +"\n"
-        subprocess.call(cmdExecEV[0], shell=True)
-        cmdExecEV=[]
-        cmdExecLOGEV=[]
-    print "Fine EV"
+    print time.strftime("%Y-%m-%d %H:%M") + " "+typeProcess + " finished. \n"
 
 ##   Extraction values
 def createSummaries(extractVal, metrics):
