@@ -145,7 +145,7 @@ public class RecommenderSys implements Serializable {
             serRec.delete();
     }
 
-    public static void evaluator(String level) {
+    public static void evaluator(String level, boolean novelty, boolean diversity) {
         String dir;
         switch (LoadProperties.FILTERTYPE) {
             case "RankerWeka":
@@ -171,20 +171,25 @@ public class RecommenderSys implements Serializable {
         try {
             loadRec(level);
 
-            // Diversity measure
-            ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
-            ArrayList<String> diversityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
-            for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+            ArrayList<String> diversityMeasure = null;
+            if (diversity) {
+                // Diversity measure
+                ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
+                diversityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
+                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
 //                System.out.println("Split "+i);
-                diversityMeasure.add(EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp));
+                    diversityMeasure.add(EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp));
+                }
             }
 
-            // Novelty measure
-//            ArrayList<String> noveltyMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
-//            for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-//                noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasure(recommendationForSplits.get(i - 1)));
-//            }
-
+            ArrayList<String> noveltyMeasure = null;
+//          Novelty measure
+            if (novelty) {
+                noveltyMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
+                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                    noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasure(recommendationForSplits.get(i - 1)));
+                }
+            }
             for (int numRec : LoadProperties.LISTRECSIZES) {
                 String namePath = dir + File.separator + "top_" + numRec;
 
@@ -200,8 +205,10 @@ public class RecommenderSys implements Serializable {
                     String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-                    EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal);
-//                    EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
+                    if (diversity)
+                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal);
+                    if (novelty)
+                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
 //                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
                 }

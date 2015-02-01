@@ -57,7 +57,7 @@ public class GraphRunner {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            evaluator(level.toString());
+            evaluator(level.toString(), true, true);
         }
     }
 }

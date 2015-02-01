@@ -20,7 +20,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 
     extractVal=[]
     
-    init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV)
+    init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics)
     
 #    feature process
     parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
@@ -38,7 +38,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 
 
-def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV):
+def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics):
     for alg in allalgWEKA:
         for top in topN:
     #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 11 LatentSemanticAnalysis"
@@ -80,8 +80,11 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdExecLOGREC.append(cmdLOG)
 
             for given in givenN:
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+top+" &"
-                cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top+" &"
+                metricString=""
+                for metric in metrics:
+                    metricString +=metric + " "
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+top+" "+metricString +" &"
+                cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top+" "+metricString +" &"
                 cmdExecEV.append(cmd)
                 cmdExecLOGEV.append(cmdLOG)
     print time.strftime("%Y-%m-%d %H:%M") + " Init finished. \n"

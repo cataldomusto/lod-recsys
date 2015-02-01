@@ -30,13 +30,24 @@ public class GraphEvalRun {
 
         LoadProperties.CHOOSENPROP = "./mapping/choosen_prop/choosen_prop" + fileProp;
 
-        System.out.print(new Date()+"[INFO] Started evaluation ");
+        System.out.print(new Date() + "[INFO] Started evaluation ");
         for (String arg : args) {
             System.out.print(arg + " ");
         }
         System.out.println();
 
-        evaluator(level);
+        boolean novelty = false;
+        boolean diversity = false;
+
+        for (String arg : args) {
+            String par = arg.toLowerCase();
+            if (par.contains("novelty"))
+                novelty = true;
+            if (par.contains("diversity"))
+                diversity = true;
+        }
+
+        evaluator(level, novelty, diversity);
 
         System.out.print(new Date() + "[INFO] Completed evaluation ");
         for (String arg : args) {
