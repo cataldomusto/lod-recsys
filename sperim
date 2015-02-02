@@ -24,5 +24,5 @@ allalg=["CFSubsetEval"]
 #allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","SVMAttributeEval","PCA","ReliefFAttributeEval"]
 topN=["10","17","30","50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
-metrics=["F1","Diversity"]
+metrics=["F1"]
 modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics)
