@@ -66,19 +66,17 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdExecLOGEV.append(cmdLOG)
 
     for alg in allalg:
-        for top in topN:
-    #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun MRMR 11"
-            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun "+ alg+" "+top
-            cmdLOG = "java -cp GraphFSRun "+ alg+" "+top
+        if (alg=="CFSubsetEval"):
+    #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval"
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun "+ alg
+            cmdLOG = "java -cp GraphFSRun "+ alg
             cmdExecFS.append(cmd)
             cmdExecLOGFS.append(cmdLOG)
-            extractVal.append(alg+top+"prop5split")
-    #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
-
+            extractVal.append(alg+"prop5split")
             for given in givenN:
-    #               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 MRMR 11 &"
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" "+ alg+" "+top+" &"
-                cmdLOG = "java -cp GraphRecRun "+given+" "+ alg+" "+top+" &"
+        #               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &"
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" "+ alg+" &"
+                cmdLOG = "java -cp GraphRecRun "+given+" "+ alg+" &"
                 cmdExecREC.append(cmd)
                 cmdExecLOGREC.append(cmdLOG)
 
@@ -86,10 +84,36 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 metricString=""
                 for metric in metrics:
                     metricString +=metric + " "
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+top+" "+metricString +" &"
-                cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top+" "+metricString +" &"
+#                    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun given_5 CFSubsetEval F1 Novelty &"
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+metricString +" &"
+                cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+metricString +" &"
                 cmdExecEV.append(cmd)
                 cmdExecLOGEV.append(cmdLOG)
+        else:
+            for top in topN:
+        #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun MRMR 11"
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun "+ alg+" "+top
+                cmdLOG = "java -cp GraphFSRun "+ alg+" "+top
+                cmdExecFS.append(cmd)
+                cmdExecLOGFS.append(cmdLOG)
+                extractVal.append(alg+top+"prop5split")
+        #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
+
+                for given in givenN:
+        #               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 MRMR 11 &"
+                    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" "+ alg+" "+top+" &"
+                    cmdLOG = "java -cp GraphRecRun "+given+" "+ alg+" "+top+" &"
+                    cmdExecREC.append(cmd)
+                    cmdExecLOGREC.append(cmdLOG)
+
+                for given in givenN:
+                    metricString=""
+                    for metric in metrics:
+                        metricString +=metric + " "
+                    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun "+given+" "+ alg+" "+top+" "+metricString +" &"
+                    cmdLOG = "java -cp GraphEvalRun "+given+" "+ alg+" "+top+" "+metricString +" &"
+                    cmdExecEV.append(cmd)
+                    cmdExecLOGEV.append(cmdLOG)
     print time.strftime("%Y-%m-%d %H:%M") + " Init finished. \n"
 
 def parallelProcess(cmdExec, cmdExecLOG, cmdThread, param, typeProcess):
@@ -169,13 +193,14 @@ def createSummaries(extractVal, metrics):
 def createCSV(metrics, allalg, allalgWEKA):
     for metric in metrics: 
         for alg in allalg:
-#            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
-            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric
-            print cmd
-            subprocess.call(cmd, shell=True)
-            dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
-            cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
-            subprocess.call(cmd, shell=True)
+            if (alg!="CFSubsetEval"):
+    #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric
+                print cmd
+                subprocess.call(cmd, shell=True)
+                dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+                cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+                subprocess.call(cmd, shell=True)
         
         for alg in allalgWEKA:
 #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric+" baseline"

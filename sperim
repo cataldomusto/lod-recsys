@@ -18,10 +18,10 @@ cmdThreadRec="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph
 cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
 param=8
-allalg=["PageRank","MRMR"]
-#allalgWEKA=["ChiSquaredAttributeEval"] 
 #allalg=["PageRank","MRMR"]
-allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","SVMAttributeEval","PCA","ReliefFAttributeEval"]
+allalgWEKA=[] 
+allalg=["CFSubsetEval"]
+#allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","SVMAttributeEval","PCA","ReliefFAttributeEval"]
 topN=["10","17","30","50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 metrics=["F1","Diversity"]
