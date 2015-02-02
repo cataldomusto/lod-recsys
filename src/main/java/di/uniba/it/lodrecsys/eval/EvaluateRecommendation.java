@@ -262,28 +262,58 @@ public class EvaluateRecommendation {
             }
         }
 
+
+//        int numFilm = 0;
+//        ArrayList<Integer> u = new ArrayList<>();
+//        for (String userID : recommendationList.keySet()) {
+//            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+//            int i = 0;
+//            for (Rating rate : recommendationListForUser) {
+//                if (rate.getItemID().equals("100")) {
+//                    u.add(Integer.parseInt(userID));
+//                    numFilm++;
+//                }
+//                i++;
+//                // prints only numRec recommendation on file
+//                if (numRec != -1 && i >= numRec) {
+//                    break;
+//                }
+//            }
+//        }
+//                                  Collections.sort(u);
+//        for (Integer s : u) {
+//            System.out.println(s);
+//        }
+//        System.out.println(numFilm);
+//        System.exit(2);
         for (String s : allRecID.keySet()) {
             double prop = allRecID.get(s) / max;
             allRecID.put(s, prop);
         }
 
-        //        String userID = "446";
+//        String userID = "446";    USER da 1 rec
+//        String userID = "184";    USER da n rec
         ArrayList<Double> msiUsers = new ArrayList<>();
         for (String userID : recommendationList.keySet()) {
-            double noveltyM = 0.0;
-            Set<Rating> recommendationListForUser = recommendationList.get(userID);
-            int i = 0;
-            for (Rating rate : recommendationListForUser) {
-                noveltyM += (Math.log(allRecID.get(rate.getItemID())) / Math.log(2));
-                i++;
+        double noveltyM = 0.0;
+        Set<Rating> recommendationListForUser = recommendationList.get(userID);
+        int i = 0;
+        for (Rating rate : recommendationListForUser) {
+//            System.out.println("FilmID: " + rate.getItemID() + " log(" + allRecID.get(rate.getItemID()) + ") : " + Math.log(allRecID.get(rate.getItemID())));
+            noveltyM += (Math.log(allRecID.get(rate.getItemID())));
+            i++;
 
-                // prints only numRec recommendation on file
-                if (numRec != -1 && i >= numRec) {
-                    break;
-                }
+            // prints only numRec recommendation on file
+            if (numRec != -1 && i >= numRec) {
+                break;
             }
-            double noveltyAVG = -(noveltyM) / ((double) numRec);
-            msiUsers.add(noveltyAVG);
+        }
+        double noveltyAVG = -(noveltyM) / ((double) i);
+        msiUsers.add(noveltyAVG);
+//        System.out.println("sum novelty: " + noveltyM);
+//        System.out.println("divisore: " + i);
+//        System.out.println("avg novelty: " + noveltyAVG);
+
         }
         double avg = 0.0;
         for (Double aDouble : msiUsers) {
