@@ -703,7 +703,7 @@ public class EvaluateRecommendation {
                 e.printStackTrace();
             }
             measures += "Serendipity_" + cutoffLevel + "," + avgMeasure + "\n";
-            System.out.println("Serendipity_" + cutoffLevel + "," + avgMeasure);
+//            System.out.println("Serendipity_" + cutoffLevel + "," + avgMeasure);
         }
         return measures.substring(0, measures.length() - 1);
     }
