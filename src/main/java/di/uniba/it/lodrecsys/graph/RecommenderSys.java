@@ -145,7 +145,7 @@ public class RecommenderSys implements Serializable {
             serRec.delete();
     }
 
-    public static void evaluator(String level, boolean novelty, boolean diversity) {
+    public static void evaluator(String level, boolean novelty, boolean diversity, boolean serendipity) {
         String dir;
         switch (LoadProperties.FILTERTYPE) {
             case "RankerWeka":
@@ -190,6 +190,16 @@ public class RecommenderSys implements Serializable {
                     noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasure(recommendationForSplits.get(i - 1)));
                 }
             }
+
+//          Serendipity measure
+            ArrayList<String> serendipityMeasure = null;
+            if (serendipity) {
+                serendipityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
+                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                    serendipityMeasure.add(EvaluateRecommendation.evalSerMeasure(recommendationForSplits.get(i - 1)));
+                }
+            }
+
             for (int numRec : LoadProperties.LISTRECSIZES) {
                 String namePath = dir + File.separator + "top_" + numRec;
 
@@ -209,6 +219,8 @@ public class RecommenderSys implements Serializable {
                         EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal);
                     if (novelty)
                         EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
+                    if (serendipity)
+                        EvaluateRecommendation.saveEvalSerendipityMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
 //                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
                 }

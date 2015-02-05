@@ -6,6 +6,7 @@ import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.utils.CmdExecutor;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
+import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -107,6 +108,17 @@ public class EvaluateRecommendation {
         try {
             MovieMapping movieMapping = Utils.findMovieMappingbyId(id);
             if (movieMapping != null && mapFilmCountProp.containsKey(movieMapping.getDbpediaURI()))
+                return movieMapping.getDbpediaURI();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String uriByID(String id) {
+        try {
+            MovieMapping movieMapping = Utils.findMovieMappingbyId(id);
+            if (movieMapping != null)
                 return movieMapping.getDbpediaURI();
         } catch (IOException e) {
             e.printStackTrace();
@@ -244,11 +256,9 @@ public class EvaluateRecommendation {
         return measures.substring(0, measures.length() - 1);
     }
 
-    // TODO Modify
     private static double msimetric(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
 
         HashMap<String, Double> allRecID = new HashMap<>(1400);
-        double max = 1.0;
         for (String userID : recommendationList.keySet()) {
             Set<Rating> recommendationListForUser = recommendationList.get(userID);
             int i = 0;
@@ -258,8 +268,6 @@ public class EvaluateRecommendation {
                 else {
                     double value = allRecID.get(rate.getItemID());
                     value++;
-                    if (value > max)
-                        max = value;
                     allRecID.put(rate.getItemID(), value);
                 }
                 i++;
@@ -269,37 +277,15 @@ public class EvaluateRecommendation {
             }
         }
 
-
-//        int numFilm = 0;
-//        ArrayList<Integer> u = new ArrayList<>();
-//        for (String userID : recommendationList.keySet()) {
-//            Set<Rating> recommendationListForUser = recommendationList.get(userID);
-//            int i = 0;
-//            for (Rating rate : recommendationListForUser) {
-//                if (rate.getItemID().equals("100")) {
-//                    u.add(Integer.parseInt(userID));
-//                    numFilm++;
-//                }
-//                i++;
-//                // prints only numRec recommendation on file
-//                if (numRec != -1 && i >= numRec) {
-//                    break;
-//                }
-//            }
-//        }
-//                                  Collections.sort(u);
-//        for (Integer s : u) {
-//            System.out.println(s);
-//        }
-//        System.out.println(numFilm);
-//        System.exit(2);
+        int totUser = recommendationList.size();
         for (String s : allRecID.keySet()) {
-            double prop = allRecID.get(s) / max;
+            double prop = allRecID.get(s) / totUser;
+//            System.out.println("Film "+s + " NItems "+allRecID.get(s) + " / "+totUser + " = "+prop);
             allRecID.put(s, prop);
         }
 
 //        String userID = "446";    USER da 1 rec
-//        String userID = "184";    USER da n rec
+//        String userID = "185";    //USER da n rec
         ArrayList<Double> msiUsers = new ArrayList<>();
         for (String userID : recommendationList.keySet()) {
             double noveltyM = 0.0;
@@ -320,7 +306,6 @@ public class EvaluateRecommendation {
 //        System.out.println("sum novelty: " + noveltyM);
 //        System.out.println("divisore: " + i);
 //        System.out.println("avg novelty: " + noveltyAVG);
-
         }
         double avg = 0.0;
         for (Double aDouble : msiUsers) {
@@ -358,6 +343,13 @@ public class EvaluateRecommendation {
     public static void saveEvalMSIMeasure(String msi, String resFile) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile + "4", true)))) {
             out.println(msi);
+        } catch (IOException e) {
+        }
+    }
+
+    public static void saveEvalSerendipityMeasure(String serendipity, String resFile) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile + "5", true)))) {
+            out.println(serendipity);
         } catch (IOException e) {
         }
     }
@@ -587,6 +579,15 @@ public class EvaluateRecommendation {
                 }
             }
 
+            // Serendipity loading
+            if (new File(trecEvalFile + "4").exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile + "5"), CSVFormat.newFormat(','));
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+                for (CSVRecord rec : parser.getRecords()) {
+                    trecMetrics.put(rec.get(0), rec.get(1));
+                }
+            }
+
             return trecMetrics;
         } catch (IOException e) {
             throw e;
@@ -638,9 +639,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20"},
+                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
@@ -686,8 +687,147 @@ public class EvaluateRecommendation {
             writer.close();
 
         }
-
-
     }
+
+
+    public static String evalSerMeasure(Map<String, Set<Rating>> recommendationList) {
+        UndirectedSparseMultigraph<String, Edge> recGraph = graphFiltered();
+        String measures = "";
+        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+        for (int i = 0; i < cutoffLevels.length; i++) {
+            int cutoffLevel = cutoffLevels[i];
+            double avgMeasure = 0;
+            try {
+                avgMeasure = serendipityMetric(recommendationList, cutoffLevel, recGraph);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            measures += "Serendipity_" + cutoffLevel + "," + avgMeasure + "\n";
+            System.out.println("Serendipity_" + cutoffLevel + "," + avgMeasure);
+        }
+        return measures.substring(0, measures.length() - 1);
+    }
+
+    private static double serendipityMetric(Map<String, Set<Rating>> recommendationList, int numRec, UndirectedSparseMultigraph<String, Edge> recGraph) throws IOException {
+
+//        String userID = "453";
+        ArrayList<Double> serendipityAllUser = new ArrayList<>();
+        for (String userID : recommendationList.keySet()) {
+            ArrayList<String> itemRec = new ArrayList<>(numRec);
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+                String uri = uriByID(rate.getItemID());
+                if (uri != null) {
+//                    System.out.println("userID " + userID + " : Film " + uri);
+                    itemRec.add(uri);
+                    i++;
+                }
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec)
+                    break;
+            }
+
+//            System.out.println("-----------------");
+            double serendipityTot = 0f;
+            int nRec = 0;
+            for (int i1 = 0; i1 < itemRec.size() - 1; i1++) {
+                for (int j = i1 + 1; j < itemRec.size(); j++) {
+                    double val = shortestPathMetric(itemRec.get(i1), itemRec.get(j), recGraph);
+                    if (val != 0.0) {
+                        nRec++;
+//                    System.out.println("Shortest(" + itemRec.get(i1) + " " + itemRec.get(j) + ") = " + val);
+                        serendipityTot = serendipityTot + val;
+                    }
+                }
+            }
+//        System.out.println("-----------------");
+//        System.out.println("SerTot = " + serendipityTot);
+//        System.out.println("nRec = " + nRec);
+            double serAVG = 0;
+            if (nRec != 0)
+                serAVG = serendipityTot / nRec;
+//        System.out.println(userID + " SerAVG = " + serAVG + " = " + serendipityTot + "/" + nRec);
+            serendipityAllUser.add(serAVG);
+
+        }
+        double avg = 0;
+        for (Double aDouble : serendipityAllUser) {
+            avg += aDouble;
+        }
+        avg = avg / serendipityAllUser.size();
+        return avg;
+    }
+
+    private static UndirectedSparseMultigraph<String, Edge> graphFiltered() {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream("./serialized/graphComplete.bin");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(fis);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        UndirectedSparseMultigraph<String, Edge> recGraph = null;
+        try {
+            recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String dir;
+        switch (LoadProperties.FILTERTYPE) {
+            case "RankerWeka":
+                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+                break;
+            case "CFSubsetEval":
+                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+                break;
+            default:
+                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+                break;
+        }
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(Paths.get(dir),
+                    Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Collection<Edge> edgesrecGraph = recGraph.getEdges();
+        List<Edge> edgesrecGraphRemove = new ArrayList<>();
+//        System.out.println("Edges init: " + edgesrecGraph.size());
+        for (Edge edge : edgesrecGraph) {
+            if (!lines.contains(edge.getProperty())) {
+                edgesrecGraphRemove.add(edge);
+            }
+        }
+        for (Edge edge : edgesrecGraphRemove) {
+            recGraph.removeEdge(edge);
+        }
+//        System.out.println("Edges post: " + recGraph.getEdges().size());
+        return recGraph;
+    }
+
+    private static double shortestPathMetric(String film1, String film2, UndirectedSparseMultigraph<String, Edge> recGraph) {
+
+        assert recGraph != null;
+        try {
+
+            DijkstraShortestPath<String, Edge> shortestPath = new DijkstraShortestPath<>(recGraph);
+            List<Edge> edges = shortestPath.getPath(film1, film2);
+            return edges.size();
+        } catch (Exception e) {
+            return 0.0;
+        }
+    }
+
 
 }
