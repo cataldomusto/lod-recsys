@@ -693,7 +693,8 @@ public class EvaluateRecommendation {
     public static String evalSerMeasure(Map<String, Set<Rating>> recommendationList) {
         UndirectedSparseMultigraph<String, Edge> recGraph = graphFiltered();
         String measures = "";
-        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+//        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+        int[] cutoffLevels = new int[]{10};
         for (int i = 0; i < cutoffLevels.length; i++) {
             int cutoffLevel = cutoffLevels[i];
             double avgMeasure = 0;
@@ -734,9 +735,9 @@ public class EvaluateRecommendation {
             for (int i1 = 0; i1 < itemRec.size() - 1; i1++) {
                 for (int j = i1 + 1; j < itemRec.size(); j++) {
                     double val = shortestPathMetric(itemRec.get(i1), itemRec.get(j), recGraph);
+//                System.out.println("Shortest(" + itemRec.get(i1) + " " + itemRec.get(j) + ") = "+val);
                     if (val != 0.0) {
                         nRec++;
-//                    System.out.println("Shortest(" + itemRec.get(i1) + " " + itemRec.get(j) + ") = " + val);
                         serendipityTot = serendipityTot + val;
                     }
                 }
@@ -760,6 +761,7 @@ public class EvaluateRecommendation {
     }
 
     private static UndirectedSparseMultigraph<String, Edge> graphFiltered() {
+
         FileInputStream fis = null;
         try {
             fis = new FileInputStream("./serialized/graphComplete.bin");
@@ -814,6 +816,46 @@ public class EvaluateRecommendation {
         }
 //        System.out.println("Edges post: " + recGraph.getEdges().size());
         return recGraph;
+
+
+        /* Load  bin graph complete with user */
+//        String nameF = LoadProperties.FILTERTYPE;
+//        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+//            nameF += LoadProperties.EVALWEKA;
+//        nameF += LoadProperties.NUMFILTER;
+//        UndirectedSparseMultigraph<String, Edge> recGraph = new UndirectedSparseMultigraph<>();
+//        for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+//
+//            FileInputStream fis = null;
+//            try {
+//                fis = new FileInputStream("./serialized/graph" + nameF + "Split" + i + ".bin");
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            ObjectInputStream ois = null;
+//            try {
+//                ois = new ObjectInputStream(fis);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            UndirectedSparseMultigraph<String, Edge> recGraphTemp = null;
+//            try {
+//                recGraphTemp = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
+//            } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            for (String s : recGraphTemp.getVertices()) {
+//                recGraph.addVertex(s);
+//            }
+//            for (Edge edge : recGraphTemp.getEdges()) {
+//                recGraph.addEdge(edge, edge.getSubject(), edge.getObject());
+//            }
+
+//            System.out.println("Split" + i + ": " + recGraph.getEdgeCount() + " " + recGraph.getVertexCount());
+//        }
+//        return recGraph;
     }
 
     private static double shortestPathMetric(String film1, String film2, UndirectedSparseMultigraph<String, Edge> recGraph) {

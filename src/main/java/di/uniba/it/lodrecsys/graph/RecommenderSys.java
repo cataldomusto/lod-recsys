@@ -50,7 +50,6 @@ public class RecommenderSys implements Serializable {
                 testFile, LoadProperties.MASSPROB, LoadProperties.PROPERTYINDEXDIR, mappingList, tagmeConcepts);
         RecGraph userItemGraph = pair.key;
         RequestStruct requestStruct = pair.value;
-
         recommendationForSplits.add(userItemGraph.runPageRank(requestStruct));
     }
 
@@ -197,6 +196,7 @@ public class RecommenderSys implements Serializable {
                 serendipityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
                     serendipityMeasure.add(EvaluateRecommendation.evalSerMeasure(recommendationForSplits.get(i - 1)));
+                System.exit(2);
                 }
             }
 

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public abstract class RecGraph {
     protected static Logger currLogger = Logger.getLogger(RecGraph.class.getName());
 
-    protected UndirectedSparseMultigraph<String, Edge> recGraph;
+    protected static UndirectedSparseMultigraph<String, Edge> recGraph;
 
     public RecGraph() {
         recGraph = new UndirectedSparseMultigraph<>();

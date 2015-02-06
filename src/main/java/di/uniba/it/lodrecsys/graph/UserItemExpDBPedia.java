@@ -20,7 +20,7 @@ import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
  * Class which represents the user-item-lod
  * configuration
  */
-public class UserItemExpDBPedia extends RecGraph {
+public class UserItemExpDBPedia extends RecGraph implements Serializable {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;
     private Map<String, Set<String>> testSet;
     private Map<String, String> uriIdMap;
@@ -113,7 +113,25 @@ public class UserItemExpDBPedia extends RecGraph {
         savefileLog(new Date() + " [INFO] Graph Filtered Vertices : " + recGraph.getVertexCount());
         savefileLog(new Date() + " [INFO] Graph Filtered Edges : " + recGraph.getEdgeCount());
         savefileLog("-----------------------------------------------------");
+        save();
 //        currLogger.info(String.format("Total number of vertex %s - Total number of edges %s", recGraph.getVertexCount(), recGraph.getEdgeCount()));
+    }
+
+    public static void save() throws IOException {
+        new File("./serialized").mkdirs();
+        String nameF = LoadProperties.FILTERTYPE;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
+            nameF += LoadProperties.EVALWEKA;
+        nameF += LoadProperties.NUMFILTER;
+        int i = 1;
+        while (new File("./serialized/graph" + nameF + "Split" + i + ".bin").exists() && i > LoadProperties.NUMSPLIT)
+            i++;
+
+        FileOutputStream fos = new FileOutputStream("./serialized/graph" + nameF + "Split" + i + ".bin");
+        ObjectOutputStream o = new ObjectOutputStream(fos);
+        o.writeObject(recGraph);
+        o.close();
+        fos.close();
     }
 
     private void printDot(String name) throws IOException {
