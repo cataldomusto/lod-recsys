@@ -126,10 +126,10 @@ public class EvaluateRecommendation {
         return null;
     }
 
-    private static double ildmetric(Map<String, Set<Rating>> recommendationList, int numRec, HashMap<String, HashMap<String, Integer>> mapFilmCountProp) throws IOException {
+    private static HashMap<String, Double> ildmetric(Map<String, Set<Rating>> recommendationList, int numRec, HashMap<String, HashMap<String, Integer>> mapFilmCountProp) throws IOException {
 
 //        String userID = "184";
-        ArrayList<Double> ildAllUser = new ArrayList<>();
+        HashMap<String, Double> ildAllUser = new HashMap<>(900);
         for (String userID : recommendationList.keySet()) {
             ArrayList<String> itemRec = new ArrayList<>(numRec);
             Set<Rating> recommendationListForUser = recommendationList.get(userID);
@@ -169,12 +169,15 @@ public class EvaluateRecommendation {
 //            System.out.println("SimAVG = " + simAVG);
             double ildUser = 1 - simAVG;
 //            System.out.println("Diversity = 1 - " + simAVG + " = " + ildUser);
-            ildAllUser.add(ildUser);
+            ildAllUser.put(userID, ildUser);
         }
+        return ildAllUser;
+    }
+
+    private static double avgILD(HashMap<String, Double> ildAllUser) {
         double avg = 0;
-        for (Double aDouble : ildAllUser) {
+        for (Double aDouble : ildAllUser.values())
             avg += aDouble;
-        }
         avg = avg / ildAllUser.size();
         return avg;
     }
@@ -256,6 +259,79 @@ public class EvaluateRecommendation {
         return measures.substring(0, measures.length() - 1);
     }
 
+    public static String evalMSIMeasureAll(Map<String, Set<Rating>> recommendationList) {
+        String measures = "";
+        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+        for (int i = 0; i < cutoffLevels.length; i++) {
+            int cutoffLevel = cutoffLevels[i];
+            HashMap<String, Double> usersMSI = null;
+            try {
+                usersMSI = msimetricAll(recommendationList, cutoffLevel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (String s : usersMSI.keySet())
+                measures += s + ",Novelty_" + cutoffLevel + "," + usersMSI.get(s) + "\n";
+//            System.out.println("Novelty_" + cutoffLevel + "," + avgMeasure);
+        }
+        return measures.substring(0, measures.length() - 1);
+    }
+
+    private static HashMap<String,Double> msimetricAll(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
+
+        HashMap<String, Double> allRecID = new HashMap<>(1400);
+        for (String userID : recommendationList.keySet()) {
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+                if (!allRecID.containsKey(rate.getItemID()))
+                    allRecID.put(rate.getItemID(), 1.0);
+                else {
+                    double value = allRecID.get(rate.getItemID());
+                    value++;
+                    allRecID.put(rate.getItemID(), value);
+                }
+                i++;
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec)
+                    break;
+            }
+        }
+
+        int totUser = recommendationList.size();
+        for (String s : allRecID.keySet()) {
+            double prop = allRecID.get(s) / totUser;
+//            System.out.println("Film "+s + " NItems "+allRecID.get(s) + " / "+totUser + " = "+prop);
+            allRecID.put(s, prop);
+        }
+
+//        String userID = "446";    USER da 1 rec
+//        String userID = "185";    //USER da n rec
+        HashMap<String,Double> msiUsers = new HashMap<>(900);
+        for (String userID : recommendationList.keySet()) {
+            double noveltyM = 0.0;
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+//            System.out.println("FilmID: " + rate.getItemID() + " log(" + allRecID.get(rate.getItemID()) + ") : " + Math.log(allRecID.get(rate.getItemID())));
+                noveltyM += (Math.log(allRecID.get(rate.getItemID())));
+                i++;
+
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec) {
+                    break;
+                }
+            }
+            double noveltyAVG = -(noveltyM) / ((double) i);
+            msiUsers.put(userID,noveltyAVG);
+//        System.out.println("sum novelty: " + noveltyM);
+//        System.out.println("divisore: " + i);
+//        System.out.println("avg novelty: " + noveltyAVG);
+        }
+        return msiUsers;
+    }
+
+
     private static double msimetric(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
 
         HashMap<String, Double> allRecID = new HashMap<>(1400);
@@ -323,11 +399,31 @@ public class EvaluateRecommendation {
             HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
             double avgMeasure = 0;
             try {
-                avgMeasure = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
+                HashMap<String,Double> usersILD = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
+                avgMeasure = avgILD(usersILD);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             measures += "Diversity_" + cutoffLevel + "," + avgMeasure + "\n";
+//            System.out.println("Diversity_" + cutoffLevel + "," + avgMeasure);
+        }
+        return measures.substring(0, measures.length() - 1);
+    }
+
+    public static String evalILDMeasureAll(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
+        String measures = "";
+        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+        for (int i = 0; i < cutoffLevels.length; i++) {
+            int cutoffLevel = cutoffLevels[i];
+            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
+            HashMap<String, Double> usersILD = null;
+            try {
+                usersILD = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (String s : usersILD.keySet())
+                measures += s + ",Diversity_" + cutoffLevel + "," + usersILD.get(s) + "\n";
 //            System.out.println("Diversity_" + cutoffLevel + "," + avgMeasure);
         }
         return measures.substring(0, measures.length() - 1);
@@ -580,7 +676,7 @@ public class EvaluateRecommendation {
             }
 
             // Serendipity loading
-            if (new File(trecEvalFile + "4").exists()) {
+            if (new File(trecEvalFile + "5").exists()) {
                 parser = new CSVParser(new FileReader(trecEvalFile + "5"), CSVFormat.newFormat(','));
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
                 for (CSVRecord rec : parser.getRecords()) {
@@ -639,9 +735,9 @@ public class EvaluateRecommendation {
     public static String averageMetricsResult(List<Map<String, String>> metricsValuesForSplit, int numberOfSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                "recall_15", "recall_20", "recall_30", "recall_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"},
+                "recall_15", "recall_20", "recall_30", "recall_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"},
                 completeMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
-                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "alpha-nDCG@5", "alpha-nDCG@10", "alpha-nDCG@20", "P-IA@5", "P-IA@10", "P-IA@20", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"};
+                        "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"};
 
         Map<String, Float> averageRes = new HashMap<>();
         for (String measure : usefulMetrics) {
@@ -664,6 +760,51 @@ public class EvaluateRecommendation {
         return results.toString();
 
     }
+
+    /**
+     * Averages the metrics results for each split
+     *
+     * @param metricsValuesForSplit list of metrics computed for each split
+     * @param numberOfSplit         number of split
+     * @return string representation of the results
+     */
+    public static String averageMetricsResultALL(List<Map<String, HashMap<String, Float>>> metricsValuesForSplit, int numberOfSplit) {
+        StringBuilder results = new StringBuilder("");
+        String[] usefulMetrics = {"F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"};
+
+        ArrayList<String> users = new ArrayList<>();
+        for (Map<String, HashMap<String, Float>> map : metricsValuesForSplit) {
+            for (String s : map.keySet()) {
+                if (!users.contains(s))
+                    users.add(s);
+            }
+        }
+        Map<String, HashMap<String, Float>> averageRes = new HashMap<>();
+        for (String measure : usefulMetrics) {
+            for (String user : users) {
+                averageRes.put(user, new HashMap<String, Float>());
+                float currMetricsTot = 0f;
+                int i = 1;
+                for (Map<String, HashMap<String, Float>> map : metricsValuesForSplit) {
+                    if (map.containsKey(user)) {
+                        HashMap<String, Float> userF = map.get(user);
+                        if (userF.containsKey(measure)) {
+                            currMetricsTot += userF.get(measure);
+                            i++;
+                        }
+                    }
+                }
+
+                if (currMetricsTot != 0f) {
+                    averageRes.get(user).put(measure, currMetricsTot / i);
+                    results.append(user + measure + "=" + averageRes.get(user).get(measure) + "\n");
+                }
+            }
+        }
+
+        return results.toString();
+    }
+
 
     /**
      * Serializes the metrics results coming from the evaluation process in a file
@@ -871,5 +1012,93 @@ public class EvaluateRecommendation {
         }
     }
 
+
+    public static void saveAllTrecEvalResult(String goldStandardFile, String resultFile, String trecResultFile) {
+
+        String[] measures = new String[]{"P.5", "P.10", "P.15", "P.20", "P.30", "P.50", "recall.5", "recall.10", "recall.15", "recall.20", "recall.30", "recall.50"};
+
+        for (String measure : measures) {
+            String resTemp = trecResultFile + "Temp";
+            String trecEvalCommand = PATHTREC + "trec_eval -q -m " + measure + " " + goldStandardFile + " " + resultFile;
+            CmdExecutor.executeCommandAndPrint(trecEvalCommand, resTemp);
+            CmdExecutor.executeCommand("cat " + resTemp + " >> " + trecResultFile, false);
+            new File(resTemp).delete();
+        }
+    }
+
+    /**
+     * Parses the specified trec eval results file and retrives all the produced
+     * metrics
+     *
+     * @param trecEvalFile filename of the trec_eval results file
+     * @return a dictionary whose keys are metrics' name and whose values are metrics' values
+     * @throws IOException
+     */
+    public static Map<String, HashMap<String, Float>> getAllTrecEvalResults(String trecEvalFile) throws IOException {
+        CSVParser parser = null;
+        Map<String, HashMap<String, String>> trecMetrics = new HashMap<>();
+        Map<String, HashMap<String, Float>> fmetrics = new HashMap<>();
+
+        try {
+            // trec_eval loading
+            if (new File(trecEvalFile).exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile), CSVFormat.TDF);
+                for (CSVRecord rec : parser.getRecords()) {
+                    if (rec.size() == 3) {
+                        if (!rec.get(1).equals("all"))
+                            if (trecMetrics.get(rec.get(1)) == null) {
+                                trecMetrics.put(rec.get(1), new HashMap<String, String>(6));
+                                trecMetrics.get(rec.get(1)).put(rec.get(0), rec.get(2));
+                            } else
+                                trecMetrics.get(rec.get(1)).put(rec.get(0), rec.get(2));
+                    }
+                }
+                for (String s : trecMetrics.keySet()) {
+                    HashMap<String, String> metrics = trecMetrics.get(s);
+                    HashMap<String, Float> fmetricsval = new HashMap<>(6);
+                    float fUID = getF1(Float.parseFloat(metrics.get("P_5")), Float.parseFloat(metrics.get("recall_5")));
+                    fmetricsval.put("F1_5", fUID);
+                    fUID = getF1(Float.parseFloat(metrics.get("P_10")), Float.parseFloat(metrics.get("recall_10")));
+                    fmetricsval.put("F1_10", fUID);
+                    fUID = getF1(Float.parseFloat(metrics.get("P_15")), Float.parseFloat(metrics.get("recall_15")));
+                    fmetricsval.put("F1_15", fUID);
+                    fUID = getF1(Float.parseFloat(metrics.get("P_20")), Float.parseFloat(metrics.get("recall_20")));
+                    fmetricsval.put("F1_20", fUID);
+                    fUID = getF1(Float.parseFloat(metrics.get("P_30")), Float.parseFloat(metrics.get("recall_30")));
+                    fmetricsval.put("F1_30", fUID);
+                    fUID = getF1(Float.parseFloat(metrics.get("P_50")), Float.parseFloat(metrics.get("recall_50")));
+                    fmetricsval.put("F1_50", fUID);
+                    fmetrics.put(s, fmetricsval);
+                }
+
+            }
+            // Diversity loading
+            if (new File(trecEvalFile + "3").exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile + "3"), CSVFormat.newFormat(','));
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+                for (CSVRecord rec : parser.getRecords()) {
+                    fmetrics.get(rec.get(0)).put(rec.get(1), Float.parseFloat(rec.get(2)));
+                }
+            }
+
+            // Novelty loading
+            if (new File(trecEvalFile + "4").exists()) {
+                parser = new CSVParser(new FileReader(trecEvalFile + "4"), CSVFormat.newFormat(','));
+//            logger.info("Loading trec eval metrics from: " + trecEvalFile);
+                for (CSVRecord rec : parser.getRecords()) {
+                    fmetrics.get(rec.get(0)).put(rec.get(1), Float.parseFloat(rec.get(2)));
+                }
+            }
+
+            return fmetrics;
+
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            assert parser != null;
+            parser.close();
+        }
+
+    }
 
 }

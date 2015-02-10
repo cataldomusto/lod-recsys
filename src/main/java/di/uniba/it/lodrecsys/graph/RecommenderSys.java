@@ -23,6 +23,7 @@ public class RecommenderSys implements Serializable {
     private static Logger LOGGERGRAPHRUNNER = Logger.getLogger(GraphRunner.class.getName());
     private static List<Map<String, Set<Rating>>> recommendationForSplits = new ArrayList<>();
     private static List<Map<String, String>> metricsForSplit = new ArrayList<>();
+    private static List<Map<String, HashMap<String, Float>>> metricsForSplitALL = new ArrayList<>();
     private static List<MovieMapping> mappingList;
     private static Map<String, List<String>> tagmeConcepts;
 
@@ -170,23 +171,25 @@ public class RecommenderSys implements Serializable {
         try {
             loadRec(level);
 
+            // Diversity measure
             ArrayList<String> diversityMeasure = null;
             if (diversity) {
-                // Diversity measure
                 ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
                 diversityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
 //                System.out.println("Split "+i);
-                    diversityMeasure.add(EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp));
+//                    diversityMeasure.add(EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp));
+                    diversityMeasure.add(EvaluateRecommendation.evalILDMeasureAll(recommendationForSplits.get(i - 1), mapFilmCountProp));
                 }
             }
 
-            ArrayList<String> noveltyMeasure = null;
 //          Novelty measure
+            ArrayList<String> noveltyMeasure = null;
             if (novelty) {
                 noveltyMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-                    noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasure(recommendationForSplits.get(i - 1)));
+//                    noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasure(recommendationForSplits.get(i - 1)));
+                    noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasureAll(recommendationForSplits.get(i - 1)));
                 }
             }
 
@@ -196,7 +199,6 @@ public class RecommenderSys implements Serializable {
                 serendipityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
                     serendipityMeasure.add(EvaluateRecommendation.evalSerMeasure(recommendationForSplits.get(i - 1)));
-                System.exit(2);
                 }
             }
 
@@ -215,19 +217,27 @@ public class RecommenderSys implements Serializable {
                     String trecResultFinal = resFile.substring(0, resFile.lastIndexOf(File.separator))
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
-                    if (diversity)
-                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal);
-                    if (novelty)
-                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
+                    EvaluateRecommendation.saveAllTrecEvalResult(trecTestFile, resFile, trecResultFinal + "ALL");
+                    if (diversity) {
+//                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal);
+                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal+"ALL");
+                    }
+                    if (novelty) {
+//                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
+                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal+"ALL");
+                    }
                     if (serendipity)
                         EvaluateRecommendation.saveEvalSerendipityMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
 //                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                    metricsForSplitALL.add(EvaluateRecommendation.getAllTrecEvalResults(trecResultFinal + "ALL"));
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
                 }
 
 //                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
                 EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
+                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResultALL(metricsForSplitALL, LoadProperties.NUMSPLIT), completeResFile + "ALL");
                 metricsForSplit.clear(); // evaluate for the next sparsity level
+                metricsForSplitALL.clear();
 
             }
 
@@ -236,6 +246,7 @@ public class RecommenderSys implements Serializable {
         } catch (ClassNotFoundException e) {
         } catch (IOException e) {
             System.err.println("Evaluate not executed.");
+            System.err.println(e.toString());
         }
     }
 }
