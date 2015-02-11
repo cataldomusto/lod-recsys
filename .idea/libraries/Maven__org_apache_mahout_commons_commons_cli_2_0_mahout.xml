@@ -3,9 +3,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/mahout/commons/commons-cli/2.0-mahout/commons-cli-2.0-mahout.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/apache/mahout/commons/commons-cli/2.0-mahout/commons-cli-2.0-mahout-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/mahout/commons/commons-cli/2.0-mahout/commons-cli-2.0-mahout-sources.jar!/" />
     </SOURCES>

@@ -277,7 +277,7 @@ public class EvaluateRecommendation {
         return measures.substring(0, measures.length() - 1);
     }
 
-    private static HashMap<String,Double> msimetricAll(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
+    private static HashMap<String, Double> msimetricAll(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
 
         HashMap<String, Double> allRecID = new HashMap<>(1400);
         for (String userID : recommendationList.keySet()) {
@@ -307,7 +307,7 @@ public class EvaluateRecommendation {
 
 //        String userID = "446";    USER da 1 rec
 //        String userID = "185";    //USER da n rec
-        HashMap<String,Double> msiUsers = new HashMap<>(900);
+        HashMap<String, Double> msiUsers = new HashMap<>(900);
         for (String userID : recommendationList.keySet()) {
             double noveltyM = 0.0;
             Set<Rating> recommendationListForUser = recommendationList.get(userID);
@@ -323,7 +323,7 @@ public class EvaluateRecommendation {
                 }
             }
             double noveltyAVG = -(noveltyM) / ((double) i);
-            msiUsers.put(userID,noveltyAVG);
+            msiUsers.put(userID, noveltyAVG);
 //        System.out.println("sum novelty: " + noveltyM);
 //        System.out.println("divisore: " + i);
 //        System.out.println("avg novelty: " + noveltyAVG);
@@ -399,7 +399,7 @@ public class EvaluateRecommendation {
             HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
             double avgMeasure = 0;
             try {
-                HashMap<String,Double> usersILD = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
+                HashMap<String, Double> usersILD = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
                 avgMeasure = avgILD(usersILD);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -765,10 +765,9 @@ public class EvaluateRecommendation {
      * Averages the metrics results for each split
      *
      * @param metricsValuesForSplit list of metrics computed for each split
-     * @param numberOfSplit         number of split
      * @return string representation of the results
      */
-    public static String averageMetricsResultALL(List<Map<String, HashMap<String, Float>>> metricsValuesForSplit, int numberOfSplit) {
+    public static String averageMetricsResultALL(List<Map<String, HashMap<String, Float>>> metricsValuesForSplit) {
         StringBuilder results = new StringBuilder("");
         String[] usefulMetrics = {"F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"};
 
@@ -784,7 +783,7 @@ public class EvaluateRecommendation {
             for (String user : users) {
                 averageRes.put(user, new HashMap<String, Float>());
                 float currMetricsTot = 0f;
-                int i = 1;
+                int i = 0;
                 for (Map<String, HashMap<String, Float>> map : metricsValuesForSplit) {
                     if (map.containsKey(user)) {
                         HashMap<String, Float> userF = map.get(user);
@@ -1049,8 +1048,9 @@ public class EvaluateRecommendation {
                             if (trecMetrics.get(rec.get(1)) == null) {
                                 trecMetrics.put(rec.get(1), new HashMap<String, String>(6));
                                 trecMetrics.get(rec.get(1)).put(rec.get(0), rec.get(2));
-                            } else
+                            } else {
                                 trecMetrics.get(rec.get(1)).put(rec.get(0), rec.get(2));
+                            }
                     }
                 }
                 for (String s : trecMetrics.keySet()) {

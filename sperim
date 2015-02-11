@@ -17,7 +17,7 @@ cmdThreadRec="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph
 
 cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
-param=8
+param=3
 #allalg=["PageRank","MRMR"]
 allalgWEKA=[] 
 allalg=["PageRank"]

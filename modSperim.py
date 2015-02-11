@@ -29,9 +29,10 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 #    parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
     
 #    evaluation Process
-    parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
+#    parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
-    createSummaries(extractVal, metrics)
+#    createSummaries(extractVal, metrics)
+#    createSummariesALL(extractVal, metrics)
     
     createCSV(metrics, allalg, allalgWEKA)
 
@@ -189,13 +190,38 @@ def createSummaries(extractVal, metrics):
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
 
-##   CreateCSV to execute Kruskal-wallis test
+def createSummariesALL(extractVal, metrics):
+    dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+    cmd=""
+    for alg in os.listdir(dire):
+        if alg in extractVal:
+            if not(os.path.exists(dire+alg+"/summaries/")):
+                os.makedirs(dire+alg+"/summaries/")
+            for given in os.listdir(dire+alg):
+	            if "given" in given: 
+		            with open(dire+alg+"/summaries/"+given+".summaryALL", "a") as myfile:
+                			myfile.write("\nResult Top 50 \n")
+		            cmd = "cat "+dire+alg+"/"+given+"/top_50/"+"metrics.completeALL"
+		            cmd += " > "+dire+alg+"/summaries/"+given+".summaryALL"
+    	            subprocess.call(cmd, shell=True)    
+
+            for metric in metrics:
+                if metric == 'alpha-nDCG' or metric == 'P-IA':
+                    valor=["5","10","20"]
+                else:
+                    valor=["5","10","15","20"]
+                for elem in valor:
+                    extractResultALL(metric,elem,dire,alg)
+            print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
+    print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
+
+##   CreateCSV to execute statistical test
 def createCSV(metrics, allalg, allalgWEKA):
     for metric in metrics: 
         for alg in allalg:
             if (alg!="CFSubsetEval"):
     #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric + " all"
                 print cmd
                 subprocess.call(cmd, shell=True)
                 dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
@@ -204,7 +230,7 @@ def createCSV(metrics, allalg, allalgWEKA):
         
         for alg in allalgWEKA:
 #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric+" baseline"
-            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric
+            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV RankerWeka"+alg+" "+metric+ " all"
             print cmd
             subprocess.call(cmd, shell=True)
             dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/RankerWeka"+alg+"/"
@@ -254,4 +280,59 @@ def extractResult(metric,elem,dire,alg):
     cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
     subprocess.call(cmd, shell=True)
     cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' | uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
+    subprocess.call(cmd, shell=True)
+
+##   Extract result from file
+def extractResultALL(metric,elem,dire,alg):
+    cmd = "grep \""+metric+"_"+elem+"=\" "+dire+alg+"/summaries/*.summaryALL >> "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\ "+dire+alg+"/summaries/given_\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL | awk 'BEGIN { FS = \"given_\"};{ print $2 }'| uniq > "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\.summaryALL:\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\"+metric+"_"+elem+"=\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="mv "+dire+alg+"/summaries/res"+metric+elem+".sumALL "+dire+alg+"/summaries/res"+metric+elem+".sumALLTEMP"
+    subprocess.call(cmd, shell=True)
+    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sumALLTEMP | awk 'BEGIN { FS = \" \"};{ print $1 (\" \") $3 }' | uniq > "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sumALLTEMP"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\all\\100\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\ 0.\\ 0,\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\5 0\\005 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\10 0\\010 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\20 0\\020 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\30 0\\030 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\50 0\\050 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\100 0\\100 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sort "+dire+alg+"/summaries/res"+metric+elem+".sumALL > "+dire+alg+"/summaries/result"+metric+elem+"ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\005 \\5 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\010 \\10 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\020 \\20 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\030 \\30 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+"ALL | awk 'BEGIN { FS = \" \"};{ print $2 }' >> "+dire+alg+"/summaries/"+metric+"SumALL"
+    subprocess.call(cmd, shell=True)
+    cmd ="echo >> "+dire+alg+"/summaries/"+metric+"SumALL"
     subprocess.call(cmd, shell=True)

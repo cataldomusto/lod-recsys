@@ -14,17 +14,18 @@ public class MakerCSV {
     public static int[] TOP = new int[]{10, 17, 30, 50};
     public static int[] MetricsLevel = new int[]{5, 10, 15, 20};
 
-    private static HashMap<Integer, ArrayList<String>> loadtop(int top, String alg, String metric) throws IOException {
+    private static HashMap<Integer, ArrayList<String>> loadtop(int top, String alg, String metric, String all) throws IOException {
         HashMap<Integer, ArrayList<String>> map = new HashMap<>(5);
-        String pathReader = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + TOP[top] + "prop" + "5split/summaries/" + metric + "Sum";
+        String pathReader = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + TOP[top] + "prop" + "5split/summaries/" + metric + "Sum" + all;
         BufferedReader brFsum = new BufferedReader(new FileReader(pathReader));
         String line;
         int sparsityfile = 0;
-        ArrayList<String> val = new ArrayList<>(6);
+        ArrayList<String> val = new ArrayList<>(5620);
         while ((line = brFsum.readLine()) != null && sparsityfile < MetricsLevel.length) {
-            if (line.equals(" ")) {
+            if (!line.contains(",")) {
+                System.out.println(sparsityfile+ " "+MetricsLevel.length);
                 map.put(MetricsLevel[sparsityfile], val);
-                val = new ArrayList<>(6);
+                val = new ArrayList<>(5620);
                 sparsityfile++;
             } else
                 val.add(line.replace(",", "."));
@@ -78,15 +79,21 @@ public class MakerCSV {
         FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/"));
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/").mkdirs();
 
+        String all = "";
+        for (String arg : args) {
+            if (arg.contains("all"))
+                all = "ALL";
+        }
         HashMap<Integer, ArrayList<String>> baseline = loadbaselineF1();
 
-        HashMap<Integer, ArrayList<String>> top10 = loadtop(0, alg, metric);
-        HashMap<Integer, ArrayList<String>> top17 = loadtop(1, alg, metric);
-        HashMap<Integer, ArrayList<String>> top30 = loadtop(2, alg, metric);
-        HashMap<Integer, ArrayList<String>> top50 = loadtop(3, alg, metric);
+        HashMap<Integer, ArrayList<String>> top10 = loadtop(0, alg, metric, all);
+        HashMap<Integer, ArrayList<String>> top17 = loadtop(1, alg, metric, all);
+        HashMap<Integer, ArrayList<String>> top30 = loadtop(2, alg, metric, all);
+        HashMap<Integer, ArrayList<String>> top50 = loadtop(3, alg, metric, all);
+
 
         for (int i1 = 0; i1 < MetricsLevel.length; i1++) {
-            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[i1] + ".csv";
+            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[i1] + all + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
             if (base)
@@ -102,7 +109,7 @@ public class MakerCSV {
 
         for (int sparsity = 0; sparsity < MetricsLevel.length; sparsity++) {
 
-            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[sparsity] + ".csv";
+            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[sparsity] + all + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
             ArrayList<String> baseStrings = baseline.get(MetricsLevel[sparsity]);

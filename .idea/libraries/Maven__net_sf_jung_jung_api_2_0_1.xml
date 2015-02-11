@@ -3,9 +3,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/net/sf/jung/jung-api/2.0.1/jung-api-2.0.1.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/net/sf/jung/jung-api/2.0.1/jung-api-2.0.1-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/net/sf/jung/jung-api/2.0.1/jung-api-2.0.1-sources.jar!/" />
     </SOURCES>
