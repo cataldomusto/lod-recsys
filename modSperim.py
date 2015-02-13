@@ -23,7 +23,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
     init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics)
     
 #    feature process
-    parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
+#    parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
 
 #    recommendation Process
 #    parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
@@ -34,7 +34,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 #    createSummaries(extractVal, metrics)
 #    createSummariesALL(extractVal, metrics)
     
-    createCSV(metrics, allalg, allalgWEKA)
+    createCSV(topN, metrics, allalg, allalgWEKA)
 
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 
@@ -206,17 +206,21 @@ def createSummariesALL(extractVal, metrics):
     	            subprocess.call(cmd, shell=True)    
 
             for metric in metrics:
-                if metric == 'alpha-nDCG' or metric == 'P-IA':
-                    valor=["5","10","20"]
-                else:
-                    valor=["5","10","15","20"]
+                valor=["5","10","20"]
                 for elem in valor:
                     extractResultALL(metric,elem,dire,alg)
+                for sparsity in valor:
+                    cmd ="cat "+dire+alg+"/summaries/result"+metric+sparsity+"ALL | grep '5 ' | awk 'BEGIN { FS = \" \"};{ print $2 }' > "+dire+alg+"/summaries/result"+metric+"_Top_"+sparsity+"given_5.ALL" 
+                    subprocess.call(cmd, shell=True)
+                    cmd ="cat "+dire+alg+"/summaries/result"+metric+sparsity+"ALL | grep '20 ' | awk 'BEGIN { FS = \" \"};{ print $2 }' > "+dire+alg+"/summaries/result"+metric+"_Top_"+sparsity+"given_20.ALL" 
+                    subprocess.call(cmd, shell=True)
+                    cmd ="cat "+dire+alg+"/summaries/result"+metric+sparsity+"ALL | grep '100 ' | awk 'BEGIN { FS = \" \"};{ print $2 }' > "+dire+alg+"/summaries/result"+metric+"_Top_"+sparsity+"given_all.ALL" 
+                    subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
 
 ##   CreateCSV to execute statistical test
-def createCSV(metrics, allalg, allalgWEKA):
+def createCSVOLD(metrics, allalg, allalgWEKA):
     for metric in metrics: 
         for alg in allalg:
             if (alg!="CFSubsetEval"):
@@ -236,6 +240,48 @@ def createCSV(metrics, allalg, allalgWEKA):
             dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/RankerWeka"+alg+"/"
             cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
             subprocess.call(cmd, shell=True)
+
+##   CreateCSV to execute statistical test
+def createCSV(topN, metrics, allalg, allalgWEKA):
+    givenN=["given_5","given_20","given_all"]
+    valMetrics=["5","10","20"]
+    allAlg=""
+    for algs in allalg:
+        allAlg+=algs+" "
+    for algs in allalgWEKA:
+        allAlg+="RankerWeka"+algs+" "
+    for metric in metrics: 
+        for top in topN:
+            for valMetric in valMetrics:
+                for given in givenN:
+            #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
+                    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonAlg "+top+" "+given+" "+valMetric+" "+metric+" "+ allAlg
+                    subprocess.call(cmd, shell=True)
+#                        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+#                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+#                        subprocess.call(cmd, shell=True)
+    tops=""
+    for top in topN:
+        tops+=top+" "
+    for metric in metrics: 
+        for valMetric in valMetrics:
+            for given in givenN:
+                for alg in allalg:
+            #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
+                    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonFeatures "+alg+" "+given+" "+valMetric+" "+metric+" "+ tops
+                    subprocess.call(cmd, shell=True)
+#                        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+#                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+#                        subprocess.call(cmd, shell=True)
+
+                for alg in allalgWEKA:
+            #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
+                    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonFeatures RankerWeka"+alg+" "+given+" "+valMetric+" "+metric+" "+ tops
+                    subprocess.call(cmd, shell=True)
+#                        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
+#                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
+#                        subprocess.call(cmd, shell=True)
+
 
 ##   Extract result from file
 def extractResult(metric,elem,dire,alg):
@@ -331,8 +377,4 @@ def extractResultALL(metric,elem,dire,alg):
     cmd ="sed -i 's\\030 \\30 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
     subprocess.call(cmd, shell=True)
     cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+"ALL | awk 'BEGIN { FS = \" \"};{ print $2 }' >> "+dire+alg+"/summaries/"+metric+"SumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="echo >> "+dire+alg+"/summaries/"+metric+"SumALL"
     subprocess.call(cmd, shell=True)
