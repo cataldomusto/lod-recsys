@@ -246,6 +246,10 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
     givenN=["given_5","given_20","given_all"]
     valMetrics=["5","10","20"]
     allAlg=""
+    if os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg"):
+        shutil.rmtree("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg")
+    if os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures"):
+        shutil.rmtree("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures")
     for algs in allalg:
         allAlg+=algs+" "
     for algs in allalgWEKA:
@@ -260,6 +264,9 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
 #                        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
 #                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
 #                        subprocess.call(cmd, shell=True)
+    
+    DIR = './datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg'
+    print "CSV created first session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
     tops=""
     for top in topN:
         tops+=top+" "
@@ -282,6 +289,8 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
 #                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
 #                        subprocess.call(cmd, shell=True)
 
+    DIR='./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures'
+    print "CSV created second session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
 
 ##   Extract result from file
 def extractResult(metric,elem,dire,alg):
