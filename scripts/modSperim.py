@@ -29,10 +29,10 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 #    parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
     
 #    evaluation Process
-#    parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
+    parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
-#    createSummaries(extractVal, metrics)
-#    createSummariesALL(extractVal, metrics)
+    createSummaries(extractVal, metrics)
+    createSummariesALL(extractVal, metrics)
     
     createCSV(topN, metrics, allalg, allalgWEKA)
 

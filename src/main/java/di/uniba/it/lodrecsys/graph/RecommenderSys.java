@@ -172,24 +172,28 @@ public class RecommenderSys implements Serializable {
             loadRec(level);
 
             // Diversity measure
-            ArrayList<String> diversityMeasure = null;
+            ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
             if (diversity) {
                 ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
-                diversityMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
+                diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
+                diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-//                System.out.println("Split "+i);
-//                    diversityMeasure.add(EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp));
-                    diversityMeasure.add(EvaluateRecommendation.evalILDMeasureAll(recommendationForSplits.get(i - 1), mapFilmCountProp));
+                    HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
+                    diversityMeasureAll.add(measures.get("all"));
+                    diversityMeasureAvg.add(measures.get("avg"));
                 }
             }
 
 //          Novelty measure
-            ArrayList<String> noveltyMeasure = null;
+            ArrayList<String> noveltyMeasureAll = null, noveltyMeasureAvg = null;
             if (novelty) {
-                noveltyMeasure = new ArrayList<>(LoadProperties.NUMSPLIT);
+                noveltyMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
+                noveltyMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                    HashMap<String, String> measures = EvaluateRecommendation.evalMSIMeasure(recommendationForSplits.get(i - 1));
 //                    noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasure(recommendationForSplits.get(i - 1)));
-                    noveltyMeasure.add(EvaluateRecommendation.evalMSIMeasureAll(recommendationForSplits.get(i - 1)));
+                    noveltyMeasureAll.add(measures.get("all"));
+                    noveltyMeasureAvg.add(measures.get("avg"));
                 }
             }
 
@@ -219,15 +223,15 @@ public class RecommenderSys implements Serializable {
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, resFile, trecResultFinal);
                     EvaluateRecommendation.saveAllTrecEvalResult(trecTestFile, resFile, trecResultFinal + "ALL");
                     if (diversity) {
-//                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal);
-                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasure.get(i - 1), trecResultFinal+"ALL");
+                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
+                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAll.get(i - 1), trecResultFinal + "ALL");
                     }
                     if (novelty) {
-//                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
-                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasure.get(i - 1), trecResultFinal+"ALL");
+                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
+                        EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAll.get(i - 1), trecResultFinal + "ALL");
                     }
                     if (serendipity)
-                        EvaluateRecommendation.saveEvalSerendipityMeasure(noveltyMeasure.get(i - 1), trecResultFinal);
+                        EvaluateRecommendation.saveEvalSerendipityMeasure(serendipityMeasure.get(i - 1), trecResultFinal);
 //                    LOGGERGRAPHRUNNER.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
                     metricsForSplitALL.add(EvaluateRecommendation.getAllTrecEvalResults(trecResultFinal + "ALL"));
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));

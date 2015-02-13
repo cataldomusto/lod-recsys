@@ -241,43 +241,52 @@ public class EvaluateRecommendation {
         return arrayList;
     }
 
-    public static String evalMSIMeasure(Map<String, Set<Rating>> recommendationList) {
-        String measures = "";
-        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
-        for (int i = 0; i < cutoffLevels.length; i++) {
-            int cutoffLevel = cutoffLevels[i];
-
-            double avgMeasure = 0.0;
-            try {
-                avgMeasure = msimetric(recommendationList, cutoffLevel);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            measures += "Novelty_" + cutoffLevel + "," + avgMeasure + "\n";
-//            System.out.println("Novelty_" + cutoffLevel + "," + avgMeasure);
-        }
-        return measures.substring(0, measures.length() - 1);
-    }
-
-    public static String evalMSIMeasureAll(Map<String, Set<Rating>> recommendationList) {
-        String measures = "";
+    public static HashMap<String, String> evalMSIMeasure(Map<String, Set<Rating>> recommendationList) {
+        String measuresAll = "", measuresAVG = "";
         int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
         for (int i = 0; i < cutoffLevels.length; i++) {
             int cutoffLevel = cutoffLevels[i];
             HashMap<String, Double> usersMSI = null;
+            double avgMeasure = 0.0;
             try {
-                usersMSI = msimetricAll(recommendationList, cutoffLevel);
+                usersMSI = msimetric(recommendationList, cutoffLevel);
+                avgMeasure = avgMSI(usersMSI);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            measuresAVG += "Novelty_" + cutoffLevel + "," + avgMeasure + "\n";
+            assert usersMSI != null;
             for (String s : usersMSI.keySet())
-                measures += s + ",Novelty_" + cutoffLevel + "," + usersMSI.get(s) + "\n";
+                measuresAll += s + ",Novelty_" + cutoffLevel + "," + usersMSI.get(s) + "\n";
 //            System.out.println("Novelty_" + cutoffLevel + "," + avgMeasure);
         }
-        return measures.substring(0, measures.length() - 1);
+
+        HashMap<String, String> measures = new HashMap<>(2);
+        measures.put("all", measuresAll.substring(0, measuresAll.length() - 1));
+        measures.put("avg", measuresAVG.substring(0, measuresAVG.length() - 1));
+        return measures;
     }
 
-    private static HashMap<String, Double> msimetricAll(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
+//    public static String evalMSIMeasureAll(Map<String, Set<Rating>> recommendationList) {
+//        String measures = "";
+//        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+//        for (int i = 0; i < cutoffLevels.length; i++) {
+//            int cutoffLevel = cutoffLevels[i];
+//            HashMap<String, Double> usersMSI = null;
+//            try {
+//                usersMSI = msimetric(recommendationList, cutoffLevel);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            for (String s : usersMSI.keySet())
+//                measures += s + ",Novelty_" + cutoffLevel + "," + usersMSI.get(s) + "\n";
+////            System.out.println("Novelty_" + cutoffLevel + "," + avgMeasure);
+//        }
+//        return measures.substring(0, measures.length() - 1);
+//    }
+
+    private static HashMap<String, Double> msimetric(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
 
         HashMap<String, Double> allRecID = new HashMap<>(1400);
         for (String userID : recommendationList.keySet()) {
@@ -332,102 +341,60 @@ public class EvaluateRecommendation {
     }
 
 
-    private static double msimetric(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
-
-        HashMap<String, Double> allRecID = new HashMap<>(1400);
-        for (String userID : recommendationList.keySet()) {
-            Set<Rating> recommendationListForUser = recommendationList.get(userID);
-            int i = 0;
-            for (Rating rate : recommendationListForUser) {
-                if (!allRecID.containsKey(rate.getItemID()))
-                    allRecID.put(rate.getItemID(), 1.0);
-                else {
-                    double value = allRecID.get(rate.getItemID());
-                    value++;
-                    allRecID.put(rate.getItemID(), value);
-                }
-                i++;
-                // prints only numRec recommendation on file
-                if (numRec != -1 && i >= numRec)
-                    break;
-            }
-        }
-
-        int totUser = recommendationList.size();
-        for (String s : allRecID.keySet()) {
-            double prop = allRecID.get(s) / totUser;
-//            System.out.println("Film "+s + " NItems "+allRecID.get(s) + " / "+totUser + " = "+prop);
-            allRecID.put(s, prop);
-        }
-
-//        String userID = "446";    USER da 1 rec
-//        String userID = "185";    //USER da n rec
-        ArrayList<Double> msiUsers = new ArrayList<>();
-        for (String userID : recommendationList.keySet()) {
-            double noveltyM = 0.0;
-            Set<Rating> recommendationListForUser = recommendationList.get(userID);
-            int i = 0;
-            for (Rating rate : recommendationListForUser) {
-//            System.out.println("FilmID: " + rate.getItemID() + " log(" + allRecID.get(rate.getItemID()) + ") : " + Math.log(allRecID.get(rate.getItemID())));
-                noveltyM += (Math.log(allRecID.get(rate.getItemID())));
-                i++;
-
-                // prints only numRec recommendation on file
-                if (numRec != -1 && i >= numRec) {
-                    break;
-                }
-            }
-            double noveltyAVG = -(noveltyM) / ((double) i);
-            msiUsers.add(noveltyAVG);
-//        System.out.println("sum novelty: " + noveltyM);
-//        System.out.println("divisore: " + i);
-//        System.out.println("avg novelty: " + noveltyAVG);
-        }
-        double avg = 0.0;
-        for (Double aDouble : msiUsers) {
+    private static double avgMSI(HashMap<String, Double> msiUsers) {
+        double avg = 0;
+        for (Double aDouble : msiUsers.values())
             avg += aDouble;
-        }
         avg = avg / msiUsers.size();
         return avg;
     }
 
-    public static String evalILDMeasure(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
-        String measures = "";
+
+    public static HashMap<String, String> evalILDMeasure(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
+        String measuresAll = "", measuresAVG = "";
         int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
         for (int i = 0; i < cutoffLevels.length; i++) {
             int cutoffLevel = cutoffLevels[i];
             HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
             double avgMeasure = 0;
-            try {
-                HashMap<String, Double> usersILD = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
-                avgMeasure = avgILD(usersILD);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            measures += "Diversity_" + cutoffLevel + "," + avgMeasure + "\n";
-//            System.out.println("Diversity_" + cutoffLevel + "," + avgMeasure);
-        }
-        return measures.substring(0, measures.length() - 1);
-    }
-
-    public static String evalILDMeasureAll(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
-        String measures = "";
-        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
-        for (int i = 0; i < cutoffLevels.length; i++) {
-            int cutoffLevel = cutoffLevels[i];
-            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
             HashMap<String, Double> usersILD = null;
             try {
                 usersILD = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
+                avgMeasure = avgILD(usersILD);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            measuresAVG += "Diversity_" + cutoffLevel + "," + avgMeasure + "\n";
+            assert usersILD != null;
             for (String s : usersILD.keySet())
-                measures += s + ",Diversity_" + cutoffLevel + "," + usersILD.get(s) + "\n";
+                measuresAll += s + ",Diversity_" + cutoffLevel + "," + usersILD.get(s) + "\n";
 //            System.out.println("Diversity_" + cutoffLevel + "," + avgMeasure);
         }
-        return measures.substring(0, measures.length() - 1);
+        HashMap<String, String> measures = new HashMap<>(2);
+        measures.put("all", measuresAll.substring(0, measuresAll.length() - 1));
+        measures.put("avg", measuresAVG.substring(0, measuresAVG.length() - 1));
+        return measures;
     }
+
+//    public static String evalILDMeasureAll(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
+//        String measures = "";
+//        int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
+//        for (int i = 0; i < cutoffLevels.length; i++) {
+//            int cutoffLevel = cutoffLevels[i];
+//            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
+//            HashMap<String, Double> usersILD = null;
+//            try {
+//                usersILD = ildmetric(recommendationList, cutoffLevel, mapFilmCountProp);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            for (String s : usersILD.keySet())
+//                measures += s + ",Diversity_" + cutoffLevel + "," + usersILD.get(s) + "\n";
+////            System.out.println("Diversity_" + cutoffLevel + "," + avgMeasure);
+//        }
+//        return measures.substring(0, measures.length() - 1);
+//    }
 
     public static void saveEvalILDMeasure(String ild, String resFile) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(resFile + "3", true)))) {

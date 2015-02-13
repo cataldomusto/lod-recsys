@@ -6,6 +6,7 @@ for (j in 1:length(temp)) {
     mydata=read.csv(temp[j]) 
     print(temp[j])    
     print(mydata)
+#    print(friedman.test(as.matrix(mydata)))
     print(friedman.test(as.matrix(mydata)))
 }
 
