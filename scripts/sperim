@@ -18,16 +18,16 @@ cmdThreadRec="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph
 
 cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
-allalg=["PageRank","MRMR"]
-allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
-topN=["10","17","30","50"]
+#allalg=["PageRank","MRMR"]
+#allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
+#topN=["10","17","30","50"]
 #metrics=["F1","Novelty","Diversity"]
 #givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 param=3
-#allalg=["Baseline"]
-#allalgWEKA=[] 
-#topN=["17"]
-givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+allalg=["PageRank"]
+allalgWEKA=[] 
+topN=["10"]
+givenN=["given_5"]
 metrics=["F1","Novelty","Diversity"]
 modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics)
