@@ -29,10 +29,10 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 #    parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
     
 #    evaluation Process
-    parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
+#    parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
-    createSummaries(extractVal, metrics)
-    createSummariesALL(extractVal, metrics)
+#    createSummaries(extractVal, metrics)
+#    createSummariesALL(extractVal, metrics)
     
     createCSV(topN, metrics, allalg, allalgWEKA)
 
@@ -261,12 +261,17 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
             #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
                     cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonAlg "+top+" "+given+" "+valMetric+" "+metric+" "+ allAlg
                     subprocess.call(cmd, shell=True)
-#                        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
-#                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
-#                        subprocess.call(cmd, shell=True)
     
     DIR = './datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg'
     print "CSV created first session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
+    
+    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerANOVATest comparisonAlg "+allAlg
+    subprocess.call(cmd, shell=True)    
+    
+    dire="~/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/"
+    cmd = "Rscript ./scripts/RcomparisonAlgANOVA "+dire+" ./scripts/resultComparisonAlgANOVA"
+    subprocess.call(cmd, shell=True)
+
     tops=""
     for top in topN:
         tops+=top+" "
@@ -276,7 +281,7 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
                 for alg in allalg:
             #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
                     cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonFeatures "+alg+" "+given+" "+valMetric+" "+metric+" "+ tops
-                    subprocess.call(cmd, shell=True)
+#                    subprocess.call(cmd, shell=True)
 #                        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
 #                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
 #                        subprocess.call(cmd, shell=True)
@@ -284,13 +289,13 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
                 for alg in allalgWEKA:
             #            cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV "+alg+" "+metric+" baseline"
                     cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonFeatures RankerWeka"+alg+" "+given+" "+valMetric+" "+metric+" "+ tops
-                    subprocess.call(cmd, shell=True)
+#                    subprocess.call(cmd, shell=True)
 #                        dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/"+metric+"/"+alg+"/"
 #                        cmd = "Rscript scriptRtest "+dire+" "+dire+"resultTest"
 #                        subprocess.call(cmd, shell=True)
 
-    DIR='./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures'
-    print "CSV created second session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+#    DIR='./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures'
+#    print "CSV created second session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
 
 ##   Extract result from file
 def extractResult(metric,elem,dire,alg):
