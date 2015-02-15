@@ -11,6 +11,7 @@ import init
 import parallelProcess
 import creatorSummaries
 import creatorCSV
+import anovaTest
 
 def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmdThreadEval, metrics):
     
@@ -37,8 +38,10 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 #    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
     creatorSummaries.createSummaries(extractVal, metrics)
-    creatorSummaries.createSummariesALL(extractVal, metrics)
     
     creatorCSV.createCSV(topN, metrics, allalg, allalgWEKA)
+
+    anovaTest.anovaTestcomparisonAlg(allalg, allalgWEKA, metrics)
+    anovaTest.anovaTestcomparisonFeatures(topN, metrics)
 
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."

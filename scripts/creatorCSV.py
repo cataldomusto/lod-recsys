@@ -29,14 +29,7 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
     
     DIR = './datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg'
     print "CSV created first session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
-#    
-    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerANOVATest comparisonAlg "+allAlg
-    subprocess.call(cmd, shell=True)    
     
-    dire="~/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/"
-    cmd = "Rscript ./scripts/RcomparisonAlgANOVA "+dire+" ./scripts/resultcomparisonAlgANOVA"
-    subprocess.call(cmd, shell=True)
-
     tops=""
     for top in topN:
         tops+=top+" "
@@ -53,14 +46,6 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
 
     DIR='./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures'
     print "CSV created second session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
-
-    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerANOVATest comparisonFeatures "+tops
-    subprocess.call(cmd, shell=True)    
-    
-    dire="~/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/"
-    cmd = "Rscript ./scripts/RcomparisonFeaturesANOVA "+dire+" ./scripts/resultcomparisonFeaturesANOVA"
-    subprocess.call(cmd, shell=True)
-
 
 ##   CreateCSV to execute statistical test
 def createCSVOLD(metrics, allalg, allalgWEKA):

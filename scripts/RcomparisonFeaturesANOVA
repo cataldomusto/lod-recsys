@@ -1,0 +1,16 @@
+#!/usr/bin/env Rscript
+args <- commandArgs(trailingOnly = TRUE)
+sink(args[2])
+library(car)
+options(contrasts=c("contr.sum","contr.poly"))
+temp = list.files(path = args[1], pattern="*.csv",full.names=TRUE)
+for (j in 1:length(temp)) {
+mydata = read.csv(temp[j])
+attach(mydata)
+multimodel=lm(cbind(10,17,30,50) ~ 1)
+Trials=factor(c("10","17","30","50"), ordered = F)
+model1=Anova(multimodel,idata=data.frame(Trials),idesign=~Trials,type="III")
+print(temp[j])
+print(summary(model1,multivariate=F))
+detach(mydata)
+}

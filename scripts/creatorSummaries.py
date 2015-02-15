@@ -37,6 +37,7 @@ def createSummaries(extractVal, metrics):
                 subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
+    createSummariesALL(extractVal, metrics)
 
 def createSummariesALL(extractVal, metrics):
     dire="./datasets/ml-100k/results/UserItemExpDBPedia/"

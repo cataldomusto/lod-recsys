@@ -1,0 +1,1512 @@
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_MRMR_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_PageRank_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaChiSquaredAttributeEval_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaGainRatioAttributeEval_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaInfoGainAttributeEval_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaPCA_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaReliefFAttributeEval_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_20_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_5_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_10Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_10Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_10Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_20Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_20Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_20Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_5Top_Diversity.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_5Top_F1.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
+[1] "/home/simo/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures//conf_RankerWekaSVMAttributeEval_given_all_5Top_Novelty.csv"
+
+Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+
+                 SS num Df Error SS den Df F Pr(>F)
+(Intercept) 2862.25      1        0      0         
+Trials       926.75      3        0      0         
