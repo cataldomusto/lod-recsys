@@ -36,7 +36,7 @@ def createSummaries(extractVal, metrics):
                 cmd ="rm "+dire+alg+"/summaries/"+metric+"Temp"
                 subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
-    print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
+    print time.strftime("%Y-%m-%d %H:%M") + " Summaries avg are completed."
     createSummariesALL(extractVal, metrics)
 
 def createSummariesALL(extractVal, metrics):
@@ -66,7 +66,7 @@ def createSummariesALL(extractVal, metrics):
                     cmd ="cat "+dire+alg+"/summaries/result"+metric+sparsity+"ALL | grep '100 ' | awk 'BEGIN { FS = \" \"};{ print $2 }' > "+dire+alg+"/summaries/result"+metric+"_Top_"+sparsity+"given_all.ALL" 
                     subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " "+ alg + " completed."
-    print time.strftime("%Y-%m-%d %H:%M") + " All result completed."
+    print time.strftime("%Y-%m-%d %H:%M") + " Summaries total are completed."
 
 ##   Extract result from file
 def extractResult(metric,elem,dire,alg):
@@ -82,33 +82,11 @@ def extractResult(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="sed -i 's\\all\\100\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
     subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\ 0.\\ 0,\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
+    cmd ="sed -i 's/\\./,/' "+dire+alg+"/summaries/res"+metric+elem+".sum"
     subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\5 0\\005 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\10 0\\010 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\20 0\\020 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\30 0\\030 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\50 0\\050 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\100 0\\100 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sum"
-    subprocess.call(cmd, shell=True)
-    cmd ="sort "+dire+alg+"/summaries/res"+metric+elem+".sum > "+dire+alg+"/summaries/result"+metric+elem
+    cmd ="sort -g "+dire+alg+"/summaries/res"+metric+elem+".sum > "+dire+alg+"/summaries/result"+metric+elem
     subprocess.call(cmd, shell=True)
     cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\005 \\5 \ ' "+dire+alg+"/summaries/result"+metric+elem
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\010 \\10 \ ' "+dire+alg+"/summaries/result"+metric+elem
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\020 \\20 \ ' "+dire+alg+"/summaries/result"+metric+elem
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\030 \\30 \ ' "+dire+alg+"/summaries/result"+metric+elem
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem
     subprocess.call(cmd, shell=True)
     cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' | uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
     subprocess.call(cmd, shell=True)
@@ -135,31 +113,10 @@ def extractResultALL(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="sed -i 's\\all\\100\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
     subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\ 0.\\ 0,\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    cmd ="sed -i 's/\\./,/' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    print cmd
     subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\5 0\\005 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\10 0\\010 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\20 0\\020 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\30 0\\030 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\50 0\\050 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\100 0\\100 0\ ' "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sort "+dire+alg+"/summaries/res"+metric+elem+".sumALL > "+dire+alg+"/summaries/result"+metric+elem+"ALL"
+    cmd ="sort -g "+dire+alg+"/summaries/res"+metric+elem+".sumALL > "+dire+alg+"/summaries/result"+metric+elem+"ALL"
     subprocess.call(cmd, shell=True)
     cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\005 \\5 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\010 \\10 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\020 \\20 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\030 \\30 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
-    subprocess.call(cmd, shell=True)
-    cmd ="sed -i 's\\050 \\50 \ ' "+dire+alg+"/summaries/result"+metric+elem+"ALL"
     subprocess.call(cmd, shell=True)

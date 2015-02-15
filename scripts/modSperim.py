@@ -39,9 +39,9 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 
     creatorSummaries.createSummaries(extractVal, metrics)
     
-    creatorCSV.createCSV(topN, metrics, allalg, allalgWEKA)
+#    creatorCSV.createCSV(topN, metrics, allalg, allalgWEKA)
 
-    anovaTest.anovaTestcomparisonAlg(allalg, allalgWEKA, metrics)
-    anovaTest.anovaTestcomparisonFeatures(topN, metrics)
+#    anovaTest.anovaTestcomparisonAlg(allalg, allalgWEKA, metrics)
+#    anovaTest.anovaTestcomparisonFeatures(topN, metrics)
 
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
