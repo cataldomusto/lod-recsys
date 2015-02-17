@@ -16,13 +16,12 @@ public class MakerCSV {
 
     private static List<String> loadalg(String nFeature, String sparsity, String top, String metric, String alg) throws IOException {
         String fileName = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
-        List<String> lines = Files.readAllLines(Paths.get(fileName),
+        //        List<String> values = new ArrayList<>(lines.size());
+//        for (String line : lines)
+//            values.add(line.replace(",", "."));
+        return Files.readAllLines(Paths.get(fileName),
                 Charset.defaultCharset());
-        List<String> values = new ArrayList<>(lines.size());
-        for (String line : lines)
-            values.add(line.replace(",", "."));
 
-        return values;
     }
 
     public static void main(String[] args) throws IOException {
@@ -57,6 +56,12 @@ public class MakerCSV {
             max = values.size();
         }
 
+        ArrayList<String> users = new ArrayList<>(max);
+        for (int i = 1; i <= max; i++)
+            users.add(String.valueOf(i));
+        mapAlgVal.put("Subject", users);
+        nFeatures.add("Subject");
+
 //        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/ComparisonAlg/CSV/"));
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/").mkdirs();
 
@@ -86,6 +91,13 @@ public class MakerCSV {
             mapAlgVal.put(algorithm, values);
             max = values.size();
         }
+
+        ArrayList<String> users = new ArrayList<>(max);
+        for (int i = 1; i <= max; i++)
+            users.add(String.valueOf(i));
+        mapAlgVal.put("Subject", users);
+        algorithms.add("Subject");
+
 
 //        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/ComparisonAlg/CSV/"));
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/").mkdirs();

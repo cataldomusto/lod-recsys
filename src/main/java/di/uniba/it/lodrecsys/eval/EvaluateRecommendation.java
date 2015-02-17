@@ -687,8 +687,8 @@ public class EvaluateRecommendation {
         for (int cutoff : cutoffLevels) {
             String currPrecision = precisionString + "_" + cutoff,
                     currRecall = recallString + "_" + cutoff;
-
-            measures.put(fMeasureString + "_" + cutoff, getF1(measures.get(currPrecision), measures.get(currRecall)));
+            if (measures.containsKey(currPrecision) && measures.containsKey(currRecall))
+                measures.put(fMeasureString + "_" + cutoff, getF1(measures.get(currPrecision), measures.get(currRecall)));
         }
     }
 
@@ -719,7 +719,6 @@ public class EvaluateRecommendation {
 
         evalF1Measure(averageRes);
 
-
         for (String measure : completeMetrics) {
             results.append(measure.replace("@", "_")).append("=").append(averageRes.get(measure)).append("\n");
         }
@@ -736,7 +735,10 @@ public class EvaluateRecommendation {
      */
     public static String averageMetricsResultALL(List<Map<String, HashMap<String, Float>>> metricsValuesForSplit) {
         StringBuilder results = new StringBuilder("");
-        String[] usefulMetrics = {"F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"};
+//        String[] usefulMetrics = {"F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20", "Serendipity_5", "Serendipity_10", "Serendipity_15", "Serendipity_20"};
+        String[] usefulMetrics = {"P_5", "P_10", "P_15", "P_20", "P_30", "P_50", "recall_5", "recall_10",
+                "recall_15", "recall_20", "recall_30", "recall_50", "F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20"},
+                completeMetrics = {"F1_5", "F1_10", "F1_15", "F1_20", "F1_30", "F1_50", "Diversity_5", "Diversity_10", "Diversity_15", "Diversity_20", "Novelty_5", "Novelty_10", "Novelty_15", "Novelty_20"};
 
         ArrayList<String> users = new ArrayList<>();
         for (Map<String, HashMap<String, Float>> map : metricsValuesForSplit) {
@@ -746,9 +748,9 @@ public class EvaluateRecommendation {
             }
         }
         Map<String, HashMap<String, Float>> averageRes = new HashMap<>();
-        for (String measure : usefulMetrics) {
-            for (String user : users) {
-                averageRes.put(user, new HashMap<String, Float>());
+        for (String user : users) {
+            HashMap<String, Float> measures = new HashMap<>(usefulMetrics.length);
+            for (String measure : usefulMetrics) {
                 float currMetricsTot = 0f;
                 int i = 0;
                 for (Map<String, HashMap<String, Float>> map : metricsValuesForSplit) {
@@ -762,11 +764,36 @@ public class EvaluateRecommendation {
                 }
 
                 if (currMetricsTot != 0f) {
-                    averageRes.get(user).put(measure, currMetricsTot / i);
-                    results.append(user + measure + "=" + averageRes.get(user).get(measure) + "\n");
+                    measures.put(measure, currMetricsTot / i);
                 }
             }
+            averageRes.put(user, measures);
+
+            evalF1Measure(averageRes.get(user));
+
+            for (String finalMeasure : completeMetrics) {
+                results.append(user).append(finalMeasure).append("=").append(averageRes.get(user).get(finalMeasure)).append("\n");
+            }
         }
+
+//        for (String s : trecMetrics.keySet()) {
+//            HashMap<String, String> metrics = trecMetrics.get(s);
+//            HashMap<String, Float> fmetricsval = new HashMap<>(6);
+//            float fUID = getF1(Float.parseFloat(metrics.get("P_5")), Float.parseFloat(metrics.get("recall_5")));
+//            fmetricsval.put("F1_5", fUID);
+//            fUID = getF1(Float.parseFloat(metrics.get("P_10")), Float.parseFloat(metrics.get("recall_10")));
+//            fmetricsval.put("F1_10", fUID);
+//            fUID = getF1(Float.parseFloat(metrics.get("P_15")), Float.parseFloat(metrics.get("recall_15")));
+//            fmetricsval.put("F1_15", fUID);
+//            fUID = getF1(Float.parseFloat(metrics.get("P_20")), Float.parseFloat(metrics.get("recall_20")));
+//            fmetricsval.put("F1_20", fUID);
+//            fUID = getF1(Float.parseFloat(metrics.get("P_30")), Float.parseFloat(metrics.get("recall_30")));
+//            fmetricsval.put("F1_30", fUID);
+//            fUID = getF1(Float.parseFloat(metrics.get("P_50")), Float.parseFloat(metrics.get("recall_50")));
+//            fmetricsval.put("F1_50", fUID);
+//            fmetrics.put(s, fmetricsval);
+//        }
+
 
         return results.toString();
     }
@@ -1002,8 +1029,7 @@ public class EvaluateRecommendation {
      */
     public static Map<String, HashMap<String, Float>> getAllTrecEvalResults(String trecEvalFile) throws IOException {
         CSVParser parser = null;
-        Map<String, HashMap<String, String>> trecMetrics = new HashMap<>();
-        Map<String, HashMap<String, Float>> fmetrics = new HashMap<>();
+        Map<String, HashMap<String, Float>> trecMetrics = new HashMap<>();
 
         try {
             // trec_eval loading
@@ -1013,29 +1039,12 @@ public class EvaluateRecommendation {
                     if (rec.size() == 3) {
                         if (!rec.get(1).equals("all"))
                             if (trecMetrics.get(rec.get(1)) == null) {
-                                trecMetrics.put(rec.get(1), new HashMap<String, String>(6));
-                                trecMetrics.get(rec.get(1)).put(rec.get(0), rec.get(2));
+                                trecMetrics.put(rec.get(1), new HashMap<String, Float>(6));
+                                trecMetrics.get(rec.get(1)).put(rec.get(0), Float.parseFloat(rec.get(2)));
                             } else {
-                                trecMetrics.get(rec.get(1)).put(rec.get(0), rec.get(2));
+                                trecMetrics.get(rec.get(1)).put(rec.get(0), Float.parseFloat(rec.get(2)));
                             }
                     }
-                }
-                for (String s : trecMetrics.keySet()) {
-                    HashMap<String, String> metrics = trecMetrics.get(s);
-                    HashMap<String, Float> fmetricsval = new HashMap<>(6);
-                    float fUID = getF1(Float.parseFloat(metrics.get("P_5")), Float.parseFloat(metrics.get("recall_5")));
-                    fmetricsval.put("F1_5", fUID);
-                    fUID = getF1(Float.parseFloat(metrics.get("P_10")), Float.parseFloat(metrics.get("recall_10")));
-                    fmetricsval.put("F1_10", fUID);
-                    fUID = getF1(Float.parseFloat(metrics.get("P_15")), Float.parseFloat(metrics.get("recall_15")));
-                    fmetricsval.put("F1_15", fUID);
-                    fUID = getF1(Float.parseFloat(metrics.get("P_20")), Float.parseFloat(metrics.get("recall_20")));
-                    fmetricsval.put("F1_20", fUID);
-                    fUID = getF1(Float.parseFloat(metrics.get("P_30")), Float.parseFloat(metrics.get("recall_30")));
-                    fmetricsval.put("F1_30", fUID);
-                    fUID = getF1(Float.parseFloat(metrics.get("P_50")), Float.parseFloat(metrics.get("recall_50")));
-                    fmetricsval.put("F1_50", fUID);
-                    fmetrics.put(s, fmetricsval);
                 }
 
             }
@@ -1044,7 +1053,7 @@ public class EvaluateRecommendation {
                 parser = new CSVParser(new FileReader(trecEvalFile + "3"), CSVFormat.newFormat(','));
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
                 for (CSVRecord rec : parser.getRecords()) {
-                    fmetrics.get(rec.get(0)).put(rec.get(1), Float.parseFloat(rec.get(2)));
+                    trecMetrics.get(rec.get(0)).put(rec.get(1), Float.parseFloat(rec.get(2)));
                 }
             }
 
@@ -1053,11 +1062,11 @@ public class EvaluateRecommendation {
                 parser = new CSVParser(new FileReader(trecEvalFile + "4"), CSVFormat.newFormat(','));
 //            logger.info("Loading trec eval metrics from: " + trecEvalFile);
                 for (CSVRecord rec : parser.getRecords()) {
-                    fmetrics.get(rec.get(0)).put(rec.get(1), Float.parseFloat(rec.get(2)));
+                    trecMetrics.get(rec.get(0)).put(rec.get(1), Float.parseFloat(rec.get(2)));
                 }
             }
 
-            return fmetrics;
+            return trecMetrics;
 
         } catch (IOException e) {
             throw e;
