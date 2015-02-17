@@ -743,8 +743,9 @@ public class EvaluateRecommendation {
         ArrayList<String> users = new ArrayList<>();
         for (Map<String, HashMap<String, Float>> map : metricsValuesForSplit) {
             for (String s : map.keySet()) {
-                if (!users.contains(s))
+                if (!users.contains(s)) {
                     users.add(s);
+                }
             }
         }
         Map<String, HashMap<String, Float>> averageRes = new HashMap<>();

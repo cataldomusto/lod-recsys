@@ -53,7 +53,7 @@ def createSummariesALL(extractVal, metrics):
 		            with open(dire+alg+"/summaries/"+given+".summaryALL", "a") as myfile:
                 			myfile.write("\nResult Top 50 \n")
 		            cmd = "cat "+dire+alg+"/"+given+"/top_50/"+"metrics.completeALL"
-		            cmd += " > "+dire+alg+"/summaries/"+given+".summaryALL"
+		            cmd += " | grep -v 'null' > "+dire+alg+"/summaries/"+given+".summaryALL"
     	            subprocess.call(cmd, shell=True)    
 
             for metric in metrics:
@@ -97,7 +97,7 @@ def extractResultALL(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="sed -i 's\ "+dire+alg+"/summaries/given_\ \ ' "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL"
     subprocess.call(cmd, shell=True)
-    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL | awk 'BEGIN { FS = \"given_\"};{ print $2 }'| uniq > "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL | awk 'BEGIN { FS = \"given_\"};{ print $2 }' > "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
     subprocess.call(cmd, shell=True)
     cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum1ALL"
     subprocess.call(cmd, shell=True)
@@ -107,7 +107,7 @@ def extractResultALL(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="mv "+dire+alg+"/summaries/res"+metric+elem+".sumALL "+dire+alg+"/summaries/res"+metric+elem+".sumALLTEMP"
     subprocess.call(cmd, shell=True)
-    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sumALLTEMP | awk 'BEGIN { FS = \" \"};{ print $1 (\" \") $3 }' | uniq > "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
+    cmd ="cat "+dire+alg+"/summaries/res"+metric+elem+".sumALLTEMP | awk 'BEGIN { FS = \" \"};{ print $1 (\" \") $3 }' > "+dire+alg+"/summaries/res"+metric+elem+".sumALL"
     subprocess.call(cmd, shell=True)
     cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sumALLTEMP"
     subprocess.call(cmd, shell=True)
