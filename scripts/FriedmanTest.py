@@ -7,26 +7,26 @@ import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-def anovaTestcomparisonFeatures(topN, metrics):
+def FriedmanTestcomparisonFeatures(topN, metrics):
     tops=""
     for top in topN:
         tops+=top+" "
-    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerANOVATest comparisonFeatures "+tops
+    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerFriedmanTest comparisonFeatures "+tops
     subprocess.call(cmd, shell=True)    
     dire="~/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/"
-    cmd = "Rscript ./scripts/RcomparisonFeaturesANOVA "+dire+" ./scripts/resultcomparisonFeaturesANOVA"
+    cmd = "Rscript ./scripts/RcomparisonFeaturesFriedman "+dire+" ./scripts/resultcomparisonFeaturesFriedman"
     subprocess.call(cmd, shell=True)
 
-def anovaTestcomparisonAlg(allalg, allalgWEKA, metrics):
+def FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics):
     allAlg=""
     for algs in allalg:
         allAlg+=algs+" "
     for algs in allalgWEKA:
         allAlg+="RankerWeka"+algs+" "
     
-    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerANOVATest comparisonAlg "+allAlg
+    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerFriedmanTest comparisonAlg "+allAlg
     subprocess.call(cmd, shell=True)    
     
     dire="~/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/"
-    cmd = "Rscript ./scripts/RcomparisonAlgANOVA "+dire+" ./scripts/resultcomparisonAlgANOVA"
+    cmd = "Rscript ./scripts/RcomparisonAlgFriedman "+dire+" ./scripts/resultcomparisonAlgFriedman"
     subprocess.call(cmd, shell=True)

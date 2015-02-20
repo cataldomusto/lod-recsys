@@ -56,11 +56,11 @@ public class MakerCSV {
             max = values.size();
         }
 
-        ArrayList<String> users = new ArrayList<>(max);
-        for (int i = 1; i <= max; i++)
-            users.add(String.valueOf(i));
-        mapAlgVal.put("Subject", users);
-        nFeatures.add("Subject");
+//        ArrayList<String> users = new ArrayList<>(max);
+//        for (int i = 1; i <= max; i++)
+//            users.add(String.valueOf(i));
+//        mapAlgVal.put("Subject", users);
+//        nFeatures.add("Subject");
 
 //        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/ComparisonAlg/CSV/"));
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/").mkdirs();
@@ -92,11 +92,11 @@ public class MakerCSV {
             max = values.size();
         }
 
-        ArrayList<String> users = new ArrayList<>(max);
-        for (int i = 1; i <= max; i++)
-            users.add(String.valueOf(i));
-        mapAlgVal.put("Subject", users);
-        algorithms.add("Subject");
+//        ArrayList<String> users = new ArrayList<>(max);
+//        for (int i = 1; i <= max; i++)
+//            users.add(String.valueOf(i));
+//        mapAlgVal.put("Subject", users);
+//        algorithms.add("Subject");
 
 
 //        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/ComparisonAlg/CSV/"));

@@ -238,7 +238,7 @@ public class RecommenderSys implements Serializable {
                 }
 
 //                LOGGERGRAPHRUNNER.info(("Metrics results for sparsity level " + level + "\n"));
-//                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
+                EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
                 EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResultALL(metricsForSplitALL), completeResFile + "ALL");
                 metricsForSplit.clear(); // evaluate for the next sparsity level
                 metricsForSplitALL.clear();

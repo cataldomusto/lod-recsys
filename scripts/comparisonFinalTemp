@@ -1,0 +1,32 @@
+#!/usr/bin/env Rscript
+library(PMCMR)
+mydata = read.csv("~/Scrivania/AAconf_10Features_given_20_10Top_F1.csv")
+attach(mydata)
+factor=cbind(PageRank,MRMR,RankerWekaChiSquaredAttributeEval,RankerWekaGainRatioAttributeEval,RankerWekaSVMAttributeEval,RankerWekaInfoGainAttributeEval,RankerWekaPCA,RankerWekaReliefFAttributeEval)
+print(friedman.test(factor))
+if (friedman.test(factor)$p.value < 0.05){
+    print("Post test ad hoc")
+    means <- apply(mydata, 2, mean) # means factors
+    maxMeans <- which.max(means)
+    print(paste("Max mean algorithm is ",names(mydata)[maxMeans],": ", means[maxMeans]) )
+    post <- posthoc.friedman.nemenyi.test(factor)
+    conf <- post$p.value[,c(maxMeans)]  # accede alla colonna p.value dell'algoritmo con valore max di metrica
+#    print(conf) 
+    algConf = c()
+    for(i in 1:length(conf)){
+      if (conf[i]> 0.05)
+            algConf <- c(algConf,names(conf[i]))
+    }
+    if (length(algConf)==0){
+        print(paste("The best algorithm is ",names(mydata)[maxMeans]))
+    } 
+    else {
+        for(i in 1:length(algConf)){
+            cat(algConf[i],"\n")
+        }
+    }
+    
+} else
+    print ("Not significative")
+    
+detach(mydata)

@@ -7,13 +7,13 @@ import java.util.Arrays;
 /**
  * Created by simo on 14/02/15.
  */
-public class MakerANOVATest {
+public class MakerFriedmanTest {
     public static void main(String[] args) {
         if (args[0].equals("comparisonAlg")) {
             ArrayList<String> algorithms = new ArrayList<>(9);
             algorithms.addAll(Arrays.asList(args).subList(1, args.length));
             try {
-                comparisonAlgANOVA(algorithms);
+                comparisonFriedman(algorithms, "Alg");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -23,12 +23,33 @@ public class MakerANOVATest {
             ArrayList<String> tops = new ArrayList<>(5);
             tops.addAll(Arrays.asList(args).subList(1, args.length));
             try {
-                comparisonFeaturesANOVA(tops);
+                comparisonFriedman(tops, "Features");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    private static void comparisonFriedman(ArrayList<String> comparison, String type) throws IOException {
+        new File("./scripts/Rcomparison" + type + "Friedman").delete();
+        String pathWriter = "./scripts/Rcomparison" + type + "Friedman";
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+        out.append("#!/usr/bin/env Rscript").append("\n");
+        out.append("args <- commandArgs(trailingOnly = TRUE)").append("\n");
+        out.append("sink(args[2])").append("\n");
+        out.append("temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE)").append("\n");
+        out.append("for (j in 1:length(temp)) {").append("\n");
+        out.append("mydata = read.csv(temp[j])").append("\n");
+        out.append("attach(mydata)").append("\n");
+        out.append("factor=cbind(");
+        for (int i = 0; i < comparison.size() - 1; i++)
+            out.append(comparison.get(i)).append(",");
+        out.append(comparison.get(comparison.size() - 1)).append(")").append("\n");
+        out.append("print(friedman.test(factor))").append("\n");
+        out.append("detach(mydata)").append("\n");
+        out.append("}").append("\n");
+        out.close();
     }
 
     private static void comparisonFeaturesANOVA(ArrayList<String> tops) throws IOException {
