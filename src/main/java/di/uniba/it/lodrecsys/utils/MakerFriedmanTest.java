@@ -21,7 +21,8 @@ public class MakerFriedmanTest {
 
         if (args[0].equals("comparisonFeatures")) {
             ArrayList<String> tops = new ArrayList<>(5);
-            tops.addAll(Arrays.asList(args).subList(1, args.length));
+            for (int i = 1; i < args.length; i++)
+                tops.add("Features" + args[i]);
             try {
                 comparisonFriedman(tops, "Features");
             } catch (IOException e) {
@@ -38,19 +39,80 @@ public class MakerFriedmanTest {
         out.append("#!/usr/bin/env Rscript").append("\n");
         out.append("args <- commandArgs(trailingOnly = TRUE)").append("\n");
         out.append("sink(args[2])").append("\n");
+        out.append("library(PMCMR)\n");
         out.append("temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE)").append("\n");
         out.append("for (j in 1:length(temp)) {").append("\n");
+        out.append("print(temp[j])\n");
         out.append("mydata = read.csv(temp[j])").append("\n");
         out.append("attach(mydata)").append("\n");
         out.append("factor=cbind(");
         for (int i = 0; i < comparison.size() - 1; i++)
             out.append(comparison.get(i)).append(",");
         out.append(comparison.get(comparison.size() - 1)).append(")").append("\n");
-        out.append("print(friedman.test(factor))").append("\n");
-        out.append("detach(mydata)").append("\n");
-        out.append("}").append("\n");
+        out.append("print(friedman.test(factor))\n");
+        out.append(" if (friedman.test(factor)$p.value < 0.05){\n" +
+                "        means <- apply(mydata, 2, mean) # means factors\n" +
+                "        maxMeans <- which.max(means)\n" +
+                "        cat(paste(\"Max mean algorithm is \",names(mydata)[maxMeans],\": \", means[maxMeans],\"\\n\\n\"))\n" +
+                "        post <- posthoc.friedman.nemenyi.test(factor)\n" +
+                "        cat(post$method,\"\\n\")\n" +
+                "        conf <- post$p.value[c(maxMeans)]  # accede alla colonna p.value dell'algoritmo con valore max di metrica\n" +
+                "        #    print(conf)\n" +
+                "        algConf = c()\n" +
+                "        for(i in 1:length(conf)){\n" +
+                "           if (is.integer(conf[i]) && conf[i]> 0.05)\n" +
+                "                algConf <- c(algConf,names(conf[i]))\n" +
+                "        }\n" +
+                "        if (length(algConf)==0){\n" +
+                "            cat(paste(\"The best algorithm is \",names(mydata)[maxMeans],\"\\n\"))\n" +
+                "        }\n" +
+                "        else {\n" +
+                "            for(i in 1:length(algConf)){\n" +
+                "                cat(algConf[i],\"\\n\")\n" +
+                "            }\n" +
+                "        }\n" +
+                "\n" +
+                "    } else\n" +
+                "    print (\"Not significative\")\n" +
+                "\n" +
+                "    detach(mydata)}");
         out.close();
     }
+
+
+//    #!/usr/bin/env Rscript
+//    library(PMCMR)
+//    mydata = read.csv("~/Scrivania/AAconf_10Features_given_20_10Top_F1.csv")
+//    attach(mydata)
+//    factor=cbind(PageRank,MRMR,RankerWekaChiSquaredAttributeEval,RankerWekaGainRatioAttributeEval,RankerWekaSVMAttributeEval,RankerWekaInfoGainAttributeEval,RankerWekaPCA,RankerWekaReliefFAttributeEval)
+//    print(friedman.test(factor))
+//            if (friedman.test(factor)$p.value < 0.05){
+//        means <- apply(mydata, 2, mean) # means factors
+//        maxMeans <- which.max(means)
+//        cat(paste("Max mean algorithm is ",names(mydata)[maxMeans],": ", means[maxMeans],"\n\n"))
+//        post <- posthoc.friedman.nemenyi.test(factor)
+//        cat(post$method,"\n")
+//        conf <- post$p.value[,c(maxMeans)]  # accede alla colonna p.value dell'algoritmo con valore max di metrica
+//        #    print(conf)
+//        algConf = c()
+//        for(i in 1:length(conf)){
+//            if (conf[i] > 0.05)
+//                algConf <- c(algConf,names(conf[i]))
+//        }
+//        if (length(algConf)==0){
+//            cat(paste("The best algorithm is ",names(mydata)[maxMeans],"\n"))
+//        }
+//        else {
+//            for(i in 1:length(algConf)){
+//                cat(algConf[i],"\n")
+//            }
+//        }
+//
+//    } else
+//    print ("Not significative")
+//
+//    detach(mydata)
+
 
     private static void comparisonFeaturesANOVA(ArrayList<String> tops) throws IOException {
         new File("./scripts/RcomparisonFeaturesANOVA").delete();
@@ -64,6 +126,7 @@ public class MakerFriedmanTest {
         out.append("temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE)").append("\n");
         out.append("for (j in 1:length(temp)) {").append("\n");
         out.append("mydata = read.csv(temp[j])").append("\n");
+        out.append("print(temp[j])");
         out.append("attach(mydata)").append("\n");
         out.append("multimodel=lm(cbind(");
         for (int i = 0; i < tops.size() - 1; i++)

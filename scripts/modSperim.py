@@ -39,7 +39,7 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 
 #    creatorSummaries.createSummaries(extractVal, metrics)
     
-#    creatorCSV.createCSV(topN, metrics, allalg, allalgWEKA)
+    creatorCSV.createCSV(topN, metrics, allalg, allalgWEKA)
 
     FriedmanTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics)
     FriedmanTest.FriedmanTestcomparisonFeatures(topN, metrics)

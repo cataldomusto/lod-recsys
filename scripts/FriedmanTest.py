@@ -13,9 +13,10 @@ def FriedmanTestcomparisonFeatures(topN, metrics):
         tops+=top+" "
     cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerFriedmanTest comparisonFeatures "+tops
     subprocess.call(cmd, shell=True)    
-    dire="~/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/"
-    cmd = "Rscript ./scripts/RcomparisonFeaturesFriedman "+dire+" ./scripts/resultcomparisonFeaturesFriedman"
+    dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/"
+    cmd = "Rscript ./scripts/RcomparisonFeaturesFriedman "+dire+" ./datasets/ml-100k/results/UserItemExpDBPedia/results/ComparisonFeaturesFriedman"
     subprocess.call(cmd, shell=True)
+    print time.strftime("%Y-%m-%d %H:%M") + " Comparison features finished."
 
 def FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics):
     allAlg=""
@@ -27,6 +28,7 @@ def FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics):
     cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerFriedmanTest comparisonAlg "+allAlg
     subprocess.call(cmd, shell=True)    
     
-    dire="~/Scrivania/recThesisCopyD/datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/"
-    cmd = "Rscript ./scripts/RcomparisonAlgFriedman "+dire+" ./scripts/resultcomparisonAlgFriedman"
+    dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/"
+    cmd = "Rscript ./scripts/RcomparisonAlgFriedman "+dire+" ././datasets/ml-100k/results/UserItemExpDBPedia/results/ComparisonAlgFriedman"
     subprocess.call(cmd, shell=True)
+    print time.strftime("%Y-%m-%d %H:%M") + " Comparison Algorithms finished."

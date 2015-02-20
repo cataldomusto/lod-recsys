@@ -1,0 +1,37 @@
+#!/usr/bin/env Rscript
+args <- commandArgs(trailingOnly = TRUE)
+sink(args[2])
+library(PMCMR)
+temp = list.files(path = args[1], pattern="*.csv",full.names=TRUE)
+for (j in 1:length(temp)) {
+print(temp[j])
+mydata = read.csv(temp[j])
+attach(mydata)
+factor=cbind(Features10,Features17,Features30,Features50)
+print(friedman.test(factor))
+ if (friedman.test(factor)$p.value < 0.05){
+        means <- apply(mydata, 2, mean) # means factors
+        maxMeans <- which.max(means)
+        cat(paste("Max mean algorithm is ",names(mydata)[maxMeans],": ", means[maxMeans],"\n\n"))
+        post <- posthoc.friedman.nemenyi.test(factor)
+        cat(post$method,"\n")
+        conf <- post$p.value[c(maxMeans)]  # accede alla colonna p.value dell'algoritmo con valore max di metrica
+        #    print(conf)
+        algConf = c()
+        for(i in 1:length(conf)){
+           if (is.integer(conf[i]) && conf[i]> 0.05)
+                algConf <- c(algConf,names(conf[i]))
+        }
+        if (length(algConf)==0){
+            cat(paste("The best algorithm is ",names(mydata)[maxMeans],"\n"))
+        }
+        else {
+            for(i in 1:length(algConf)){
+                cat(algConf[i],"\n")
+            }
+        }
+
+    } else
+    print ("Not significative")
+
+    detach(mydata)}

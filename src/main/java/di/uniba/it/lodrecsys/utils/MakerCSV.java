@@ -32,8 +32,9 @@ public class MakerCSV {
         }
 
         if (args[0].equals("comparisonFeatures")) {
-            ArrayList<String> tops = new ArrayList<>(9);
-            tops.addAll(Arrays.asList(args).subList(5, args.length));
+            ArrayList<String> tops = new ArrayList<>(4);
+            for (int i = 5; i < args.length; i++)
+                tops.add("Features" + args[i]);
             comparisonFeatures(args[1], args[2], args[3], args[4], tops);
         }
 
@@ -51,7 +52,7 @@ public class MakerCSV {
         HashMap<String, ArrayList<String>> mapAlgVal = new HashMap<>(9);
         int max = 0;
         for (String nFeature : nFeatures) {
-            ArrayList<String> values = (ArrayList<String>) loadalg(nFeature, sparsity, top, metric, algorithm);
+            ArrayList<String> values = (ArrayList<String>) loadalg(nFeature.replace("Features", ""), sparsity, top, metric, algorithm);
             mapAlgVal.put(nFeature, values);
             max = values.size();
         }
