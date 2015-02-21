@@ -6,16 +6,30 @@ import os
 import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
-
 ##   CreateCSV to execute statistical test
-def createCSV(topN, metrics, allalg, allalgWEKA):
+
+def createCSVcomparisonBestBaseline(metrics):
+    givenN=["given_5","given_20","given_all"]
+    valMetrics=["5","10","20"]
+    best="PageRank"
+    top="50"
+    if os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline"):
+        shutil.rmtree("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline")
+    for metric in metrics: 
+        for valMetric in valMetrics:
+            for given in givenN:
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonBestBaseline "+top+" "+given+" "+valMetric+" "+metric+" "+ best
+                subprocess.call(cmd, shell=True)
+    
+    DIR = './datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline'
+    print "CSV created for comparison Best Algorithms - Baseline: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
+
+def createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA):
     givenN=["given_5","given_20","given_all"]
     valMetrics=["5","10","20"]
     allAlg=""
     if os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg"):
         shutil.rmtree("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg")
-    if os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures"):
-        shutil.rmtree("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures")
     for algs in allalg:
         allAlg+=algs+" "
     for algs in allalgWEKA:
@@ -29,6 +43,13 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
     
     DIR = './datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg'
     print "CSV created for comparison Algorithms: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
+    
+def createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA):
+    givenN=["given_5","given_20","given_all"]
+    valMetrics=["5","10","20"]
+    allAlg=""
+    if os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures"):
+        shutil.rmtree("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures")
     
     tops=""
     for top in topN:

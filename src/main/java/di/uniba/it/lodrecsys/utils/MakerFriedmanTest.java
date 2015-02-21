@@ -29,6 +29,45 @@ public class MakerFriedmanTest {
                 e.printStackTrace();
             }
         }
+        if (args[0].equals("comparisonBestBaseline")) {
+            try {
+                comparisonPairedTTest(args[1]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private static void comparisonPairedTTest(String best) throws IOException {
+        new File("./scripts/RcomparisonPairedTTest").delete();
+        String pathWriter = "./scripts/RcomparisonPairedTTest";
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+        out.append("#!/usr/bin/env Rscript \n" +
+                "args <- commandArgs(trailingOnly = TRUE) \n" +
+                "sink(args[2]) \n" +
+                "temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE) \n" +
+                "for (j in 1:length(temp)) { \n" +
+                "    print(temp[j])\n" +
+                "    mydata = read.csv(temp[j]) \n" +
+                "    attach(mydata) \n" +
+                "    normBase <- shapiro.test(Baseline)\n" +
+                "    normBest <- shapiro.test(" + best + ")\n" +
+                "    if ((normBase$p.value < 0.05) || (normBest$p.value < 0.05) ){ \n" +
+                "        compair <- wilcox.test(Baseline, " + best + ", paired=T) \n" +
+                "    } else\n" +
+                "        compair <- t.test(Baseline, " + best + ", paired=T) \n" +
+                "    if (compair$p.value < 0.05){\n" +
+                "        means <- apply(mydata, 2, mean) # means factors\n" +
+                "        maxMeans <- which.max(means)\n" +
+                "        cat(paste(\"The best algorithm is \",names(mydata)[maxMeans],\"\\n\\n\"))\n" +
+                "        #cat(paste(\"Max mean algorithm is \",names(mydata)[maxMeans],\": \", means[maxMeans],\"\\n\\n\"))\n" +
+                "        cat(paste(compair$method,\"significative \\n\"))\n" +
+                "    } else \n" +
+                "        cat(paste(compair$method,\"not significative \\n\"))\n" +
+                "    detach(mydata)\n" +
+                "}");
+        out.close();
 
     }
 

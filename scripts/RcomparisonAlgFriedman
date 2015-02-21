@@ -7,7 +7,7 @@ for (j in 1:length(temp)) {
 print(temp[j])
 mydata = read.csv(temp[j])
 attach(mydata)
-factor=cbind(PageRank,MRMR,RankerWekaChiSquaredAttributeEval,RankerWekaGainRatioAttributeEval,RankerWekaSVMAttributeEval,RankerWekaInfoGainAttributeEval,RankerWekaPCA,RankerWekaReliefFAttributeEval)
+factor=cbind(RankerWekaGainRatioAttributeEval)
 print(friedman.test(factor))
  if (friedman.test(factor)$p.value < 0.05){
         means <- apply(mydata, 2, mean) # means factors

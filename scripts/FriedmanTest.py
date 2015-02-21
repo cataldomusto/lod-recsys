@@ -7,6 +7,19 @@ import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
+
+def PairedTTestcomparisonBestBaseline(metrics):
+    algBest = "PageRank"
+    cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerFriedmanTest comparisonBestBaseline "+ algBest
+    subprocess.call(cmd, shell=True)    
+    dire="./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/"
+    if not(os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/results")):
+        os.makedirs("./datasets/ml-100k/results/UserItemExpDBPedia/results")
+    cmd = "Rscript ./scripts/RcomparisonPairedTTest "+dire+" ./datasets/ml-100k/results/UserItemExpDBPedia/results/ComparisonPairedTTest"
+    subprocess.call(cmd, shell=True)
+    print time.strftime("%Y-%m-%d %H:%M") + " Comparison Best - Baseline finished."
+
+
 def FriedmanTestcomparisonFeatures(topN, metrics):
     tops=""
     for top in topN:

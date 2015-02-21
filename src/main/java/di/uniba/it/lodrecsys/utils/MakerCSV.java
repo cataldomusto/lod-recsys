@@ -38,14 +38,31 @@ public class MakerCSV {
             comparisonFeatures(args[1], args[2], args[3], args[4], tops);
         }
 
-        if (args[0].equals("comparisonBestAlg_Baseline")) {
-            comparisonBestAlg_Baseline(args[1], args[2], args[3], args[4], args[5], args[6]);
+        if (args[0].equals("comparisonBestBaseline")) {
+
+            comparisonBestBaseline(args[1], args[2], args[3], args[4], args[5]);
         }
 
     }
 
-    private static void comparisonBestAlg_Baseline(String nFeature, String sparsity, String top, String metric, String algoritm, String baseline) throws IOException {
+    private static void comparisonBestBaseline(String nFeature, String sparsity, String top, String metric, String algorithm) throws IOException {
+        HashMap<String, ArrayList<String>> mapAlgVal = new HashMap<>(9);
+        ArrayList<String> valuesBaseline = (ArrayList<String>) loadalg("17", sparsity, top, metric, "Baseline");
+        ArrayList<String> valueBest = (ArrayList<String>) loadalg(nFeature, sparsity, top, metric, algorithm);
+        mapAlgVal.put("Baseline", valuesBaseline);
+        mapAlgVal.put(algorithm, valueBest);
+        new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/").mkdirs();
 
+        String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/confBaseline_" + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+
+        out.append("Baseline," + algorithm + "\n");
+
+        int max = valuesBaseline.size();
+        for (int i = 0; i < max; i++) {
+            out.append(mapAlgVal.get("Baseline").get(i)).append(",").append(mapAlgVal.get(algorithm).get(i)).append("\n");
+        }
+        out.close();
     }
 
     private static void comparisonFeatures(String algorithm, String sparsity, String top, String metric, ArrayList<String> nFeatures) throws IOException {

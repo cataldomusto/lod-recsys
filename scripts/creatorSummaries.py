@@ -88,7 +88,7 @@ def extractResult(metric,elem,dire,alg):
     subprocess.call(cmd, shell=True)
     cmd ="rm "+dire+alg+"/summaries/res"+metric+elem+".sum"
     subprocess.call(cmd, shell=True)
-    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' | uniq >> "+dire+alg+"/summaries/"+metric+"Temp"
+    cmd ="cat "+dire+alg+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' >> "+dire+alg+"/summaries/"+metric+"Temp"
     subprocess.call(cmd, shell=True)
 
 ##   Extract result from file
