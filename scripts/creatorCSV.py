@@ -28,7 +28,7 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
                     subprocess.call(cmd, shell=True)
     
     DIR = './datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg'
-    print "CSV created first session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
+    print "CSV created for comparison Algorithms: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
     
     tops=""
     for top in topN:
@@ -45,7 +45,7 @@ def createCSV(topN, metrics, allalg, allalgWEKA):
                     subprocess.call(cmd, shell=True)
 
     DIR='./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures'
-    print "CSV created second session: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+    print "CSV created for comparison Features: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
 
 ##   CreateCSV to execute statistical test
 def createCSVOLD(metrics, allalg, allalgWEKA):
