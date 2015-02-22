@@ -15,7 +15,11 @@ import java.util.List;
 public class MakerCSV {
 
     private static List<String> loadalg(String nFeature, String sparsity, String top, String metric, String alg) throws IOException {
-        String fileName = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+        String fileName;
+        if (alg.contains("CFSubsetEval"))
+            fileName = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+        else
+            fileName = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
         //        List<String> values = new ArrayList<>(lines.size());
 //        for (String line : lines)
 //            values.add(line.replace(",", "."));
@@ -50,17 +54,22 @@ public class MakerCSV {
         ArrayList<String> valuesBaseline = (ArrayList<String>) loadalg("17", sparsity, top, metric, "Baseline");
         ArrayList<String> valueBest = (ArrayList<String>) loadalg(nFeature, sparsity, top, metric, algorithm);
         mapAlgVal.put("Baseline17", valuesBaseline);
-        mapAlgVal.put(algorithm + nFeature, valueBest);
+        String mapped;
+        if (!algorithm.contains("CFSubsetEval"))
+            mapped = algorithm + nFeature;
+        else
+            mapped = algorithm;
+        mapAlgVal.put(mapped, valueBest);
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/").mkdirs();
 
         String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/confBaseline_" + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
-        out.append("Baseline17," + algorithm + nFeature + "\n");
+        out.append("Baseline17," + mapped + "\n");
 
         int max = valuesBaseline.size();
         for (int i = 0; i < max; i++) {
-            out.append(mapAlgVal.get("Baseline17").get(i)).append(",").append(mapAlgVal.get(algorithm+nFeature).get(i)).append("\n");
+            out.append(mapAlgVal.get("Baseline17").get(i)).append(",").append(mapAlgVal.get(mapped).get(i)).append("\n");
         }
         out.close();
     }

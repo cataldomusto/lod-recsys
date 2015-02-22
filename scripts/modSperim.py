@@ -29,24 +29,24 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
     init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics)
     
 #    feature process
-#    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
+    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
 
 #    recommendation Process
 #    parallelProcess.parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
     
 #    evaluation Process
-#    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
+    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
-#    creatorSummaries.createSummaries(extractVal, metrics, dire)
+    creatorSummaries.createSummaries(extractVal, metrics, dire)
     
-    creatorCSV.createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire)
-    creatorCSV.createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA, dire)
-    creatorCSV.createCSVcomparisonBestBaseline(metrics, best, topBest, dire)
+#    creatorCSV.createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire)
+#    creatorCSV.createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA, dire)
+#    creatorCSV.createCSVcomparisonBestBaseline(metrics, best, topBest, dire)
 
-    StatisticalTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics, dire)
-    StatisticalTest.FriedmanTestcomparisonFeatures(topN, metrics, dire)
+#    StatisticalTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics, dire)
+#    StatisticalTest.FriedmanTestcomparisonFeatures(topN, metrics, dire)
     
-    StatisticalTest.ComparisonBestBaseline(metrics, best, topBest, dire)
+#    StatisticalTest.ComparisonBestBaseline(metrics, best, topBest, dire)
 
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 
