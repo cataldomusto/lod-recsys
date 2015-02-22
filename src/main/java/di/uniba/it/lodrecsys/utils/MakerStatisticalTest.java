@@ -40,10 +40,16 @@ public class MakerStatisticalTest {
     }
 
     private static void comparisonBestBaseline(String best, String nTop) throws IOException {
+        String bestAlg;
+        if (!best.contains("CFSubsetEval"))
+            bestAlg = best + nTop;
+        else
+            bestAlg = best;
         new File("./scripts/RcomparisonBestBaseline").delete();
         String pathWriter = "./scripts/RcomparisonBestBaseline";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
-        out.append("#!/usr/bin/env Rscript \n" +
+        out.append(
+                "#!/usr/bin/env Rscript \n" +
                 "args <- commandArgs(trailingOnly = TRUE) \n" +
                 "sink(args[2]) \n" +
                 "temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE) \n" +
@@ -52,11 +58,11 @@ public class MakerStatisticalTest {
                 "    mydata = read.csv(temp[j]) \n" +
                 "    attach(mydata) \n" +
                 "    normBase <- shapiro.test(Baseline17)\n" +
-                "    normBest <- shapiro.test(" + best + nTop + ")\n" +
+                "    normBest <- shapiro.test(" + bestAlg + ")\n" +
                 "    if ((normBase$p.value < 0.05) || (normBest$p.value < 0.05) ){ \n" +
-                "        compair <- wilcox.test(Baseline17, " + best + nTop + ", paired=T) \n" +
+                "        compair <- wilcox.test(Baseline17, " + bestAlg + ", paired=T) \n" +
                 "    } else\n" +
-                "        compair <- t.test(Baseline17, " + best + nTop + ", paired=T) \n" +
+                "        compair <- t.test(Baseline17, " + bestAlg + ", paired=T) \n" +
                 "    if (compair$p.value < 0.05){\n" +
                 "        means <- apply(mydata, 2, mean) # means factors\n" +
                 "        maxMeans <- which.max(means)\n" +
