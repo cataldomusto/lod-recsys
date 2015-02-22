@@ -49,18 +49,18 @@ public class MakerCSV {
         HashMap<String, ArrayList<String>> mapAlgVal = new HashMap<>(9);
         ArrayList<String> valuesBaseline = (ArrayList<String>) loadalg("17", sparsity, top, metric, "Baseline");
         ArrayList<String> valueBest = (ArrayList<String>) loadalg(nFeature, sparsity, top, metric, algorithm);
-        mapAlgVal.put("Baseline", valuesBaseline);
-        mapAlgVal.put(algorithm, valueBest);
+        mapAlgVal.put("Baseline17", valuesBaseline);
+        mapAlgVal.put(algorithm + nFeature, valueBest);
         new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/").mkdirs();
 
         String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/confBaseline_" + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
-        out.append("Baseline," + algorithm + "\n");
+        out.append("Baseline17," + algorithm + nFeature + "\n");
 
         int max = valuesBaseline.size();
         for (int i = 0; i < max; i++) {
-            out.append(mapAlgVal.get("Baseline").get(i)).append(",").append(mapAlgVal.get(algorithm).get(i)).append("\n");
+            out.append(mapAlgVal.get("Baseline17").get(i)).append(",").append(mapAlgVal.get(algorithm+nFeature).get(i)).append("\n");
         }
         out.close();
     }

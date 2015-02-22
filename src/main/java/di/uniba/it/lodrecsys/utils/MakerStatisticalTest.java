@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by simo on 14/02/15.
+ * Created by Simone Rutigliano on 14/02/15.
  */
-public class MakerFriedmanTest {
+public class MakerStatisticalTest {
     public static void main(String[] args) {
         if (args[0].equals("comparisonAlg")) {
             ArrayList<String> algorithms = new ArrayList<>(9);
@@ -31,7 +31,7 @@ public class MakerFriedmanTest {
         }
         if (args[0].equals("comparisonBestBaseline")) {
             try {
-                comparisonPairedTTest(args[1]);
+                comparisonBestBaseline(args[1], args[2]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -39,9 +39,9 @@ public class MakerFriedmanTest {
 
     }
 
-    private static void comparisonPairedTTest(String best) throws IOException {
-        new File("./scripts/RcomparisonPairedTTest").delete();
-        String pathWriter = "./scripts/RcomparisonPairedTTest";
+    private static void comparisonBestBaseline(String best, String nTop) throws IOException {
+        new File("./scripts/RcomparisonBestBaseline").delete();
+        String pathWriter = "./scripts/RcomparisonBestBaseline";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
         out.append("#!/usr/bin/env Rscript \n" +
                 "args <- commandArgs(trailingOnly = TRUE) \n" +
@@ -51,12 +51,12 @@ public class MakerFriedmanTest {
                 "    print(temp[j])\n" +
                 "    mydata = read.csv(temp[j]) \n" +
                 "    attach(mydata) \n" +
-                "    normBase <- shapiro.test(Baseline)\n" +
-                "    normBest <- shapiro.test(" + best + ")\n" +
+                "    normBase <- shapiro.test(Baseline17)\n" +
+                "    normBest <- shapiro.test(" + best + nTop + ")\n" +
                 "    if ((normBase$p.value < 0.05) || (normBest$p.value < 0.05) ){ \n" +
-                "        compair <- wilcox.test(Baseline, " + best + ", paired=T) \n" +
+                "        compair <- wilcox.test(Baseline17, " + best + nTop + ", paired=T) \n" +
                 "    } else\n" +
-                "        compair <- t.test(Baseline, " + best + ", paired=T) \n" +
+                "        compair <- t.test(Baseline17, " + best + nTop + ", paired=T) \n" +
                 "    if (compair$p.value < 0.05){\n" +
                 "        means <- apply(mydata, 2, mean) # means factors\n" +
                 "        maxMeans <- which.max(means)\n" +

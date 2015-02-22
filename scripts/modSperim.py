@@ -11,9 +11,9 @@ import init
 import parallelProcess
 import creatorSummaries
 import creatorCSV
-import FriedmanTest
+import StatisticalTest
 
-def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmdThreadEval, metrics):
+def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmdThreadEval, metrics, best, topBest):
     
     cmdExecFS=[]
     cmdExecLOGFS=[]
@@ -41,11 +41,12 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
     
 #    creatorCSV.createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA)
 #    creatorCSV.createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA)
-#    creatorCSV.createCSVcomparisonBestBaseline(metrics)
+    creatorCSV.createCSVcomparisonBestBaseline(metrics, best, topBest)
 
-#    FriedmanTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics)
-#    FriedmanTest.FriedmanTestcomparisonFeatures(topN, metrics)
-    FriedmanTest.PairedTTestcomparisonBestBaseline(metrics)
+#    StatisticalTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics)
+#    StatisticalTest.FriedmanTestcomparisonFeatures(topN, metrics)
+    
+    StatisticalTest.ComparisonBestBaseline(metrics, best, topBest)
 
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 

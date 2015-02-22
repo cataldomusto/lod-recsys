@@ -2,22 +2,6 @@
 
 import modSperim
 
-#CFSubsetEval
-#mrmr 
-#PageRank                      
-#InfoGainAttributeEval	         
-#ReliefFAttributeEval	         
-#ChiSquaredAttributeEval	
-#GainRatioAttributeEval 
-#PCA	                    
-#SVMAttributeEval          
-
-cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
-
-cmdThreadRec="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
-
-cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
-
 #allalg=["PageRank","MRMR"]
 #allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
 #topN=["10","17","30","50"]
@@ -30,4 +14,26 @@ allalgWEKA=[]
 topN=["17"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 #metrics=["Diversity"]
-modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics)
+
+best="PageRank"
+topBest="50"
+
+
+cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+
+cmdThreadRec="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+
+cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+
+#CFSubsetEval
+#mrmr 
+#PageRank                      
+#InfoGainAttributeEval	         
+#ReliefFAttributeEval	         
+#ChiSquaredAttributeEval	
+#GainRatioAttributeEval 
+#PCA	                    
+#SVMAttributeEval          
+
+modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest)
+

@@ -1,0 +1,24 @@
+#!/usr/bin/env Rscript 
+args <- commandArgs(trailingOnly = TRUE) 
+sink(args[2]) 
+temp = list.files(path = args[1], pattern="*.csv",full.names=TRUE) 
+for (j in 1:length(temp)) { 
+    print(temp[j])
+    mydata = read.csv(temp[j]) 
+    attach(mydata) 
+    normBase <- shapiro.test(Baseline17)
+    normBest <- shapiro.test(PageRank50)
+    if ((normBase$p.value < 0.05) || (normBest$p.value < 0.05) ){ 
+        compair <- wilcox.test(Baseline17, PageRank50, paired=T) 
+    } else
+        compair <- t.test(Baseline17, PageRank50, paired=T) 
+    if (compair$p.value < 0.05){
+        means <- apply(mydata, 2, mean) # means factors
+        maxMeans <- which.max(means)
+        cat(paste("The best algorithm is ",names(mydata)[maxMeans],"\n\n"))
+        #cat(paste("Max mean algorithm is ",names(mydata)[maxMeans],": ", means[maxMeans],"\n\n"))
+        cat(paste(compair$method,"significative \n"))
+    } else 
+        cat(paste(compair$method,"not significative \n"))
+    detach(mydata)
+}

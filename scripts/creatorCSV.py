@@ -8,17 +8,15 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 ##   CreateCSV to execute statistical test
 
-def createCSVcomparisonBestBaseline(metrics):
+def createCSVcomparisonBestBaseline(metrics, best, topBest):
     givenN=["given_5","given_20","given_all"]
     valMetrics=["5","10","20"]
-    best="PageRank"
-    top="50"
     if os.path.exists("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline"):
         shutil.rmtree("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline")
     for metric in metrics: 
         for valMetric in valMetrics:
             for given in givenN:
-                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonBestBaseline "+top+" "+given+" "+valMetric+" "+metric+" "+ best
+                cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerCSV comparisonBestBaseline "+topBest+" "+given+" "+valMetric+" "+metric+" "+ best
                 subprocess.call(cmd, shell=True)
     
     DIR = './datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline'
