@@ -8,8 +8,7 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 
 ##   Extraction values
-def createSummaries(extractVal, metrics):
-    dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+def createSummaries(extractVal, metrics, dire):
     cmd=""
     for alg in os.listdir(dire):
         if alg in extractVal:
@@ -39,10 +38,9 @@ def createSummaries(extractVal, metrics):
                 subprocess.call(cmd, shell=True)
             print time.strftime("%Y-%m-%d %H:%M") + " Summaries avg "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " Summaries avg are completed."
-    createSummariesALL(extractVal, metrics)
+    createSummariesALL(extractVal, metrics, dire)
 
-def createSummariesALL(extractVal, metrics):
-    dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+def createSummariesALL(extractVal, metrics, dire):
     cmd=""
     for alg in os.listdir(dire):
         if alg in extractVal:
