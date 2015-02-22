@@ -2,19 +2,22 @@
 
 import modSperim
 
-#allalg=["CFSubsetEval","PageRank","MRMR"]
-#allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
+allalg=["CFSubsetEval","PageRank","MRMR"]
+allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
 topN=["10","17","30","50"]
 metrics=["F1","Novelty","Diversity"]
 #givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 param=3
-allalg=["CFSubsetEval"]
-allalgWEKA=[] 
+#allalg=["CFSubsetEval"]
+#allalgWEKA=[] 
 #topN=["17"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
-#metrics=["F1"]
+#metrics=["Diversity"]
 
+
+givenCSV=["given_5","given_20","given_all"]
+valMetricsCSV=["5","10","20"]
 best="PageRank"
 topBest="50"
 
@@ -36,5 +39,5 @@ cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.grap
 #PCA	                    
 #SVMAttributeEval          
 
-modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest, dire)
+modSperim.sperim(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest, dire, givenCSV, valMetricsCSV)
 

@@ -8,9 +8,7 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 ##   CreateCSV to execute statistical test
 
-def createCSVcomparisonBestBaseline(metrics, best, topBest, dire):
-    givenN=["given_5","given_20","given_all"]
-    valMetrics=["5","10","20"]
+def createCSVcomparisonBestBaseline(metrics, best, topBest, dire, givenN, valMetrics):
     if os.path.exists( dire + "CSV/comparisonBestBaseline"):
         shutil.rmtree( dire + "CSV/comparisonBestBaseline")
     for metric in metrics: 
@@ -22,9 +20,7 @@ def createCSVcomparisonBestBaseline(metrics, best, topBest, dire):
     DIR = dire + 'CSV/comparisonBestBaseline'
     print "CSV created for comparison Best Algorithms - Baseline: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
 
-def createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire):
-    givenN=["given_5","given_20","given_all"]
-    valMetrics=["5","10","20"]
+def createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire, givenN, valMetrics):
     allAlg=""
     if os.path.exists( dire + "CSV/comparisonAlg"):
         shutil.rmtree( dire + "CSV/comparisonAlg")
@@ -42,13 +38,11 @@ def createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire):
     DIR = dire + 'CSV/comparisonAlg'
     print "CSV created for comparison Algorithms: " + str(len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])) 
     
-def createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA, dire ):
-    givenN=["given_5","given_20","given_all"]
-    valMetrics=["5","10","20"]
-    allAlg=""
+def createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA, dire, givenN, valMetrics):
     if os.path.exists(dire + "CSV/comparisonFeatures"):
         shutil.rmtree(dire + "CSV/comparisonFeatures")
-    
+    if "CFSubsetEval" in allalg:
+        allalg.remove("CFSubsetEval")
     tops=""
     for top in topN:
         tops+=top+" "

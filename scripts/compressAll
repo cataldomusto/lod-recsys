@@ -1,0 +1,11 @@
+#!/usr/bin/python
+import time
+import subprocess
+import sys
+import os
+import shutil
+from datetime import datetime
+
+for alg in os.listdir("./datasets/ml-100k/results/UserItemExpDBPedia"):
+    cmd ="7z a ./BKP/"+alg + ".7z ./datasets/ml-100k/results/UserItemExpDBPedia/"+alg 
+    subprocess.call(cmd, shell=True)
