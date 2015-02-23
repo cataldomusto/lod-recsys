@@ -12,4 +12,4 @@ mapping/**
 ./idea
 *.jar
 datasets/ml-100k/results/UserItemExpDBPedia/**
-./scripts/*.pyc
+/scripts/*.pyc
