@@ -50,29 +50,31 @@ public class MakerStatisticalTest {
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
         out.append(
                 "#!/usr/bin/env Rscript \n" +
-                "args <- commandArgs(trailingOnly = TRUE) \n" +
-                "sink(args[2]) \n" +
-                "temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE) \n" +
-                "for (j in 1:length(temp)) { \n" +
-                "    print(temp[j])\n" +
-                "    mydata = read.csv(temp[j]) \n" +
-                "    attach(mydata) \n" +
-                "    normBase <- shapiro.test(Baseline17)\n" +
-                "    normBest <- shapiro.test(" + bestAlg + ")\n" +
-                "    if ((normBase$p.value < 0.05) || (normBest$p.value < 0.05) ){ \n" +
-                "        compair <- wilcox.test(Baseline17, " + bestAlg + ", paired=T) \n" +
-                "    } else\n" +
-                "        compair <- t.test(Baseline17, " + bestAlg + ", paired=T) \n" +
-                "    if (compair$p.value < 0.05){\n" +
-                "        means <- apply(mydata, 2, mean) # means factors\n" +
-                "        maxMeans <- which.max(means)\n" +
-                "        cat(paste(\"The best algorithm is \",names(mydata)[maxMeans],\"\\n\\n\"))\n" +
-                "        #cat(paste(\"Max mean algorithm is \",names(mydata)[maxMeans],\": \", means[maxMeans],\"\\n\\n\"))\n" +
-                "        cat(paste(compair$method,\"significative \\n\"))\n" +
-                "    } else \n" +
-                "        cat(paste(compair$method,\"not significative \\n\"))\n" +
-                "    detach(mydata)\n" +
-                "}");
+                        "args <- commandArgs(trailingOnly = TRUE) \n" +
+                        "sink(args[2]) \n" +
+                        "temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE) \n" +
+                        "for (j in 1:length(temp)) { \n" +
+                        "    print(temp[j])\n" +
+                        "    mydata = read.csv(temp[j]) \n" +
+                        "    attach(mydata) \n" +
+                        "    normBase <- shapiro.test(Baseline17)\n" +
+                        "    normBest <- shapiro.test(" + bestAlg + ")\n" +
+                        "    if ((normBase$p.value < 0.05) || (normBest$p.value < 0.05) ){ \n" +
+                        "        compair <- wilcox.test(Baseline17, " + bestAlg + ", paired=T) \n" +
+                        "    } else\n" +
+                        "        compair <- t.test(Baseline17, " + bestAlg + ", paired=T) \n" +
+                        "    if (compair$p.value < 0.05){\n" +
+                        "        means <- apply(mydata, 2, mean) # means factors\n" +
+                        "        maxMeans <- which.max(means)\n" +
+                        "        cat(paste(\"First algorithm: \",names(mydata)[1],\": \", means[1],\"\\n\"))\n" +
+                        "        cat(paste(\"Second algorithm: \",names(mydata)[2],\": \", means[2],\"\\n\"))\n" +
+                        "        cat(paste(\"The best algorithm is \",names(mydata)[maxMeans],\"\\n\\n\"))\n" +
+                        "        #cat(paste(\"Max mean algorithm is \",names(mydata)[maxMeans],\": \", means[maxMeans],\"\\n\\n\"))\n" +
+                        "        cat(paste(compair$method,\"significative \\n\"))\n" +
+                        "    } else \n" +
+                        "        cat(paste(compair$method,\"not significative \\n\"))\n" +
+                        "    detach(mydata)\n" +
+                        "}");
         out.close();
 
     }

@@ -13,7 +13,7 @@ param=3
 #allalgWEKA=[] 
 #topN=["17"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
-#metrics=["Diversity"]
+#metrics=["F1"]
 
 
 givenCSV=["given_5","given_20","given_all"]
