@@ -4,10 +4,11 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,23 +19,41 @@ import java.util.List;
  */
 public class PropertiesGenerator {
 
+    private static void extractAllFeatures() throws IOException {
+        String pathWriter = LoadProperties.MAPPINGPATH + "/all_prop";
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+
+
+        SPARQLClient sparql = new SPARQLClient();
+        List<String> lines = Files.readAllLines(Paths.get(LoadProperties.MAPPINGPATH + "/books"),
+                Charset.defaultCharset());
+        for (String line : lines) {
+            Collection<String> aa = sparql.getURIProperties(line);
+            for (String s : aa) {
+                out.append(s).append("\n");
+            }
+        }
+        out.close();
+
+    }
+
     public static void main(String[] args) throws Exception {
 
 //                dbpediaMapping = "mapping/item.mapping",
 //                firstLevelExpProp = "mapping/exp_prop.txt";
 
-        PropertiesManager manager = new PropertiesManager(LoadProperties.PROPERTYINDEXDIR);
         SPARQLClient sparql = new SPARQLClient();
         Collection<String> expPropList = loadPropertiesURI(LoadProperties.CHOOSENPROP);
         Collection<String> missed = loadPropertiesURI(LoadProperties.MISSEDPROP);
+        PropertiesManager manager = new PropertiesManager(LoadProperties.PROPERTYINDEXDIR);
 
-        int i = 0;
+        int i = 1;
 
         for (String mappedItem : missed) {
             try {
                 manager.start(true);
                 sparql.saveResourceProperties(URLDecoder.decode(mappedItem, "UTF-8"), expPropList, manager);
-                System.out.println("Film " + i + " finished");
+                System.out.println("Book " + i + " to " + missed.size() + " finished");
                 i++;
                 manager.commitChanges();
             } finally {

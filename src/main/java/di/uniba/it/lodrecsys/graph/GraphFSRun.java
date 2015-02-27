@@ -32,8 +32,8 @@ public class GraphFSRun {
             fileProp += args[2];
         }
 
-        LoadProperties.CHOOSENPROP = "./mapping/choosen_prop/choosen_prop" + fileProp;
-        new File("./mapping/choosen_prop/").mkdir();
+        LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + fileProp;
+        new File(LoadProperties.MAPPINGPATH + "/choosen_prop/").mkdir();
         new File(LoadProperties.CHOOSENPROP).createNewFile();
 
         System.out.println(new Date() + "[INFO] Feature Started.");

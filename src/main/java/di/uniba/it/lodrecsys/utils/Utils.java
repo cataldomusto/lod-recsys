@@ -346,7 +346,10 @@ public class Utils {
                 String[] currLineSplitted = reader.readLine().split("\t");
 
                 if (!currLineSplitted[2].equals("null"))
-                    mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1], currLineSplitted[3]));
+                    if (currLineSplitted.length == 4)
+                        mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1], currLineSplitted[3]));
+                    else
+                        mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1]));
             }
 
             return mappings;
@@ -378,7 +381,10 @@ public class Utils {
             while (reader.ready()) {
                 String[] currLineSplitted = reader.readLine().split("\t");
 
-                mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1], currLineSplitted[3]));
+                if (currLineSplitted.length == 4)
+                    mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1], currLineSplitted[3]));
+                else
+                    mappings.add(new MovieMapping(currLineSplitted[0], currLineSplitted[2], currLineSplitted[1]));
             }
 
             return mappings;

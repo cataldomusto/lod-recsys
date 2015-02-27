@@ -182,6 +182,7 @@ public class SPARQLClient {
 
 
         return wikiIDURI;
+
     }
 
     public void saveResourceProperties(String resourceURI, Collection<String> specificProp, PropertiesManager propManager) {
@@ -223,7 +224,6 @@ public class SPARQLClient {
 
         }
 
-
     }
 
     public Set<String> getURIProperties(String uri) {
@@ -232,7 +232,7 @@ public class SPARQLClient {
                 fixedURI + " ?prop ?value\n" +
                 "}", proprVariable = "?prop";
 
-        currLogger.info(queryProp);
+//        currLogger.info(queryProp);
         Query query = QueryFactory.create(queryProp);
 
         QueryExecution qexec = null;
@@ -253,7 +253,7 @@ public class SPARQLClient {
 
                     ResultSet resultSet = qexec.execSelect();
 
-                    currLogger.info("Executed query!");
+//                    currLogger.info("Executed query!");
 
                     QuerySolution currSolution;
 

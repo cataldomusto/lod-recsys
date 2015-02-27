@@ -21,7 +21,7 @@ valMetricsCSV=["5","10","20"]
 best="PageRank"
 topBest="50"
 
-dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+dire="./datasets/books-8k/results/UserItemExpDBPedia/"
 
 cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 

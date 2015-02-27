@@ -21,7 +21,7 @@ import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 public class GraphToMatrix {
 
     private static HashMap<String, Integer> getProperties() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("./mapping/all_prop"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(LoadProperties.MAPPINGPATH+ "/all_prop"));
         String prop;
         int i = 1;
         HashMap<String, Integer> propertiesChoosen = new HashMap<>();
@@ -100,8 +100,8 @@ public class GraphToMatrix {
 
     public static void convertARFFADJ(UndirectedGraph<String, Edge> recGraph) throws IOException {
 
-        if (!new File("./serialized/graphAD.arff").exists()) {
-            FileOutputStream fout = new FileOutputStream("./serialized/graphAD.arff");
+        if (!new File(LoadProperties.DATASETPATH + "/serialized/graphAD.arff").exists()) {
+            FileOutputStream fout = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/graphAD.arff");
             PrintWriter out = new PrintWriter(fout);
 
             String[][] matrixGraph = convertAdjacent(recGraph);

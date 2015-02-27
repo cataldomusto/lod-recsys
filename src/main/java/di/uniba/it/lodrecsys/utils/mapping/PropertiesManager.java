@@ -29,7 +29,6 @@ public class PropertiesManager {
     public PropertiesManager(String dirName) {
         tupleDataset = TDBFactory.createDataset(dirName);
         datasetModel = tupleDataset.getDefaultModel();
-
     }
 
     /**

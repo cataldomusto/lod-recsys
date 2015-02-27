@@ -6,6 +6,7 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.graph.RecGraph;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
@@ -31,7 +32,7 @@ public abstract class FS implements Serializable {
         savefileLog("");
         savefileLog("--- Loading or building graph complete...");
         try {
-            FileInputStream fis = new FileInputStream("./serialized/graphComplete.bin");
+            FileInputStream fis = new FileInputStream(LoadProperties.DATASETPATH + "/serialized/graphComplete.bin");
             ObjectInputStream ois = new ObjectInputStream(fis);
             recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
             ois.close();
@@ -59,8 +60,8 @@ public abstract class FS implements Serializable {
     }
 
     public static void save() throws IOException {
-        new File("./serialized").mkdirs();
-        FileOutputStream fos = new FileOutputStream("./serialized/graphComplete.bin");
+        new File(LoadProperties.DATASETPATH + "/serialized").mkdirs();
+        FileOutputStream fos = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/graphComplete.bin");
         ObjectOutputStream o = new ObjectOutputStream(fos);
         o.writeObject(recGraph);
         o.close();
@@ -111,8 +112,8 @@ public abstract class FS implements Serializable {
     }
 
     private void printDot(String name) throws IOException {
-        new File("./datasets/ml-100k/dot").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./datasets/ml-100k/dot/graph" + name + ".dot");
+        new File(LoadProperties.DATASETPATH + "/dot").mkdirs();
+        FileOutputStream fout = new FileOutputStream(LoadProperties.DATASETPATH + "/graph" + name + ".dot");
         PrintWriter out = new PrintWriter(fout);
         out.println("graph " + name + " {");
 

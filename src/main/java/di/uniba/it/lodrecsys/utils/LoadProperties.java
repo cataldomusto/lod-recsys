@@ -29,6 +29,8 @@ public class LoadProperties {
     public static String NUMFILTER;
     public static String EVALWEKA;
     public static String[] LISTEVALWEKA;
+    public static String DATASETPATH;
+    public static String MAPPINGPATH;
 
     static {
         Properties prop = new Properties();
@@ -45,7 +47,8 @@ public class LoadProperties {
             CHOOSENPROP = prop.getProperty("choosenProp");
             MISSEDPROP = prop.getProperty("missedProp");
             ITEMFILE = prop.getProperty("itemFile");
-
+            DATASETPATH= prop.getProperty("datasetPath");
+            MAPPINGPATH= prop.getProperty("mappingPath");
             DBPEDIAITEMSFILE = prop.getProperty("dbpediaItemsFile");
             DBPEDIAMAPPING = prop.getProperty("dbpediaMapping");
             RATINGFILE = prop.getProperty("ratingFile");

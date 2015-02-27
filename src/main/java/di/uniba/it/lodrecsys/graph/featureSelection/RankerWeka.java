@@ -3,6 +3,7 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.graph.VertexScored;
 import di.uniba.it.lodrecsys.utils.GraphToMatrix;
+import di.uniba.it.lodrecsys.utils.LoadProperties;
 import weka.attributeSelection.*;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
@@ -27,14 +28,14 @@ public class RankerWeka extends FS {
 
     public void run() throws IOException {
         savefileLog(new Date() + " [INFO] Feature Selection with Weka Ranker " + evalName + " inizialized.");
-        new File("./mapping/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./mapping/FS/RankerWeka" + evalName);
+        new File(LoadProperties.MAPPINGPATH+"/FS").mkdirs();
+        FileOutputStream fout = new FileOutputStream(LoadProperties.MAPPINGPATH+"/FS/RankerWeka" + evalName);
         PrintWriter out = new PrintWriter(fout);
 
         GraphToMatrix.convertARFFADJ(recGraph);
 
         BufferedReader reader =
-                new BufferedReader(new FileReader("./serialized/graphAD.arff"));
+                new BufferedReader(new FileReader(LoadProperties.DATASETPATH+"/serialized/graphAD.arff"));
         ArffLoader.ArffReader arff = new ArffLoader.ArffReader(reader);
         Instances data = arff.getData();
         data.setClassIndex(0);
