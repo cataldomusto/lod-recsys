@@ -26,7 +26,7 @@ public class PropertiesGenerator {
 
 
         SPARQLClient sparql = new SPARQLClient();
-        List<String> lines = Files.readAllLines(Paths.get(LoadProperties.MAPPINGPATH + "/books"),
+        List<String> lines = Files.readAllLines(Paths.get(LoadProperties.MAPPINGPATH + "/resourcesURI"),
                 Charset.defaultCharset());
         for (String line : lines) {
             Collection<String> aa = sparql.getURIProperties(line);
@@ -40,12 +40,21 @@ public class PropertiesGenerator {
 
     public static void main(String[] args) throws Exception {
 
+//        if (!new File(LoadProperties.MAPPINGPATH + "/all_prop").exists()) {
+//            extractAllFeatures();
+//        }
+
 //                dbpediaMapping = "mapping/item.mapping",
 //                firstLevelExpProp = "mapping/exp_prop.txt";
 
         SPARQLClient sparql = new SPARQLClient();
         Collection<String> expPropList = loadPropertiesURI(LoadProperties.MAPPINGPATH + "/all_prop");
-        Collection<String> missed = loadPropertiesURI(LoadProperties.MISSEDPROP);
+        Collection<String> missed;
+
+        if (args.length > 0 && args[0].equals("all")) {
+            missed = loadPropertiesURI(LoadProperties.MAPPINGPATH + "/resourcesURI");
+        } else
+            missed = loadPropertiesURI(LoadProperties.MISSEDPROP);
         PropertiesManager manager = new PropertiesManager(LoadProperties.PROPERTYINDEXDIR);
 
         int i = 1;
