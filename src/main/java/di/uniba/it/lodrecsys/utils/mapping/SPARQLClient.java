@@ -198,32 +198,35 @@ public class SPARQLClient {
         Query query = QueryFactory.create(queryProp);
 
         QueryExecution qexec = null;
-        try {
-            qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
+        boolean doneIt = false;
 
-            ResultSet resultSet = qexec.execSelect();
+        while (!doneIt) {
+            try {
+                qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
+                ResultSet resultSet = qexec.execSelect();
+//                currLogger.info("Executed query!");
+                QuerySolution currSolution;
 
-//            currLogger.info("Executed query!");
+                while (resultSet.hasNext()) {
+                    currSolution = resultSet.nextSolution();
+                    propManager.addSolution(currSolution, resourceURI);
+                }
 
-            QuerySolution currSolution;
+                myWait(5);
+                doneIt = true;
+            } catch (Exception ex) {
 
+                doneIt = false;
+//                currLogger.fine("Try again...");
+                myWait(10);
+            } finally {
 
-            while (resultSet.hasNext()) {
-                currSolution = resultSet.nextSolution();
-                propManager.addSolution(currSolution, resourceURI);
+                if (qexec != null)
+                    qexec.close();
 
+                // writer.close();
             }
-
-
-        } finally {
-
-            if (qexec != null)
-                qexec.close();
-
-            // writer.close();
-
         }
-
     }
 
     public Set<String> getURIProperties(String uri) {

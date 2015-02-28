@@ -10,6 +10,12 @@ cleanAll:
 cleanSum:
 	./scripts/clearSum
 
+serverStoredProp:
+	nohup java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.mapping.PropertiesGenerator &
+
+storedProp:
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.mapping.PropertiesGenerator
+
 feature:
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
 

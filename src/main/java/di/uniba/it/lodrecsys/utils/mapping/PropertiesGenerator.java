@@ -56,8 +56,8 @@ public class PropertiesGenerator {
                 System.out.println("Book " + i + " to " + missed.size() + " finished");
                 i++;
                 manager.commitChanges();
-            } finally {
-
+            }
+            finally {
                 manager.closeManager();
             }
         }
