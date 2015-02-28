@@ -28,7 +28,7 @@ public class GraphEvalRun {
             fileProp += args[3];
         }
 
-        LoadProperties.CHOOSENPROP = "./mapping/choosen_prop/choosen_prop" + fileProp;
+        LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + fileProp;
 
         System.out.print(new Date() + "[INFO] Started evaluation ");
         for (String arg : args) {

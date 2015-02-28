@@ -31,7 +31,7 @@ public class GraphFactory {
         savefileLog("***             Feature Selection               ***");
         savefileLog("***************************************************");
         FS graphFS;
-        if (!new File("./mapping/FS/PageRank").exists()) {
+        if (!new File(LoadProperties.MAPPINGPATH + "/FS/PageRank").exists()) {
             graphFS = new PageRank((String) params[0],
                     (String) params[1],
                     (String) params[2],
@@ -41,7 +41,7 @@ public class GraphFactory {
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with PageRank already created.");
 
-        if (!new File("./mapping/FS/HITS_AUTHORITY").exists()) {
+        if (!new File(LoadProperties.MAPPINGPATH + "/FS/HITS_AUTHORITY").exists()) {
             graphFS = new HITS_AUTHORITY((String) params[0],
                     (String) params[1],
                     (String) params[2],
@@ -50,7 +50,7 @@ public class GraphFactory {
             graphFS.run();
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with HITS score: authority already created.");
-        if (!new File("./mapping/FS/HITS_HUB").exists()) {
+        if (!new File(LoadProperties.MAPPINGPATH + "/FS/HITS_HUB").exists()) {
             graphFS = new HITS_HUB((String) params[0],
                     (String) params[1],
                     (String) params[2],
@@ -59,7 +59,7 @@ public class GraphFactory {
             graphFS.run();
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with HITS score: hub already created.");
-        if (!new File("./mapping/FS/MRMR").exists()) {
+        if (!new File(LoadProperties.MAPPINGPATH + "/FS/MRMR").exists()) {
             graphFS = new MRMR((String) params[0],
                     (String) params[1],
                     (String) params[2],
@@ -68,7 +68,7 @@ public class GraphFactory {
             graphFS.run();
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with MRMR already created.");
-        if (!new File("./mapping/FS/CFSubsetEval").exists()) {
+        if (!new File(LoadProperties.MAPPINGPATH + "/FS/CFSubsetEval").exists()) {
             graphFS = new CFSubsetEvalWeka((String) params[0],
                     (String) params[1],
                     (String) params[2],
@@ -78,7 +78,7 @@ public class GraphFactory {
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with CFSubsetEval already created.");
         for (String s : LISTEVALWEKA) {
-            if (!new File("./mapping/FS/RankerWeka" + s).exists()) {
+            if (!new File(LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + s).exists()) {
                 graphFS = new RankerWeka((String) params[0],
                         (String) params[1],
                         (String) params[2],
@@ -95,10 +95,10 @@ public class GraphFactory {
         PrintWriter out = new PrintWriter(fout);
         String fileName, filter;
         if (FILTERTYPE.equals("RankerWeka")) {
-            fileName = "./mapping/FS/" + FILTERTYPE + EVALWEKA;
+            fileName = LoadProperties.MAPPINGPATH + "/FS/" + FILTERTYPE + EVALWEKA;
             filter = "Weka Ranker and " + EVALWEKA;
         } else {
-            fileName = "./mapping/FS/" + FILTERTYPE;
+            fileName = LoadProperties.MAPPINGPATH + "/FS/" + FILTERTYPE;
             filter = FILTERTYPE;
         }
 
@@ -128,7 +128,7 @@ public class GraphFactory {
         FS graphFS;
         switch (type) {
             case "PageRank":
-                if (!new File("./mapping/FS/" + type).exists()) {
+                if (!new File(LoadProperties.MAPPINGPATH + "/FS/" + type).exists()) {
                     graphFS = new PageRank((String) params[0],
                             (String) params[1],
                             (String) params[2],
@@ -140,7 +140,7 @@ public class GraphFactory {
                 break;
 
             case "HITS_AUTHORITY":
-                if (!new File("./mapping/FS/" + type).exists()) {
+                if (!new File(LoadProperties.MAPPINGPATH + "/FS/" + type).exists()) {
                     graphFS = new HITS_AUTHORITY((String) params[0],
                             (String) params[1],
                             (String) params[2],
@@ -152,7 +152,7 @@ public class GraphFactory {
                 break;
 
             case "HITS_HUB":
-                if (!new File("./mapping/FS/" + type).exists()) {
+                if (!new File(LoadProperties.MAPPINGPATH + "/FS/" + type).exists()) {
                     graphFS = new HITS_HUB((String) params[0],
                             (String) params[1],
                             (String) params[2],
@@ -164,7 +164,7 @@ public class GraphFactory {
                 break;
 
             case "MRMR":
-                if (!new File("./mapping/FS/" + type).exists()) {
+                if (!new File(LoadProperties.MAPPINGPATH + "/FS/" + type).exists()) {
                     graphFS = new MRMR((String) params[0],
                             (String) params[1],
                             (String) params[2],
@@ -176,7 +176,7 @@ public class GraphFactory {
                 break;
 
             case "CFSubsetEval":
-                if (!new File("./mapping/FS/CFSubsetEval").exists()) {
+                if (!new File(LoadProperties.MAPPINGPATH + "/FS/CFSubsetEval").exists()) {
                     graphFS = new CFSubsetEvalWeka((String) params[0],
                             (String) params[1],
                             (String) params[2],
@@ -188,7 +188,7 @@ public class GraphFactory {
                 break;
 
             case "RankerWeka":
-                if (!new File("./mapping/FS/" + type + EVALWEKA).exists()) {
+                if (!new File(LoadProperties.MAPPINGPATH + "/FS/" + type + EVALWEKA).exists()) {
                     graphFS = new RankerWeka((String) params[0],
                             (String) params[1],
                             (String) params[2],

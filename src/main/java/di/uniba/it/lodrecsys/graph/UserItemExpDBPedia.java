@@ -30,7 +30,7 @@ public class UserItemExpDBPedia extends RecGraph implements Serializable {
         try {
             getMapForMappedItems(mappedItems);
             generateGraph(new RequestStruct(trainingFileName, testFile, proprIndexDir, mappedItems));
-            printDot(this.getClass().getSimpleName());
+//            printDot(this.getClass().getSimpleName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,7 +77,6 @@ public class UserItemExpDBPedia extends RecGraph implements Serializable {
 
         for (String userID : trainingPosNeg.keySet()) {
             allItemsID.addAll(trainingPosNeg.get(userID).get(0));
-
         }
 
         for (String itemID : allItemsID) {
@@ -90,7 +89,6 @@ public class UserItemExpDBPedia extends RecGraph implements Serializable {
                 films += resourceURI + "\n";
             }
         }
-
 
         for (String userID : trainingPosNeg.keySet()) {
             int edgeCounter = 0;
@@ -118,16 +116,16 @@ public class UserItemExpDBPedia extends RecGraph implements Serializable {
     }
 
     public static void save() throws IOException {
-        new File("./serialized").mkdirs();
+        new File(LoadProperties.DATASETPATH + "/serialized").mkdirs();
         String nameF = LoadProperties.FILTERTYPE;
         if (LoadProperties.FILTERTYPE.equals("RankerWeka"))
             nameF += LoadProperties.EVALWEKA;
         nameF += LoadProperties.NUMFILTER;
         int i = 1;
-        while (new File("./serialized/graph" + nameF + "Split" + i + ".bin").exists() && i > LoadProperties.NUMSPLIT)
+        while (new File(LoadProperties.DATASETPATH + "/serialized/graph" + nameF + "Split" + i + ".bin").exists() && i > LoadProperties.NUMSPLIT)
             i++;
 
-        FileOutputStream fos = new FileOutputStream("./serialized/graph" + nameF + "Split" + i + ".bin");
+        FileOutputStream fos = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/graph" + nameF + "Split" + i + ".bin");
         ObjectOutputStream o = new ObjectOutputStream(fos);
         o.writeObject(recGraph);
         o.close();
@@ -135,8 +133,8 @@ public class UserItemExpDBPedia extends RecGraph implements Serializable {
     }
 
     private void printDot(String name) throws IOException {
-        new File("./datasets/ml-100k/dot").mkdirs();
-        FileOutputStream fout = new FileOutputStream("./datasets/ml-100k/dot/graph" + name + ".dot");
+        new File(LoadProperties.DATASETPATH + "/dot").mkdirs();
+        FileOutputStream fout = new FileOutputStream(LoadProperties.DATASETPATH + "/dot/graph" + name + ".dot");
         PrintWriter out = new PrintWriter(fout);
         out.println("graph " + name + " {");
 
@@ -179,7 +177,6 @@ public class UserItemExpDBPedia extends RecGraph implements Serializable {
         // compute recommendation for all users
         float totUser = testSet.size();
         float i = 0;
-
         for (String userID : testSet.keySet()) {
 
             i++;
@@ -201,21 +198,19 @@ public class UserItemExpDBPedia extends RecGraph implements Serializable {
 //            currLogger.info("Page rank for user: " + userID);
             List<Set<String>> posNegativeRatings = trainingPosNeg.get(userID);
             Set<String> testItems = testSet.get(userID);
-            usersRecommendation.put(userID, profileUser(posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
+            if (posNegativeRatings.size()>0) {
+                usersRecommendation.put(userID, profileUser(posNegativeRatings.get(0), posNegativeRatings.get(1), testItems, massProb));
+            }
         }
-
         return usersRecommendation;
     }
 
     private Set<Rating> profileUser(Set<String> trainingPos, Set<String> trainingNeg, Set<String> testItems, double massProb) {
         Set<Rating> allRecommendation = new TreeSet<>();
-
         SimpleVertexTransformer transformer = new SimpleVertexTransformer(trainingPos, trainingNeg, this.recGraph.getVertexCount(), massProb, uriIdMap);
         PageRankWithPriors<String, Edge> priors = new PageRankWithPriors<>(this.recGraph, transformer, 0.15);
-
         priors.setMaxIterations(25);
         priors.evaluate();
-
         for (String currItemID : testItems) {
             String resourceURI = idUriMap.get(currItemID);
             if (resourceURI == null)

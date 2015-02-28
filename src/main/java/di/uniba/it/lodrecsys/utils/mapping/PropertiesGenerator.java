@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,25 +44,27 @@ public class PropertiesGenerator {
 //                firstLevelExpProp = "mapping/exp_prop.txt";
 
         SPARQLClient sparql = new SPARQLClient();
-        Collection<String> expPropList = loadPropertiesURI(LoadProperties.CHOOSENPROP);
+        Collection<String> expPropList = loadPropertiesURI(LoadProperties.MAPPINGPATH + "/all_prop");
         Collection<String> missed = loadPropertiesURI(LoadProperties.MISSEDPROP);
         PropertiesManager manager = new PropertiesManager(LoadProperties.PROPERTYINDEXDIR);
 
         int i = 1;
 
+        long startTime = System.currentTimeMillis();
         for (String mappedItem : missed) {
             try {
                 manager.start(true);
                 sparql.saveResourceProperties(URLDecoder.decode(mappedItem, "UTF-8"), expPropList, manager);
-                System.out.println("Book " + i + " to " + missed.size() + " finished");
+                System.out.println(new Date() + " [INFO] Book " + i + " to " + missed.size() + " finished");
                 i++;
                 manager.commitChanges();
-            }
-            finally {
+            } finally {
                 manager.closeManager();
             }
         }
-        System.out.println("Finished");
+        long endTime = System.currentTimeMillis();
+        float minutes = (endTime - startTime) / (float) (1000 * 60);
+        System.out.println("Finished in " + Math.round(minutes) + " minutes.");
     }
 
 

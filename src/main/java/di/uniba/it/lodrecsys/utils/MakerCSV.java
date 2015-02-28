@@ -17,9 +17,9 @@ public class MakerCSV {
     private static List<String> loadalg(String nFeature, String sparsity, String top, String metric, String alg) throws IOException {
         String fileName;
         if (alg.contains("CFSubsetEval"))
-            fileName = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
         else
-            fileName = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
         //        List<String> values = new ArrayList<>(lines.size());
 //        for (String line : lines)
 //            values.add(line.replace(",", "."));
@@ -60,9 +60,9 @@ public class MakerCSV {
         else
             mapped = algorithm;
         mapAlgVal.put(mapped, valueBest);
-        new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/").mkdirs();
+        new File(LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/").mkdirs();
 
-        String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/confBaseline_" + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+        String pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonBestBaseline/confBaseline_" + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
         out.append("Baseline17," + mapped + "\n");
@@ -90,9 +90,9 @@ public class MakerCSV {
 //        nFeatures.add("Subject");
 
 //        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/ComparisonAlg/CSV/"));
-        new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/").mkdirs();
+        new File(LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonFeatures/").mkdirs();
 
-        String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonFeatures/conf_" + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+        String pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonFeatures/conf_" + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
         for (int i = 0; i < nFeatures.size() - 1; i++)
@@ -127,9 +127,9 @@ public class MakerCSV {
 
 
 //        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/ComparisonAlg/CSV/"));
-        new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/").mkdirs();
+        new File(LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonAlg/").mkdirs();
 
-        String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/comparisonAlg/conf_" + nFeature + "Features_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+        String pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonAlg/conf_" + nFeature + "Features_" + sparsity + "_" + top + "Top_" + metric + ".csv";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
         for (int i = 0; i < algorithms.size() - 1; i++)
@@ -182,7 +182,7 @@ public class MakerCSV {
                 base = false;
         else base = false;
 
-        new File("./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/").mkdirs();
+        new File(LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/").mkdirs();
 
         String all = "";
         for (String arg : args) {
@@ -198,7 +198,7 @@ public class MakerCSV {
 
 
         for (int i1 = 0; i1 < MetricsLevel.length; i1++) {
-            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[i1] + all + ".csv";
+            String pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[i1] + all + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
             if (base)
@@ -214,7 +214,7 @@ public class MakerCSV {
 
         for (int sparsity = 0; sparsity < MetricsLevel.length; sparsity++) {
 
-            String pathWriter = "./datasets/ml-100k/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[sparsity] + all + ".csv";
+            String pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/" + metric + "/" + alg + "/MetricsLevel" + MetricsLevel[sparsity] + all + ".csv";
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
             ArrayList<String> baseStrings = baseline.get(MetricsLevel[sparsity]);
@@ -239,7 +239,7 @@ public class MakerCSV {
 
     private static HashMap<Integer, ArrayList<String>> loadtopSum(int top, String alg, String metric, String all) throws IOException {
         HashMap<Integer, ArrayList<String>> map = new HashMap<>(5);
-        String pathReader = "./datasets/ml-100k/results/UserItemExpDBPedia/" + alg + TOP[top] + "prop" + "5split/summaries/" + metric + "Sum" + all;
+        String pathReader = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + TOP[top] + "prop" + "5split/summaries/" + metric + "Sum" + all;
         BufferedReader brFsum = new BufferedReader(new FileReader(pathReader));
         String line;
         int sparsityfile = 0;

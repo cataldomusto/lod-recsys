@@ -24,8 +24,8 @@ public class PageRank extends FS {
 
     public void run() throws IOException {
         savefileLog(new Date() + " [INFO] Feature Selection with PageRank inizialized.");
-        new File(LoadProperties.MAPPINGPATH+"/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream(LoadProperties.MAPPINGPATH+"/FS/PageRank");
+        new File(LoadProperties.MAPPINGPATH + "/FS").mkdirs();
+        FileOutputStream fout = new FileOutputStream(LoadProperties.MAPPINGPATH + "/FS/PageRank");
         PrintWriter out = new PrintWriter(fout);
 
         // Compute PageRank

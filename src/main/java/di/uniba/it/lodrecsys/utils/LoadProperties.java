@@ -74,7 +74,6 @@ public class LoadProperties {
                 "ChiSquaredAttributeEval",
                 "InfoGainAttributeEval",
                 "GainRatioAttributeEval",
-                "LatentSemanticAnalysis",
                 "PCA",
                 "ReliefFAttributeEval",
                 "SVMAttributeEval"

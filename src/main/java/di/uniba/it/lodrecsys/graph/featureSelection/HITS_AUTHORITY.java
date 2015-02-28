@@ -24,8 +24,8 @@ public class HITS_AUTHORITY extends FS {
 
     public void run() throws IOException {
         savefileLog(new Date() + " [INFO] Feature Selection with HITS score: authority inizialized.");
-        new File(LoadProperties.MAPPINGPATH+"/FS").mkdirs();
-        FileOutputStream fout = new FileOutputStream(LoadProperties.MAPPINGPATH+"/FS/HITS_AUTHORITY");
+        new File(LoadProperties.MAPPINGPATH + "/FS").mkdirs();
+        FileOutputStream fout = new FileOutputStream(LoadProperties.MAPPINGPATH + "/FS/HITS_AUTHORITY");
         PrintWriter out = new PrintWriter(fout);
 
         // Compute HITS

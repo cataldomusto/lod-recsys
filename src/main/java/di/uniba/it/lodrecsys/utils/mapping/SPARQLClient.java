@@ -195,37 +195,41 @@ public class SPARQLClient {
                         " values " + proprVariable + "{" + formatPropertiesList(specificProp, true) + "} \n" +
                         "}";
 //        currLogger.info(queryProp);
-        Query query = QueryFactory.create(queryProp);
+        try {
+            Query query = QueryFactory.create(queryProp);
 
-        QueryExecution qexec = null;
-        boolean doneIt = false;
+            QueryExecution qexec = null;
+            boolean doneIt = false;
 
-        while (!doneIt) {
-            try {
-                qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
-                ResultSet resultSet = qexec.execSelect();
+            while (!doneIt) {
+                try {
+                    qexec = QueryExecutionFactory.sparqlService(dbpediaEndpoint, query);
+                    ResultSet resultSet = qexec.execSelect();
 //                currLogger.info("Executed query!");
-                QuerySolution currSolution;
+                    QuerySolution currSolution;
 
-                while (resultSet.hasNext()) {
-                    currSolution = resultSet.nextSolution();
-                    propManager.addSolution(currSolution, resourceURI);
-                }
+                    while (resultSet.hasNext()) {
+                        currSolution = resultSet.nextSolution();
+                        propManager.addSolution(currSolution, resourceURI);
+                    }
 
-                myWait(5);
-                doneIt = true;
-            } catch (Exception ex) {
+                    myWait(5);
+                    doneIt = true;
+                } catch (Exception ex) {
 
-                doneIt = false;
+                    doneIt = false;
 //                currLogger.fine("Try again...");
-                myWait(10);
-            } finally {
+                    myWait(10);
+                } finally {
 
-                if (qexec != null)
-                    qexec.close();
+                    if (qexec != null)
+                        qexec.close();
 
-                // writer.close();
+                    // writer.close();
+                }
             }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getCanonicalName() + " : " + resourceURI);
         }
     }
 

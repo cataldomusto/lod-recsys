@@ -2,16 +2,16 @@
 
 import modSperim
 
-allalg=["CFSubsetEval","PageRank","MRMR"]
-allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
-topN=["10","17","30","50"]
+#allalg=["CFSubsetEval","PageRank","MRMR"]
+#allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
+#topN=["10","17","30","50"]
 metrics=["F1","Novelty","Diversity"]
 #givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 param=3
-#allalg=["CFSubsetEval"]
-#allalgWEKA=[] 
-#topN=["17"]
+allalg=["PageRank"]
+allalgWEKA=[] 
+topN=["10","30","50"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 #metrics=["F1"]
 

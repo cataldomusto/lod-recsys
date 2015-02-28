@@ -8,7 +8,7 @@ import java.util.Date;
 import static di.uniba.it.lodrecsys.graph.RecommenderSys.*;
 
 /**
- * Created by simo on 06/01/15.
+ * Created by Simone Rutigliano on 06/01/15.
  */
 public class GraphRecRun {
 
@@ -29,7 +29,7 @@ public class GraphRecRun {
             fileProp += args[3];
         }
 
-        LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH+"/choosen_prop/choosen_prop" + fileProp;
+        LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + fileProp;
 
         if (!new File(LoadProperties.CHOOSENPROP).exists())
             GraphFactory.subsetProp();
@@ -72,8 +72,8 @@ public class GraphRecRun {
         }
         System.out.println(new Date() + "[INFO] Recommendation " + level + " Completed.");
         long endTime = System.currentTimeMillis();
-        float minutes = (endTime - startTime) / (float)(1000 * 60);
-        savefileLog("[INFO] Recommendation " + level + " Completed in " + Math.round(minutes));
+        float minutes = (endTime - startTime) / (float) (1000 * 60);
+        savefileLog("[INFO] Recommendation " + level + " completed in " + Math.round(minutes) + " minutes.");
     }
 
     public static void cleanfileLog() {

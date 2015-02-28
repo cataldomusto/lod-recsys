@@ -35,13 +35,13 @@ public class EvaluateRecommendation {
         String dir;
         switch (LoadProperties.FILTERTYPE) {
             case "RankerWeka":
-                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
                 break;
             case "CFSubsetEval":
-                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
                 break;
             default:
-                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
                 break;
         }
         List<String> lines = null;
@@ -56,7 +56,7 @@ public class EvaluateRecommendation {
 
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream("./serialized/graphComplete.bin");
+            fis = new FileInputStream(LoadProperties.DATASETPATH + "/serialized/graphComplete.bin");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -899,7 +899,7 @@ public class EvaluateRecommendation {
 
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream("./serialized/graphComplete.bin");
+            fis = new FileInputStream(LoadProperties.DATASETPATH + "/serialized/graphComplete.bin");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -921,13 +921,13 @@ public class EvaluateRecommendation {
         String dir;
         switch (LoadProperties.FILTERTYPE) {
             case "RankerWeka":
-                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
                 break;
             case "CFSubsetEval":
-                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
                 break;
             default:
-                dir = "./mapping/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
                 break;
         }
         List<String> lines = null;
