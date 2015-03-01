@@ -2,6 +2,7 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.graph.VertexScored;
+import di.uniba.it.lodrecsys.utils.CmdExecutor;
 import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import weka.attributeSelection.*;
@@ -109,6 +110,10 @@ public class RankerWeka extends FS {
         out.close();
         fout.close();
 
+        if (evalName.equals("SVMAttributeEval")) {
+            CmdExecutor.executeCommand("mv " + LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName + " " + LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName + "1", true);
+            CmdExecutor.executeCommandAndPrint("cat " + LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName + "1 | sort -g",LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName);
+        }
 
 //        // obtain the attribute indices that were selected
 //        int[] indices = new int[0];
