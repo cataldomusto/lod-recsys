@@ -7,7 +7,7 @@ import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics):
+def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split):
     for alg in allalgWEKA:
         for top in topN:
     #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun RankerWeka 11 LatentSemanticAnalysis"
@@ -15,7 +15,7 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
             cmdLOG = "java -cp GraphFSRun RankerWeka "+top+" "+ alg
             cmdExecFS.append(cmd)
             cmdExecLOGFS.append(cmdLOG)
-            extractVal.append("RankerWeka"+alg+top+"prop5split")
+            extractVal.append("RankerWeka"+alg+top+"prop"+split+"split")
     #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
 
             for given in givenN:
@@ -41,7 +41,7 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
             cmdLOG = "java -cp GraphFSRun "+ alg
             cmdExecFS.append(cmd)
             cmdExecLOGFS.append(cmdLOG)
-            extractVal.append(alg+"5split")
+            extractVal.append(alg+"1split")
             for given in givenN:
         #               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &"
                 cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" "+ alg+" &"
@@ -65,7 +65,7 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdLOG = "java -cp GraphFSRun "+ alg+" "+top
                 cmdExecFS.append(cmd)
                 cmdExecLOGFS.append(cmdLOG)
-                extractVal.append(alg+top+"prop5split")
+                extractVal.append(alg+top+"prop"+split+"split")
         #        print time.strftime("%Y-%m-%d %H:%M") + " "+cmdLOG +"\n"
 
                 for given in givenN:

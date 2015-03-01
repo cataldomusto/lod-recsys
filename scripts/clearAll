@@ -8,11 +8,11 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 
 given=["5","10","20","30","50","all"]
-for alg in os.listdir("./datasets/ml-100k/results/UserItemExpDBPedia"):
+for alg in os.listdir("./datasets/books-8k/results/UserItemExpDBPedia"):
     for give in given: 
-        cmd ="rm -r -f ./datasets/ml-100k/results/UserItemExpDBPedia/"+alg+"/given_"+give+"/top_*"
+        cmd ="rm -r -f ./datasets/books-8k/results/UserItemExpDBPedia/"+alg+"/given_"+give+"/top_*"
         subprocess.call(cmd, shell=True)
-        cmd ="rm -r -f ./datasets/ml-100k/results/UserItemExpDBPedia/"+alg+"/summaries"
+        cmd ="rm -r -f ./datasets/books-8k/results/UserItemExpDBPedia/"+alg+"/summaries"
         subprocess.call(cmd, shell=True)
-    cmd ="rm -r -f ./datasets/ml-100k/results/UserItemExpDBPedia/CSV"
+    cmd ="rm -r -f ./datasets/books-8k/results/UserItemExpDBPedia/CSV"
     subprocess.call(cmd, shell=True)

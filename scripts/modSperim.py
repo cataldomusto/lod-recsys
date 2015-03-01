@@ -13,7 +13,7 @@ import creatorSummaries
 import creatorCSV
 import StatisticalTest
 
-def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmdThreadEval, metrics, best, topBest, dire, givenCSV, valMetricsCSV):
+def sperimRunner(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmdThreadEval, metrics, split, best, topBest, dire, givenCSV, valMetricsCSV):
     
     cmdExecFS=[]
     cmdExecLOGFS=[]
@@ -26,27 +26,26 @@ def sperim(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmd
 
     extractVal=[]
     
-    init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics)
+    init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split)
     
 #    feature process
-    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
+#    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
 
 #    recommendation Process
     parallelProcess.parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
     
 #    evaluation Process
-    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
+#    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
-    creatorSummaries.createSummaries(extractVal, metrics, dire)
+#    creatorSummaries.createSummaries(extractVal, metrics, dire)
     
 #    creatorCSV.createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire, givenCSV, valMetricsCSV)
 #    creatorCSV.createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA, dire, givenCSV, valMetricsCSV)
 #    creatorCSV.createCSVcomparisonBestBaseline(metrics, best, topBest, dire, givenCSV, valMetricsCSV)
 
-#    StatisticalTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics, dire)
-#    StatisticalTest.FriedmanTestcomparisonFeatures(topN, metrics, dire)
+#    StatisticalTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics, dire)    StatisticalTest.FriedmanTestcomparisonFeatures(topN, metrics, dire)
     
-#    StatisticalTest.ComparisonBestBaseline(metrics, best, topBest, dire)
+#    StatisticalTest.ComparisonBestBaseline(metrics, best, topBest,
 
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 

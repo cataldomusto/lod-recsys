@@ -1,8 +1,8 @@
 sperimentation:
-	./scripts/sperim
+	./scripts/sperimRunner
 
 serverSperimentation:
-	nohup ./scripts/sperim &
+	nohup ./scripts/sperimRunner &
 
 cleanAll:
 	./scripts/clearAll
