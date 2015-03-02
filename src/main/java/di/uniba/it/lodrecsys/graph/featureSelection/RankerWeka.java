@@ -113,6 +113,7 @@ public class RankerWeka extends FS {
         if (evalName.equals("SVMAttributeEval")) {
             CmdExecutor.executeCommand("mv " + LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName + " " + LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName + "1", true);
             CmdExecutor.executeCommandAndPrint("cat " + LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName + "1 | sort -g",LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName);
+            CmdExecutor.executeCommand("rm " + LoadProperties.MAPPINGPATH + "/FS/RankerWeka" + evalName + "1", true);
         }
 
 //        // obtain the attribute indices that were selected

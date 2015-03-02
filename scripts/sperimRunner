@@ -9,21 +9,21 @@ allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval
 metrics=["F1","Novelty","Diversity"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
-param=8
+param=2
 #allalg=["PageRank"]
 #allalgWEKA=[] 
 topN=["10","30","50"]
 #givenN=["given_5"]
 #metrics=["F1"]
-nSplit="1"
+nSplit="5"
 
 givenCSV=["given_5","given_20","given_all"]
 valMetricsCSV=["5","10","20"]
 best="PageRank"
 topBest="50"
 
-dire="./datasets/books-8k/results/UserItemExpDBPedia/"
-dirProp="./datasets/books-8k/stored_prop/"
+dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+dirProp="./datasets/ml-100k/stored_prop/"
 
 cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
