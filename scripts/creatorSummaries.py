@@ -30,9 +30,9 @@ def createSummaries(extractVal, metrics, dire):
                     valor=["5","10","15","20"]
                 for elem in valor:
                     extractResult(metric,elem,dire,alg)
-                cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+metric+"Sum"
+                cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+alg+"."+metric+"Sum"
                 subprocess.call(cmd, shell=True)
-                cmd ="sed -i 's/\\./,/' "+dire+alg+"/summaries/"+metric+"Sum"
+                cmd ="sed -i 's/\\./,/' "+dire+alg+"/summaries/"+alg+"."+metric+"Sum"
                 subprocess.call(cmd, shell=True)
                 cmd ="rm "+dire+alg+"/summaries/"+metric+"Temp"
                 subprocess.call(cmd, shell=True)

@@ -41,7 +41,7 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
             cmdLOG = "java -cp GraphFSRun "+ alg
             cmdExecFS.append(cmd)
             cmdExecLOGFS.append(cmdLOG)
-            extractVal.append(alg+"1split")
+            extractVal.append(alg+split+"split")
             for given in givenN:
         #               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given_5 CFSubsetEval &"
                 cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun "+given+" "+ alg+" &"
