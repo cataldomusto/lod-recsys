@@ -70,9 +70,9 @@ public class MakerStatisticalTest {
                         "        cat(paste(\"Second algorithm: \",names(mydata)[2],\": \", means[2],\"\\n\"))\n" +
                         "        cat(paste(\"The best algorithm is \",names(mydata)[maxMeans],\"\\n\\n\"))\n" +
                         "        #cat(paste(\"Max mean algorithm is \",names(mydata)[maxMeans],\": \", means[maxMeans],\"\\n\\n\"))\n" +
-                        "        cat(paste(compair$method,\"significative \\n\"))\n" +
+                        "        cat(paste(compair$method,\"significant \\n\"))\n" +
                         "    } else \n" +
-                        "        cat(paste(compair$method,\"not significative \\n\"))\n" +
+                        "        cat(paste(compair$method,\"not significant \\n\"))\n" +
                         "    detach(mydata)\n" +
                         "}");
         out.close();
@@ -121,7 +121,7 @@ public class MakerStatisticalTest {
                 "        }\n" +
                 "\n" +
                 "    } else\n" +
-                "    print (\"Not significative\")\n" +
+                "    print (\"Not significant\")\n" +
                 "\n" +
                 "    detach(mydata)}");
         out.close();
@@ -157,7 +157,7 @@ public class MakerStatisticalTest {
 //        }
 //
 //    } else
-//    print ("Not significative")
+//    print ("Not significant")
 //
 //    detach(mydata)
 
