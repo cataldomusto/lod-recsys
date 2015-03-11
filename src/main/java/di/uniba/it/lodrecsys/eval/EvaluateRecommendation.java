@@ -1012,11 +1012,8 @@ public class EvaluateRecommendation {
         String[] measures = new String[]{"P.5", "P.10", "P.15", "P.20", "P.30", "P.50", "recall.5", "recall.10", "recall.15", "recall.20", "recall.30", "recall.50"};
 
         for (String measure : measures) {
-            String resTemp = trecResultFile + "Temp";
             String trecEvalCommand = PATHTREC + "trec_eval -q -m " + measure + " " + goldStandardFile + " " + resultFile;
-            CmdExecutor.executeCommandAndPrint(trecEvalCommand, resTemp);
-            CmdExecutor.executeCommand("cat " + resTemp + " >> " + trecResultFile, false);
-            new File(resTemp).delete();
+            CmdExecutor.executeCommand(trecEvalCommand + " >> " + trecResultFile, false);
         }
     }
 

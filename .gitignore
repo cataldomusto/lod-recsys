@@ -11,7 +11,8 @@ dataset/**
 mapping/**
 ./idea
 *.jar
-datasets/ml-100k/results/UserItemExpDBPedia/**
+datasets/*/results/UserItemExpDBPedia/**
 /scripts/*.pyc
 datasets/books-8k/stored_prop/*
 datasets/ml-100k/stored_prop/*
+datasets/*/serialized/*
