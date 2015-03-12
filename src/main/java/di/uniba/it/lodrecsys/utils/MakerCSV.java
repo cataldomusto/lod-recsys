@@ -17,9 +17,9 @@ public class MakerCSV {
     private static List<String> loadalg(String nFeature, String sparsity, String top, String metric, String alg) throws IOException {
         String fileName;
         if (alg.contains("CFSubsetEval"))
-            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + "1split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
         else
-            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "5split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "1split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
         //        List<String> values = new ArrayList<>(lines.size());
 //        for (String line : lines)
 //            values.add(line.replace(",", "."));
@@ -101,10 +101,14 @@ public class MakerCSV {
 
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < nFeatures.size() - 1; j++) {
-                out.append(mapAlgVal.get(nFeatures.get(j)).get(i));
+                if (mapAlgVal.get(nFeatures.get(j)).size() > i) {
+                    out.append(mapAlgVal.get(nFeatures.get(j)).get(i));
+                }
                 out.append(",");
             }
-            out.append(mapAlgVal.get(nFeatures.get(nFeatures.size() - 1)).get(i)).append("\n");
+            if (mapAlgVal.get(nFeatures.get(nFeatures.size() - 1)).size() > i) {
+                out.append(mapAlgVal.get(nFeatures.get(nFeatures.size() - 1)).get(i)).append("\n");
+            }
         }
         out.close();
 //        System.out.println("Finished config: " + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv");
@@ -138,10 +142,14 @@ public class MakerCSV {
 
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < algorithms.size() - 1; j++) {
-                out.append(mapAlgVal.get(algorithms.get(j)).get(i));
+                if (mapAlgVal.get(algorithms.get(j)).size() > i) {
+                    out.append(mapAlgVal.get(algorithms.get(j)).get(i));
+                }
                 out.append(",");
             }
-            out.append(mapAlgVal.get(algorithms.get(algorithms.size() - 1)).get(i)).append("\n");
+            if (mapAlgVal.get(algorithms.get(algorithms.size() - 1)).size() > i) {
+                out.append(mapAlgVal.get(algorithms.get(algorithms.size() - 1)).get(i)).append("\n");
+            }
         }
         out.close();
 //        System.out.println("Finished config: " + nFeature + "Features_" + sparsity + "_" + top + "Top_" + metric + ".csv");
@@ -239,7 +247,7 @@ public class MakerCSV {
 
     private static HashMap<Integer, ArrayList<String>> loadtopSum(int top, String alg, String metric, String all) throws IOException {
         HashMap<Integer, ArrayList<String>> map = new HashMap<>(5);
-        String pathReader = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + TOP[top] + "prop" + "5split/summaries/" + metric + "Sum" + all;
+        String pathReader = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + TOP[top] + "prop" + "1split/summaries/" + metric + "Sum" + all;
         BufferedReader brFsum = new BufferedReader(new FileReader(pathReader));
         String line;
         int sparsityfile = 0;

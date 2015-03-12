@@ -8,7 +8,7 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 
 
-def ComparisonBestBaseline(metrics, best, topBest, direHome):
+def ComparisonBestBaseline(metrics, best, topBest, direHome, nsplit):
     cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.MakerStatisticalTest comparisonBestBaseline "+ best + " " + topBest
     subprocess.call(cmd, shell=True)    
     dire = direHome + "CSV/comparisonBestBaseline/"

@@ -97,6 +97,11 @@ public class MakerStatisticalTest {
             out.append(comparison.get(i)).append(",");
         out.append(comparison.get(comparison.size() - 1)).append(")").append("\n");
         out.append("print(friedman.test(factor))\n");
+        out.append("if (is.nan(friedman.test(factor)$p.value)){\n" +
+                    "   cat(paste(\"P-value: 1\",\"\\n\\n\")) \n" +
+                    "   print (\"Not significant\")\n" +
+                    "} \n" +
+                    "else {\n");
         out.append("cat(paste(\"P-value: \",friedman.test(factor)$p.value,\"\\n\\n\"))\n");
         out.append(" if (friedman.test(factor)$p.value < 0.05){\n" +
                 "        means <- apply(mydata, 2, mean) # means factors\n" +
@@ -123,6 +128,7 @@ public class MakerStatisticalTest {
                 "    } else\n" +
                 "    print (\"Not significant\")\n" +
                 "\n" +
+                "}\n" +
                 "    detach(mydata)}");
         out.close();
     }
