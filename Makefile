@@ -17,9 +17,9 @@ storedProp:
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.mapping.PropertiesGenerator
 
 copyAllSummaries $D:
-	cp ./datasets/ml-100k/results/UserItemExpDBPedia/*/summaries/*.F1Sum $D
-	cp ./datasets/ml-100k/results/UserItemExpDBPedia/*/summaries/*.DiversitySum $D
-	cp ./datasets/ml-100k/results/UserItemExpDBPedia/*/summaries/*.NoveltySum $D
+	cp ./datasets/books-8k/results/UserItemExpDBPedia/*/summaries/*.F1Sum $D
+	cp ./datasets/books-8k/results/UserItemExpDBPedia/*/summaries/*.DiversitySum $D
+	cp ./datasets/books-8k/results/UserItemExpDBPedia/*/summaries/*.NoveltySum $D
 
 feature:
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval
