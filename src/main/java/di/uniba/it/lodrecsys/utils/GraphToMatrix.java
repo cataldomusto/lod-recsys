@@ -16,7 +16,7 @@ import java.util.Set;
 import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
- * Created by simo on 25/12/14.
+ * Created by Simone Rutigliano on 25/12/14.
  */
 public class GraphToMatrix {
 

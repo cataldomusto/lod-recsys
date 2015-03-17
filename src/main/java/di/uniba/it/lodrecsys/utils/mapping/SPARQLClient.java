@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 /**
  * A utility class used to retrieve information from the
  * DBpedia endpoint
+ *
+ * Created by Simone Rutigliano
  */
 public class SPARQLClient {
     private static final String PREDICATE_WIKIPAGE = "<http://xmlns.com/foaf/0.1/isPrimaryTopicOf>";

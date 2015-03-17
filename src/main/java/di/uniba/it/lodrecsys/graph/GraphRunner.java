@@ -13,6 +13,8 @@ import static di.uniba.it.lodrecsys.graph.RecommenderSys.*;
 /**
  * Starts all the graph-based experiments and evaluate them
  * according to the trec_eval program.
+ *
+ * Created by Simone Rutigliano
  */
 public class GraphRunner {
 

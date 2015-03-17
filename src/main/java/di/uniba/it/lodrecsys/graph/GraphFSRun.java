@@ -11,7 +11,7 @@ import static di.uniba.it.lodrecsys.graph.RecommenderSys.featureSelection;
 import static di.uniba.it.lodrecsys.graph.RecommenderSys.loadValue;
 
 /**
- * Created by simo on 06/01/15.
+ * Created by Simone Rutigliano on 06/01/15.
  */
 
 //java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun MRMR 30

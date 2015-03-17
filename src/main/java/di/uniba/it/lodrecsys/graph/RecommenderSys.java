@@ -16,7 +16,7 @@ import static di.uniba.it.lodrecsys.eval.EvaluateRecommendation.mapFilmCount;
 import static di.uniba.it.lodrecsys.graph.GraphRecRun.cleanfileLog;
 
 /**
- * Created by simo on 31/12/14.
+ * Created by Simone Rutigliano on 31/12/14.
  */
 public class RecommenderSys implements Serializable {
 

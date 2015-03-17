@@ -3,7 +3,7 @@ package di.uniba.it.lodrecsys.graph;
 import java.io.Serializable;
 
 /**
- * Created by simo on 22/12/14.
+ * Created by Simone Rutigliano on 22/12/14.
  */
 public class Edge implements Serializable {
     private String property;

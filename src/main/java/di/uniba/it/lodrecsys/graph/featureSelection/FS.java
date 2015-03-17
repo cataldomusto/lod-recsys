@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
- * Created by simo on 24/12/14.
+ * Created by Simone Rutigliano on 24/12/14.
  */
 public abstract class FS implements Serializable {
     protected static Logger currLogger = Logger.getLogger(RecGraph.class.getName());

@@ -19,6 +19,8 @@ import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 /**
  * Class which represents the user-item-lod
  * configuration
+ *
+ * Created by Simone Rutigliano
  */
 public class UserItemExpDBPedia extends RecGraph implements Serializable {
     private ArrayListMultimap<String, Set<String>> trainingPosNeg;

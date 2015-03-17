@@ -1,7 +1,7 @@
 package di.uniba.it.lodrecsys.graph;
 
 /**
- * Created by simo on 23/12/14.
+ * Created by Simone Rutigliano on 23/12/14.
  */
 public class VertexScored implements Comparable<VertexScored> {
     private String property;

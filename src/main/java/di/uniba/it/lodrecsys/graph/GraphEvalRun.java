@@ -8,7 +8,7 @@ import java.util.Date;
 import static di.uniba.it.lodrecsys.graph.RecommenderSys.evaluator;
 
 /**
- * Created by simo on 06/01/15.
+ * Created by Simone Rutigliano on 06/01/15.
  */
 
 //java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun given MRMR 30

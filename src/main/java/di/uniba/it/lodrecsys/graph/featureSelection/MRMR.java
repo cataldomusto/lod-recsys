@@ -15,7 +15,7 @@ import java.util.List;
 import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
 /**
- * Created by simo on 24/12/14.
+ * Created by Simone Rutigliano on 24/12/14.
  */
 public class MRMR extends FS {
 
