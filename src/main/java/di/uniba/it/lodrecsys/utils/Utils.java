@@ -491,7 +491,6 @@ public class Utils {
     public static ArrayListMultimap<String, Set<String>> loadPosNegRatingForEachUser(String ratingFile) throws IOException {
         ArrayListMultimap<String, Set<String>> ratingsMap = ArrayListMultimap.create();
         Set<String> posRatingSet, negRatingSet;
-
         BufferedReader reader = null;
 
         try {

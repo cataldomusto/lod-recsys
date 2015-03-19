@@ -40,7 +40,8 @@ public class GraphFSRun {
 
         loadValue();
 
-        for (SparsityLevel level : SparsityLevel.values()) {
+        String level = SparsityLevel.ALL.toString();
+//        for (SparsityLevel level : SparsityLevel.values()) {
             for (int numSplit = 1; numSplit <= LoadProperties.NUMSPLIT; numSplit++) {
 
                 String trainFile = LoadProperties.TRAINPATH + File.separator +
@@ -56,7 +57,7 @@ public class GraphFSRun {
                     e.printStackTrace();
                 }
             }
-        }
+//        }
         System.out.println(new Date() + "[INFO] Feature Completed.");
     }
 }

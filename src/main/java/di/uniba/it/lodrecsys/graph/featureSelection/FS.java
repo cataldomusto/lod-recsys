@@ -6,6 +6,7 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.entity.RequestStruct;
 import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.graph.RecGraph;
+import di.uniba.it.lodrecsys.utils.CmdExecutor;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
@@ -97,43 +98,11 @@ public abstract class FS implements Serializable {
             allItemsID.addAll(items);
         }
 
-//        HashSet<String> items = new HashSet<>();
         for (String userID : trainingPosNeg.keySet()) {
             allItemsID.addAll(trainingPosNeg.get(userID).get(0));
         }
 
-//        // Extract rating for all users
-//        for (String userID : trainingPosNeg.keySet()) {
-////            System.out.println(userID + " Positive: " + trainingPosNeg.get(userID).get(0).size() +
-////                            " Negative:  " + trainingPosNeg.get(userID).get(1).size() +
-////                            " TOT: " + (trainingPosNeg.get(userID).get(0).size() +
-////                            trainingPosNeg.get(userID).get(1).size())
-////            );
-//
-//            for (String s : trainingPosNeg.get(userID).get(0))
-//                items.add(s);
-//
-//            for (String s : trainingPosNeg.get(userID).get(1))
-//                items.add(s);
-//        }
-//
-//
-//        // Extract rating for all items
-//        for (String item : items) {
-//            int pos = 0;
-//            int neg = 0;
-//            for (String userID : trainingPosNeg.keySet()) {
-//                if (trainingPosNeg.get(userID).get(0).contains(item))
-//                    pos++;
-//                if (trainingPosNeg.get(userID).get(1).contains(item))
-//                    neg++;
-//            }
-//            System.out.println(item + " Positive: " + pos +
-//                            " Negative:  " + neg +
-//                            " TOT: " + (pos + neg)
-//            );
-//        }
-//        System.exit(3);
+        extractRating(trainingFileName);
 
         for (String itemID : allItemsID) {
             String resourceURI = idUriMap.get(itemID);
@@ -164,6 +133,82 @@ public abstract class FS implements Serializable {
         out.println("}");
         out.close();
         fout.close();
+    }
+
+    private void extractRating(String trainingFileName) {
+        if (trainingFileName.contains("given_all")) {
+            new File(LoadProperties.DATASETPATH + "/serialized/").mkdirs();
+            FileOutputStream foutUser = null;
+            try {
+                foutUser = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/rates4usersTEMP");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            PrintWriter outUser = new PrintWriter(foutUser);
+
+            FileOutputStream foutItem = null;
+            try {
+                foutItem = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/rates4itemsTEMP");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            PrintWriter outItem = new PrintWriter(foutItem);
+
+
+            HashSet<String> items = new HashSet<>();
+            trainingPosNeg.removeAll("DBbook_userID");
+            int tot = 0;
+//        // Extract rating for all users
+            for (String userID : trainingPosNeg.keySet()) {
+                outUser.println(userID + " Positive: " + trainingPosNeg.get(userID).get(0).size() +
+                                " Negative:  " + trainingPosNeg.get(userID).get(1).size() +
+                                " TOT: " + (trainingPosNeg.get(userID).get(0).size() +
+                                trainingPosNeg.get(userID).get(1).size())
+                );
+
+                tot += (trainingPosNeg.get(userID).get(0).size() + trainingPosNeg.get(userID).get(1).size());
+
+                for (String s : trainingPosNeg.get(userID).get(0))
+                    items.add(s);
+
+                for (String s : trainingPosNeg.get(userID).get(1))
+                    items.add(s);
+            }
+
+            outUser.println("USER : " + trainingPosNeg.keySet().size() + " TOT: " + tot);
+
+            // Extract rating for all items
+            tot = 0;
+            for (String item : items) {
+                int pos = 0;
+                int neg = 0;
+                for (String userID : trainingPosNeg.keySet()) {
+                    if (trainingPosNeg.get(userID).get(0).contains(item))
+                        pos++;
+                    if (trainingPosNeg.get(userID).get(1).contains(item))
+                        neg++;
+                }
+                outItem.println(item + " Positive: " + pos +
+                                " Negative:  " + neg +
+                                " TOT: " + (pos + neg)
+                );
+                tot += pos + neg;
+            }
+            outItem.println("ITEMS: " + items.size() + " TOT: " + tot);
+            outItem.close();
+            outUser.close();
+            try {
+                foutItem.close();
+                foutUser.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        CmdExecutor.executeCommand("sort -g " + LoadProperties.DATASETPATH + "/serialized/rates4usersTEMP > " + LoadProperties.DATASETPATH + "/serialized/rates4users", false);
+        CmdExecutor.executeCommand("rm " + LoadProperties.DATASETPATH + "/serialized/rates4usersTEMP", false);
+        CmdExecutor.executeCommand("sort -g " + LoadProperties.DATASETPATH + "/serialized/rates4itemsTEMP > " + LoadProperties.DATASETPATH + "/serialized/rates4items", false);
+        CmdExecutor.executeCommand("rm " + LoadProperties.DATASETPATH + "/serialized/rates4itemsTEMP", false);
+        System.exit(3);
     }
 
     private void addItemProperties(PropertiesManager propManager, String resourceURI) {
