@@ -145,7 +145,7 @@ public class RecommenderSys implements Serializable {
             serRec.delete();
     }
 
-    public static void evaluator(String level, boolean novelty, boolean diversity, boolean serendipity) {
+    public static void evaluator(String level, boolean novelty, boolean diversity, boolean serendipity, boolean extract) {
         String dir;
         switch (LoadProperties.FILTERTYPE) {
             case "RankerWeka":
@@ -170,6 +170,13 @@ public class RecommenderSys implements Serializable {
         }
         try {
             loadRec(level);
+
+            // Extract measure
+            if (extract){
+                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                    EvaluateRecommendation.extractRatingRec(recommendationForSplits.get(i - 1));
+                }
+            }
 
             // Diversity measure
             ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;

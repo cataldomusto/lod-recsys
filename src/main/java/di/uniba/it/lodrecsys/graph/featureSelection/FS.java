@@ -97,10 +97,43 @@ public abstract class FS implements Serializable {
             allItemsID.addAll(items);
         }
 
+//        HashSet<String> items = new HashSet<>();
         for (String userID : trainingPosNeg.keySet()) {
             allItemsID.addAll(trainingPosNeg.get(userID).get(0));
-
         }
+
+//        // Extract rating for all users
+//        for (String userID : trainingPosNeg.keySet()) {
+////            System.out.println(userID + " Positive: " + trainingPosNeg.get(userID).get(0).size() +
+////                            " Negative:  " + trainingPosNeg.get(userID).get(1).size() +
+////                            " TOT: " + (trainingPosNeg.get(userID).get(0).size() +
+////                            trainingPosNeg.get(userID).get(1).size())
+////            );
+//
+//            for (String s : trainingPosNeg.get(userID).get(0))
+//                items.add(s);
+//
+//            for (String s : trainingPosNeg.get(userID).get(1))
+//                items.add(s);
+//        }
+//
+//
+//        // Extract rating for all items
+//        for (String item : items) {
+//            int pos = 0;
+//            int neg = 0;
+//            for (String userID : trainingPosNeg.keySet()) {
+//                if (trainingPosNeg.get(userID).get(0).contains(item))
+//                    pos++;
+//                if (trainingPosNeg.get(userID).get(1).contains(item))
+//                    neg++;
+//            }
+//            System.out.println(item + " Positive: " + pos +
+//                            " Negative:  " + neg +
+//                            " TOT: " + (pos + neg)
+//            );
+//        }
+//        System.exit(3);
 
         for (String itemID : allItemsID) {
             String resourceURI = idUriMap.get(itemID);

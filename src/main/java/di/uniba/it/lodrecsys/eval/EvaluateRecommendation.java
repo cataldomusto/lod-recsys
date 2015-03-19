@@ -31,6 +31,21 @@ public class EvaluateRecommendation {
 
     private static Logger logger = Logger.getLogger(EvaluateRecommendation.class.getName());
 
+    public static void extractRatingRec(Map<String, Set<Rating>> recommendationList) {
+        for (String s : recommendationList.keySet()) {
+            int sum = 0;
+            int max = 0;
+            for (Rating rating : recommendationList.get(s)) {
+                int ratingVal = Integer.parseInt(rating.getRating());
+                sum += ratingVal;
+                if (max < ratingVal)
+                    max = ratingVal;
+            }
+            double avg = sum / recommendationList.get(s).size();
+            System.out.println("USER: "+s + "  RATING MAX: "+max+" RATING AVG:"+avg+ " SUM: " + recommendationList.get(s).size());
+        }
+    }
+
     private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
         String dir;
         switch (LoadProperties.FILTERTYPE) {

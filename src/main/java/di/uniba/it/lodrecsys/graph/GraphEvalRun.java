@@ -39,6 +39,7 @@ public class GraphEvalRun {
         boolean novelty = false;
         boolean diversity = false;
         boolean serendipity = false;
+        boolean extract = false;
 
         for (String arg : args) {
             String par = arg.toLowerCase();
@@ -48,9 +49,11 @@ public class GraphEvalRun {
                 diversity = true;
             if (par.contains("serendipity"))
                 serendipity = true;
+            if (par.contains("extract"))
+                extract = true;
         }
 
-        evaluator(level, novelty, diversity, serendipity);
+        evaluator(level, novelty, diversity, serendipity, extract);
 
         System.out.print(new Date() + "[INFO] Completed evaluation ");
         for (String arg : args) {
