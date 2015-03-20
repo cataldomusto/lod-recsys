@@ -11,6 +11,9 @@ import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 import di.uniba.it.lodrecsys.utils.mapping.PropertiesManager;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
 import java.util.*;
@@ -102,7 +105,11 @@ public abstract class FS implements Serializable {
             allItemsID.addAll(trainingPosNeg.get(userID).get(0));
         }
 
-        extractRating(trainingFileName);
+//        countPropfromCSV(LoadProperties.DATASETPATH + "/serialized/ranking.csv", 10);
+//        countPropfromCSV(LoadProperties.DATASETPATH + "/serialized/ranking.csv", 30);
+//        countPropfromCSV(LoadProperties.DATASETPATH + "/serialized/ranking.csv", 50);
+//        extractRatingCSV(trainingFileName);
+//        System.exit(2);
 
         for (String itemID : allItemsID) {
             String resourceURI = idUriMap.get(itemID);
@@ -134,6 +141,79 @@ public abstract class FS implements Serializable {
         out.close();
         fout.close();
     }
+
+    private void extractRatingCSV(String trainingFileName) {
+        if (trainingFileName.contains("given_all")) {
+            new File(LoadProperties.DATASETPATH + "/serialized/").mkdirs();
+            FileOutputStream foutUser = null;
+            try {
+                foutUser = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/rates4users.tmp.csv");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            PrintWriter outUser = new PrintWriter(foutUser);
+
+            FileOutputStream foutItem = null;
+            try {
+                foutItem = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/rates4items.tmp.csv");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            PrintWriter outItem = new PrintWriter(foutItem);
+
+
+            HashSet<String> items = new HashSet<>();
+            trainingPosNeg.removeAll("DBbook_userID");
+            int tot = 0;
+//        // Extract rating for all users
+            for (String userID : trainingPosNeg.keySet()) {
+                outUser.println(userID + "," + trainingPosNeg.get(userID).get(0).size() +
+                                "," + trainingPosNeg.get(userID).get(1).size() +
+                                "," + (trainingPosNeg.get(userID).get(0).size() +
+                                trainingPosNeg.get(userID).get(1).size())
+                );
+
+                tot += (trainingPosNeg.get(userID).get(0).size() + trainingPosNeg.get(userID).get(1).size());
+
+                for (String s : trainingPosNeg.get(userID).get(0))
+                    items.add(s);
+
+                for (String s : trainingPosNeg.get(userID).get(1))
+                    items.add(s);
+            }
+
+            // Extract rating for all items
+            tot = 0;
+            for (String item : items) {
+                int pos = 0;
+                int neg = 0;
+                for (String userID : trainingPosNeg.keySet()) {
+                    if (trainingPosNeg.get(userID).get(0).contains(item))
+                        pos++;
+                    if (trainingPosNeg.get(userID).get(1).contains(item))
+                        neg++;
+                }
+                outItem.println(item + "," + pos +
+                                "," + neg +
+                                "," + (pos + neg)
+                );
+                tot += pos + neg;
+            }
+            outItem.close();
+            outUser.close();
+            try {
+                foutItem.close();
+                foutUser.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        CmdExecutor.executeCommand("sort -g " + LoadProperties.DATASETPATH + "/serialized/rates4users.tmp.csv > " + LoadProperties.DATASETPATH + "/serialized/rates4users.csv", false);
+        CmdExecutor.executeCommand("rm " + LoadProperties.DATASETPATH + "/serialized/rates4users.tmp.csv", false);
+        CmdExecutor.executeCommand("sort -g " + LoadProperties.DATASETPATH + "/serialized/rates4items.tmp.csv > " + LoadProperties.DATASETPATH + "/serialized/rates4items.csv", false);
+        CmdExecutor.executeCommand("rm " + LoadProperties.DATASETPATH + "/serialized/rates4items.tmp.csv", false);
+    }
+
 
     private void extractRating(String trainingFileName) {
         if (trainingFileName.contains("given_all")) {
@@ -209,6 +289,52 @@ public abstract class FS implements Serializable {
         CmdExecutor.executeCommand("sort -g " + LoadProperties.DATASETPATH + "/serialized/rates4itemsTEMP > " + LoadProperties.DATASETPATH + "/serialized/rates4items", false);
         CmdExecutor.executeCommand("rm " + LoadProperties.DATASETPATH + "/serialized/rates4itemsTEMP", false);
         System.exit(3);
+    }
+
+    private void countPropfromCSV(String csvFile, int top) throws IOException {
+        new File(LoadProperties.DATASETPATH + "/serialized/").mkdirs();
+        FileOutputStream foutUser = null;
+        try {
+            foutUser = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/propCount"+top+".csv");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        PrintWriter outUser = new PrintWriter(foutUser);
+        CSVParser parser;
+        HashMap<String, ArrayList<String>> map = new HashMap<>(10);
+        if (new File(csvFile).exists()) {
+            parser = new CSVParser(new FileReader(csvFile), CSVFormat.EXCEL);
+            for (CSVRecord record : parser) {
+                ArrayList<String> prop = new ArrayList<>();
+                for (int j = 1; j < record.size(); j++)
+                    prop.add(record.get(j));
+                map.put(record.get(0), prop);
+            }
+
+            HashMap<String, Integer> propCount = new HashMap<>();
+            for (String s : map.keySet()) {
+                ArrayList<String> get = map.get(s);
+                for (int i = 0; i < top; i++) {
+                    String s1 = get.get(i);
+                    if (propCount.containsKey(s1)) {
+                        int val = propCount.get(s1);
+                        val++;
+                        propCount.put(s1, val);
+                    } else {
+                        propCount.put(s1, 0);
+                    }
+                }
+            }
+
+            outUser.println("Properties,Values");
+            for (String s : propCount.keySet()) {
+                outUser.println(s + "," + propCount.get(s));
+            }
+
+            outUser.close();
+            foutUser.close();
+
+        }
     }
 
     private void addItemProperties(PropertiesManager propManager, String resourceURI) {
