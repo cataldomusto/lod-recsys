@@ -3,18 +3,18 @@
 import modSperim
 import downloadProp
 
-allalg=["CFSubsetEval","PageRank","MRMR"]
-allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
-#topN=["10","17","30","50"]
-metrics=["F1","Novelty","Diversity"]
-givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+#allalg=["CFSubsetEval","PageRank","MRMR"]
+#allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
+##topN=["10","17","30","50"]
+#metrics=["F1","Novelty","Diversity"]
+#givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 param=2
-#allalg=[]
-#allalgWEKA=["GainRatioAttributeEval"] 
+allalg=["PageRank"]
+allalgWEKA=[] 
 topN=["10","30","50"]
-#givenN=["given_5"]
-#metrics=["F1"]
+givenN=["given_all"]
+metrics=["Novelty"]
 nSplit="1"
 
 givenCSV=["given_5","given_20","given_all"]

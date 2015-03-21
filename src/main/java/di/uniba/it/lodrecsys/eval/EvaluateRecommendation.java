@@ -42,7 +42,7 @@ public class EvaluateRecommendation {
                     max = ratingVal;
             }
             double avg = sum / recommendationList.get(s).size();
-            System.out.println("USER: "+s + "  RATING MAX: "+max+" RATING AVG:"+avg+ " SUM: " + recommendationList.get(s).size());
+            System.out.println("USER: " + s + "  RATING MAX: " + max + " RATING AVG:" + avg + " SUM: " + recommendationList.get(s).size());
         }
     }
 
@@ -300,6 +300,73 @@ public class EvaluateRecommendation {
 //        }
 //        return measures.substring(0, measures.length() - 1);
 //    }
+
+    private static HashMap<String, Double> msimetricMODDED(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
+
+        new File(LoadProperties.DATASETPATH + "/serialized/novelty").mkdirs();
+        FileOutputStream foutItem = null;
+        try {
+            foutItem = new FileOutputStream(LoadProperties.DATASETPATH + "/serialized/novelty/noveltyItem"+LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + numRec + "Top.csv");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        PrintWriter outItem = new PrintWriter(foutItem);
+
+        HashMap<String, Double> allRecID = new HashMap<>(1400);
+        for (String userID : recommendationList.keySet()) {
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+                if (!allRecID.containsKey(rate.getItemID()))
+                    allRecID.put(rate.getItemID(), 1.0);
+                else {
+                    double value = allRecID.get(rate.getItemID());
+                    value++;
+                    allRecID.put(rate.getItemID(), value);
+                }
+                i++;
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec)
+                    break;
+            }
+        }
+
+        int totUser = recommendationList.size();
+        for (String s : allRecID.keySet()) {
+            outItem.println(s + "," + allRecID.get(s));
+            double prop = allRecID.get(s) / totUser;
+//            System.out.println("Film "+s + " NItems "+allRecID.get(s) + " / "+totUser + " = "+prop);
+            allRecID.put(s, prop);
+        }
+
+        outItem.close();
+        foutItem.close();
+//        String userID = "446";    USER da 1 rec
+//        String userID = "185";    //USER da n rec
+        HashMap<String, Double> msiUsers = new HashMap<>(900);
+        for (String userID : recommendationList.keySet()) {
+            double noveltyM = 0.0;
+            Set<Rating> recommendationListForUser = recommendationList.get(userID);
+            int i = 0;
+            for (Rating rate : recommendationListForUser) {
+//            System.out.println("FilmID: " + rate.getItemID() + " log(" + allRecID.get(rate.getItemID()) + ") : " + Math.log(allRecID.get(rate.getItemID())));
+                noveltyM += (Math.log(allRecID.get(rate.getItemID())));
+                i++;
+
+                // prints only numRec recommendation on file
+                if (numRec != -1 && i >= numRec) {
+                    break;
+                }
+            }
+            double noveltyAVG = -(noveltyM) / ((double) i);
+            msiUsers.put(userID, noveltyAVG);
+//        System.out.println("sum novelty: " + noveltyM);
+//        System.out.println("divisore: " + i);
+//        System.out.println("avg novelty: " + noveltyAVG);
+        }
+        return msiUsers;
+    }
+
 
     private static HashMap<String, Double> msimetric(Map<String, Set<Rating>> recommendationList, int numRec) throws IOException {
 
