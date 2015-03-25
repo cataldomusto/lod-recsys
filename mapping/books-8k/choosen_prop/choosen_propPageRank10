@@ -1,0 +1,10 @@
+http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+http://dbpedia.org/property/wikiPageUsesTemplate
+http://dbpedia.org/property/followedBy
+http://dbpedia.org/ontology/subsequentWork
+http://dbpedia.org/property/precededBy
+http://dbpedia.org/ontology/previousWork
+http://dbpedia.org/ontology/nonFictionSubject
+http://dbpedia.org/ontology/series
+http://dbpedia.org/property/mediaType
+http://dbpedia.org/ontology/language

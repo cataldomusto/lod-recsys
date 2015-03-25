@@ -1,0 +1,10 @@
+http://dbpedia.org/ontology/wikiPageEditLink
+http://dbpedia.org/ontology/wikiPageHistoryLink
+http://dbpedia.org/property/congress
+http://dbpedia.org/property/years
+http://dbpedia.org/property/caption
+http://www.w3.org/2002/07/owl#sameAs
+http://purl.org/dc/terms/subject
+http://dbpedia.org/ontology/previousWork
+http://dbpedia.org/ontology/wikiPageExtracted
+http://dbpedia.org/ontology/thumbnail

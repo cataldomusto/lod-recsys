@@ -1,0 +1,10 @@
+http://xmlns.com/foaf/0.1/isPrimaryTopicOf
+http://dbpedia.org/property/producer
+http://dbpedia.org/property/budget
+http://dbpedia.org/property/artist
+http://dbpedia.org/property/label
+http://dbpedia.org/property/wordnet_type
+http://dbpedia.org/property/distributor
+http://dbpedia.org/ontology/musicComposer
+http://dbpedia.org/property/studio
+http://dbpedia.org/property/released
