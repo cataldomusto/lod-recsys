@@ -3,6 +3,9 @@ package di.uniba.it.lodrecsys.graph;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 
 import static di.uniba.it.lodrecsys.graph.RecommenderSys.*;
@@ -20,16 +23,25 @@ public class GraphRecRun {
 
         level = args[0];
         String fileProp = LoadProperties.FILTERTYPE = args[1];
-        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
-            LoadProperties.NUMFILTER = args[2];
-            fileProp += args[2];
-        }
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
-            LoadProperties.EVALWEKA = args[3];
-            fileProp += args[3];
+
+
+        if (!LoadProperties.FILTERTYPE.equals("Custom")) {
+
+            if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+                LoadProperties.NUMFILTER = args[2];
+                fileProp += args[2];
+            }
+
+            if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+                LoadProperties.EVALWEKA = args[3];
+                fileProp += args[3];
+            }
         }
 
         LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + fileProp;
+
+        if (LoadProperties.FILTERTYPE.equals("Custom"))
+            LoadProperties.NUMFILTER = dimFile(LoadProperties.CHOOSENPROP);
 
         if (!new File(LoadProperties.CHOOSENPROP).exists())
             GraphFactory.subsetProp();
@@ -76,6 +88,16 @@ public class GraphRecRun {
         savefileLog("[INFO] Recommendation " + level + " completed in " + Math.round(minutes) + " minutes.");
     }
 
+
+    private static String dimFile(String nameFile) {
+        try {
+            return Integer.toString(Files.readAllLines(Paths.get(nameFile), Charset.defaultCharset()).size());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "0";
+    }
+
     public static void cleanfileLog() {
         String dir;
         switch (LoadProperties.FILTERTYPE) {
@@ -85,6 +107,11 @@ public class GraphRecRun {
                         LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
                 break;
             case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+            case "Custom":
                 dir = LoadProperties.RESPATH + File.separator +
                         LoadProperties.METHOD + File.separator +
                         LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
@@ -108,6 +135,11 @@ public class GraphRecRun {
                         LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
                 break;
             case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+                break;
+            case "Custom":
                 dir = LoadProperties.RESPATH + File.separator +
                         LoadProperties.METHOD + File.separator +
                         LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;

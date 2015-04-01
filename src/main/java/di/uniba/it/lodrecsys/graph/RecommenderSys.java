@@ -69,6 +69,12 @@ public class RecommenderSys implements Serializable {
                         LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
                         level;
                 break;
+            case "Custom":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
             default:
                 dir = LoadProperties.RESPATH + File.separator +
                         LoadProperties.METHOD + File.separator +
@@ -97,6 +103,12 @@ public class RecommenderSys implements Serializable {
                         level;
                 break;
             case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            case "Custom":
                 dir = LoadProperties.RESPATH + File.separator +
                         LoadProperties.METHOD + File.separator +
                         LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
@@ -132,6 +144,12 @@ public class RecommenderSys implements Serializable {
                         LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
                         level;
                 break;
+            case "Custom":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
             default:
                 dir = LoadProperties.RESPATH + File.separator +
                         LoadProperties.METHOD + File.separator +
@@ -155,6 +173,12 @@ public class RecommenderSys implements Serializable {
                         level;
                 break;
             case "CFSubsetEval":
+                dir = LoadProperties.RESPATH + File.separator +
+                        LoadProperties.METHOD + File.separator +
+                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                        level;
+                break;
+            case "Custom":
                 dir = LoadProperties.RESPATH + File.separator +
                         LoadProperties.METHOD + File.separator +
                         LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +

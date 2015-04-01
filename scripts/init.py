@@ -35,7 +35,7 @@ def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, 
                 cmdExecLOGEV.append(cmdLOG)
 
     for alg in allalg:
-        if (alg=="CFSubsetEval"):
+        if (alg=="CFSubsetEval" or alg=="Custom"):
     #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun CFSubsetEval"
             cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun "+ alg
             cmdLOG = "java -cp GraphFSRun "+ alg

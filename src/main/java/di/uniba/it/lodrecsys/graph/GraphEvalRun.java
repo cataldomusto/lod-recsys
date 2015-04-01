@@ -19,6 +19,10 @@ public class GraphEvalRun {
 
         String level = args[0];
         String fileProp = LoadProperties.FILTERTYPE = args[1];
+        if (!LoadProperties.FILTERTYPE.equals("Custom")) {
+            LoadProperties.NUMFILTER = args[2];
+            fileProp += args[2];
+        }
         if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
             LoadProperties.NUMFILTER = args[2];
             fileProp += args[2];

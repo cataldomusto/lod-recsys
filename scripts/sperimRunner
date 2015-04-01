@@ -7,14 +7,14 @@ import downloadProp
 #allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
 ##topN=["10","17","30","50"]
 #metrics=["F1","Novelty","Diversity"]
-#givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 param=2
-allalg=["PageRank"]
+allalg=["Custom"]
 allalgWEKA=[] 
 topN=["10","30","50"]
-givenN=["given_all"]
-metrics=["Novelty"]
+#givenN=["given_5"]
+metrics=["F1"]
 nSplit="1"
 
 givenCSV=["given_5","given_20","given_all"]

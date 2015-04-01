@@ -43,6 +43,8 @@ def createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA, dire, givenN,
         shutil.rmtree(dire + "CSV/comparisonFeatures")
     if "CFSubsetEval" in allalg:
         allalg.remove("CFSubsetEval")
+    if "Custom" in allalg:
+        allalg.remove("Custom")
     tops=""
     for top in topN:
         tops+=top+" "
