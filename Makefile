@@ -16,6 +16,12 @@ serverStoredProp:
 storedProp:
 	java -cp lodrecsys.jar di.uniba.it.lodrecsys.utils.mapping.PropertiesGenerator
 
+baseline:
+	java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.BaselineRunner &
+
+serverBaseline:
+	nohup java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.BaselineRunner &
+
 copyAllSummaries $D:
 	cp ./datasets/books-8k/results/UserItemExpDBPedia/*/summaries/*.F1Sum $D
 	cp ./datasets/books-8k/results/UserItemExpDBPedia/*/summaries/*.DiversitySum $D
