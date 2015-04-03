@@ -100,7 +100,6 @@ def extractBase(totdir, alg, metrics, dire):
         for elem in valor:
             extractResultBaseline(metric,elem,totdir)
             cmd ="awk '1;!(NR%6){print \" \";}' "+totdir+"/summaries/"+metric+"Temp > "+totdir+"/summaries/"+alg+"."+metric+"Sum"
-            print cmd
             subprocess.call(cmd, shell=True)
             cmd ="sed -i 's/\\./,/' "+totdir+"/summaries/"+alg+"."+metric+"Sum"
             subprocess.call(cmd, shell=True)
