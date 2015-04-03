@@ -68,6 +68,68 @@ def createSummariesALL(extractVal, metrics, dire):
             print time.strftime("%Y-%m-%d %H:%M") + " Summaries total "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " Summaries total are completed."
 
+def createSummariesBaseline(metrics, dire):
+    cmd=""
+    baseline=["ItemKNN","MostPopular","UserKNN","BPRMF"]
+    for alg in os.listdir(dire):
+        if alg in baseline:
+            if alg == 'ItemKNN' or alg == 'UserKNN' or alg == 'BPRMF':
+                for neigh in os.listdir(dire+alg):
+                    totdir=dire+alg+"/"+neigh
+                    if os.path.isdir(totdir):
+                        extractBase(totdir, alg, metrics, dire)
+            else:
+                totdir=dire+alg
+                if os.path.isdir(totdir):
+                    extractBase(totdir, alg, metrics, dire)
+    print time.strftime("%Y-%m-%d %H:%M") + " Summaries total are completed."
+
+def extractBase(totdir, alg, metrics, dire):
+    if not(os.path.exists(totdir+"/summaries/")):
+        os.makedirs(totdir+"/summaries/")
+    for given in os.listdir(totdir):
+        if "given" in given: 
+            with open(totdir+"/summaries/"+given+".summary", "a") as myfile:
+                    myfile.write("\nResult Top 50 \n")
+            cmd = "cat "+totdir+"/"+given+"/top_50/"+"metrics.complete"
+            cmd += " >> "+totdir+"/summaries/"+given+".summary"
+            subprocess.call(cmd, shell=True)    
+
+    for metric in metrics:
+        valor=["5","10","15","20"]
+        for elem in valor:
+            extractResultBaseline(metric,elem,totdir)
+            cmd ="awk '1;!(NR%6){print \" \";}' "+totdir+"/summaries/"+metric+"Temp > "+totdir+"/summaries/"+alg+"."+metric+"Sum"
+            print cmd
+            subprocess.call(cmd, shell=True)
+            cmd ="sed -i 's/\\./,/' "+totdir+"/summaries/"+alg+"."+metric+"Sum"
+            subprocess.call(cmd, shell=True)
+            cmd ="rm "+totdir+"/summaries/"+metric+"Temp"
+            subprocess.call(cmd, shell=True)
+        print time.strftime("%Y-%m-%d %H:%M") + " Summaries total "+ alg + " completed."
+
+##   Extract result from file
+def extractResultBaseline(metric,elem,totdir):
+    cmd = "grep \""+metric+"_"+elem+"=\" "+totdir+"/summaries/*.summary >> "+totdir+"/summaries/res"+metric+elem+".sum1"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\ "+totdir+"/summaries/given_\ \ ' "+totdir+"/summaries/res"+metric+elem+".sum1"
+    subprocess.call(cmd, shell=True)
+    cmd ="cat "+totdir+"/summaries/res"+metric+elem+".sum1 | awk 'BEGIN { FS = \"given_\"};{ print $2 }'| uniq > "+totdir+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="rm "+totdir+"/summaries/res"+metric+elem+".sum1"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\.summary:"+metric+"_"+elem+"=\ \ ' "+totdir+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sed -i 's\\all\\100\ ' "+totdir+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="sort -g "+totdir+"/summaries/res"+metric+elem+".sum > "+totdir+"/summaries/result"+metric+elem
+    subprocess.call(cmd, shell=True)
+    cmd ="rm "+totdir+"/summaries/res"+metric+elem+".sum"
+    subprocess.call(cmd, shell=True)
+    cmd ="cat "+totdir+"/summaries/result"+metric+elem+" | awk 'BEGIN { FS = \" \"};{ print $2 }' >> "+totdir+"/summaries/"+metric+"Temp"
+    subprocess.call(cmd, shell=True)
+
+
 ##   Extract result from file
 def extractResult(metric,elem,dire,alg):
     cmd = "grep \""+metric+"_"+elem+"=\" "+dire+alg+"/summaries/*.summary >> "+dire+alg+"/summaries/res"+metric+elem+".sum1"
