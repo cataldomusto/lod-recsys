@@ -70,7 +70,7 @@ def createSummariesALL(extractVal, metrics, dire):
 
 def createSummariesBaseline(metrics, dire):
     cmd=""
-    baseline=["ItemKNN","MostPopular","UserKNN","BPRMF"]
+    baseline=["ItemKNN","MostPopular","UserKNN","BPRMF","Random"]
     for alg in os.listdir(dire):
         if alg in baseline:
             if alg == 'ItemKNN' or alg == 'UserKNN' or alg == 'BPRMF':
@@ -87,6 +87,9 @@ def createSummariesBaseline(metrics, dire):
 def extractBase(totdir, alg, metrics, dire):
     if not(os.path.exists(totdir+"/summaries/")):
         os.makedirs(totdir+"/summaries/")
+        for f in os.listdir(totdir+"/summaries/"):
+            cmd ="rm -f " +f
+            subprocess.call(cmd, shell=True)
     for given in os.listdir(totdir):
         if "given" in given: 
             with open(totdir+"/summaries/"+given+".summary", "a") as myfile:
@@ -99,12 +102,12 @@ def extractBase(totdir, alg, metrics, dire):
         valor=["5","10","15","20"]
         for elem in valor:
             extractResultBaseline(metric,elem,totdir)
-            cmd ="awk '1;!(NR%6){print \" \";}' "+totdir+"/summaries/"+metric+"Temp > "+totdir+"/summaries/"+alg+"."+metric+"Sum"
-            subprocess.call(cmd, shell=True)
-            cmd ="sed -i 's/\\./,/' "+totdir+"/summaries/"+alg+"."+metric+"Sum"
-            subprocess.call(cmd, shell=True)
-            cmd ="rm "+totdir+"/summaries/"+metric+"Temp"
-            subprocess.call(cmd, shell=True)
+        cmd ="awk '1;!(NR%6){print \" \";}' "+totdir+"/summaries/"+metric+"Temp > "+totdir+"/summaries/"+alg+"."+metric+"Sum"
+        subprocess.call(cmd, shell=True)
+        cmd ="sed -i 's/\\./,/' "+totdir+"/summaries/"+alg+"."+metric+"Sum"
+        subprocess.call(cmd, shell=True)
+        cmd ="rm "+totdir+"/summaries/"+metric+"Temp"
+        subprocess.call(cmd, shell=True)
         print time.strftime("%Y-%m-%d %H:%M") + " Summaries total "+ alg + " completed."
 
 ##   Extract result from file

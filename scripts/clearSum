@@ -7,10 +7,21 @@ import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-given=["5","10","20","30","50","all"]
-for alg in os.listdir("./datasets/books-8k/results/UserItemExpDBPedia"):
-    for give in given: 
-        cmd ="rm -r -f ./datasets/books-8k/results/UserItemExpDBPedia/"+alg+"/summaries"
-        subprocess.call(cmd, shell=True)
-    cmd ="rm -r -f ./datasets/books-8k/results/UserItemExpDBPedia/CSV"
-    subprocess.call(cmd, shell=True)
+#given=["5","10","20","30","50","all"]
+#for alg in os.listdir("./datasets/books-8k/results/UserItemExpDBPedia"):
+#    for give in given: 
+#        cmd ="rm -r -f ./datasets/books-8k/results/UserItemExpDBPedia/"+alg+"/summaries"
+#        subprocess.call(cmd, shell=True)
+#    cmd ="rm -r -f ./datasets/books-8k/results/UserItemExpDBPedia/CSV"
+#    subprocess.call(cmd, shell=True)
+
+cmd ="rm -r -f ./datasets/books-8k/results/ItemKNN/*/summaries"
+subprocess.call(cmd, shell=True)
+cmd ="rm -r -f ./datasets/books-8k/results/BPRMF/*/summaries"
+subprocess.call(cmd, shell=True)
+cmd ="rm -r -f ./datasets/books-8k/results/UserKNN/*/summaries"
+subprocess.call(cmd, shell=True)
+cmd ="rm -r -f ./datasets/books-8k/results/MostPopular/summaries"
+subprocess.call(cmd, shell=True)
+cmd ="rm -r -f ./datasets/books-8k/results/Random/summaries"
+subprocess.call(cmd, shell=True)
