@@ -48,16 +48,18 @@ public class EvaluateRecommendation {
 
     private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
         String dir;
-        switch (LoadProperties.FILTERTYPE) {
-            case "RankerWeka":
-                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
-                break;
-            case "CFSubsetEval":
-                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
-                break;
-            default:
-                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
-                break;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+
+        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+
+        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+
+        } else {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+
         }
         List<String> lines = null;
         try {
@@ -1001,16 +1003,18 @@ public class EvaluateRecommendation {
         }
 
         String dir;
-        switch (LoadProperties.FILTERTYPE) {
-            case "RankerWeka":
-                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
-                break;
-            case "CFSubsetEval":
-                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
-                break;
-            default:
-                dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
-                break;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+
+        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+
+        } else if (LoadProperties.FILTERTYPE.equals("Custom")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+
+        } else {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+
         }
         List<String> lines = null;
         try {
