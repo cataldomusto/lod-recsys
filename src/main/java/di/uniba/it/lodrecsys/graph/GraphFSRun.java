@@ -24,7 +24,7 @@ public class GraphFSRun {
     public static void main(String[] args) throws IOException {
 
         String fileProp = LoadProperties.FILTERTYPE = args[0];
-        if (LoadProperties.FILTERTYPE.equals("Custom")) {
+        if (LoadProperties.FILTERTYPE.contains("Custom")) {
             System.out.println(new Date() + "[INFO] Feature Completed with custom.");
             System.exit(1);
         }

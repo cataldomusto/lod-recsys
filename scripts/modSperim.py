@@ -37,7 +37,7 @@ def sperimRunner(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadR
 #    evaluation Process
 #    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
-#    creatorSummaries.createSummaries(extractVal, metrics, dire)
+    creatorSummaries.createSummaries(extractVal, metrics, dire)
 #    creatorSummaries.createSummariesBaseline(metrics, dire)
     
 #    creatorCSV.createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire, givenCSV, valMetricsCSV)

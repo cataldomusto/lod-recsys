@@ -19,11 +19,7 @@ public class GraphEvalRun {
 
         String level = args[0];
         String fileProp = LoadProperties.FILTERTYPE = args[1];
-        if (!LoadProperties.FILTERTYPE.equals("Custom")) {
-            LoadProperties.NUMFILTER = args[2];
-            fileProp += args[2];
-        }
-        if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+        if (!LoadProperties.FILTERTYPE.contains("Custom") && !LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
             LoadProperties.NUMFILTER = args[2];
             fileProp += args[2];
         }
@@ -33,6 +29,7 @@ public class GraphEvalRun {
         }
 
         LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + fileProp;
+
 
         System.out.print(new Date() + "[INFO] Started evaluation ");
         for (String arg : args) {

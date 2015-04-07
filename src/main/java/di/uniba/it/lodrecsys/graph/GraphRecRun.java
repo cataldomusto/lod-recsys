@@ -25,7 +25,7 @@ public class GraphRecRun {
         String fileProp = LoadProperties.FILTERTYPE = args[1];
 
 
-        if (!LoadProperties.FILTERTYPE.equals("Custom")) {
+        if (!LoadProperties.FILTERTYPE.contains("Custom")) {
 
             if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
                 LoadProperties.NUMFILTER = args[2];
@@ -40,7 +40,7 @@ public class GraphRecRun {
 
         LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + fileProp;
 
-        if (LoadProperties.FILTERTYPE.equals("Custom"))
+        if (LoadProperties.FILTERTYPE.contains("Custom"))
             LoadProperties.NUMFILTER = dimFile(LoadProperties.CHOOSENPROP);
 
         if (!new File(LoadProperties.CHOOSENPROP).exists())
@@ -100,27 +100,26 @@ public class GraphRecRun {
 
     public static void cleanfileLog() {
         String dir;
-        switch (LoadProperties.FILTERTYPE) {
-            case "RankerWeka":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
-            case "CFSubsetEval":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
-            case "Custom":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
-            default:
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+
+        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+
+        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+
+        } else {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+
         }
 //        new File("./datasets/ml-100k/results/UserItemExpDBPedia/"+LoadProperties.FILTERTYPE+"/log/").mkdirs();
         new File(dir + "/log/sperimentazione" + level).delete();
@@ -128,27 +127,25 @@ public class GraphRecRun {
 
     public static void savefileLog(String s) {
         String dir;
-        switch (LoadProperties.FILTERTYPE) {
-            case "RankerWeka":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
-            case "CFSubsetEval":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
-            case "Custom":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
-            default:
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
-                break;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
+
+        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+
+        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator;
+
+        } else {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator;
 
         }
 

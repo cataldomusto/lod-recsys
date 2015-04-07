@@ -10,7 +10,7 @@ import downloadProp
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 param=2
-allalg=["Custom"]
+allalg=["CustomUnion"]
 allalgWEKA=[] 
 topN=["10","30","50"]
 #givenN=["given_5"]
@@ -22,8 +22,8 @@ valMetricsCSV=["5","10","20"]
 best="PageRank"
 topBest="50"
 
-#dire="./datasets/books-8k/results/UserItemExpDBPedia/"
-dire="./datasets/books-8k/results/"
+dire="./datasets/books-8k/results/UserItemExpDBPedia/"
+#dire="./datasets/books-8k/results/"
 dirProp="./datasets/books-8k/stored_prop/"
 
 cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
