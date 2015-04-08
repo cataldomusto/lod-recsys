@@ -56,31 +56,29 @@ public class RecommenderSys implements Serializable {
 
     public static void saveRec(String level) throws IOException {
         String dir;
-        switch (LoadProperties.FILTERTYPE) {
-            case "RankerWeka":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                        level;
-                break;
-            case "CFSubsetEval":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
-                        level;
-                break;
-            case "Custom":
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
-                        level;
-                break;
-            default:
-                dir = LoadProperties.RESPATH + File.separator +
-                        LoadProperties.METHOD + File.separator +
-                        LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
-                        level;
-                break;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.EVALWEKA + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
+
+        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
+
+        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
+
+        } else {
+            dir = LoadProperties.RESPATH + File.separator +
+                    LoadProperties.METHOD + File.separator +
+                    LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + "prop" + LoadProperties.NUMSPLIT + "split" + File.separator +
+                    level;
 
         }
 
