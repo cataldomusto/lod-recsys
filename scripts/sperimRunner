@@ -9,21 +9,22 @@ import downloadProp
 #metrics=["F1","Novelty","Diversity"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
-param=8
+param=2
+algBaseline=["UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"]
 allalg=["CustomIntersect","CustomUnion"]
 allalgWEKA=[] 
 topN=["10","30","50"]
 #givenN=["given_5"]
 metrics=["F1"]
-nSplit="1"
+nSplit="5"
 
 givenCSV=["given_5","given_20","given_all"]
 valMetricsCSV=["5","10","20"]
 best="PageRank"
 topBest="50"
 
-dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
-#dire="./datasets/books-8k/results/"
+#dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
+dire="./datasets/ml-100k/results/"
 dirProp="./datasets/ml-100k/stored_prop/"
 
 cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
@@ -31,6 +32,8 @@ cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.
 cmdThreadRec="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
 cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphEvalRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
+
+cmdThreadBaseline="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.Baseline\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
 #CFSubsetEval
 #mrmr 
@@ -44,5 +47,5 @@ cmdThreadEval="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.grap
 
 #downloadProp.extractProperties(dirProp)        
 
-modSperim.sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, nSplit, best, topBest, dire, givenCSV, valMetricsCSV)
+modSperim.sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, nSplit, best, topBest, dire, givenCSV, valMetricsCSV, cmdThreadBaseline)
 

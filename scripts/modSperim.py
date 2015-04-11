@@ -13,7 +13,7 @@ import creatorSummaries
 import creatorCSV
 import StatisticalTest
 
-def sperimRunner(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadRec,cmdThreadEval, metrics, split, best, topBest, dire, givenCSV, valMetricsCSV):
+def sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, split, best, topBest, dire, givenCSV, valMetricsCSV, cmdThreadBaseline):
     
     cmdExecFS=[]
     cmdExecLOGFS=[]
@@ -24,15 +24,21 @@ def sperimRunner(allalg, allalgWEKA, topN, givenN, param,cmdThreadFS, cmdThreadR
     cmdExecEV=[]
     cmdExecLOGEV=[]
 
+    cmdExecBase=[]
+    cmdExecLOGBase=[]
+
     extractVal=[]
     
-    init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split)
+    init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split, cmdExecBase, cmdExecLOGBase)
+
+#    Baseline Process
+    parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
     
 #    feature process
 #    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
 
 #    recommendation Process
-    parallelProcess.parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
+#    parallelProcess.parallelProcess(cmdExecREC, cmdExecLOGREC, cmdThreadRec, param, "Recommendation process")
     
 #    evaluation Process
 #    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
