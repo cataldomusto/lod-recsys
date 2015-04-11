@@ -108,10 +108,9 @@ public class Baseline {
                 String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
                         + File.separator + "u" + i + ".final";
                 EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, trecResultFinal);
-                metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-//                            currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-                savelog(dirLog, metricsForSplit.get(metricsForSplit.size() - 1).toString());
                 recommendationForSplits.add(EvaluateRecommendation.extractPredictionFile(resFile));
+
+//                CmdExecutor.executeCommand("rm -f " + tempResFile, false);
             }
 
             // Diversity measure
@@ -149,6 +148,10 @@ public class Baseline {
                     EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
                 if (novelty)
                     EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
+
+                metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+//                            currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                savelog(dirLog, metricsForSplit.get(metricsForSplit.size() - 1).toString());
             }
 
             savelog(dirLog, ("Metrics results for sparsity level " + level + "\n"));
@@ -202,10 +205,9 @@ public class Baseline {
                     String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, trecResultFinal);
-                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-//                                currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-                    savelog(dirLog, metricsForSplit.get(metricsForSplit.size() - 1).toString());
                     recommendationForSplits.add(EvaluateRecommendation.extractPredictionFile(resFile));
+
+//                    CmdExecutor.executeCommand("rm -f " + tempResFile, false);
                 }
 
                 // Diversity measure
@@ -243,10 +245,12 @@ public class Baseline {
                         EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
                     if (novelty)
                         EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
+                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
+//                                currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
+                    savelog(dirLog, metricsForSplit.get(metricsForSplit.size() - 1).toString());
                 }
 
                 savelog(dirLog, ("Metrics results for sparsity level " + level + "\n"));
-//                            currLogger.info(("Metrics results for sparsity level " + level + "\n"));
                 EvaluateRecommendation.generateMetricsFile(EvaluateRecommendation.averageMetricsResult(metricsForSplit, LoadProperties.NUMSPLIT), completeResFile);
                 metricsForSplit.clear(); // evaluate for the next sparsity level
             }
@@ -296,10 +300,9 @@ public class Baseline {
                     String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
                             + File.separator + "u" + i + ".final";
                     EvaluateRecommendation.saveTrecEvalResult(trecTestFile, trecResFile, trecResultFinal);
-                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
-//                                currLogger.info(metricsForSplit.get(metricsForSplit.size() - 1).toString());
-
                     recommendationForSplits.add(EvaluateRecommendation.extractPredictionFile(resFile));
+
+//                    CmdExecutor.executeCommand("rm -f " + tempResFile, false);
                 }
 
                 // Diversity measure
@@ -337,6 +340,7 @@ public class Baseline {
                         EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
                     if (novelty)
                         EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
+                    metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
                 }
 
                 savelog(dirLog, "Metrics results for sparsity level " + level + "\n");

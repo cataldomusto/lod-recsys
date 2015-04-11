@@ -78,7 +78,7 @@ public class PredictionFileConverter {
         BufferedWriter writer = null;
         try {
             Map<String, Set<Rating>> testSet = Utils.loadRatingForEachUser(testSetFile);
-            System.out.println("Users to evaluate: " + testSet.size());
+//            System.out.println("Users to evaluate: " + testSet.size());
             reader = new BufferedReader(new FileReader(predictionFile));
             writer = new BufferedWriter(new FileWriter(newPredictionFile));
 

@@ -7,13 +7,13 @@ import shutil
 from time import gmtime, strftime, localtime
 from datetime import datetime
 
-def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split, cmdExecBase, cmdExecLOGBase):
+def init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split, cmdExecBase, cmdExecLOGBase, algBaseline):
     for alg in algBaseline:
         for given in givenN:
             metricString=""
-                for metric in metrics:
-                    metricString +=metric + " "
-    #               cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.Baseline given_5 UserKNN novelty diversity &"
+            for metric in metrics:
+                metricString +=metric + " "
+    #       cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.Baseline given_5 UserKNN novelty diversity &"
             cmd = "java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.Baseline "+given+" "+alg+" "+metricString +" &"
             cmdLOG = "java -cp Baseline "+given+" "+alg+" "+metricString +" &"
             cmdExecBase.append(cmd)

@@ -13,7 +13,7 @@ import creatorSummaries
 import creatorCSV
 import StatisticalTest
 
-def sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, split, best, topBest, dire, givenCSV, valMetricsCSV, cmdThreadBaseline):
+def sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, split, best, topBest, dire, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline):
     
     cmdExecFS=[]
     cmdExecLOGFS=[]
@@ -29,7 +29,7 @@ def sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThread
 
     extractVal=[]
     
-    init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split, cmdExecBase, cmdExecLOGBase)
+    init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split, cmdExecBase, cmdExecLOGBase, algBaseline)
 
 #    Baseline Process
     parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
