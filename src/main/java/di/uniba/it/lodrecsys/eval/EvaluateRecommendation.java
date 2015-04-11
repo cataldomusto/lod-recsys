@@ -588,6 +588,34 @@ public class EvaluateRecommendation {
 
     }
 
+    public static Map<String, Set<Rating>> extractPredictionFile(String resultFile) throws IOException {
+        BufferedReader reader = null;
+        Map<String, Set<Rating>> recforsplit = new HashMap<>();
+        try {
+            reader = new BufferedReader(new FileReader(resultFile));
+
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] lineSplitted = line.split("\t");
+                String userID = lineSplitted[0];
+
+                String ratingString = lineSplitted[1].substring(lineSplitted[1].indexOf("[") + 1, lineSplitted[1].indexOf("]"));
+
+                Set<Rating> ratings = getRatingsSet(ratingString.split(","));
+
+                recforsplit.put(userID,ratings);
+            }
+        } catch (IOException ex) {
+            throw new IOException(ex);
+        } finally {
+            assert reader != null;
+            reader.close();
+            return recforsplit;
+        }
+
+    }
+
+
     /**
      * Transforms an array of strings which contains prediction in the format
      * item_id:rating, into a set of Rating
