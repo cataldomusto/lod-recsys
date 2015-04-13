@@ -7,14 +7,15 @@ import downloadProp
 #allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
 ##topN=["10","17","30","50"]
 metrics=["F1","Novelty","Diversity"]
-givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+#givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
-param=8
-algBaseline=["UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"]
+param=2
+algBaseline=["BPRMF"]
+#algBaseline=["UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"]
 allalg=["CustomIntersect","CustomUnion"]
 allalgWEKA=[] 
 topN=["10","30","50"]
-#givenN=["given_5"]
+givenN=["given_5","given_all"]
 #metrics=["F1"]
 nSplit="5"
 
