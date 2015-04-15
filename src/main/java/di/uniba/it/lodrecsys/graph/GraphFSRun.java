@@ -23,18 +23,20 @@ public class GraphFSRun {
 
     public static void main(String[] args) throws IOException {
 
-        String fileProp = LoadProperties.FILTERTYPE = args[0];
+        LoadProperties.init(args[0]);
+
+        String fileProp = LoadProperties.FILTERTYPE = args[1];
         if (LoadProperties.FILTERTYPE.contains("Custom")) {
             System.out.println(new Date() + "[INFO] Feature Completed with custom.");
             System.exit(1);
         }
         if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
-            LoadProperties.NUMFILTER = args[1];
-            fileProp += args[1];
+            LoadProperties.NUMFILTER = args[2];
+            fileProp += args[2];
         }
         if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
-            LoadProperties.EVALWEKA = args[2];
-            fileProp += args[2];
+            LoadProperties.EVALWEKA = args[3];
+            fileProp += args[3];
         }
 
         LoadProperties.CHOOSENPROP = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + fileProp;

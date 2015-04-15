@@ -13,7 +13,7 @@ import creatorSummaries
 import creatorCSV
 import StatisticalTest
 
-def sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, split, best, topBest, dire, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline):
+def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline):
     
     cmdExecFS=[]
     cmdExecLOGFS=[]
@@ -29,10 +29,10 @@ def sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThread
 
     extractVal=[]
     
-    init.init(topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, split, cmdExecBase, cmdExecLOGBase, algBaseline)
+    init.init(dataset, topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, cmdExecBase, cmdExecLOGBase, algBaseline)
 
 #    Baseline Process
-    parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
+#    parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
     
 #    feature process
 #    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
@@ -43,15 +43,15 @@ def sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThread
 #    evaluation Process
 #    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
-#    creatorSummaries.createSummaries(extractVal, metrics, dire)
-#    creatorSummaries.createSummariesBaseline(metrics, dire)
+    creatorSummaries.createSummaries(dataset, extractVal, metrics)
+#    creatorSummaries.createSummariesBaseline(dataset, metrics)
     
-#    creatorCSV.createCSVcomparisonAlg(topN, metrics, allalg, allalgWEKA, dire, givenCSV, valMetricsCSV)
-#    creatorCSV.createCSVcomparisonFeatures(topN, metrics, allalg, allalgWEKA, dire, givenCSV, valMetricsCSV)
-#    creatorCSV.createCSVcomparisonBestBaseline(metrics, best, topBest, dire, givenCSV, valMetricsCSV)
+#    creatorCSV.createCSVcomparisonAlg(dataset, topN, metrics, allalg, allalgWEKA, dire, givenCSV, valMetricsCSV)
+#    creatorCSV.createCSVcomparisonFeatures(dataset, topN, metrics, allalg, allalgWEKA, dire, givenCSV, valMetricsCSV)
+#    creatorCSV.createCSVcomparisonBestBaseline(dataset, metrics, best, topBest, dire, givenCSV, valMetricsCSV)
 
-#    StatisticalTest.FriedmanTestcomparisonAlg(allalg, allalgWEKA, metrics, dire)
-#    StatisticalTest.FriedmanTestcomparisonFeatures(topN, metrics, dire)
+#    StatisticalTest.FriedmanTestcomparisonAlg(dataset, allalg, allalgWEKA, metrics, dire)
+#    StatisticalTest.FriedmanTestcomparisonFeatures(dataset, topN, metrics, dire)
     
 #    StatisticalTest.ComparisonBestBaseline(metrics, best, topBest,
 

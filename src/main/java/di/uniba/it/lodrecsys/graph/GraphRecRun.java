@@ -21,20 +21,22 @@ public class GraphRecRun {
 
     public static void main(String[] args) throws IOException {
 
-        level = args[0];
-        String fileProp = LoadProperties.FILTERTYPE = args[1];
+        LoadProperties.init(args[0]);
+
+        level = args[1];
+        String fileProp = LoadProperties.FILTERTYPE = args[2];
 
 
         if (!LoadProperties.FILTERTYPE.contains("Custom")) {
 
             if (!LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
-                LoadProperties.NUMFILTER = args[2];
-                fileProp += args[2];
+                LoadProperties.NUMFILTER = args[3];
+                fileProp += args[3];
             }
 
             if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
-                LoadProperties.EVALWEKA = args[3];
-                fileProp += args[3];
+                LoadProperties.EVALWEKA = args[4];
+                fileProp += args[4];
             }
         }
 

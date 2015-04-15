@@ -32,10 +32,10 @@ public class LoadProperties {
     public static String DATASETPATH;
     public static String MAPPINGPATH;
 
-    static {
+    public static void init(String configFile) {
         Properties prop = new Properties();
         try {
-            prop.load(new FileInputStream("properties/my.properties"));
+            prop.load(new FileInputStream("properties/" + configFile + ".properties"));
             TRAINPATH = prop.getProperty("trainPath");
             TESTPATH = prop.getProperty("testPath");
             TESTTRECPATH = prop.getProperty("testTrecPath");

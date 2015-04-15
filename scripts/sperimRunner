@@ -3,21 +3,22 @@
 import modSperim
 import downloadProp
 
+dataset=["movielens"]
+#dataset=["movielens","dbbooks"]
+
 #allalg=["CFSubsetEval","PageRank","MRMR"]
 #allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
 ##topN=["10","17","30","50"]
-metrics=["F1","Novelty","Diversity"]
-#givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
+#metrics=["F1","Novelty","Diversity"]
+givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
-param=2
-algBaseline=["BPRMF"]
-#algBaseline=["UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"]
-allalg=["CustomIntersect","CustomUnion"]
+param=8
+algBaseline=["UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"]
+allalg=["CustomAll"]
 allalgWEKA=[] 
 topN=["10","30","50"]
-givenN=["given_5","given_all"]
-#metrics=["F1"]
-nSplit="5"
+#givenN=["given_5","given_all"]
+metrics=["F1"]
 
 givenCSV=["given_5","given_20","given_all"]
 valMetricsCSV=["5","10","20"]
@@ -25,8 +26,8 @@ best="PageRank"
 topBest="50"
 
 #dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
-dire="./datasets/ml-100k/results/"
-dirProp="./datasets/ml-100k/stored_prop/"
+#dire="./datasets/ml-100k/results/"
+#dirProp="./datasets/ml-100k/stored_prop/"
 
 cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 
@@ -48,5 +49,5 @@ cmdThreadBaseline="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.
 
 #downloadProp.extractProperties(dirProp)        
 
-modSperim.sperimRunner(allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, nSplit, best, topBest, dire, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline)
+modSperim.sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline)
 

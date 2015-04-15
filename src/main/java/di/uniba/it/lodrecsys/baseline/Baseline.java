@@ -24,6 +24,8 @@ public class Baseline {
     private static List<Map<String, String>> metricsForSplit = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
+
+        LoadProperties.init("movielens");
         String level = args[0];
         String method = args[1];
 

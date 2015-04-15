@@ -8,37 +8,42 @@ from time import gmtime, strftime, localtime
 from datetime import datetime
 
 ##   Extraction values
-def createSummaries(extractVal, metrics, dire):
-    cmd=""
-    for alg in os.listdir(dire):
-        if alg in extractVal:
-            if os.path.exists(dire+alg+"/summaries/"):
-	            shutil.rmtree(dire+alg+"/summaries/")
-            os.makedirs(dire+alg+"/summaries/")
-            for given in os.listdir(dire+alg):
-	            if "given" in given: 
-		            with open(dire+alg+"/summaries/"+given+".summary", "a") as myfile:
-                			myfile.write("\nResult Top 50 \n")
-		            cmd = "cat "+dire+alg+"/"+given+"/top_50/"+"metrics.complete"
-		            cmd += " >> "+dire+alg+"/summaries/"+given+".summary"
-    	            subprocess.call(cmd, shell=True)    
+def createSummaries(dataset, extractVal, metrics):
+    for db in dataset:
+        if (db == "movielens"):
+            dire = "./datasets/ml-100k/results/UserItemExpDBPedia/"
+        else:
+            dire = "./datasets/books-8k/results/UserItemExpDBPedia/"
+        cmd=""
+        for alg in os.listdir(dire):
+            if alg in extractVal:
+                if os.path.exists(dire+alg+"/summaries/"):
+	                shutil.rmtree(dire+alg+"/summaries/")
+                os.makedirs(dire+alg+"/summaries/")
+                for given in os.listdir(dire+alg):
+	                if "given" in given: 
+		                with open(dire+alg+"/summaries/"+given+".summary", "a") as myfile:
+                    			myfile.write("\nResult Top 50 \n")
+                        cmd = "cat "+dire+alg+"/"+given+"/top_50/"+"metrics.complete"
+                        cmd += " >> "+dire+alg+"/summaries/"+given+".summary"
+                        subprocess.call(cmd, shell=True)    
 
-            for metric in metrics:
-                if metric == 'alpha-nDCG' or metric == 'P-IA':
-                    valor=["5","10","20"]
-                else:
-                    valor=["5","10","15","20"]
-                for elem in valor:
-                    extractResult(metric,elem,dire,alg)
-                cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+alg+"."+metric+"Sum"
-                subprocess.call(cmd, shell=True)
-                cmd ="sed -i 's/\\./,/' "+dire+alg+"/summaries/"+alg+"."+metric+"Sum"
-                subprocess.call(cmd, shell=True)
-                cmd ="rm "+dire+alg+"/summaries/"+metric+"Temp"
-                subprocess.call(cmd, shell=True)
-            print time.strftime("%Y-%m-%d %H:%M") + " Summaries avg "+ alg + " completed."
-    print time.strftime("%Y-%m-%d %H:%M") + " Summaries avg are completed."
-    createSummariesALL(extractVal, metrics, dire)
+                for metric in metrics:
+                    if metric == 'alpha-nDCG' or metric == 'P-IA':
+                        valor=["5","10","20"]
+                    else:
+                        valor=["5","10","15","20"]
+                    for elem in valor:
+                        extractResult(metric,elem,dire,alg)
+                    cmd ="awk '1;!(NR%6){print \" \";}' "+dire+alg+"/summaries/"+metric+"Temp > "+dire+alg+"/summaries/"+alg+"."+metric+"Sum"
+                    subprocess.call(cmd, shell=True)
+                    cmd ="sed -i 's/\\./,/' "+dire+alg+"/summaries/"+alg+"."+metric+"Sum"
+                    subprocess.call(cmd, shell=True)
+                    cmd ="rm "+dire+alg+"/summaries/"+metric+"Temp"
+                    subprocess.call(cmd, shell=True)
+                print time.strftime("%Y-%m-%d %H:%M") + " Summaries avg "+ alg + " completed."
+        print time.strftime("%Y-%m-%d %H:%M") + " Summaries avg are completed."
+        createSummariesALL(extractVal, metrics, dire)
 
 def createSummariesALL(extractVal, metrics, dire):
     cmd=""
@@ -68,20 +73,25 @@ def createSummariesALL(extractVal, metrics, dire):
             print time.strftime("%Y-%m-%d %H:%M") + " Summaries total "+ alg + " completed."
     print time.strftime("%Y-%m-%d %H:%M") + " Summaries total are completed."
 
-def createSummariesBaseline(metrics, dire):
-    cmd=""
-    baseline=["ItemKNN","MostPopular","UserKNN","BPRMF","Random"]
-    for alg in os.listdir(dire):
-        if alg in baseline:
-            if alg == 'ItemKNN' or alg == 'UserKNN' or alg == 'BPRMF':
-                for neigh in os.listdir(dire+alg):
-                    totdir=dire+alg+"/"+neigh
+def createSummariesBaseline(dataset, metrics):
+    for db in dataset:
+        if (db == "movielens"):
+            dire = "./datasets/ml-100k/results/UserItemExpDBPedia/"
+        else:
+            dire = "./datasets/books-8k/results/UserItemExpDBPedia/"
+        cmd=""
+        baseline=["ItemKNN","MostPopular","UserKNN","BPRMF","Random"]
+        for alg in os.listdir(dire):
+            if alg in baseline:
+                if alg == 'ItemKNN' or alg == 'UserKNN' or alg == 'BPRMF':
+                    for neigh in os.listdir(dire+alg):
+                        totdir=dire+alg+"/"+neigh
+                        if os.path.isdir(totdir):
+                            extractBase(totdir, alg, metrics, dire)
+                else:
+                    totdir=dire+alg
                     if os.path.isdir(totdir):
                         extractBase(totdir, alg, metrics, dire)
-            else:
-                totdir=dire+alg
-                if os.path.isdir(totdir):
-                    extractBase(totdir, alg, metrics, dire)
     print time.strftime("%Y-%m-%d %H:%M") + " Summaries total are completed."
 
 def extractBase(totdir, alg, metrics, dire):
