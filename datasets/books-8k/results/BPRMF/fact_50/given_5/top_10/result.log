@@ -1,5 +1,0 @@
-training data: 293 users, 1840 items, 3619 events, sparsity 99.32872
-test data:     5968 users, 6903 items, 67989 events, sparsity 99.83497
-BPRMF num_factors=50 bias_reg=0 reg_u=0.0025 reg_i=0.0025 reg_j=0.00025 num_iter=30 learn_rate=0.05 uniform_user_sampling=True with_replacement=False update_j=True 
-training_time 00:00:00.2391100  prediction_time 00:00:00.7168910
-

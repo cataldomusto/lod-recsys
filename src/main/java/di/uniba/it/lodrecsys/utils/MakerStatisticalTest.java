@@ -11,8 +11,9 @@ public class MakerStatisticalTest {
     public static void main(String[] args) {
         if (args[0].equals("comparisonAlg")) {
             ArrayList<String> algorithms = new ArrayList<>(9);
-            algorithms.addAll(Arrays.asList(args).subList(1, args.length));
+            algorithms.addAll(Arrays.asList(args).subList(2, args.length));
             try {
+                LoadProperties.init(args[1]);
                 comparisonFriedman(algorithms, "Alg");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -20,8 +21,9 @@ public class MakerStatisticalTest {
         }
 
         if (args[0].equals("comparisonFeatures")) {
+            LoadProperties.init(args[1]);
             ArrayList<String> tops = new ArrayList<>(5);
-            for (int i = 1; i < args.length; i++)
+            for (int i = 2; i < args.length; i++)
                 tops.add("Features" + args[i]);
             try {
                 comparisonFriedman(tops, "Features");
@@ -31,13 +33,78 @@ public class MakerStatisticalTest {
         }
         if (args[0].equals("comparisonBestBaseline")) {
             try {
-                comparisonBestBaseline(args[1], args[2]);
+                LoadProperties.init(args[1]);
+                comparisonBestBaseline(args[2], args[3]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (args[0].equals("comparison2Alg")) {
+            try {
+                LoadProperties.init(args[1]);
+                comparison2Alg(args[2], args[3]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
     }
+
+    private static void comparison2Alg(String alg1, String alg2) throws IOException {
+//        if (!alg1.contains("CFSubsetEval") && !alg1.contains("Custom"))
+//            bestAlg1 = alg1 + nTop1;
+//        else
+//            bestAlg1 = alg1;
+//
+//        if (!alg2.contains("CFSubsetEval") && !alg2.contains("Custom"))
+//            bestAlg2 = alg2 + nTop2;
+//        else
+//            bestAlg2 = alg2;
+
+        new File("./scripts/Rcomparison2Alg").delete();
+        String pathWriter = "./scripts/Rcomparison2Alg";
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+        out.append(
+                "#!/usr/bin/env Rscript \n" +
+                        "args <- commandArgs(trailingOnly = TRUE) \n" +
+                        "sink(args[2]) \n" +
+                        "temp = list.files(path = args[1], pattern=\"*.csv\",full.names=TRUE) \n" +
+                        "for (j in 1:length(temp)) { \n" +
+                        "    print(temp[j])\n" +
+                        "    mydata = read.csv(temp[j]) \n" +
+                        "    attach(mydata) \n" +
+                        "    if (nrow(mydata)< 5000){\n" +
+                        "       normAlg1 <- shapiro.test(" + alg1 + ")\n" +
+                        "       normAlg2 <- shapiro.test(" + alg2 + ")\n" +
+                        "       if ((normAlg1$p.value < 0.05) || (normAlg2$p.value < 0.05) ){ \n" +
+                        "            compair <- wilcox.test(" + alg1 + "," + alg2 + ", paired=T) \n" +
+                        "       } else\n" +
+                        "            compair <- t.test(" + alg1 + "," + alg2 + ", paired=T) \n" +
+                        "    } else\n" +
+                        "       compair <- t.test(" + alg1 + "," + alg2 + ", paired=T) \n" +
+                        "   if (is.nan(compair$p.value)){\n" +
+                        "       cat(paste(\"P-value: 1\",\"\\n\\n\")) \n" +
+                        "       print (\"Not significant\")\n" +
+                        "   } \n" +
+                        "   else {\n" +
+                        "       if (compair$p.value < 0.05){\n" +
+                        "           means <- apply(mydata, 2, mean) # means factors\n" +
+                        "           maxMeans <- which.max(means)\n" +
+                        "           cat(paste(\"First algorithm: \",names(mydata)[1],\": \", means[1],\"\\n\"))\n" +
+                        "           cat(paste(\"Second algorithm: \",names(mydata)[2],\": \", means[2],\"\\n\"))\n" +
+                        "           cat(paste(\"The best algorithm is \",names(mydata)[maxMeans],\"\\n\\n\"))\n" +
+                        "           #cat(paste(\"Max mean algorithm is \",names(mydata)[maxMeans],\": \", means[maxMeans],\"\\n\\n\"))\n" +
+                        "           cat(paste(compair$method,\"significant \\n\"))\n" +
+                        "       } else \n" +
+                        "           cat(paste(compair$method,\"not significant \\n\"))\n" +
+                        "   }\n" +
+                        "   detach(mydata)\n" +
+                        "}");
+        out.close();
+
+    }
+
 
     private static void comparisonBestBaseline(String best, String nTop) throws IOException {
         String bestAlg;

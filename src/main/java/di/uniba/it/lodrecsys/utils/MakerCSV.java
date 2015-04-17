@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class MakerCSV {
 
-    private static List<String> loadalg(String nFeature, String sparsity, String top, String metric, String alg) throws IOException {
+    private static List<String> loadalg(String nsplit, String nFeature, String sparsity, String top, String metric, String alg) throws IOException {
         String fileName;
-        if (alg.contains("CFSubsetEval"))
-            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + "1split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+        if (alg.contains("CFSubsetEval") || alg.contains("Custom"))
+            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + nsplit + "split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
         else
-            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + "1split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
+            fileName = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/" + alg + nFeature + "prop" + nsplit + "split/summaries/result" + metric + "_Top_" + top + sparsity + ".ALL";
         //        List<String> values = new ArrayList<>(lines.size());
 //        for (String line : lines)
 //            values.add(line.replace(",", "."));
@@ -29,33 +29,74 @@ public class MakerCSV {
     }
 
     public static void main(String[] args) throws IOException {
+        LoadProperties.init(args[1]);
         if (args[0].equals("comparisonAlg")) {
             ArrayList<String> algorithms = new ArrayList<>(9);
-            algorithms.addAll(Arrays.asList(args).subList(5, args.length));
-            comparisonAlg(args[1], args[2], args[3], args[4], algorithms);
+            algorithms.addAll(Arrays.asList(args).subList(7, args.length));
+            comparisonAlg(args[2], args[3], args[4], args[5], args[6], algorithms);
         }
 
         if (args[0].equals("comparisonFeatures")) {
+            LoadProperties.init(args[1]);
             ArrayList<String> tops = new ArrayList<>(4);
-            for (int i = 5; i < args.length; i++)
+            for (int i = 7; i < args.length; i++)
                 tops.add("Features" + args[i]);
-            comparisonFeatures(args[1], args[2], args[3], args[4], tops);
+            comparisonFeatures(args[2], args[3], args[4], args[5], args[6], tops);
         }
 
         if (args[0].equals("comparisonBestBaseline")) {
+            LoadProperties.init(args[1]);
+            comparisonBestBaseline(args[2], args[3], args[4], args[5], args[6], args[7]);
+        }
 
-            comparisonBestBaseline(args[1], args[2], args[3], args[4], args[5]);
+        if (args[0].equals("comparison2Alg")) {
+            LoadProperties.init(args[1]);
+            comparison2Alg(args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
         }
 
     }
 
-    private static void comparisonBestBaseline(String nFeature, String sparsity, String top, String metric, String algorithm) throws IOException {
+    private static void comparison2Alg(String nsplit, String nFeature1, String sparsity, String top, String metric, String algorithm1, String algorithm2, String nFeature2) throws IOException {
         HashMap<String, ArrayList<String>> mapAlgVal = new HashMap<>(9);
-        ArrayList<String> valuesBaseline = (ArrayList<String>) loadalg("17", sparsity, top, metric, "Baseline");
-        ArrayList<String> valueBest = (ArrayList<String>) loadalg(nFeature, sparsity, top, metric, algorithm);
+        ArrayList<String> valuesalg2 = (ArrayList<String>) loadalg(nsplit, nFeature2, sparsity, top, metric, algorithm2);
+        ArrayList<String> valuesalg1 = (ArrayList<String>) loadalg(nsplit, nFeature1, sparsity, top, metric, algorithm1);
+
+        String mapped2;
+        if (!algorithm1.contains("CFSubsetEval") && !algorithm1.contains("Custom"))
+            mapped2 = algorithm2 + nFeature2;
+        else
+            mapped2 = algorithm2;
+        mapAlgVal.put(mapped2, valuesalg2);
+
+        String mapped1;
+        if (!algorithm1.contains("CFSubsetEval") && !algorithm1.contains("Custom"))
+            mapped1 = algorithm1 + nFeature1;
+        else
+            mapped1 = algorithm1;
+        mapAlgVal.put(mapped1, valuesalg1);
+
+        new File(LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparison2Alg/").mkdirs();
+
+        String pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparison2Alg/conf2Alg_" + algorithm1 + "_" + algorithm2 + "_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+
+        out.append(mapped2 + "," + mapped1 + "\n");
+
+        int max = valuesalg2.size();
+        for (int i = 0; i < max; i++) {
+            out.append(mapAlgVal.get(mapped2).get(i)).append(",").append(mapAlgVal.get(mapped1).get(i)).append("\n");
+        }
+        out.close();
+    }
+
+
+    private static void comparisonBestBaseline(String nsplit, String nFeature, String sparsity, String top, String metric, String algorithm) throws IOException {
+        HashMap<String, ArrayList<String>> mapAlgVal = new HashMap<>(9);
+        ArrayList<String> valuesBaseline = (ArrayList<String>) loadalg(nsplit, "17", sparsity, top, metric, "Baseline");
+        ArrayList<String> valueBest = (ArrayList<String>) loadalg(nsplit, nFeature, sparsity, top, metric, algorithm);
         mapAlgVal.put("Baseline17", valuesBaseline);
         String mapped;
-        if (!algorithm.contains("CFSubsetEval"))
+        if (!algorithm.contains("CFSubsetEval") && !algorithm.contains("Custom"))
             mapped = algorithm + nFeature;
         else
             mapped = algorithm;
@@ -74,11 +115,11 @@ public class MakerCSV {
         out.close();
     }
 
-    private static void comparisonFeatures(String algorithm, String sparsity, String top, String metric, ArrayList<String> nFeatures) throws IOException {
+    private static void comparisonFeatures(String nsplit, String algorithm, String sparsity, String top, String metric, ArrayList<String> nFeatures) throws IOException {
         HashMap<String, ArrayList<String>> mapAlgVal = new HashMap<>(9);
         int max = 0;
         for (String nFeature : nFeatures) {
-            ArrayList<String> values = (ArrayList<String>) loadalg(nFeature.replace("Features", ""), sparsity, top, metric, algorithm);
+            ArrayList<String> values = (ArrayList<String>) loadalg(nsplit, nFeature.replace("Features", ""), sparsity, top, metric, algorithm);
             mapAlgVal.put(nFeature, values);
             max = values.size();
         }
@@ -114,11 +155,13 @@ public class MakerCSV {
 //        System.out.println("Finished config: " + algorithm + "_" + sparsity + "_" + top + "Top_" + metric + ".csv");
     }
 
-    private static void comparisonAlg(String nFeature, String sparsity, String top, String metric, ArrayList<String> algorithms) throws IOException {
+    private static void comparisonAlg(String nsplit, String nFeature, String sparsity, String top, String metric, ArrayList<String> algorithms) throws IOException {
         HashMap<String, ArrayList<String>> mapAlgVal = new HashMap<>(9);
-        int max = 0;
+        int max = 0, custom = 0;
         for (String algorithm : algorithms) {
-            ArrayList<String> values = (ArrayList<String>) loadalg(nFeature, sparsity, top, metric, algorithm);
+            if (algorithm.contains("Custom"))
+                custom++;
+            ArrayList<String> values = (ArrayList<String>) loadalg(nsplit, nFeature, sparsity, top, metric, algorithm);
             mapAlgVal.put(algorithm, values);
             max = values.size();
         }
@@ -133,7 +176,12 @@ public class MakerCSV {
 //        FileUtils.deleteDirectory(new File("./datasets/ml-100k/results/UserItemExpDBPedia/ComparisonAlg/CSV/"));
         new File(LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonAlg/").mkdirs();
 
-        String pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonAlg/conf_" + nFeature + "Features_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+        String pathWriter;
+        if (custom == algorithms.size()) {
+            pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonAlg/conf_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+        } else
+            pathWriter = LoadProperties.DATASETPATH + "/results/UserItemExpDBPedia/CSV/comparisonAlg/conf_" + nFeature + "Features_" + sparsity + "_" + top + "Top_" + metric + ".csv";
+
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
 
         for (int i = 0; i < algorithms.size() - 1; i++)

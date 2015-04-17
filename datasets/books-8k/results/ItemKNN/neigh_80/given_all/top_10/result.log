@@ -1,5 +1,0 @@
-training data: 6182 users, 6734 items, 72372 events, sparsity 99.82615
-test data:     5968 users, 6903 items, 67989 events, sparsity 99.83497
-ItemKNN k=80 correlation=Cosine q=1 weighted=False alpha=0,5 (only for BidirectionalConditionalProbability) 
-training_time 00:02:36.5509100  prediction_time 00:18:20.4438570
-

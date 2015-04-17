@@ -12,11 +12,12 @@ dataset=["movielens"]
 #metrics=["F1","Novelty","Diversity"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
-param=8
+param=3
 algBaseline=["UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"]
-allalg=["CustomAll"]
+allalg=["CustomAll","CustomNoProp"]
 allalgWEKA=[] 
-topN=["10","30","50"]
+topN=["50"]
+#topN=["10","30","50"]
 #givenN=["given_5","given_all"]
 metrics=["F1"]
 
@@ -24,10 +25,6 @@ givenCSV=["given_5","given_20","given_all"]
 valMetricsCSV=["5","10","20"]
 best="PageRank"
 topBest="50"
-
-#dire="./datasets/ml-100k/results/UserItemExpDBPedia/"
-#dire="./datasets/ml-100k/results/"
-#dirProp="./datasets/ml-100k/stored_prop/"
 
 cmdThreadFS="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun\' | grep -v \'color=auto\' | grep -v \'/bin/sh\' |wc -l"
 

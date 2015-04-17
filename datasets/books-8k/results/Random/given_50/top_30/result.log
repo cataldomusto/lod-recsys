@@ -1,5 +1,0 @@
-training data: 3102 users, 5606 items, 36186 events, sparsity 99.79191
-test data:     5968 users, 6903 items, 67989 events, sparsity 99.83497
-Random 
-training_time 00:00:00.0004440  prediction_time 00:00:19.1049070
-

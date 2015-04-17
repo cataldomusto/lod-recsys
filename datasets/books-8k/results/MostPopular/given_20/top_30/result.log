@@ -1,5 +1,0 @@
-training data: 1245 users, 3926 items, 14475 events, sparsity 99.70386
-test data:     5968 users, 6903 items, 67989 events, sparsity 99.83497
-MostPopular by_user=False 
-training_time 00:00:00.0012600  prediction_time 00:00:05.6634080
-
