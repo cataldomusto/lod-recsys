@@ -46,6 +46,79 @@ public class EvaluateRecommendation {
         }
     }
 
+    private static void extractPropFilm() throws IOException, ClassNotFoundException {
+
+        String dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_propCustomAll";
+
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(Paths.get(dir),
+                    Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String, HashMap<String, Integer>> mappingFilmPropCount = new HashMap<>();
+
+        FileInputStream fis = new FileInputStream(LoadProperties.DATASETPATH + "/serialized/graphComplete.bin");
+
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        UndirectedSparseMultigraph<String, Edge> recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
+
+        assert recGraph != null;
+        Collection<Edge> recGraphEdges = recGraph.getEdges();
+
+        for (Edge s : recGraphEdges) {
+            mappingFilmPropCount.put(s.getSubject(), new HashMap<String, Integer>());
+        }
+
+//        String film = "http://dbpedia.org/resource/Shall_We_Dance%3F_(1996_film)";
+        for (String film : mappingFilmPropCount.keySet()) {
+            HashMap<String, Integer> mappingPropCount = new HashMap<>(lines.size());
+
+            for (String line : lines) {
+                mappingPropCount.put(line, 0);
+            }
+
+            Collection<Edge> propsFilm = recGraph.getIncidentEdges(film);
+            for (Edge edge : propsFilm) {
+                if (edge.getSubject().equals(film)) {
+                    if (lines.contains(edge.getProperty())) {
+                        int v = mappingPropCount.get(edge.getProperty());
+                        v++;
+                        mappingPropCount.put(edge.getProperty(), v);
+                    }
+                }
+            }
+            mappingFilmPropCount.put(film, mappingPropCount);
+        }
+
+        String pathWriter = LoadProperties.MAPPINGPATH + "/all_propITEM";
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(pathWriter, true)));
+        out.println("Item : " + mappingFilmPropCount.size());
+
+        HashMap<String, Integer> propCount = new HashMap<>(70);
+
+        for (String s : mappingFilmPropCount.keySet()) {
+            HashMap<String, Integer> aa = mappingFilmPropCount.get(s);
+            for (String s1 : aa.keySet()) {
+                if (propCount.containsKey(s1)) {
+                    int val = propCount.get(s1);
+                    val = val + aa.get(s1);
+                    propCount.put(s1, val);
+                } else
+                    propCount.put(s1, 1);
+            }
+        }
+
+        for (String s : propCount.keySet()) {
+            out.println(propCount.get(s) + " " + s);
+        }
+
+        out.close();
+    }
+
+
     private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
         String dir;
         if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {

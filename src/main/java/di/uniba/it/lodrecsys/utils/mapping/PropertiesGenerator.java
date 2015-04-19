@@ -35,14 +35,15 @@ public class PropertiesGenerator {
             }
         }
         out.close();
-
     }
 
     public static void main(String[] args) throws Exception {
 
-//        if (!new File(LoadProperties.MAPPINGPATH + "/all_prop").exists()) {
-//            extractAllFeatures();
-//        }
+        LoadProperties.init(args[0]);
+
+        if (!new File(LoadProperties.MAPPINGPATH + "/all_prop").exists()) {
+            extractAllFeatures();
+        }
 
 //                dbpediaMapping = "mapping/item.mapping",
 //                firstLevelExpProp = "mapping/exp_prop.txt";
