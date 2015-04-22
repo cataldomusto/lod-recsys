@@ -118,6 +118,81 @@ public class EvaluateRecommendation {
         out.close();
     }
 
+    private static HashMap<String, HashMap<String, ArrayList<String>>> loadPropFilmVal(int numRec) {
+        String dir;
+        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+
+        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+
+        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+
+        } else {
+            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+
+        }
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(Paths.get(dir),
+                    Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String, HashMap<String, ArrayList<String>>> mappingFilmPropVal = new HashMap<>(numRec);
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(LoadProperties.DATASETPATH + "/serialized/graphComplete.bin");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(fis);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        UndirectedSparseMultigraph<String, Edge> recGraph = null;
+        try {
+            recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert recGraph != null;
+        Collection<Edge> recGraphEdges = recGraph.getEdges();
+
+        for (Edge s : recGraphEdges) {
+            mappingFilmPropVal.put(s.getSubject(), new HashMap<String, ArrayList<String>>());
+        }
+
+//        String film = "http://dbpedia.org/resource/Shall_We_Dance%3F_(1996_film)";
+        for (String film : mappingFilmPropVal.keySet()) {
+            HashMap<String, ArrayList<String>> mappingPropCount = new HashMap<>(lines.size());
+
+            for (String line : lines) {
+                mappingPropCount.put(line, new ArrayList<String>());
+            }
+
+            Collection<Edge> propsFilm = recGraph.getIncidentEdges(film);
+            for (Edge edge : propsFilm) {
+                if (edge.getSubject().equals(film)) {
+                    if (lines.contains(edge.getProperty())) {
+                        ArrayList<String> v = mappingPropCount.get(edge.getProperty());
+                        v.add(edge.getObject());
+                        mappingPropCount.put(edge.getProperty(), v);
+                    }
+                }
+            }
+            mappingFilmPropVal.put(film, mappingPropCount);
+        }
+        return mappingFilmPropVal;
+    }
+
 
     private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
         String dir;
@@ -194,7 +269,7 @@ public class EvaluateRecommendation {
         return mappingFilmPropCount;
     }
 
-    private static String uriByID(String id, HashMap<String, HashMap<String, Integer>> mapFilmCountProp) {
+    private static String uriByID(String id, HashMap<String, HashMap<String, ArrayList<String>>> mapFilmCountProp) {
         try {
             MovieMapping movieMapping = Utils.findMovieMappingbyId(id);
             if (movieMapping != null && mapFilmCountProp.containsKey(movieMapping.getDbpediaURI()))
@@ -216,7 +291,7 @@ public class EvaluateRecommendation {
         return null;
     }
 
-    private static HashMap<String, Double> ildmetric(Map<String, Set<Rating>> recommendationList, int numRec, HashMap<String, HashMap<String, Integer>> mapFilmCountProp) throws IOException {
+    private static HashMap<String, Double> ildmetric(Map<String, Set<Rating>> recommendationList, int numRec, HashMap<String, HashMap<String, ArrayList<String>>> mapFilmCountProp) throws IOException {
 
 //        String userID = "184";
         HashMap<String, Double> ildAllUser = new HashMap<>(900);
@@ -236,13 +311,14 @@ public class EvaluateRecommendation {
                     break;
             }
 
-//            System.out.println("-----------------");
+//        System.out.println("-----------------");
             double similarityTot = 0f;
             int nRec = 0;
             for (int i1 = 0; i1 < itemRec.size() - 1; i1++) {
                 for (int j = i1 + 1; j < itemRec.size(); j++) {
 //                    System.out.println(itemRec.get(i1) + " " + itemRec.get(j));
-                    double val = cosSimMetric(mapFilmCountProp.get(itemRec.get(i1)), mapFilmCountProp.get(itemRec.get(j)));
+                    ArrayList<HashMap<String,Integer>> filmModded = modFilms(mapFilmCountProp.get(itemRec.get(i1)), mapFilmCountProp.get(itemRec.get(j)));
+                    double val = cosSimMetric(filmModded.get(0),filmModded.get(1));
                     if (val != 0.0) {
                         nRec++;
 //                        System.out.println("cosSim(" + itemRec.get(i1) + " " + itemRec.get(j) + ") = " + val);
@@ -250,18 +326,50 @@ public class EvaluateRecommendation {
                     }
                 }
             }
-//            System.out.println("-----------------");
-//            System.out.println("SimTot = " + similarityTot);
-//            System.out.println("nRec = " + nRec);
+//        System.out.println("-----------------");
+//        System.out.println("SimTot = " + similarityTot);
+//        System.out.println("nRec = " + nRec);
             double simAVG = 0;
             if (nRec != 0)
                 simAVG = similarityTot / nRec;
-//            System.out.println("SimAVG = " + simAVG);
+//        System.out.println("SimAVG = " + simAVG);
             double ildUser = 1 - simAVG;
-//            System.out.println("Diversity = 1 - " + simAVG + " = " + ildUser);
+//        System.out.println("Diversity = 1 - " + simAVG + " = " + ildUser);
             ildAllUser.put(userID, ildUser);
         }
         return ildAllUser;
+    }
+
+    private static ArrayList<HashMap<String, Integer>> modFilms(HashMap<String, ArrayList<String>> film1, HashMap<String, ArrayList<String>> film2) {
+        HashSet<String> valAllProp = new HashSet<>();
+        for (ArrayList<String> objectProp : film1.values())
+            for (String s : objectProp)
+                valAllProp.add(s);
+        for (ArrayList<String> objectProp : film2.values())
+            for (String s : objectProp)
+                valAllProp.add(s);
+
+        HashMap<String, Integer> film1Bin = new HashMap<>();
+        HashMap<String, Integer> film2Bin = new HashMap<>();
+
+        for (String s : valAllProp) {
+            film1Bin.put(s,0);
+            film2Bin.put(s,0);
+        }
+
+        for (ArrayList<String> objectProp : film1.values())
+            for (String s : objectProp)
+                film1Bin.put(s,1);
+
+        for (ArrayList<String> objectProp : film2.values())
+            for (String s : objectProp)
+                film2Bin.put(s,1);
+
+        ArrayList<HashMap<String,Integer>> arrfilms = new ArrayList<>();
+        arrfilms.add(film1Bin);
+        arrfilms.add(film2Bin);
+        return arrfilms;
+
     }
 
     private static double avgILD(HashMap<String, Double> ildAllUser) {
@@ -277,7 +385,7 @@ public class EvaluateRecommendation {
         ArrayList<Integer> valuesFilm1 = new ArrayList<>();
         for (String s : film1.keySet()) {
             valuesFilm1.add(film1.get(s));
-//            System.out.println("Prop: "+ s + " Val: "+film1.get(s));
+//            System.out.println("Prop: " + s + " Val: " + film1.get(s));
         }
 
 //        System.out.println("----------------");
@@ -285,7 +393,7 @@ public class EvaluateRecommendation {
         ArrayList<Integer> valuesFilm2 = new ArrayList<>();
         for (String s : film2.keySet()) {
             valuesFilm2.add(film2.get(s));
-//            System.out.println("Prop: "+ s + " Val: "+film2.get(s));
+//            System.out.println("Prop: " + s + " Val: " + film2.get(s));
         }
 
 //        System.out.println("----------------");
@@ -321,11 +429,11 @@ public class EvaluateRecommendation {
             return 0.0;
     }
 
-    public static ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount() {
+    public static ArrayList<HashMap<String, HashMap<String, ArrayList<String>>>> mapFilmCount() {
         int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
-        ArrayList<HashMap<String, HashMap<String, Integer>>> arrayList = new ArrayList<>(cutoffLevels.length);
+        ArrayList<HashMap<String, HashMap<String, ArrayList<String>>>> arrayList = new ArrayList<>(cutoffLevels.length);
         for (int cutoffLevel : cutoffLevels) {
-            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = loadPropFilm(cutoffLevel);
+            HashMap<String, HashMap<String, ArrayList<String>>> mapFilmCountProp = loadPropFilmVal(cutoffLevel);
             arrayList.add(mapFilmCountProp);
         }
         return arrayList;
@@ -507,12 +615,12 @@ public class EvaluateRecommendation {
     }
 
 
-    public static HashMap<String, String> evalILDMeasure(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCount) {
+    public static HashMap<String, String> evalILDMeasure(Map<String, Set<Rating>> recommendationList, ArrayList<HashMap<String, HashMap<String, ArrayList<String>>>> mapFilmCount) {
         String measuresAll = "", measuresAVG = "";
         int[] cutoffLevels = new int[]{5, 10, 15, 20, 30, 50};
         for (int i = 0; i < cutoffLevels.length; i++) {
             int cutoffLevel = cutoffLevels[i];
-            HashMap<String, HashMap<String, Integer>> mapFilmCountProp = mapFilmCount.get(i);
+            HashMap<String, HashMap<String, ArrayList<String>>> mapFilmCountProp = mapFilmCount.get(i);
             double avgMeasure = 0;
             HashMap<String, Double> usersILD = null;
             try {

@@ -11,8 +11,6 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static di.uniba.it.lodrecsys.eval.EvaluateRecommendation.mapFilmCount;
-
 /**
  * Created by asuglia on 4/4/14.
  */
@@ -141,13 +139,13 @@ public class BaselineRunner {
                                 recommendationForSplits.add(EvaluateRecommendation.extractPredictionFile(resFile));
                             }
 
-                            // Diversity measure
-                            ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
-                            ArrayList<String> diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
-                            for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-                                HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
-                                diversityMeasureAvg.add(measures.get("avg"));
-                            }
+//                            // Diversity measure
+//                            ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
+//                            ArrayList<String> diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
+//                            for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+//                                HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
+//                                diversityMeasureAvg.add(measures.get("avg"));
+//                            }
 
                             // Novelty measure
                             ArrayList<String> noveltyMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
@@ -161,7 +159,7 @@ public class BaselineRunner {
                                         "top_" + numRec + File.separator + "u" + i + ".results";
                                 String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
                                         + File.separator + "u" + i + ".final";
-                                EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
+//                                EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
                                 EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
                             }
 

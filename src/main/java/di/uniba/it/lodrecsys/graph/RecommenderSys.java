@@ -197,7 +197,7 @@ public class RecommenderSys implements Serializable {
             // Diversity measure
             ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
             if (diversity) {
-                ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
+                ArrayList<HashMap<String, HashMap<String, ArrayList<String>>>> mapFilmCountProp = mapFilmCount();
                 diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
                 diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
                 for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {

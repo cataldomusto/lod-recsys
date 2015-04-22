@@ -46,14 +46,14 @@ def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, 
 #    creatorSummaries.createSummaries(dataset, extractVal, metrics)
 #    creatorSummaries.createSummariesBaseline(dataset, metrics)
     
-    creatorCSV.createCSVcomparisonAlg(dataset, topN, metrics, allalg, allalgWEKA, givenCSV, valMetricsCSV)
+#    creatorCSV.createCSVcomparisonAlg(dataset, topN, metrics, allalg, allalgWEKA, givenCSV, valMetricsCSV)
 #    creatorCSV.createCSVcomparisonFeatures(dataset, topN, metrics, allalg, allalgWEKA, givenCSV, valMetricsCSV)
 #    creatorCSV.createCSVcomparisonBestBaseline(dataset, metrics, best, topBest, givenCSV, valMetricsCSV)
 
 #    StatisticalTest.FriedmanTestcomparisonAlg(dataset, allalg, allalgWEKA, metrics)
 #    StatisticalTest.FriedmanTestcomparisonFeatures(dataset, topN, metrics)
     
-    StatisticalTest.Comparison2Alg(dataset, allalg)
+#    StatisticalTest.Comparison2Alg(dataset, allalg)
 
     print time.strftime("%Y-%m-%d %H:%M") + " Finished."
 
