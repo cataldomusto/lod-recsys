@@ -119,20 +119,20 @@ public class EvaluateRecommendation {
     }
 
     private static HashMap<String, HashMap<String, ArrayList<String>>> loadPropFilmVal(int numRec) {
-        String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+        String dir = LoadProperties.MAPPINGPATH + "/all_prop";
+//        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
+//            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
+//
+//        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
+//            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+//
+//        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
+//            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
+//
+//        } else {
+//            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
+//        }
 
-        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
-
-        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
-
-        } else {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
-
-        }
         List<String> lines = null;
         try {
             lines = Files.readAllLines(Paths.get(dir),
@@ -191,82 +191,6 @@ public class EvaluateRecommendation {
             mappingFilmPropVal.put(film, mappingPropCount);
         }
         return mappingFilmPropVal;
-    }
-
-
-    private static HashMap<String, HashMap<String, Integer>> loadPropFilm(int numRec) {
-        String dir;
-        if (LoadProperties.FILTERTYPE.equals("RankerWeka")) {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER + LoadProperties.EVALWEKA;
-
-        } else if (LoadProperties.FILTERTYPE.equals("CFSubsetEval")) {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
-
-        } else if (LoadProperties.FILTERTYPE.contains("Custom")) {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE;
-
-        } else {
-            dir = LoadProperties.MAPPINGPATH + "/choosen_prop/choosen_prop" + LoadProperties.FILTERTYPE + LoadProperties.NUMFILTER;
-
-        }
-        List<String> lines = null;
-        try {
-            lines = Files.readAllLines(Paths.get(dir),
-                    Charset.defaultCharset());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        HashMap<String, HashMap<String, Integer>> mappingFilmPropCount = new HashMap<>(numRec);
-
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(LoadProperties.DATASETPATH + "/serialized/graphComplete.bin");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(fis);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        UndirectedSparseMultigraph<String, Edge> recGraph = null;
-        try {
-            recGraph = (UndirectedSparseMultigraph<String, Edge>) ois.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert recGraph != null;
-        Collection<Edge> recGraphEdges = recGraph.getEdges();
-
-        for (Edge s : recGraphEdges) {
-            mappingFilmPropCount.put(s.getSubject(), new HashMap<String, Integer>());
-        }
-
-//        String film = "http://dbpedia.org/resource/Shall_We_Dance%3F_(1996_film)";
-        for (String film : mappingFilmPropCount.keySet()) {
-            HashMap<String, Integer> mappingPropCount = new HashMap<>(lines.size());
-
-            for (String line : lines) {
-                mappingPropCount.put(line, 0);
-            }
-
-            Collection<Edge> propsFilm = recGraph.getIncidentEdges(film);
-            for (Edge edge : propsFilm) {
-                if (edge.getSubject().equals(film)) {
-                    if (lines.contains(edge.getProperty())) {
-                        int v = mappingPropCount.get(edge.getProperty());
-                        v++;
-                        mappingPropCount.put(edge.getProperty(), v);
-                    }
-                }
-            }
-            mappingFilmPropCount.put(film, mappingPropCount);
-        }
-        return mappingFilmPropCount;
     }
 
     private static String uriByID(String id, HashMap<String, HashMap<String, ArrayList<String>>> mapFilmCountProp) {
