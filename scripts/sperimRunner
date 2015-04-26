@@ -3,24 +3,23 @@
 import modSperim
 import downloadProp
 
-dataset=["movielens"]
-#dataset=["movielens","dbbooks"]
+#dataset=["movielens"]
+dataset=["movielens","dbbooks"]
 
 #allalg=["CFSubsetEval","PageRank","MRMR"]
 #allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]
 ##topN=["10","17","30","50"]
-#metrics=["F1","Novelty","Diversity"]
+metrics=["F1","Novelty","Diversity"]
 givenN=["given_5","given_10","given_20","given_30","given_50","given_all"]
 
 param=3
 algBaseline=["UserKNN", "ItemKNN", "Random", "MostPopular", "BPRMF"]
-#allalg=["CustomAll","CustomNoProp"]
 allalg=[]
-allalgWEKA=["GainRatioAttributeEval","InfoGainAttributeEval","ChiSquaredAttributeEval"] 
+allalgWEKA=[] 
 #topN=["50"]
 topN=["10","30","50"]
 #givenN=["given_5","given_all"]
-metrics=["F1"]
+#metrics=["F1"]
 
 givenCSV=["given_5","given_20","given_all"]
 valMetricsCSV=["5","10","20"]

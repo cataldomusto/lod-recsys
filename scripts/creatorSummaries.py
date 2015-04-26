@@ -76,9 +76,9 @@ def createSummariesALL(extractVal, metrics, dire):
 def createSummariesBaseline(dataset, metrics):
     for db in dataset:
         if (db == "movielens"):
-            dire = "./datasets/ml-100k/results/UserItemExpDBPedia/"
+            dire = "./datasets/ml-100k/results/"
         else:
-            dire = "./datasets/books-8k/results/UserItemExpDBPedia/"
+            dire = "./datasets/books-8k/results/"
         cmd=""
         baseline=["ItemKNN","MostPopular","UserKNN","BPRMF","Random"]
         for alg in os.listdir(dire):
@@ -97,9 +97,9 @@ def createSummariesBaseline(dataset, metrics):
 def extractBase(totdir, alg, metrics, dire):
     if not(os.path.exists(totdir+"/summaries/")):
         os.makedirs(totdir+"/summaries/")
-        for f in os.listdir(totdir+"/summaries/"):
-            cmd ="rm -f " +f
-            subprocess.call(cmd, shell=True)
+    for f in os.listdir(totdir+"/summaries/"):
+        cmd ="rm -f " +f
+        subprocess.call(cmd, shell=True)
     for given in os.listdir(totdir):
         if "given" in given: 
             with open(totdir+"/summaries/"+given+".summary", "a") as myfile:

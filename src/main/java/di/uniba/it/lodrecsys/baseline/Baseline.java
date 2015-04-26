@@ -9,12 +9,14 @@ import di.uniba.it.lodrecsys.utils.PredictionFileConverter;
 import java.io.*;
 import java.util.*;
 
+import static di.uniba.it.lodrecsys.eval.EvaluateRecommendation.mapFilmCount;
+
 
 /**
  * Created by simo on 11/04/15.
  */
 
-//java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.Baseline given_5 UserKNN novelty diversity
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.Baseline movielens given_5 UserKNN novelty diversity
 
 public class Baseline {
 
@@ -23,9 +25,9 @@ public class Baseline {
 
     public static void main(String[] args) throws IOException {
 
-        LoadProperties.init("movielens");
-        String level = args[0];
-        String method = args[1];
+        LoadProperties.init(args[0]);
+        String level = args[1];
+        String method = args[2];
 
         System.out.print(new Date() + "[INFO] Started baseline ");
         for (String arg : args) {
@@ -113,18 +115,18 @@ public class Baseline {
 //                CmdExecutor.executeCommand("rm -f " + tempResFile, false);
             }
 
-//            // Diversity measure
-//            ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
-//            if (diversity) {
-//                ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
-//                diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
-//                diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
-//                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-//                    HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
-//                    diversityMeasureAll.add(measures.get("all"));
-//                    diversityMeasureAvg.add(measures.get("avg"));
-//                }
-//            }
+//           // Diversity measure
+            ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
+            if (diversity) {
+                ArrayList<HashMap<String, HashMap<String, ArrayList<String>>>> mapFilmCountProp = mapFilmCount();
+                diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
+                diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
+                for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                    HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
+                    diversityMeasureAll.add(measures.get("all"));
+                    diversityMeasureAvg.add(measures.get("avg"));
+                }
+            }
 
 //          Novelty measure
             ArrayList<String> noveltyMeasureAll = null, noveltyMeasureAvg = null;
@@ -144,8 +146,8 @@ public class Baseline {
                         "top_" + numRec + File.separator + "u" + i + ".results";
                 String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
                         + File.separator + "u" + i + ".final";
-//                if (diversity)
-//                    EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
+                if (diversity)
+                    EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
                 if (novelty)
                     EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
 
@@ -210,18 +212,18 @@ public class Baseline {
 //                    CmdExecutor.executeCommand("rm -f " + tempResFile, false);
                 }
 
-//                // Diversity measure
-//                ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
-//                if (diversity) {
-//                    ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
-//                    diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
-//                    diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
-//                    for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-//                        HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
-//                        diversityMeasureAll.add(measures.get("all"));
-//                        diversityMeasureAvg.add(measures.get("avg"));
-//                    }
-//                }
+//               // Diversity measure
+                ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
+                if (diversity) {
+                    ArrayList<HashMap<String, HashMap<String, ArrayList<String>>>> mapFilmCountProp = mapFilmCount();
+                    diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
+                    diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
+                    for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                        HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
+                        diversityMeasureAll.add(measures.get("all"));
+                        diversityMeasureAvg.add(measures.get("avg"));
+                    }
+                }
 
 //          Novelty measure
                 ArrayList<String> noveltyMeasureAll = null, noveltyMeasureAvg = null;
@@ -241,8 +243,8 @@ public class Baseline {
                             "top_" + numRec + File.separator + "u" + i + ".results";
                     String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
                             + File.separator + "u" + i + ".final";
-//                    if (diversity)
-//                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
+                    if (diversity)
+                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
                     if (novelty)
                         EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
@@ -305,18 +307,18 @@ public class Baseline {
 //                    CmdExecutor.executeCommand("rm -f " + tempResFile, false);
                 }
 
-//                // Diversity measure
-//                ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
-//                if (diversity) {
-//                    ArrayList<HashMap<String, HashMap<String, Integer>>> mapFilmCountProp = mapFilmCount();
-//                    diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
-//                    diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
-//                    for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
-//                        HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
-//                        diversityMeasureAll.add(measures.get("all"));
-//                        diversityMeasureAvg.add(measures.get("avg"));
-//                    }
-//                }
+//               // Diversity measure
+                ArrayList<String> diversityMeasureAll = null, diversityMeasureAvg = null;
+                if (diversity) {
+                    ArrayList<HashMap<String, HashMap<String, ArrayList<String>>>> mapFilmCountProp = mapFilmCount();
+                    diversityMeasureAll = new ArrayList<>(LoadProperties.NUMSPLIT);
+                    diversityMeasureAvg = new ArrayList<>(LoadProperties.NUMSPLIT);
+                    for (int i = 1; i <= LoadProperties.NUMSPLIT; i++) {
+                        HashMap<String, String> measures = EvaluateRecommendation.evalILDMeasure(recommendationForSplits.get(i - 1), mapFilmCountProp);
+                        diversityMeasureAll.add(measures.get("all"));
+                        diversityMeasureAvg.add(measures.get("avg"));
+                    }
+                }
 
 //          Novelty measure
                 ArrayList<String> noveltyMeasureAll = null, noveltyMeasureAvg = null;
@@ -336,8 +338,9 @@ public class Baseline {
                             "top_" + numRec + File.separator + "u" + i + ".results";
                     String trecResultFinal = trecResFile.substring(0, trecResFile.lastIndexOf(File.separator))
                             + File.separator + "u" + i + ".final";
-//                    if (diversity)
-//                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
+                    if (diversity) {
+                        EvaluateRecommendation.saveEvalILDMeasure(diversityMeasureAvg.get(i - 1), trecResultFinal);
+                    }
                     if (novelty)
                         EvaluateRecommendation.saveEvalMSIMeasure(noveltyMeasureAvg.get(i - 1), trecResultFinal);
                     metricsForSplit.add(EvaluateRecommendation.getTrecEvalResults(trecResultFinal));
