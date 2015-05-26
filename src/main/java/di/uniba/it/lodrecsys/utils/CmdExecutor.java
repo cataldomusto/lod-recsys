@@ -3,7 +3,7 @@ package di.uniba.it.lodrecsys.utils;
 import java.io.*;
 
 /**
- * Created by asuglia on 4/22/14.
+ * Created by Simone Rutigliano on 7/12/14.
  */
 public class CmdExecutor {
     public static void executeCommandAndPrintLinux(String command, String resultFilename) {

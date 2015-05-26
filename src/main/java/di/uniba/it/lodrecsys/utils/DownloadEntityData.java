@@ -11,6 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ *
+ * Created by Simone Rutigliano
+ *
  * Another utility class used in order to download Wikipedia pages associated
  * to the DBpedia entities
  */

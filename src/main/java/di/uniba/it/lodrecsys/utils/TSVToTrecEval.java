@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
+ * Created by Simone Rutigliano
+ *
  * Utility class used to convert simple dataset in CSV format
  * into the trec_eval rating format
  */

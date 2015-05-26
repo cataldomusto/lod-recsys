@@ -13,7 +13,7 @@ import static di.uniba.it.lodrecsys.eval.EvaluateRecommendation.mapFilmCount;
 
 
 /**
- * Created by simo on 11/04/15.
+ * Created by Simone Rutigliano on 11/04/15.
  */
 
 //java -cp lodrecsys.jar di.uniba.it.lodrecsys.baseline.Baseline movielens given_5 UserKNN novelty diversity

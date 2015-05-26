@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
+ * Created by Simone Rutigliano
+ *
  * Utility class used to parse the trec eval results file
  * and to get a map which contains all the desired metrics
  */
