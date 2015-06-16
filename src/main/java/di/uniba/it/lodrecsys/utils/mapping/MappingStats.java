@@ -6,7 +6,7 @@ import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 import di.uniba.it.lodrecsys.utils.Utils;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -15,42 +15,59 @@ import java.util.*;
  */
 public class MappingStats {
     public static void main(String[] args) throws IOException {
-        String ratingFile = LoadProperties.RATINGFILE;
-        String mappingFile = LoadProperties.DBPEDIAMAPPING;
-        int totalNumberOfUser = 943;
+        LoadProperties.init(args[0]);
+        String mappingFile = LoadProperties.DBPEDIAMAPPING + args[1];
 
         List<MovieMapping> allItems = Utils.loadDBpediaMappingItems(mappingFile);
         List<MovieMapping> unmappedItems = getUnmappedItems(allItems);
 
         for (MovieMapping movie : unmappedItems)
             System.out.println(movie);
+        printResourceFreq(mappingFile, args[1]);
     }
 
-    private static void printResourceFreq(String mappingFile) throws IOException {
+    private static void printResourceFreq(String mappingFile, String arg) throws IOException {
 
         List<String> mappedItems = Utils.getDBpediaEntities(mappingFile);
 
-        Multiset<String> occurrences = countResourceFreq(mappedItems);
+        Multiset<String> occurrences = countResourceFreq(mappedItems, arg);
+
+        if (new File(LoadProperties.MAPPINGPATH + "/stat" + arg).exists()) {
+            new File(LoadProperties.MAPPINGPATH + "/stat" + arg).delete();
+        }
 
         for (String uri : occurrences.elementSet()) {
-            System.out.println("DBPEDIA PROP: " + uri + " FREQ: " + occurrences.count(uri));
-
+//            savefileLog("DBPEDIA PROP: " + uri + " FREQ: " + occurrences.count(uri));
+            savefileLog(occurrences.count(uri) + " " + uri, arg);
         }
     }
 
+    private static void savefileLog(String s, String arg) {
+        String dir = LoadProperties.MAPPINGPATH;
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(dir + "/stat" + arg, true)))) {
+            out.println(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        System.out.println(s);
+    }
 
-    private static Multiset<String> countResourceFreq(List<String> mappedURI) {
+    private static Multiset<String> countResourceFreq(List<String> mappedURI, String arg) {
         Multiset<String> resourceCounter = HashMultiset.create();
 
         SPARQLClient sparqlClient = new SPARQLClient();
 
+        String mappingFile = LoadProperties.DBPEDIAMAPPING + arg;
+
+        int count = 1;
         for (String uri : mappedURI) {
+            System.out.println(new Date() + " [INFO " + mappingFile + "] Resource " + count + " of " + mappedURI.size());
             Set<String> distinctProp = sparqlClient.getURIProperties(uri);
             for (String prop : distinctProp)
                 resourceCounter.add(prop);
-
+            count++;
         }
-
+        System.out.println("\n " + mappingFile + " finished.\n---------------------------------\n\n");
         return resourceCounter;
     }
 

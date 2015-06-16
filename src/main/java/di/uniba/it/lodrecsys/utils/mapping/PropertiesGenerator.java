@@ -52,7 +52,7 @@ public class PropertiesGenerator {
         Collection<String> expPropList = loadPropertiesURI(LoadProperties.MAPPINGPATH + "/all_prop");
         Collection<String> missed;
 
-        if (args.length > 0 && args[0].equals("all")) {
+        if (args.length > 1 && args[1].equals("all")) {
             missed = loadPropertiesURI(LoadProperties.MAPPINGPATH + "/resourcesURI");
         } else
             missed = loadPropertiesURI(LoadProperties.MISSEDPROP);

@@ -1,17 +1,8 @@
 #!/usr/bin/python
 import time
-import subprocess
-import sys
-import os
-import shutil
-from time import gmtime, strftime, localtime
-from datetime import datetime
 
 import init
-import parallelProcess
-import creatorSummaries
-import creatorCSV
-import StatisticalTest
+
 
 def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline):
     
@@ -44,7 +35,7 @@ def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, 
 #    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
 #    creatorSummaries.createSummaries(dataset, extractVal, metrics)
-    creatorSummaries.createSummariesBaseline(dataset, metrics)
+    #    creatorSummaries.createSummariesBaseline(dataset, metrics)
     
 #    creatorCSV.createCSVcomparisonAlg(dataset, topN, metrics, allalg, allalgWEKA, givenCSV, valMetricsCSV)
 #    creatorCSV.createCSVcomparisonFeatures(dataset, topN, metrics, allalg, allalgWEKA, givenCSV, valMetricsCSV)
