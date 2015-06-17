@@ -65,7 +65,7 @@ public class PropertiesGenerator {
             try {
                 manager.start(true);
                 sparql.saveResourceProperties(URLDecoder.decode(mappedItem, "UTF-8"), expPropList, manager);
-                System.out.println(new Date() + " [INFO] Book " + i + " to " + missed.size() + " finished");
+                System.out.println(new Date() + " [INFO] " + args[0] + " " + i + " to " + missed.size() + " finished");
                 i++;
                 manager.commitChanges();
             } finally {

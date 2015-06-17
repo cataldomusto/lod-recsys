@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import statProp
+import downloadProp
 
 dataset = ["lastfm"]
 # dataset=["movielens","dbbooks"]
@@ -44,7 +45,7 @@ cmdThreadBaseline="ps aux | grep \'java -cp lodrecsys.jar di.uniba.it.lodrecsys.
 #SVMAttributeEval  
 
 
-statProp.extractPropertiesStat(dataset)
-# downloadProp.extractProperties(dataset)
+#statProp.extractPropertiesStat(dataset)
+downloadProp.extractProperties(dataset)
 
 #modSperim.sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline)
