@@ -1,13 +1,11 @@
 package di.uniba.it.lodrecsys.utils.mapping;
 
-import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,9 +21,9 @@ public class StatComplete {
     static class TrainingSet {
         private String userID;
         private String artistID;
-        private String listeningCount;
+        private int listeningCount;
 
-        public TrainingSet(String userID, String artistID, String listeningCount) {
+        public TrainingSet(String userID, String artistID, int listeningCount) {
             this.userID = userID;
             this.artistID = artistID;
             this.listeningCount = listeningCount;
@@ -39,43 +37,103 @@ public class StatComplete {
             return artistID;
         }
 
-        public String getListeningCount() {
+        public int getListeningCount() {
             return listeningCount;
         }
     }
 
+    private static final double PROP = 0.6;
+
     private static void splittingByUser() throws IOException {
         LoadProperties.init("lastfm");
+        File dirDataset = new File(LoadProperties.MAPPINGPATH);
+
+        if (new File(dirDataset + "/datasetFull").exists()) {
+            new File(dirDataset + "/datasetFull").delete();
+        }
+        PrintWriter writerDatasetFull = new PrintWriter(dirDataset + "/datasetFull", "UTF-8");
+
+        if (new File(dirDataset + "/trainingset").exists()) {
+            new File(dirDataset + "/trainingset").delete();
+        }
+        PrintWriter writerTraining = new PrintWriter(dirDataset + "/trainingset", "UTF-8");
+
+        if (new File(dirDataset + "/testset").exists()) {
+            new File(dirDataset + "/testset").delete();
+        }
+        PrintWriter writerTest = new PrintWriter(dirDataset + "/testset", "UTF-8");
+
         String dir = LoadProperties.DATASETPATH + "/BKP/user_artists.dat";
         List<String> lines = Files.readAllLines(Paths.get(dir),
                 Charset.defaultCharset());
-        HashMap<String, HashMap<String, String>> userArtists = new HashMap<>(1893);
+        HashMap<String, HashMap<String, Integer>> userArtists = new HashMap<>(1893);
         for (String line : lines) {
             String[] tagged = line.split("\t");
-            TrainingSet map = new TrainingSet(tagged[0], tagged[1], tagged[2]);
-            if (!userArtists.containsKey(map.getUserID())) {
-                HashMap<String, String> artistsListened = new HashMap<>();
-                artistsListened.put(map.getArtistID(), map.getListeningCount());
-                userArtists.put(map.getUserID(), artistsListened);
-            }
-            else {
-                HashMap<String, String> artistsListened = userArtists.get(map.getUserID());
-                artistsListened.put(map.getArtistID(), map.getListeningCount());
-                userArtists.put(map.getUserID(), artistsListened);
+            if (!tagged[0].contains("userID")) {
+                TrainingSet map = new TrainingSet(tagged[0], tagged[1], Integer.parseInt(tagged[2]));
+                if (!userArtists.containsKey(map.getUserID())) {
+                    HashMap<String, Integer> artistsListened = new HashMap<>();
+                    artistsListened.put(map.getArtistID(), map.getListeningCount());
+                    userArtists.put(map.getUserID(), artistsListened);
+                } else {
+                    HashMap<String, Integer> artistsListened = userArtists.get(map.getUserID());
+                    artistsListened.put(map.getArtistID(), map.getListeningCount());
+                    userArtists.put(map.getUserID(), artistsListened);
+                }
             }
         }
 
-        userArtists.remove("userID");
+        int posTOT = 0, negTOT = 0;
+        for (String userID : userArtists.keySet()) {
+            int sum = 0;
+            HashMap<String, Integer> artistListed = userArtists.get(userID);
+            for (String artistID : artistListed.keySet()) {
+                sum += artistListed.get(artistID);
+            }
+//            System.out.println(userID + " " + +artistListed.size() + " SUM " + sum);
 
-        int count=0;
-        for (String s : userArtists.keySet()) {
-            HashMap<String,String> a = userArtists.get(s);
-            count += a.size();
-            System.out.println(s+" "+a.size());
+            float avg = sum / artistListed.size();
+            float pos = 0, neg = 0;
+            for (String artistID : artistListed.keySet()) {
+                if (artistListed.get(artistID) >= (avg * PROP)) {
+                    writerDatasetFull.write(userID + "\t" + artistID + "\t" + "1\n");
+                    pos++;
+                    posTOT++;
+                } else {
+                    writerDatasetFull.write(userID + "\t" + artistID + "\t" + "0\n");
+                    neg++;
+                    negTOT++;
+                }
+            }
+
+            int maxCountPOS = (int) Math.round(pos * 0.7);
+            int maxCountNEG = (int) Math.round(neg * 0.7);
+
+            int posCount = 0, negCount = 0;
+            for (String artistID : artistListed.keySet()) {
+                if (artistListed.get(artistID) >= (avg * PROP)) {
+                    if (posCount < maxCountPOS) {
+                        posCount++;
+                        writerTraining.write(userID + "\t" + artistID + "\t" + "1\n");
+                    } else
+                        writerTest.write(userID + "\t" + artistID + "\t" + "1\n");
+                } else {
+                    if (negCount < maxCountNEG) {
+                        negCount++;
+                        writerTraining.write(userID + "\t" + artistID + "\t" + "0\n");
+                    } else
+                        writerTest.write(userID + "\t" + artistID + "\t" + "0\n");
+                }
+            }
+            System.out.println(userID + " POS:" + pos + " NEG:" + neg + " AVG:" + avg + " TOT:" + artistListed.size() + " POSTRAIN: " + posCount);
         }
-        System.out.println(count);
-
+//        int rap = ((posTOT * 100) / (posTOT + negTOT));
+//        System.out.println("POS: " + posTOT + " NEGTOT: " + negTOT + " RAPP:" + rap);
+        writerDatasetFull.close();
+        writerTest.close();
+        writerTraining.close();
     }
+
 
     private static void stats() throws FileNotFoundException, UnsupportedEncodingException {
         LoadProperties.init("lastfm");
