@@ -805,7 +805,7 @@ public class EvaluateRecommendation {
 
         saveTrecNdevalResult(goldStandardFile, resultFile, trecResultFile);
 
-//        logger.info(trecEvalCommand);
+        logger.info(trecEvalCommand);
     }
 
     /**

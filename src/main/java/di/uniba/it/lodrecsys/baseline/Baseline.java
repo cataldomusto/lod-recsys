@@ -292,6 +292,7 @@ public class Baseline {
                             testFile + " --prediction-file=" + tempResFile +
                             " --recommender=" + method + " --recommender-options=" + neigh_options;
 //                                currLogger.info(mmlString);
+                    System.out.println(mmlString);
                     savelog(dirLog, mmlString);
                     CmdExecutor.executeCommandAndPrintLinux(mmlString, logFile);
 

@@ -1,7 +1,18 @@
 #!/usr/bin/python
+
 import time
+import subprocess
+import sys
+import os
+import shutil
+from time import gmtime, strftime, localtime
+from datetime import datetime
 
 import init
+import parallelProcess
+import creatorSummaries
+import creatorCSV
+import StatisticalTest
 
 
 def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, cmdThreadRec, cmdThreadEval, metrics, best, topBest, givenCSV, valMetricsCSV, cmdThreadBaseline, algBaseline):
@@ -23,7 +34,7 @@ def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, 
     init.init(dataset, topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, cmdExecBase, cmdExecLOGBase, algBaseline)
 
 #    Baseline Process
-#    parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
+    parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
     
 #    feature process
 #    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
