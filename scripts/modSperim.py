@@ -34,7 +34,7 @@ def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, 
     init.init(dataset, topN, givenN, allalgWEKA, allalg, extractVal, cmdExecFS, cmdExecLOGFS, cmdExecREC, cmdExecLOGREC, cmdExecEV, cmdExecLOGEV, metrics, cmdExecBase, cmdExecLOGBase, algBaseline)
 
 #    Baseline Process
-    parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
+#    parallelProcess.parallelProcess(cmdExecBase, cmdExecLOGBase, cmdThreadBaseline, param, "Baseline process")
     
 #    feature process
 #    parallelProcess.parallelProcess(cmdExecFS, cmdExecLOGFS, cmdThreadFS, param, "Feature process")
@@ -46,7 +46,7 @@ def sperimRunner(dataset, allalg, allalgWEKA, topN, givenN, param, cmdThreadFS, 
 #    parallelProcess.parallelProcess(cmdExecEV, cmdExecLOGEV, cmdThreadEval, param, "Evaluation process")
 
 #    creatorSummaries.createSummaries(dataset, extractVal, metrics)
-    #    creatorSummaries.createSummariesBaseline(dataset, metrics)
+    creatorSummaries.createSummariesBaseline(dataset, metrics)
     
 #    creatorCSV.createCSVcomparisonAlg(dataset, topN, metrics, allalg, allalgWEKA, givenCSV, valMetricsCSV)
 #    creatorCSV.createCSVcomparisonFeatures(dataset, topN, metrics, allalg, allalgWEKA, givenCSV, valMetricsCSV)

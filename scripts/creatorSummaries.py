@@ -12,8 +12,10 @@ def createSummaries(dataset, extractVal, metrics):
     for db in dataset:
         if (db == "movielens"):
             dire = "./datasets/ml-100k/results/UserItemExpDBPedia/"
-        else:
+        elif (db == "dbbooks"):
             dire = "./datasets/books-8k/results/UserItemExpDBPedia/"
+        elif (db == "lastfm"):
+            dire = "./datasets/lastfm/results/UserItemExpDBPedia/"
         cmd=""
         for alg in os.listdir(dire):
             if alg in extractVal:
@@ -77,8 +79,10 @@ def createSummariesBaseline(dataset, metrics):
     for db in dataset:
         if (db == "movielens"):
             dire = "./datasets/ml-100k/results/"
-        else:
+        elif (db == "dbbooks"):
             dire = "./datasets/books-8k/results/"
+        elif (db == "lastfm"):
+			dire = "./datasets/lastfm/results/"
         cmd=""
         baseline=["ItemKNN","MostPopular","UserKNN","BPRMF","Random"]
         for alg in os.listdir(dire):
