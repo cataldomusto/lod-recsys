@@ -15,7 +15,7 @@ import java.util.List;
 public class StatComplete {
     public static void main(String[] args) throws IOException {
 //        stats();
-        splittingByUser();
+        propStat();
     }
 
     static class TrainingSet {
@@ -43,6 +43,61 @@ public class StatComplete {
     }
 
     private static final double PROP = 0.6;
+
+    private static void splittingByItem() throws IOException {
+        LoadProperties.init("lastfm");
+
+        File dirDataset = new File(LoadProperties.MAPPINGPATH);
+
+        List<String> lines = Files.readAllLines(Paths.get(dirDataset + "/datasetFull"),
+                Charset.defaultCharset());
+
+        HashMap<String, HashMap<String, Integer>> userArtists = new HashMap<>(1893);
+        for (String line : lines) {
+            String[] tagged = line.split("\t");
+            if (!tagged[0].contains("userID")) {
+                TrainingSet map = new TrainingSet(tagged[0], tagged[1], Integer.parseInt(tagged[2]));
+
+                if (!userArtists.containsKey(map.getArtistID())) {
+                    HashMap<String, Integer> artistsListened = new HashMap<>();
+                    if (map.getListeningCount() == 1) {
+                        artistsListened.put("POS", 1);
+                        artistsListened.put("NEG", 0);
+                    } else {
+                        artistsListened.put("POS", 0);
+                        artistsListened.put("NEG", 1);
+                    }
+                    userArtists.put(map.getUserID(), artistsListened);
+                } else {
+
+                    HashMap<String, Integer> artistsListened = userArtists.get(map.getArtistID());
+                    if (map.getListeningCount() == 1) {
+                        int pos = artistsListened.get("POS");
+                        pos++;
+                        artistsListened.put("POS", pos);
+                    } else {
+                        int neg = artistsListened.get("NEG");
+                        neg++;
+                        artistsListened.put("NEG", neg);
+                    }
+
+                    userArtists.put(map.getArtistID(), artistsListened);
+                }
+            }
+        }
+
+
+        for (String artistID : userArtists.keySet()) {
+            HashMap<String, Integer> artistListed = userArtists.get(artistID);
+//            System.out.println(userID + " " + +artistListed.size() + " SUM " + sum);
+            int tot = artistListed.get("POS") + artistListed.get("NEG");
+
+//            System.out.println(artistID + " POS:" + artistListed.get("POS") + " NEG:" + artistListed.get("NEG") + " TOT:" + tot);
+            System.out.println(artistListed.get("NEG"));
+        }
+//        int rap = ((posTOT * 100) / (posTOT + negTOT));
+//        System.out.println("POS: " + posTOT + " NEGTOT: " + negTOT + " RAPP:" + rap);
+    }
 
     private static void splittingByUser() throws IOException {
         LoadProperties.init("lastfm");
@@ -134,6 +189,32 @@ public class StatComplete {
         writerTraining.close();
     }
 
+    private static void propStat() throws IOException {
+        LoadProperties.init("lastfm");
+
+        File dirDataset = new File(LoadProperties.MAPPINGPATH);
+
+        List<String> linesAll = Files.readAllLines(Paths.get(dirDataset + "/all_prop"),
+                Charset.defaultCharset());
+
+        HashMap<String, Integer> propCount = new HashMap<>(1893);
+        for (String line : linesAll)
+            propCount.put(line, 0);
+
+        List<String> lines50 = Files.readAllLines(Paths.get(dirDataset + "/prop10"),
+                Charset.defaultCharset());
+
+        for (String s : lines50) {
+            int count = propCount.get(s);
+            count++;
+            propCount.put(s, count);
+        }
+
+        for (String s : propCount.keySet()) {
+//            System.out.println(s);
+            System.out.println(propCount.get(s));
+        }
+    }
 
     private static void stats() throws FileNotFoundException, UnsupportedEncodingException {
         LoadProperties.init("lastfm");

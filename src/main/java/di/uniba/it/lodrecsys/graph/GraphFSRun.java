@@ -14,10 +14,10 @@ import static di.uniba.it.lodrecsys.graph.RecommenderSys.loadValue;
  * Created by Simone Rutigliano on 06/01/15.
  */
 
-//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun MRMR 30
-//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun CFSubsetEval
-//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun Custom
-//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphRecRun RankerWeka 30 PCA
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun lastfm MRMR 30
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun lastfm CFSubsetEval
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun lastfm Custom
+//java -cp lodrecsys.jar di.uniba.it.lodrecsys.graph.GraphFSRun lastfm RankerWeka 30 PCA
 
 public class GraphFSRun {
 

@@ -50,6 +50,7 @@ public class GraphFactory {
             graphFS.run();
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with HITS score: authority already created.");
+
         if (!new File(LoadProperties.MAPPINGPATH + "/FS/HITS_HUB").exists()) {
             graphFS = new HITS_HUB((String) params[0],
                     (String) params[1],
@@ -59,6 +60,7 @@ public class GraphFactory {
             graphFS.run();
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with HITS score: hub already created.");
+
         if (!new File(LoadProperties.MAPPINGPATH + "/FS/MRMR").exists()) {
             graphFS = new MRMR((String) params[0],
                     (String) params[1],
@@ -68,6 +70,7 @@ public class GraphFactory {
             graphFS.run();
         } else
             savefileLog(new Date() + " [INFO] Feature Selection with MRMR already created.");
+
         if (!new File(LoadProperties.MAPPINGPATH + "/FS/CFSubsetEval").exists()) {
             graphFS = new CFSubsetEvalWeka((String) params[0],
                     (String) params[1],
@@ -88,6 +91,25 @@ public class GraphFactory {
             } else
                 savefileLog(new Date() + " [INFO] Feature Selection with Ranker and " + s + " already created.");
         }
+        if (!new File(LoadProperties.MAPPINGPATH + "/FS/Popular").exists()) {
+            graphFS = new Popular((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        } else
+            savefileLog(new Date() + " [INFO] Feature Selection with Popular already created.");
+
+        if (!new File(LoadProperties.MAPPINGPATH + "/FS/Random").exists()) {
+            graphFS = new Random((String) params[0],
+                    (String) params[1],
+                    (String) params[2],
+                    (List<MovieMapping>) params[3]
+            );
+            graphFS.run();
+        } else
+            savefileLog(new Date() + " [INFO] Feature Selection with Random already created.");
     }
 
     public static void subsetProp() throws IOException {
