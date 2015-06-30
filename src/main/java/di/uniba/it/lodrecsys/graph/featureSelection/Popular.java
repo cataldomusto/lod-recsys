@@ -2,13 +2,12 @@ package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
 import di.uniba.it.lodrecsys.graph.Edge;
-import di.uniba.it.lodrecsys.graph.VertexScored;
-import di.uniba.it.lodrecsys.utils.GraphToMatrix;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
-import weka.core.Instances;
-import weka.core.converters.ArffLoader;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -1,7 +1,6 @@
 package di.uniba.it.lodrecsys.graph.featureSelection;
 
 import di.uniba.it.lodrecsys.entity.MovieMapping;
-import di.uniba.it.lodrecsys.graph.Edge;
 import di.uniba.it.lodrecsys.utils.LoadProperties;
 
 import java.io.File;
@@ -11,7 +10,9 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import static di.uniba.it.lodrecsys.graph.GraphRecRun.savefileLog;
 
@@ -40,8 +41,13 @@ public class Random extends FS {
             e.printStackTrace();
         }
 
-        //TODO Random select 
+        assert lines != null;
+        Collections.shuffle(lines);
 
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            out.println(i + " " + line);
+        }
         out.close();
         fout.close();
 
