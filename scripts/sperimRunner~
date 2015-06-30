@@ -7,8 +7,7 @@ import modSperim
 #dataset = ["lastfm"]
 dataset=["movielens","dbbooks","lastfm"]
 
-#allalg=["CustomAll","CustomNoProp"]
-allalg=["Popular","Random"]
+allalg=["CustomAll","CustomNoProp"]
 allalgWEKA=[]
 #allalg=["CFSubsetEval","PageRank","MRMR"]
 #allalgWEKA=["ChiSquaredAttributeEval","GainRatioAttributeEval","SVMAttributeEval", "InfoGainAttributeEval","PCA","ReliefFAttributeEval"]

@@ -1,0 +1,35 @@
+#!/usr/bin/env Rscript 
+args <- commandArgs(trailingOnly = TRUE) 
+sink(args[2]) 
+temp = list.files(path = args[1], pattern="*.csv",full.names=TRUE) 
+for (j in 1:length(temp)) { 
+    print(temp[j])
+    mydata = read.csv(temp[j]) 
+    attach(mydata) 
+    if (nrow(mydata)< 5000){
+       normAlg1 <- shapiro.test(CustomNoProp)
+       normAlg2 <- shapiro.test(CustomAll)
+       if ((normAlg1$p.value < 0.05) || (normAlg2$p.value < 0.05) ){ 
+            compair <- wilcox.test(CustomNoProp,CustomAll, paired=T) 
+       } else
+            compair <- t.test(CustomNoProp,CustomAll, paired=T) 
+    } else
+       compair <- t.test(CustomNoProp,CustomAll, paired=T) 
+   if (is.nan(compair$p.value)){
+       cat(paste("P-value: 1","\n\n")) 
+       print ("Not significant")
+   } 
+   else {
+       if (compair$p.value < 0.05){
+           means <- apply(mydata, 2, mean) # means factors
+           maxMeans <- which.max(means)
+           cat(paste("First algorithm: ",names(mydata)[1],": ", means[1],"\n"))
+           cat(paste("Second algorithm: ",names(mydata)[2],": ", means[2],"\n"))
+           cat(paste("The best algorithm is ",names(mydata)[maxMeans],"\n\n"))
+           #cat(paste("Max mean algorithm is ",names(mydata)[maxMeans],": ", means[maxMeans],"\n\n"))
+           cat(paste(compair$method,"significant \n"))
+       } else 
+           cat(paste(compair$method,"not significant \n"))
+   }
+   detach(mydata)
+}
